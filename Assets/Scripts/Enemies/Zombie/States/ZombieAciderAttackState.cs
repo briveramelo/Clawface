@@ -10,8 +10,6 @@ public class ZombieAciderAttackState : AIState
     public bool doneAttacking;
     public float animatorSpeed;
 
-    public ColliderGenerator colliderGenerator;
-
     private ShooterProperties shooterProperties = new ShooterProperties();
     private Damager damager = new Damager();
     List<int> attacks;
@@ -24,7 +22,6 @@ public class ZombieAciderAttackState : AIState
         doneAttacking = false;
         oldAnimatorSpeed = animator.speed;
         animator.speed = animatorSpeed;
-        colliderGenerator.enabled = false;
         attacks = new List<int>();
         //attacks.Add((int)AnimationStates.Attack1);
         //attacks.Add((int)AnimationStates.Attack2);

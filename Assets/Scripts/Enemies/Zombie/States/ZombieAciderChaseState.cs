@@ -4,13 +4,32 @@ using UnityEngine;
 
 public class ZombieAciderChaseState : AIState {
 
-    public TrailRenderer trailRenderer;
+    public float trailRendererTime;
+    public float trailRendererStartWidth;
+
+    public float colliderGenerationTime;
+    public float acidTriggerLife;
+
     public ColliderGenerator colliderGenerator;
-    public bool needToClearTrail;
+    public TrailRenderer trailRenderer;
+    private GameObject acidObject;
 
     public override void OnEnter()
     {
+        if (acidObject == null)
+        {
+            acidObject = ObjectPool.Instance.GetObject(PoolObjectType.AcidTrail);
+            colliderGenerator = acidObject.GetComponent<ColliderGenerator>();
+            colliderGenerator.SetZombieAciderParent(controller.gameObject.GetComponent<ZombieAcider>());
+            trailRenderer = acidObject.GetComponent<TrailRenderer>();
+            colliderGenerator.SetTrailRenderer(trailRenderer);
+            colliderGenerator.SetStats(colliderGenerationTime, acidTriggerLife);
+            trailRenderer.time = trailRendererTime;
+            trailRenderer.startWidth = trailRendererStartWidth;
+        }
+
         colliderGenerator.enabled = true;
+        trailRenderer.enabled = true;
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Walk);
         controller.AttackTarget = controller.FindPlayer();
         navAgent.speed = myStats.moveSpeed;
@@ -21,7 +40,7 @@ public class ZombieAciderChaseState : AIState {
     }
     public override void OnExit()
     {
-        colliderGenerator.enabled = false;
+        
     }
 
     private void Chase()

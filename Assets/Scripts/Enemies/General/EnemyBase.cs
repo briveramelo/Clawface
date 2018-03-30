@@ -396,7 +396,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
             }
         }
 
-        animator.enabled = true;        
+                
         if (grabObject)
         {
             grabObject.transform.parent = transform;

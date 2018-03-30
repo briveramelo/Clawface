@@ -17,9 +17,10 @@ public class KamikazeMommy : EnemyBase
     #region 3. Private fields
 
 
-    //The AI States of the Kamikaze
     private float closeEnoughToAttackDistance;
+    private bool isUp;
 
+    //The AI States of the Kamikaze
     private KamikazeMommyChaseState chase;
     private KamikazeMommyAttackState attack;
     private KamikazeStunState stun;
@@ -30,12 +31,14 @@ public class KamikazeMommy : EnemyBase
     #region 4. Unity Lifecycle
     protected override void Awake()
     {        
+	isUp = false;
         myStats = GetComponent<Stats>();
         SetAllStats();
         InitilizeStates();
         controller.Initialize(properties, velBody, animator, myStats, navAgent, navObstacle, aiStates);
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
         controller.checksToUpdateState = new List<Func<bool>>() {
+            CheckDoneGettingUp,
             CheckPlayerDead,
             CheckToAttack,
             CheckToFinishAttack,
@@ -48,6 +51,15 @@ public class KamikazeMommy : EnemyBase
     #region 5. Public Methods   
 
     //State conditions
+    bool CheckDoneGettingUp()
+    {
+        if (!isUp)
+        {
+            return true;
+        }
+        return false;
+    }
+
     bool CheckPlayerDead()
     {
         if (AIManager.Instance.GetPlayerDead())
@@ -103,6 +115,12 @@ public class KamikazeMommy : EnemyBase
         return false;
     }
 
+    public override void OnDeath()
+    {
+        isUp = false;
+        base.OnDeath();
+    }
+
     public override void ResetForRebirth()
     {
         base.ResetForRebirth();
@@ -119,7 +137,9 @@ public class KamikazeMommy : EnemyBase
 
     public void GetUpDone()
     {
-        getUp.Up();
+        isUp = true;
+        controller.CurrentState = chase;
+        controller.UpdateState(EAIState.Chase);
     }
 
     #endregion
