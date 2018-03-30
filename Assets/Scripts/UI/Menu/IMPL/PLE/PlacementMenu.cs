@@ -14,7 +14,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     [SerializeField] protected Transform createdItemsParent;
     [SerializeField] protected ScrollGroup scrollGroup;
     [SerializeField] protected Image selectedPreviewImage;
-    [SerializeField] protected Color highlightColor;
+    [SerializeField] protected Color highlightColor, hoverColor;
 
     protected PLEItem lastHoveredItem;
     protected PLEItem selectedPLEItem;
@@ -79,7 +79,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
         MouseHelper.currentBlockUnit.AddSpawn(selectedPLEItem.gameObject);
         selectedPLEItem.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
         selectedPLEItem.tile = levelEditor.gridController.GetTileAtPoint(MouseHelper.currentBlockUnit.transform.position);
-        SelectGameItem(selectedPLEItem);
+        //SelectGameItem(selectedPLEItem);
     }
     protected virtual void CheckToHightlight() {
         if (previewItem==null && !(selectedPLEItem != null && Input.GetMouseButton(MouseButtons.LEFT))) {
@@ -88,7 +88,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
                 lastHoveredItem.TryUnHighlight();
             }
             if (currentItem != null) {
-                currentItem.TryHighlight(highlightColor);
+                currentItem.TryHighlight(hoverColor);
             }
             lastHoveredItem = currentItem;
         }

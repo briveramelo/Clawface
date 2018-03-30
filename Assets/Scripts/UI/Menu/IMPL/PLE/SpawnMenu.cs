@@ -179,8 +179,8 @@ public class SpawnMenu : PlacementMenu {
 
             int remainingSpawns = RemainingSpawnsInWave(spawn);
             UpdateAvailableField(remainingSpawns);
+            SelectGameItem(spawn);
             if (spawn.spawnType != SpawnType.Keira) {
-                SelectGameItem(spawn);
             }
 
 
@@ -202,8 +202,6 @@ public class SpawnMenu : PlacementMenu {
 
     protected override void SelectGameItem(PLEItem selectedItem, bool isPickingUp=false) {
         base.SelectGameItem(selectedItem, isPickingUp);        
-        selectedPLEItem = selectedItem;
-        selectedPLEItem.Select(highlightColor);
         int spawnAmount = SelectedSpawn.totalSpawnAmount;
         int minAmount = SelectedSpawn.MinSpawns;
         UpdateAllFields(spawnAmount, minAmount, SelectedSpawn.DisplayName.ToUpper(), SelectedSpawn.iconPreview);
