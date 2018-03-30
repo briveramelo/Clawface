@@ -12,15 +12,19 @@ public class RefsToggle : MonoBehaviour {
 
     #region Private Fields
 
-    private bool isShowing = false;
+    private bool isShowing = true;
 
     #endregion
+
+    private void Start()
+    {
+        isShowing = refsPane.activeSelf;
+    }
 
     public void TogglePaneAction()
     {
 
         isShowing = !isShowing;
-
         refsPane.SetActive(isShowing);
 
     }

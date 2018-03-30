@@ -32,8 +32,6 @@ public class ControlRefsPane : MonoBehaviour {
     #endregion
 
     #region Private Fields
-
-    private bool isShowing = true;
     public PLEMenu currentDisplayedMenu;
 
     #endregion
