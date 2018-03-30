@@ -17,6 +17,8 @@ public class BouncerChaseState : AIState {
     private int maxJumpCount;
     private Vector3 finalPosition;
     private Vector3 targetPosition;
+    private SpriteRenderer shadowOutline;
+    private float originalShadowOutlineScale;
 
     //Smooth Lerping
     float lerpTime = 1.0f;
@@ -28,10 +30,20 @@ public class BouncerChaseState : AIState {
     public bool doneLandingJump;
     public bool gotStunned;
 
+    public BouncerChaseState (SpriteRenderer shadowOutline)
+    {
+        this.shadowOutline = shadowOutline;
+        originalShadowOutlineScale = shadowOutline.transform.localScale.x;
+    }
+
     public override void OnEnter()
     {
         controller.AttackTarget = controller.FindPlayer();
         jumpCount = 0;
+
+        Vector3 moveDirection = controller.DirectionToTarget;
+        jumpTarget = controller.transform.position + (moveDirection.normalized * jumpTargetDistance);
+        finalPosition = jumpTarget;
         maxJumpCount = Random.Range(properties.minBounces, properties.maxBounces);
         moving = false;
         doneStartingJump = false;
@@ -59,6 +71,17 @@ public class BouncerChaseState : AIState {
         {
             controller.transform.eulerAngles = new Vector3(0.0f, controller.transform.eulerAngles.y, controller.transform.eulerAngles.z);
         }
+
+        if (shadowOutline.gameObject.activeInHierarchy)
+        {
+            Vector3 targetPosition = Vector3.Lerp (shadowOutline.transform.position, finalPosition, 1.0f);
+            targetPosition.y = shadowOutline.transform.position.y;
+            shadowOutline.transform.position = targetPosition;
+            float heightPercentage = Mathf.Sqrt(controller.transform.position.y / height);
+            float scale = heightPercentage * originalShadowOutlineScale;
+            shadowOutline.SetAlpha (heightPercentage);
+            shadowOutline.transform.localScale = new Vector3(scale, scale, scale);
+        }
     }
 
     private void GetNewChaseTarget()
@@ -74,7 +97,7 @@ public class BouncerChaseState : AIState {
             if (hit.transform.tag == Strings.Tags.PLAYER)
             {                
                 //Special case when a wall is behind the player
-                if (Physics.Raycast(controller.AttackTargetPosition, fwd, out hit, 5, LayerMask.GetMask(Strings.Layers.GROUND)))
+                if (Physics.Raycast(controller.AttackTargetPosition, fwd, out hit, 5))
                 {                    
                     if (hit.transform.tag == Strings.Tags.WALL) {                        
                         if (Vector3.Distance(controller.transform.position, controller.AttackTargetPosition) < jumpTargetDistance) {                            
@@ -178,8 +201,7 @@ public class BouncerChaseState : AIState {
 
     IEnumerator<float> Move()
     {
-        //Fix to avoid teleportation
-        navAgent.Warp(controller.transform.position);
+        navAgent.updatePosition = false;
 
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Jumping);
 
@@ -220,6 +242,13 @@ public class BouncerChaseState : AIState {
         doneLandingJump = false;
         jumpCount++;
         moving = false;
+
+        //Fix to avoid teleportation
+        navAgent.Warp(controller.transform.position);
+
+        navAgent.updatePosition = true;
+
+        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(controller.transform.position, navAgent.nextPosition, myStats.moveSpeed * 1.5f),coroutineName));
     }
 
 

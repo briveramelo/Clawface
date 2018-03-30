@@ -30,17 +30,14 @@ namespace Turing.VFX
         LensFlare[] lensFlares;
         FlickerLight[] lightFlickers;
         FlickerLensFlareBrightness[] lensFlareFlickers;
+        bool initialized = false;
 
         #endregion
         #region Unity Lifecycle
 
         void Awake()
         {
-            particleSystems = GetComponentsInChildren<ParticleSystem>();
-            lights = GetComponentsInChildren<Light>();
-            lensFlares = GetComponentsInChildren<LensFlare>();
-            lightFlickers = GetComponentsInChildren<FlickerLight>();
-            lensFlareFlickers = GetComponentsInChildren<FlickerLensFlareBrightness>();
+            if (!initialized) Initialize();
 
             if (playOnAwake) Play();
         }
@@ -52,6 +49,17 @@ namespace Turing.VFX
 
         #endregion
         #region Private Methods
+
+        void Initialize ()
+        {
+            particleSystems = GetComponentsInChildren<ParticleSystem>(true);
+            lights = GetComponentsInChildren<Light>(true);
+            lensFlares = GetComponentsInChildren<LensFlare>(true);
+            lightFlickers = GetComponentsInChildren<FlickerLight>(true);
+            lensFlareFlickers = GetComponentsInChildren<FlickerLensFlareBrightness>(true);
+
+            initialized = true;
+        }
 
         /// <summary>
         /// Timer for self-disabling.
@@ -84,6 +92,8 @@ namespace Turing.VFX
 
         void PlayInternal() {
             gameObject.SetActive(true);
+
+            if (!initialized) Initialize();
 
             foreach (var particleSystem in particleSystems)
                 particleSystem.Play();

@@ -2436,7 +2436,7 @@ Transform:
   m_GameObject: {fileID: 1313228673922974}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0.01, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children: []
   m_Father: {fileID: 4781947270125190}
   m_RootOrder: 6
@@ -3517,6 +3517,9 @@ MonoBehaviour:
   hips: {fileID: 1270112567933996}
   enemyType: 2
   skeletonRoot: {fileID: 1191435301809762}
+  vocalizeSound: 34
+  vocalizeInterval: {x: 2, y: 5}
+  footstepSound: 38
   properties:
     runMultiplier: 0
     hitRate: 0

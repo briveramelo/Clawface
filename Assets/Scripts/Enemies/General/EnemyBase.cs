@@ -33,6 +33,9 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
     [SerializeField] GameObject hips;
     [SerializeField] protected SpawnType enemyType;
     [SerializeField] private GameObject skeletonRoot;
+    [SerializeField] protected SFXType vocalizeSound = SFXType.None;
+    [SerializeField] protected Vector2 vocalizeInterval = Vector2.one;
+    [SerializeField] protected SFXType footstepSound = SFXType.None;
     #endregion
 
     #region 3. Private fields
@@ -81,6 +84,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
             return myColliders;
         }
     }
+    protected bool canVocalize = true;
     #endregion
 
     #region Event Subscriptions
@@ -89,7 +93,9 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
         get {
             return new Dictionary<string, FunctionPrototype>() {
                 { Strings.Events.PLAYER_KILLED, DoPlayerKilledState},
-                { Strings.Events.ENEMY_INVINCIBLE, SetInvincible }
+                { Strings.Events.ENEMY_INVINCIBLE, SetInvincible },
+                { Strings.Events.SHOW_TUTORIAL_TEXT, DisableVocalization },
+                { Strings.Events.HIDE_TUTORIAL_TEXT, EnableVocalization }
             };
         }
     }
@@ -136,7 +142,14 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
             grabObjectMomento.Initialize(grabObject.transform);
         }        
         ResetForRebirth();        
-    }      
+    }  
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        CancelInvoke("Vocalize");
+    }
+
     #endregion
 
     #region 5. Public Methods   
@@ -383,7 +396,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
             }
         }
 
-        animator.enabled = true;        
+                
         if (grabObject)
         {
             grabObject.transform.parent = transform;
@@ -515,11 +528,32 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
         if (spaceFound)
         {
             ActivateAIMethods(warpPosition);
+            Vocalize();
         }
         else
         {
             //Kill
             OnDeath();
+        }
+    }
+
+    void Vocalize ()
+    {
+        if (enabled && vocalizeSound != SFXType.None && canVocalize)
+        {
+            SFXManager.Instance.Play(vocalizeSound, transform.position);
+            Invoke ("Vocalize", UnityEngine.Random.Range(vocalizeInterval.x, vocalizeInterval.y));
+        }
+    }
+
+    void EnableVocalization (params object[] parameters) { canVocalize = true; }
+    void DisableVocalization (params object[] parameters) { canVocalize = false; }
+
+    void PlayFootstepSound ()
+    {
+        if (footstepSound != SFXType.None)
+        {
+            SFXManager.Instance.Play(footstepSound, transform.position);
         }
     }
 
