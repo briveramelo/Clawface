@@ -2,7 +2,7 @@
 // Author: Aaron
 
 using System.Collections;
-
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Turing.VFX
@@ -10,7 +10,7 @@ namespace Turing.VFX
     /// <summary>
     /// Controller for player's facial expression.
     /// </summary>
-    public class PlayerFaceController : MonoBehaviour
+    public class PlayerFaceController : EventSubscriber
     {
         #region Serialized Unity Inspector Fields
 
@@ -87,6 +87,7 @@ namespace Turing.VFX
         [SerializeField] Color angryColor;
 
         #endregion
+
         #region Private Fields
 
         /// <summary>
@@ -98,41 +99,40 @@ namespace Turing.VFX
         /// Current emotional state of the player.
         /// </summary>
         Emotion emotion = Emotion.Idle;
-
+        bool isLevelComplete = false;
         #endregion
-        #region Unity Lifecycle
 
-        void Start ()
+        #region Event Subscriptions
+        protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
+        protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+            get {
+                return new Dictionary<string, FunctionPrototype>() {
+                    { Strings.Events.LEVEL_COMPLETED,      LevelComplete },
+                    { Strings.Events.SCENE_LOADED, ResetToDefaultStates},
+                    { Strings.Events.PLE_ON_LEVEL_READY, ResetToDefaultStates},
+                };
+            }
+        }
+        #endregion
+
+        #region Unity Lifecycle
+        protected override void Start ()
         {
+            base.Start();
             if (gameObject.activeInHierarchy) {
                 SetEmotion (emotion);
             }
-            EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED,      LevelComplete);
-            EventSystem.Instance.RegisterEvent(Strings.Events.SCENE_LOADED,        ResetToDefaultStates);
-            EventSystem.Instance.RegisterEvent(Strings.Events.PLE_ON_LEVEL_READY,   ResetToDefaultStates);
         }
+        #endregion
 
-        private void OnDestroy() {
-            if (EventSystem.Instance) {
-                EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED,    LevelComplete);
-                EventSystem.Instance.UnRegisterEvent(Strings.Events.SCENE_LOADED, ResetToDefaultStates);
-                EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_ON_LEVEL_READY, ResetToDefaultStates);
+        #region Public Methods
+        public void SetTemporaryEmotion(Emotion emotion, float time) {
+
+            if (gameObject.activeInHierarchy) {
+                SetEmotion(emotion);
+                StartCoroutine(DoTemporaryEmotion(time));
             }
         }
-
-        bool isLevelComplete = false;
-        private void ResetToDefaultStates(params object[] parameters) {
-            isLevelComplete = false;
-            SetEmotion(Emotion.Idle);
-        }
-        private void LevelComplete(params object[] parameters) {
-            SetEmotion(Emotion.Happy);
-            isLevelComplete = true;
-        }
-
-        #endregion
-        #region Public Methods
-
         /// <summary>
         /// Sets the emotional state of the character.
         /// </summary>
@@ -163,8 +163,16 @@ namespace Turing.VFX
         }
 
         #endregion
-        #region Private Methods
 
+        #region Private Methods
+        private void ResetToDefaultStates(params object[] parameters) {
+            isLevelComplete = false;
+            SetEmotion(Emotion.Idle);
+        }
+        private void LevelComplete(params object[] parameters) {
+            SetEmotion(Emotion.Happy);
+            isLevelComplete = true;
+        }
         /// <summary>
         /// Main facial expression coroutine.
         /// </summary>
@@ -214,14 +222,7 @@ namespace Turing.VFX
             playerRenderer.material.SetTexture ("_FaceTexture", face);
         }
 
-        public void SetTemporaryEmotion (Emotion emotion, float time)
-        {
-
-            if (gameObject.activeInHierarchy) {
-                SetEmotion (emotion);
-                StartCoroutine (DoTemporaryEmotion(time));
-            }
-        }
+        
 
         /// <summary>
         /// Sets the current facial color of the character.
@@ -232,6 +233,7 @@ namespace Turing.VFX
         }
 
         #endregion
+
         #region Public Structures
 
         /// <summary>

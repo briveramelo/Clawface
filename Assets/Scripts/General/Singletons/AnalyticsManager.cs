@@ -57,34 +57,24 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     #endregion
 
-
-    #region Unity Lifecycle
-    
-    private void OnDestroy()
-    {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, OnLevelStarted);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, OnPlayerKilled);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED, OnLevelCompleted);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_QUIT, OnLevelQuit);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, OnLevelRestart);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.WAVE_COMPLETE, OnWaveComplete);
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.LEVEL_STARTED, OnLevelStarted },
+                { Strings.Events.PLAYER_KILLED, OnPlayerKilled },
+                { Strings.Events.LEVEL_COMPLETED, OnLevelCompleted },
+                { Strings.Events.LEVEL_QUIT, OnLevelQuit },
+                { Strings.Events.LEVEL_RESTARTED, OnLevelRestart },
+                { Strings.Events.WAVE_COMPLETE, OnWaveComplete },
+            };
         }
     }
+    #endregion
 
 
-    // Use this for initialization
-    void Start()
-    {
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, OnLevelStarted);
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, OnPlayerKilled);
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, OnLevelCompleted);
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_QUIT, OnLevelQuit);
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, OnLevelRestart);
-        EventSystem.Instance.RegisterEvent(Strings.Events.WAVE_COMPLETE, OnWaveComplete);
-    }
-
+    #region Unity Lifecycle
 
     // Update is called once per frame
     void Update()
@@ -101,8 +91,6 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         {
             levelDodgePresses++;
         }
-
-
     }
 
     private void OnApplicationQuit()
@@ -229,11 +217,15 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         startLevelDictionary.Add("rightArm", rightArm);
 
 #if UNITY_EDITOR
-// Debug.Log(String.Format("Started level event fired: {0}, {1}, {2}", level, leftArm, rightArm));
+        // Debug.Log(String.Format("Started level event fired: {0}, {1}, {2}", level, leftArm, rightArm));
 #endif
 
 #if !UNITY_EDITOR
-        Analytics.CustomEvent(Strings.Events.LEVEL_STARTED, startLevelDictionary);
+        string betaBranchName;
+        if (SteamManager.Initialized && !Steamworks.SteamApps.GetCurrentBetaName(out betaBranchName, 128))
+        {
+            Analytics.CustomEvent(Strings.Events.LEVEL_STARTED, startLevelDictionary);
+        }
 #endif
 
     }
@@ -259,6 +251,7 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         playerEventDeath.Add("runTime", currentLevelTime);
         playerEventDeath.Add("eats", levelEatPresses);
         playerEventDeath.Add("dodges", levelDodgePresses);
+        playerEventDeath.Add("maxCombo", ScoreManager.Instance.GetHighestCombo());
 
         currentLevelDeaths++;
 
@@ -267,7 +260,11 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 #endif
 
 #if !UNITY_EDITOR
-        Analytics.CustomEvent(Strings.Events.PLAYER_KILLED, playerEventDeath);
+        string betaBranchName;
+        if (SteamManager.Initialized && !Steamworks.SteamApps.GetCurrentBetaName(out betaBranchName, 128))
+        {
+            Analytics.CustomEvent(Strings.Events.PLAYER_KILLED, playerEventDeath);
+        }
 #endif
     }
 
@@ -295,16 +292,20 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         levelRestartDictionary.Add("score", score);
         levelRestartDictionary.Add("leftArm", leftArm);
         levelRestartDictionary.Add("rightArm", rightArm);
-        levelRestartDictionary.Add("deaths", currentLevelDeaths);
+        levelRestartDictionary.Add("maxCombo", ScoreManager.Instance.GetHighestCombo());
         levelRestartDictionary.Add("eats", levelEatPresses);
         levelRestartDictionary.Add("dodges", levelDodgePresses);
 
 #if UNITY_EDITOR
-// Debug.Log(String.Format("Level restarted event fired: {0}, {1}, {2}, {3}, {4}, {5}, {6}", level, wave, runtime.ToString(), totalLevelTime.ToString(), score.ToString(), leftArm, rightArm));
+        // Debug.Log(String.Format("Level restarted event fired: {0}, {1}, {2}, {3}, {4}, {5}, {6}", level, wave, runtime.ToString(), totalLevelTime.ToString(), score.ToString(), leftArm, rightArm));
 #endif
 
 #if !UNITY_EDITOR
-        Analytics.CustomEvent(Strings.Events.LEVEL_RESTARTED, levelRestartDictionary);
+        string betaBranchName;
+        if (SteamManager.Initialized && !Steamworks.SteamApps.GetCurrentBetaName(out betaBranchName, 128))
+        {
+            Analytics.CustomEvent(Strings.Events.LEVEL_RESTARTED, levelRestartDictionary);
+        }
 #endif
 
         currentLevelTime = 0f;
@@ -337,16 +338,20 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         levelQuitDictionary.Add("score", score);
         levelQuitDictionary.Add("leftArm", leftArm);
         levelQuitDictionary.Add("rightArm", rightArm);
-        levelQuitDictionary.Add("deaths", currentLevelDeaths);
+        levelQuitDictionary.Add("maxCombo", ScoreManager.Instance.GetHighestCombo());
         levelQuitDictionary.Add("eats", levelEatPresses);
         levelQuitDictionary.Add("dodges", levelDodgePresses);
 
 #if UNITY_EDITOR
-// Debug.Log(String.Format("Level quit event fired: {0}, {1}, {2}, {3}, {4}, {5}, {6}", level, wave, runtime.ToString(), totalLevelTime.ToString(), score.ToString(), leftArm, rightArm));
+        // Debug.Log(String.Format("Level quit event fired: {0}, {1}, {2}, {3}, {4}, {5}, {6}", level, wave, runtime.ToString(), totalLevelTime.ToString(), score.ToString(), leftArm, rightArm));
 #endif
 
 #if !UNITY_EDITOR
-        Analytics.CustomEvent(Strings.Events.LEVEL_QUIT, levelQuitDictionary);
+        string betaBranchName;
+        if (SteamManager.Initialized && !Steamworks.SteamApps.GetCurrentBetaName(out betaBranchName, 128))
+        {
+            Analytics.CustomEvent(Strings.Events.LEVEL_QUIT, levelQuitDictionary);
+        }
 #endif
 
         currentLevelTime = 0f;
@@ -383,9 +388,14 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         waveCompletedDictionary.Add("deaths", currentLevelDeaths);
         waveCompletedDictionary.Add("eats", levelEatPresses);
         waveCompletedDictionary.Add("dodges", levelDodgePresses);
+        waveCompletedDictionary.Add("maxCombo", ScoreManager.Instance.GetHighestCombo());
 
 #if !UNITY_EDITOR
-        Analytics.CustomEvent(Strings.Events.WAVE_COMPLETE, waveCompletedDictionary);
+        string betaBranchName;
+        if (SteamManager.Initialized && !Steamworks.SteamApps.GetCurrentBetaName(out betaBranchName, 128))
+        {
+            Analytics.CustomEvent(Strings.Events.WAVE_COMPLETE, waveCompletedDictionary);
+        }
 #endif
 
     }
@@ -415,14 +425,19 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         levelCompletedDictionary.Add("deaths", currentLevelDeaths);
         levelCompletedDictionary.Add("eats", levelEatPresses);
         levelCompletedDictionary.Add("dodges", levelDodgePresses);
+        levelCompletedDictionary.Add("maxCombo", ScoreManager.Instance.GetHighestCombo());
 
 #if UNITY_EDITOR
 
-// Debug.Log(String.Format("Level completed event fired: {0}, {1}, {2}, {3}, {4}", level, time.ToString(), score.ToString(), leftArm, rightArm));
+        // Debug.Log(String.Format("Level completed event fired: {0}, {1}, {2}, {3}, {4}", level, time.ToString(), score.ToString(), leftArm, rightArm));
 #endif
 
 #if !UNITY_EDITOR
-        Analytics.CustomEvent(Strings.Events.LEVEL_COMPLETED, levelCompletedDictionary);
+        string betaBranchName;
+        if (SteamManager.Initialized && !Steamworks.SteamApps.GetCurrentBetaName(out betaBranchName, 128))
+        {
+            Analytics.CustomEvent(Strings.Events.LEVEL_COMPLETED, levelCompletedDictionary);
+        }
 #endif
 
         currentLevelTime = 0f;
@@ -431,68 +446,6 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
         levelEatPresses = 0;
         levelDodgePresses = 0;
     }
-
-    /*
-    private void WriteOutToTextFile()
-    {
-        string filePath = "./TestInfo.txt";
-
-        // FormatDictionaries();
-
-        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Mod Ratios:" + Environment.NewLine);
-        AppendTextToFileFromModDictionary(filePath, modRatioDictionary);
-
-        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Mod Times (in seconds):" + Environment.NewLine);
-        AppendTextToFileFromModDictionary(filePath, modTimeDictionary);
-
-        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Total Player Mod Damage:" + Environment.NewLine);
-        AppendTextToFileFromModDictionary(filePath, modDamageDictionary);
-
-        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Total Enemy Mod Damage:" + Environment.NewLine);
-        AppendTextToFileFromModDictionary(filePath, enemyModDamageDictionary);
-
-        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Left Arm Mod Button Presses:" + Environment.NewLine);
-        AppendTextToFileFromModDictionary(filePath, modArmLPressesDictionary);
-
-        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Right Arm Mod Button Presses:" + Environment.NewLine);
-        AppendTextToFileFromModDictionary(filePath, modArmRPressesDictionary);
-
-        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Leg Mod Button Presses:" + Environment.NewLine);
-        AppendTextToFileFromModDictionary(filePath, modLegsPressesDictionary);
-
-        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Mod Kills:" + Environment.NewLine);
-        AppendTextToFileFromModDictionary(filePath, modKillsDictionary);
-
-        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Quit Game Dictionary:" + Environment.NewLine);
-        System.IO.File.AppendAllText(filePath, "Left Arm: " + quitGameDictionary["armL"].ToString() + Environment.NewLine);
-        System.IO.File.AppendAllText(filePath, "Right Arm:" + quitGameDictionary["armR"].ToString() + Environment.NewLine);
-        System.IO.File.AppendAllText(filePath, "Legs:" + quitGameDictionary["legs"].ToString() + Environment.NewLine);
-        System.IO.File.AppendAllText(filePath, "Average HP: " + quitGameDictionary["averageHP"] + Environment.NewLine);
-        System.IO.File.AppendAllText(filePath, "Current HP: " + quitGameDictionary["currentHP"] + Environment.NewLine);
-        System.IO.File.AppendAllText(filePath, "Deaths: " + quitGameDictionary["deaths"] + Environment.NewLine);
-        System.IO.File.AppendAllText(filePath, "Swaps: " + quitGameDictionary["swaps"] + Environment.NewLine);
-        System.IO.File.AppendAllText(filePath, "Drops: " + quitGameDictionary["drops"] + Environment.NewLine);
-        System.IO.File.AppendAllText(filePath, "Seesion Time (in Minutes): " + quitGameDictionary["sessionTimeMins"] + Environment.NewLine);
-
-        System.IO.File.AppendAllText(filePath, Environment.NewLine + "Button Presses:" + Environment.NewLine);
-        System.IO.File.AppendAllText(filePath, String.Format("Right Arm: {0}" + Environment.NewLine, (float)buttonPressesDictionary["armR"]));
-        System.IO.File.AppendAllText(filePath, String.Format("Left Arm: {0}" + Environment.NewLine, (float)buttonPressesDictionary["armL"]));
-        System.IO.File.AppendAllText(filePath, String.Format("Legs: {0}" + Environment.NewLine, (float)buttonPressesDictionary["legs"]));
-        System.IO.File.AppendAllText(filePath, String.Format("Dodge: {0}" + Environment.NewLine, (float)buttonPressesDictionary["dodge"]));
-        System.IO.File.AppendAllText(filePath, String.Format("Swap: {0}" + Environment.NewLine, (float)buttonPressesDictionary["swap"]));
-        System.IO.File.AppendAllText(filePath, String.Format("Skin: {0}" + Environment.NewLine, (float)buttonPressesDictionary["skin"]));
-
-    }
-    */
-
-    private void AppendTextToFileFromModDictionary(string fileName, Dictionary<string, object> dict)
-    {
-        foreach (ModType mod in System.Enum.GetValues(typeof(ModType)))
-        {
-            System.IO.File.AppendAllText(fileName, String.Format("{0}, {1}" + Environment.NewLine, mod.ToString(), (float)dict[mod.ToString()]));
-        }
-    }
-    
    
 #endregion
 

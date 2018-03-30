@@ -19,7 +19,8 @@ public class LeaderBoards : Singleton<LeaderBoards> {
 
     #region Unity Lifecycle
     // Use this for initialization
-    void Start () {
+    protected override void Start () {
+        base.Start();
         allTimeLeaderBoard = GetComponent<AllTimeLeaderBoard>();
     }
     #endregion
@@ -30,6 +31,9 @@ public class LeaderBoards : Singleton<LeaderBoards> {
         bool result = false;
         Steamworks.ELeaderboardDataRequest requestType;
 
+        int startRange = 1;
+        int endRange = numberOfEntries;
+
         switch (selectionType)
         {
             case SelectionType.FRIENDS:
@@ -37,6 +41,12 @@ public class LeaderBoards : Singleton<LeaderBoards> {
                 break;
             case SelectionType.AROUND_USER:
                 requestType = Steamworks.ELeaderboardDataRequest.k_ELeaderboardDataRequestGlobalAroundUser;
+                startRange = -5;
+                endRange = numberOfEntries - 5;
+                if (endRange < 0)
+                {
+                    endRange = 1;
+                }
                 break;
             case SelectionType.GLOBAL:
             default:
@@ -44,14 +54,18 @@ public class LeaderBoards : Singleton<LeaderBoards> {
                 break;
         }
 
-        result = allTimeLeaderBoard.FetchLeaderBoardData(levelName, callBackFunction, numberOfEntries, requestType);
+        result = allTimeLeaderBoard.FetchLeaderBoardData(levelName, callBackFunction, startRange, endRange, requestType);
         return result;
     }
 
     public bool UpdateScore(int score, string levelName)
     {
-        bool result = false;        
-        result = allTimeLeaderBoard.UpdateLeaderBoard(score, levelName);
+        bool result = false;
+        string betaBranchName;
+        if (SteamManager.Initialized && !Steamworks.SteamApps.GetCurrentBetaName(out betaBranchName, 128))
+        {
+            result = allTimeLeaderBoard.UpdateLeaderBoard(score, levelName);
+        }
         return result;
     }
     #endregion

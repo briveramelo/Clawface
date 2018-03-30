@@ -3,49 +3,51 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerHUDAnimator : MonoBehaviour
-{
+public class PlayerHUDAnimator : EventSubscriber {
     const float BOUNCE_THRESHOLD = 0.1f;
 
+    #region Serialized Fields
     [SerializeField] RectTransform multiplierTrans, combo, score, health;
     [SerializeField] BounceSettings multiplierSettings, comboSettings, scoreSettings, healthSettings;
-
-    Vector3 multiplierOriginalScale, comboOriginalScale, scoreOriginalScale, healthOriginalScale;
-
     [SerializeField] Color multiplierOriginalColor, comboOriginalColor, scoreOriginalColor, healthOriginalColor;
-
     [SerializeField] MaskableGraphic[] multiplierGraphics, comboGraphics, scoreGraphics, healthGraphics;
+    #endregion
 
+
+    #region Private Fields
+    Vector3 multiplierOriginalScale, comboOriginalScale, scoreOriginalScale, healthOriginalScale;
     Coroutine comboBounce, scoreBounce, healthBounce, multiplierBounce;
+    #endregion
 
-    private void Awake()
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.AwakeDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.COMBO_UPDATED, BounceCombo },
+                { Strings.Events.MULTIPLIER_UPDATED, BounceMultiplier },
+                { Strings.Events.SCORE_UPDATED, BounceScore },
+                { Strings.Events.PLAYER_DAMAGED, BounceHealth },
+                { Strings.Events.LEVEL_STARTED, HandleLevelStarted },
+                { Strings.Events.LEVEL_RESTARTED, HandleLevelRestarted },
+            };
+        }
+    }
+    #endregion
+
+    #region Unity LifeCycle
+    protected override void Awake()
     {
         multiplierOriginalScale = multiplierTrans.localScale;
         comboOriginalScale = combo.localScale;
         scoreOriginalScale = score.localScale;
         healthOriginalScale = health.localScale;
 
-        EventSystem.Instance.RegisterEvent(Strings.Events.COMBO_UPDATED, BounceCombo);
-        EventSystem.Instance.RegisterEvent(Strings.Events.MULTIPLIER_UPDATED, BounceMultiplier);
-        EventSystem.Instance.RegisterEvent(Strings.Events.SCORE_UPDATED, BounceScore);
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_DAMAGED, BounceHealth);
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, HandleLevelStarted);
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, HandleLevelRestarted);
+        base.Awake();
     }
+    #endregion
 
-    private void OnDestroy()
-    {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.COMBO_UPDATED, BounceCombo);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.MULTIPLIER_UPDATED, BounceMultiplier);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.SCORE_UPDATED, BounceScore);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_DAMAGED, BounceHealth);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, HandleLevelStarted);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, HandleLevelRestarted);
-        }
-    }
-
+    #region Private Interface
     void BounceMultiplier(params object[] parameters) {
         if (multiplierBounce != null) StopCoroutine(multiplierBounce);
         multiplierBounce = StartCoroutine(DoBounce(multiplierTrans, multiplierSettings));
@@ -68,6 +70,7 @@ public class PlayerHUDAnimator : MonoBehaviour
         if (healthBounce != null) StopCoroutine(healthBounce);
         healthBounce = StartCoroutine(DoBounce(health, healthSettings));
     }
+    
 
     IEnumerator DoBounce (RectTransform tr, BounceSettings settings, float scaleMultiplier=1.0f)
     {
@@ -151,7 +154,9 @@ public class PlayerHUDAnimator : MonoBehaviour
         comboGraphics[0].color = comboOriginalColor;
         multiplierGraphics[0].color = multiplierOriginalColor;
     }
+    #endregion
 
+    #region Internal Structures
     [System.Serializable]
     struct BounceSettings
     {
@@ -161,4 +166,6 @@ public class PlayerHUDAnimator : MonoBehaviour
         public float bounciness;
         public Color bounceColor;
     }
+    #endregion
+
 }

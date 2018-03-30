@@ -63,7 +63,7 @@ public class BoomerangBullet : MonoBehaviour {
                 Vector3 incomingVec = hit.point - this.transform.position;
                 Vector3 reflectVec = Vector3.Reflect(incomingVec, hit.normal);
                 transform.forward = reflectVec;
-                SFXManager.Instance.Play(SFXType.BlasterProjectileImpact, transform.position);
+                SFXManager.Instance.Play(SFXType.BoomerangWallImpact, transform.position);
                 currentBounces++;
 
                 GameObject effect = ObjectPool.Instance.GetObject(PoolObjectType.VFXBoomerangImpact);
@@ -128,6 +128,7 @@ public class BoomerangBullet : MonoBehaviour {
 
             GameObject blood = ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodSpurt);
             if (blood) blood.transform.position = damageable.GetPosition();
+            SFXManager.Instance.Play(SFXType.Boomerang_Impact, damageable.GetPosition());
         }
     }
 

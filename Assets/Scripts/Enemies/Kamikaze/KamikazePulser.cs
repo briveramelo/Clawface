@@ -1,11 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.AI;
 using System;
 
 [System.Serializable]
@@ -33,9 +27,9 @@ public class KamikazePulser : EnemyBase
     #endregion
 
     #region 4. Unity Lifecycle
-    public override void Awake()
-    {
-        isUp = false;
+    protected override void Awake()
+    {        
+	isUp = false;
         myStats = GetComponent<Stats>();
         SetAllStats();
         InitilizeStates();

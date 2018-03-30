@@ -7,8 +7,7 @@
 /// 
 /// As a note, this is made as MonoBehaviour because we need Coroutines.
 /// </summary>
-public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
-{
+public class Singleton<T> : EventSubscriber where T : EventSubscriber {
 
     #region Public Fields
     public static T Instance
@@ -31,7 +30,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     #endregion
 
     #region Unity Lifecycle Functions
-    protected virtual void Awake() {
+    protected override void Awake() {
         if (instance == null)
         {
             instance = this as T;
@@ -50,9 +49,10 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             if (!dontDestroyOnLoad) {
                 instance = null;
             }
-            Destroy(gameObject);
             Debug.LogWarning("Destroying duplicate singleton " + typeof(T) +"!");
+            Destroy(gameObject);
         }
+        base.Awake();
     }    
     #endregion
 }

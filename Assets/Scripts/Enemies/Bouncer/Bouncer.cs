@@ -42,9 +42,10 @@ public class Bouncer : EnemyBase
     #region 4. Unity Lifecycle
 
 
-    public override void Awake()
-    {
-        isUp = false;
+    protected override void Awake()
+    {        
+
+		isUp = false;
         myStats = GetComponent<Stats>();
         SetAllStats();
         InitilizeStates();
@@ -158,6 +159,7 @@ public class Bouncer : EnemyBase
 
     public void DoneJumpLanding()
     {
+        SFXManager.Instance.Play(SFXType.BouncerLand, transform.position);
         chase.doneLandingJump = true;
         shadowOutline.gameObject.SetActive(false);
     }
@@ -226,7 +228,7 @@ public class Bouncer : EnemyBase
     private void InitilizeStates()
     {
         aiStates = new List<AIState>();
-        chase = new BouncerChaseState();
+        chase = new BouncerChaseState(shadowOutline);
         chase.stateName = "chase";
         fire = new BouncerFireState();
         fire.stateName = "fire";

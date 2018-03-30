@@ -48,7 +48,22 @@ public enum SFXType {
     LandmarkBlastShort,
     PLEPlaceObject,
     PLEHoverUI,
-    PLEClickUI
+    PLEClickUI,
+    BoomerangWallImpact,
+    BouncerLand,
+    BouncerVocalize,
+    EnemyFootstep,
+    KamikazeFootstep,
+    ZombieVocalize,
+    None,
+    AcidZombieVocalize,
+    TileLift,
+    Score,
+    KamikazeVocalize,
+    KamikazeWarn,
+    GuardVocalize,
+    GuardShotgunAttack,
+    GuardPrepare
 }
 
 public enum MusicType

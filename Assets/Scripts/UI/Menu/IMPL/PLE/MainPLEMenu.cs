@@ -38,7 +38,8 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
     #endregion  
 
     #region Unity Lifecycle
-    private void Awake() {
+    protected override void Awake() {
+        base.Awake();
         InitializeMenuToggles();
         SetupToggleInteractability();
     }
@@ -228,7 +229,7 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
             MenuManager.Instance.DoTransition(confirmMenu, Transition.HIDE, new Effect[] { Effect.INSTANT });
         };
 
-        confirmMenu.DefineActions("Saving...", saveAction, saveAsAction);
+        confirmMenu.DefineActions("", saveAction, saveAsAction);
         MenuManager.Instance.DoTransition(confirmMenu, Transition.SHOW, new Effect[] { Effect.INSTANT });
     }
 

@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class DisableOnPlayerDeath : MonoBehaviour
+public class DisableOnPlayerDeath : EventSubscriber
 {
-    private void Awake()
-    {
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, HandlePlayerDeath);
-    }
 
-    private void OnDestroy()
-    {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, HandlePlayerDeath);
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.AwakeDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+            { Strings.Events.PLAYER_KILLED, HandlePlayerDeath},
+        };
         }
     }
+    #endregion    
 
     void HandlePlayerDeath (params object[] parameters)
     {

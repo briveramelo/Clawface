@@ -9,7 +9,8 @@ public class DamageFXManager : Singleton<DamageFXManager> {
     protected DamageFXManager() { }
     private Dictionary<DamagedType, Dictionary<DamagerType, System.Action<DamagePack>>> RedirectionEvents;
 
-    private void Start() {
+    protected override void Start() {
+        base.Start();
         RedirectionEvents = new Dictionary<DamagedType, Dictionary<DamagerType, System.Action<DamagePack>>>() {
             {DamagedType.MallCop,
                 new Dictionary<DamagerType, System.Action<DamagePack>>() {

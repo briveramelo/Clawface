@@ -31,27 +31,21 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
 
     #endregion
 
-    private bool hasCycledLevel=false;
-    #region Unity Lifecycle
-
-    void Start()
-    {        
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_ON_LEVEL_READY, TryStartLevel);
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_TEST_END, Reset);
-        //EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, StartLevel);
-    }
-
-    public void OnDestroy()
-    {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_ON_LEVEL_READY, TryStartLevel);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_TEST_END, Reset);
-            //EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, StartLevel);
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.PLE_ON_LEVEL_READY, TryStartLevel },
+                { Strings.Events.PLE_TEST_END, Reset},
+            };
         }
     }
+    #endregion
 
+    private bool hasCycledLevel=false;
 
+    #region Unity Lifecycle
     #endregion
 
     #region Private Interface

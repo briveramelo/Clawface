@@ -31,9 +31,10 @@ public class Kamikaze : EnemyBase
     #endregion
 
     #region 4. Unity Lifecycle
-    public override void Awake()
-    {
-        isUp = false;
+
+    protected override void Awake()
+    {        
+	isUp = false;
         myStats = GetComponent<Stats>();
         SetAllStats();
         InitilizeStates();

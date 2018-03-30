@@ -30,6 +30,20 @@ public class ScoreManager : Singleton<ScoreManager> {
     [SerializeField]
     private float hardModeMultiplier;
 
+    /// <summary>
+    /// Multiplies your max combo by this value at the end of the stage and the current difficulty multiplier, and adds it to your score
+    /// </summary>
+    [Tooltip("Multiplies your max combo by this value and the current difficulty multiplier at the end of the stage and adds it to your score.")]
+    [SerializeField]
+    private float maxComboMultiplier;
+
+    /// <summary>
+    /// Hard combo cap. Combo cannot increase past this value.
+    /// </summary>
+    [Tooltip("Hard combo cap. Combo cannot increase past this value.")]
+    [SerializeField]
+    private int comboCap;
+
     [SerializeField] private Dictionary<string, int> highScores;
     #endregion
 
@@ -40,37 +54,34 @@ public class ScoreManager : Singleton<ScoreManager> {
     private bool updateScore;
     #endregion
 
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.DEATH_ENEMY, OnPlayerKilledEnemy },
+                { Strings.Events.EAT_ENEMY, OnPlayerAte },
+                { Strings.Events.PLAYER_DAMAGED, OnPlayerDamaged },
+                { Strings.Events.LEVEL_STARTED, OnLevelStart },
+                { Strings.Events.PLE_ON_LEVEL_READY, OnLevelStart },
+                { Strings.Events.LEVEL_RESTARTED, OnLevelRestart },
+                { Strings.Events.LEVEL_QUIT, OnLevelQuit },
+                { Strings.Events.PLAYER_KILLED, OnPlayerKilled },
+                { Strings.Events.LEVEL_COMPLETED, OnLevelCompleted },
+            };
+        }
+    }
+    #endregion
+
     #region Unity Lifecycle
     // Use this for initialization
-    void Start () {
+    protected override void Start () {
+
         highScores = new Dictionary<string, int>();
         OnLevelStart();
 
-        EventSystem.Instance.RegisterEvent(Strings.Events.DEATH_ENEMY, OnPlayerKilledEnemy);
-        EventSystem.Instance.RegisterEvent(Strings.Events.EAT_ENEMY, OnPlayerAte);
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_DAMAGED, OnPlayerDamaged);
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_STARTED, OnLevelStart);
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_ON_LEVEL_READY, OnLevelStart);
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, OnLevelRestart);
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_QUIT, OnLevelQuit);
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, OnPlayerKilled);
+        base.Start();
     }       
-
-    private void OnDestroy()
-    {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.DEATH_ENEMY, OnPlayerKilledEnemy);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.EAT_ENEMY, OnPlayerAte);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_DAMAGED, OnPlayerDamaged);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_STARTED, OnLevelStart);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_ON_LEVEL_READY, OnLevelStart);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, OnLevelRestart);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_QUIT, OnLevelQuit);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, OnPlayerKilled);
-        }
-
-    }
 
     // Update is called once per frame
     void Update() {
@@ -125,6 +136,8 @@ public class ScoreManager : Singleton<ScoreManager> {
         float beforeMultiplier = GetCurrentPreDifficultyMultiplier();
 
         currentCombo++;
+
+        if (currentCombo > comboCap) currentCombo = comboCap;
         
         if (currentCombo > highestCombo)
         {
@@ -175,7 +188,15 @@ public class ScoreManager : Singleton<ScoreManager> {
 
         int delta = Mathf.FloorToInt(points * GetCurrentMultiplier());
         score += delta;
-        EventSystem.Instance.TriggerEvent(Strings.Events.SCORE_UPDATED,score,delta);        
+        EventSystem.Instance.TriggerEvent(Strings.Events.SCORE_UPDATED,score,delta);    
+        SFXManager.Instance.Play(SFXType.Score, transform.position);    
+    }
+
+    public void AddToScoreWithoutComboMultiplier(int points)
+    {
+        if (points <= 0) return;
+        score += points;
+        EventSystem.Instance.TriggerEvent(Strings.Events.SCORE_UPDATED, score, points);
     }
 
     public float GetCurrentPreDifficultyMultiplier()
@@ -243,11 +264,6 @@ public class ScoreManager : Singleton<ScoreManager> {
 
         EventSystem.Instance.TriggerEvent(Strings.Events.SET_LEVEL_SCORE, level, highScores[level]);
         SendScoresToLeaderboard();
-
-        if (SceneTracker.IsCurrentScene80sShit)
-        {
-            AchievementManager.Instance.SetAchievement(Strings.AchievementNames.CLAWFACE);
-        }
     }
 
     public int GetHighScore(string level)
@@ -287,11 +303,7 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     private void OnPlayerAte(params object[] parameters)
     {
-        if (useAlternateScoreMode)
-        {
-            
-            
-        }
+        AddToCombo();
     }
 
     private void OnPlayerKilledEnemy(params object[] parameters)
@@ -356,8 +368,22 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     private void OnPlayerKilled(object[] parameters)
     {
+        AddToScoreWithoutComboMultiplier(GetMaxComboScore());
         updateScore = false;
-        SendScoresToLeaderboard();
+        UpdateHighScore(SceneTracker.CurrentSceneName, GetScore());
+    }
+
+    private int GetMaxComboScore()
+    {
+        int result = Mathf.FloorToInt(highestCombo * maxComboMultiplier * GetDifficultyMultiplier());
+        return result;
+    }
+
+    private void OnLevelCompleted(object[] parameters)
+    {
+        AddToScoreWithoutComboMultiplier(GetMaxComboScore());
+        updateScore = false;
+        UpdateHighScore(SceneTracker.CurrentSceneName, GetScore());
     }
 
     private void SendScoresToLeaderboard()

@@ -42,7 +42,7 @@ public class MallCop : EnemyBase
 
     #region 3. Unity Lifecycle
 
-    public override void Awake()
+    protected override void Awake()
     {
         isUp = false;
         myStats = GetComponent<Stats>();
@@ -345,6 +345,7 @@ public class MallCop : EnemyBase
             scaleBackup.y / vfx.transform.localScale.y,
             scaleBackup.z / vfx.transform.localScale.z
         );
+        SFXManager.Instance.Play(SFXType.GuardPrepare, mod.transform.position);
     }
 
     #endregion

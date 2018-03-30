@@ -11,26 +11,26 @@ public class AIManager : Singleton<AIManager> {
     private bool isPlayerDead = false;
     #endregion
 
-    #region 1. UnityLifeCycle
-    public void OnEnable()
-    {
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, SetPlayerDead);
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_BIRTHED, SetPlayerNotDead);
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.EnableDisable; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.PLAYER_KILLED, SetPlayerDead },
+                { Strings.Events.PLAYER_BIRTHED, SetPlayerNotDead},
+            };
+        }
     }
+    #endregion
 
-    public new void Awake()
+    #region 1. UnityLifeCycle
+
+    protected override void Awake()
     {
         base.Awake();
         enemyData = new List<AIEnemyData>();
     }
 
-    public void OnDisable()
-    {
-        if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, SetPlayerDead);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_BIRTHED, SetPlayerNotDead);
-        }
-    }
     #endregion
 
     #region 2. Public methods
