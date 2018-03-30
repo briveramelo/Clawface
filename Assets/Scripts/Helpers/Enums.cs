@@ -132,6 +132,7 @@ public enum PoolObjectType {
     KamikazeExplosionSphere = 48,
     KamikazePulseGenerator = 54,
     AcidTrigger = 59,
+    AcidTrail = 72,
 
     //VFX
     VFXBlasterImpactEffect = 3,

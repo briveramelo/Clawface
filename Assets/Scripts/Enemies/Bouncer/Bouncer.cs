@@ -27,7 +27,7 @@ public class Bouncer : EnemyBase
     private int minShots;
     private float rotationSpeed;
     private bool rotate;
-
+    private bool isUp;
 
     //The AI States of the Zombie
     private BouncerChaseState chase;
@@ -44,6 +44,7 @@ public class Bouncer : EnemyBase
 
     public override void Awake()
     {
+        isUp = false;
         myStats = GetComponent<Stats>();
         SetAllStats();
         InitilizeStates();
@@ -67,6 +68,7 @@ public class Bouncer : EnemyBase
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
 
         controller.checksToUpdateState = new List<Func<bool>>() {
+            CheckDoneGettingUp,
             CheckPlayerDead,
             CheckToAttack,
             CheckToFinishAttacking,
@@ -79,7 +81,17 @@ public class Bouncer : EnemyBase
 
     #endregion
 
-    #region 5. Public Methods   
+    #region 5. Public Methods  
+
+    bool CheckDoneGettingUp()
+    {
+        if (!isUp)
+        {
+            return true;
+        }
+        return false;
+    }
+
     bool CheckPlayerDead()
     {
         if (AIManager.Instance.GetPlayerDead())
@@ -165,6 +177,12 @@ public class Bouncer : EnemyBase
         chase.Damage(controller.AttackTarget.gameObject.GetComponent<IDamageable>());
     }
 
+    public override void OnDeath()
+    {
+        isUp = false;
+        base.OnDeath();
+    }
+
     public override void ResetForRebirth()
     {
         base.ResetForRebirth();
@@ -173,7 +191,9 @@ public class Bouncer : EnemyBase
 
     public void GetUpDone()
     {
-        getUp.Up();
+        isUp = true;
+        controller.CurrentState = chase;
+        controller.UpdateState(EAIState.Chase);
     }
 
     public void FireBullet()

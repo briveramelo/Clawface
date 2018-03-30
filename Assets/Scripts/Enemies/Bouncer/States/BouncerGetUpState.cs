@@ -15,9 +15,4 @@ public class BouncerGetUpState : AIState {
     public override void OnExit()
     {
     }
-
-    public void Up()
-    {
-        controller.UpdateState(EAIState.Chase);
-    }
 }

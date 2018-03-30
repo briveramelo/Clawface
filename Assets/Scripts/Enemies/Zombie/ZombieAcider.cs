@@ -15,8 +15,6 @@ public class ZombieAcider : EnemyBase
     #region 1. Serialized Unity Inspector Fields
     [SerializeField] private ZombieAciderProperties properties;
     [SerializeField] private TentacleTrigger tentacle;
-    [SerializeField] private TrailRenderer trailRenderer;
-    [SerializeField] private ColliderGenerator colliderGenerator;
     #endregion
 
     #region 2. Private fields
@@ -30,7 +28,7 @@ public class ZombieAcider : EnemyBase
     private float currentHitReactionLayerWeight;
     private float hitReactionLayerDecrementSpeed = 1.5f;
     private float closeEnoughToAttackDistance;
-
+    private bool isUp;
     #endregion
 
     #region 3. Unity Lifecycle
@@ -38,20 +36,15 @@ public class ZombieAcider : EnemyBase
 
     public override void Awake()
     {
+        isUp = false;
         myStats = GetComponent<Stats>();
-        SetAllStats();
         InitilizeStates();
-        trailRenderer.Clear();
-        trailRenderer.enabled = false;
-        colliderGenerator.enabled = false;
-        chase.colliderGenerator = colliderGenerator;
-        attack.colliderGenerator = colliderGenerator;
-        getUp.trailRenderer = trailRenderer;
-        getUp.needToClearTrail = true;
+        SetAllStats();
         attack.animatorSpeed = EnemyStatsManager.Instance.zombieAciderStats.animationAttackSpeed;
         controller.Initialize(properties,velBody, animator, myStats, navAgent, navObstacle,aiStates);
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
         controller.checksToUpdateState = new List<Func<bool>>() {
+            CheckDoneGettingUp,
             CheckPlayerDead,
             CheckToAttack,
             CheckToFinishAttacking,
@@ -65,6 +58,15 @@ public class ZombieAcider : EnemyBase
     #region 4. Public Methods   
 
     //State conditions
+    bool CheckDoneGettingUp()
+    {
+        if (!isUp)
+        {
+            return true;
+        }
+        return false;
+    }
+
     bool CheckPlayerDead()
     {
         if (AIManager.Instance.GetPlayerDead())
@@ -143,7 +145,9 @@ public class ZombieAcider : EnemyBase
 
     public void GetUpDone()
     {
-        getUp.Up();
+        isUp = true;
+        controller.CurrentState = chase;
+        controller.UpdateState(EAIState.Chase);
     }
 
     public void DamageAttackTarget()
@@ -153,17 +157,12 @@ public class ZombieAcider : EnemyBase
 
     public override void OnDeath()
     {
-        trailRenderer.Clear();
-        trailRenderer.enabled = false;
-        colliderGenerator.enabled = false;
-        chase.needToClearTrail = true;
+        isUp = false;
         base.OnDeath();
     }
 
     public override void ResetForRebirth()
     {
-        trailRenderer.Clear();
-        getUp.needToClearTrail = true;
         base.ResetForRebirth();
     }
 
@@ -244,11 +243,11 @@ public class ZombieAcider : EnemyBase
 
         closeEnoughToAttackDistance = EnemyStatsManager.Instance.zombieAciderStats.stunnedTime;
         
+        chase.trailRendererTime = EnemyStatsManager.Instance.zombieAciderStats.trailRendererTime;
+        chase.trailRendererStartWidth = EnemyStatsManager.Instance.zombieAciderStats.trailRendererWidth;
 
-        trailRenderer.time = EnemyStatsManager.Instance.zombieAciderStats.trailRendererTime;
-        trailRenderer.startWidth = EnemyStatsManager.Instance.zombieAciderStats.trailRendererWidth;
-
-        colliderGenerator.SetStats(EnemyStatsManager.Instance.zombieAciderStats.colliderGenerationTime, EnemyStatsManager.Instance.zombieAciderStats.acidTriggerLife);
+        chase.colliderGenerationTime = EnemyStatsManager.Instance.zombieAciderStats.colliderGenerationTime;
+        chase.acidTriggerLife = EnemyStatsManager.Instance.zombieAciderStats.acidTriggerLife;
 
         myStats.SetStats();
     }

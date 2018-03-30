@@ -36,12 +36,14 @@ public class MallCopShotgun : EnemyBase
     private float closeEnoughToFireDistance;
     private float maxToleranceTime;
     private Vector3 rayCastPosition;
+    private bool isUp;
     #endregion
 
     #region 3. Unity Lifecycle
 
     public override void Awake()
     {
+        isUp = false;
         myStats = GetComponent<Stats>();
         SetAllStats();
         InitilizeStates();
@@ -122,6 +124,7 @@ public class MallCopShotgun : EnemyBase
             else
             {
                 Vector3 fwd = controller.DirectionToTarget;
+                rayCastPosition = new Vector3(controller.transform.position.x, controller.transform.position.y + 1f, controller.transform.position.z);
                 RaycastHit hit;
 
                 if (Physics.Raycast(rayCastPosition, fwd, out hit, 50, LayerMask.GetMask(Strings.Layers.MODMAN, Strings.Layers.OBSTACLE)))
@@ -155,6 +158,7 @@ public class MallCopShotgun : EnemyBase
 
     public override void OnDeath()
     {
+        isUp = false;
         base.OnDeath();
     }
 
@@ -191,7 +195,9 @@ public class MallCopShotgun : EnemyBase
 
     public void GetUpDone()
     {
-        getUp.Up();
+        isUp = true;
+        controller.CurrentState = chase;
+        controller.UpdateState(EAIState.Chase);
     }
 
     public override void DoPlayerKilledState(object[] parameters)

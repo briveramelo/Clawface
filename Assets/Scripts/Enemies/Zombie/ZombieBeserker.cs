@@ -28,13 +28,14 @@ public class ZombieBeserker : EnemyBase
     private float currentHitReactionLayerWeight;
     private float hitReactionLayerDecrementSpeed = 1.5f;
     private float closeEnoughToAttackDistance;
-
+    private bool isUp;
     #endregion
 
     #region 3. Unity Lifecycle
 
     public override void Awake()
     {
+        isUp = false;
         myStats = GetComponent<Stats>();
         SetAllStats();
         InitilizeStates();
@@ -42,6 +43,7 @@ public class ZombieBeserker : EnemyBase
         controller.Initialize(properties,velBody, animator, myStats, navAgent, navObstacle,aiStates);
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
         controller.checksToUpdateState = new List<Func<bool>>() {
+            CheckDoneGettingUp,
             CheckPlayerDead,
             CheckIfStunned,
             CheckToAttack,
@@ -56,6 +58,15 @@ public class ZombieBeserker : EnemyBase
     #region 4. Public Methods   
 
     //State conditions
+    bool CheckDoneGettingUp()
+    {
+        if (!isUp)
+        {
+            return true;
+        }
+        return false;
+    }
+
     bool CheckPlayerDead()
     {
         if (AIManager.Instance.GetPlayerDead())
@@ -137,7 +148,9 @@ public class ZombieBeserker : EnemyBase
 
     public void GetUpDone()
     {
-        getUp.Up();
+        isUp = true;
+        controller.CurrentState = chase;
+        controller.UpdateState(EAIState.Chase);
     }
 
     public void FinishedAttack()
@@ -154,6 +167,7 @@ public class ZombieBeserker : EnemyBase
 
     public override void OnDeath()
     {
+        isUp = false;
         base.OnDeath();
     }
 

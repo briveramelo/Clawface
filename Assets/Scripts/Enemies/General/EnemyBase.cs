@@ -383,7 +383,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             }
         }
 
-        animator.enabled = true;        
+                
         if (grabObject)
         {
             grabObject.transform.parent = transform;

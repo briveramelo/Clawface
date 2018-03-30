@@ -36,12 +36,14 @@ public class MallCopReanimator : EnemyBase
     private Vector3 rayCastPosition;
     private bool foundStunnedEnemy = false;
     private float closeEnoughToReanimateDistance;
+    private bool isUp;
     #endregion
 
     #region 3. Unity Lifecycle
 
     public override void Awake()
     {
+        isUp = false;
         myStats = GetComponent<Stats>();
         SetAllStats();
         InitilizeStates();
@@ -50,6 +52,7 @@ public class MallCopReanimator : EnemyBase
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
 
         controller.checksToUpdateState = new List<Func<bool>>() {
+            CheckDoneGettingUp,
             CheckPlayerDead,
             CheckToFire,
             CheckToFinishFiring,
@@ -78,6 +81,16 @@ public class MallCopReanimator : EnemyBase
     #region 4. Public Methods   
 
     //State conditions
+    bool CheckDoneGettingUp()
+    {
+        if (!isUp)
+        {
+            return true;
+        }
+        return false;
+    }
+
+
     bool CheckPlayerDead()
     {
         if (AIManager.Instance.GetPlayerDead())
@@ -142,6 +155,7 @@ public class MallCopReanimator : EnemyBase
 
     public override void OnDeath()
     {
+        isUp = false;
         base.OnDeath();
     }
 
@@ -168,7 +182,9 @@ public class MallCopReanimator : EnemyBase
 
     public void GetUpDone()
     {
-        getUp.Up();
+        isUp = true;
+        controller.CurrentState = chase;
+        controller.UpdateState(EAIState.Chase);
     }
 
     public override void DoPlayerKilledState(object[] parameters)
