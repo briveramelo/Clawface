@@ -15,4 +15,7 @@ public class SceneTracker {
         return sceneNameOrPath == Strings.Scenes.ScenePaths.Arena || sceneNameOrPath == Strings.Scenes.ScenePaths.PlayerLevels ||
             sceneNameOrPath == Strings.Scenes.SceneNames.Arena || sceneNameOrPath == Strings.Scenes.SceneNames.PlayerLevels;
     }
+    public static bool IsTargetSceneEditor(string sceneNameOrPath) {
+        return sceneNameOrPath == Strings.Scenes.ScenePaths.Editor || sceneNameOrPath == Strings.Scenes.SceneNames.Editor;
+    }
 }

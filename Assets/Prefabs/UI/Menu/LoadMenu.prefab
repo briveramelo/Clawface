@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 222427206757487118}
   - component: {fileID: 114421711328974382}
   m_Layer: 0
-  m_Name: Controller Image
+  m_Name: Controls Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -221,6 +221,10 @@ MonoBehaviour:
   faderDuration: 0.25
   loadingBar: {fileID: 114506131717339034}
   loadingText: {fileID: 114534170786470390}
+  loadingImage: {fileID: 114421711328974382}
+  gameControllerSprite: {fileID: 21300000, guid: a8bb3c42fa796b143968dd7dbbef26f0,
+    type: 3}
+  levelEditorSprite: {fileID: 21300000, guid: 92028dc1d5db2644aade4ca214adbf5e, type: 3}
   loading: L O A D I N G
   ready: P R E S S   T O   E X E C U T E
   starting: S T A R T I N G

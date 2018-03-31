@@ -287,9 +287,7 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
         menuToggles.ForEach(menuToggle => {
             menuToggle.toggle.onValueChanged.SwitchListenerState(UnityEngine.Events.UnityEventCallState.RuntimeOnly);
             menuToggle.spriteShifter.OnToggleChanged();
-            menuToggle.toggler.SetState(false);
         });
-        selectedMenuToggle.toggler.SetState(true);
         CurrentEventSystem.SetSelectedGameObject(selectedToggle.gameObject);
     }
     
@@ -353,10 +351,8 @@ class MenuToggle {
         this.menu = menu;
         this.toggle = toggle;
         spriteShifter = toggle.GetComponent<SpriteShifter>();
-        toggler= toggle.gameObject.GetComponentInChildren<GameObjectToggler>(true);
     }
     public PLEMenu menu;
     public Toggle toggle;
     public SpriteShifter spriteShifter;
-    public GameObjectToggler toggler;
 }

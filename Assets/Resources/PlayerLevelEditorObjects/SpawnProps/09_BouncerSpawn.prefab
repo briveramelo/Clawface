@@ -2862,13 +2862,85 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5ba14b95532c8c4e8ff2eb7805132d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jiggleAnim:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 2.5212104
+        outSlope: 2.5212104
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.1428
+        value: 0.5
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.2893621
+        value: -0.22029114
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.42857
+        value: 0.13171077
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.5714
+        value: -0.066621944
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7143
+        value: 0.041748047
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.857
+        value: -0.020831637
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 1.5
+    looping: 0
+    playOnAwake: 0
+    maxValue: 0.8
   iconPreview: {fileID: 21300000, guid: e1100208412257d45866baba09fd12d4, type: 3}
-  selectedColor: {r: 0, g: 0.627451, b: 1, a: 1}
+  tile:
+    levelUnit: {fileID: 0}
+    blockUnit: {fileID: 0}
+    realTile: {fileID: 0}
+    ghostTile: {fileID: 0}
+    wall_N: {fileID: 0}
+    wall_E: {fileID: 0}
+    wall_W: {fileID: 0}
+    wall_S: {fileID: 0}
+    isSelected: 0
+    isHovered: 0
   registeredWave: -99
+  minEnemiesDead: 0
   allEnemiesDead: 0
   spawnFrequency: 0.5
   totalSpawnAmount: 1
   spawnType: 2
+  minSpawns: 0
 --- !u!114 &114300091325206804
 MonoBehaviour:
   m_ObjectHideFlags: 1
