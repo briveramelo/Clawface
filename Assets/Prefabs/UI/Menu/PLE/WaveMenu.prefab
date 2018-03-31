@@ -127,6 +127,7 @@ GameObject:
   - component: {fileID: 222698738578566086}
   - component: {fileID: 114332435985099090}
   - component: {fileID: 114805574165814344}
+  - component: {fileID: 114887761406038922}
   m_Layer: 5
   m_Name: DeleteWaveButton
   m_TagString: Untagged
@@ -200,6 +201,7 @@ GameObject:
   - component: {fileID: 222129922562938004}
   - component: {fileID: 114105272563376350}
   - component: {fileID: 114100704420057640}
+  - component: {fileID: 114607506650807272}
   m_Layer: 5
   m_Name: AddWaveButton
   m_TagString: Untagged
@@ -338,7 +340,7 @@ MonoBehaviour:
     m_HighlightedSprite: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a,
       type: 3}
     m_PressedSprite: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
-    m_DisabledSprite: {fileID: 21300000, guid: 97f7915ce3b3f4f40a5bf73e852579b9, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: 0447e6051c95ee642aa2aa57b15d8e08, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -615,14 +617,14 @@ MonoBehaviour:
     m_HighlightedSprite: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a,
       type: 3}
     m_PressedSprite: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
-    m_DisabledSprite: {fileID: 21300000, guid: 97f7915ce3b3f4f40a5bf73e852579b9, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: 0447e6051c95ee642aa2aa57b15d8e08, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 114105272563376350}
+  m_TargetGraphic: {fileID: 114200847489401416}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -750,6 +752,27 @@ MonoBehaviour:
   type: 0
   updateTime: 0
   maskableGraphic: {fileID: 114009858251929988}
+--- !u!114 &114607506650807272
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1902876420514202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2be5fcf4accb94998ef33d08856341, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorOff: {r: 0.96862745, g: 0.9764706, b: 0.4627451, a: 1}
+  colorOn: {r: 0.99607843, g: 0.24313726, b: 0.654902, a: 1}
+  colorDisabled: {r: 0.1, g: 0.1, b: 0.1, a: 1}
+  spriteOff: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
+  spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
+  selectable: {fileID: 114100704420057640}
+  image: {fileID: 114105272563376350}
+  text: {fileID: 114161494497498116}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114659308104084556
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -861,7 +884,7 @@ MonoBehaviour:
     m_HighlightedSprite: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a,
       type: 3}
     m_PressedSprite: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
-    m_DisabledSprite: {fileID: 21300000, guid: 97f7915ce3b3f4f40a5bf73e852579b9, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: 0447e6051c95ee642aa2aa57b15d8e08, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -935,13 +958,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colorOff: {r: 0.96862745, g: 0.9764706, b: 0.4627451, a: 1}
-  colorOn: {r: 0.96862745, g: 0.9764706, b: 0.4627451, a: 1}
+  colorOn: {r: 0.99607843, g: 0.24313726, b: 0.654902, a: 1}
   colorDisabled: {r: 0.1, g: 0.1, b: 0.1, a: 1}
-  spriteOff: {fileID: 21300000, guid: 97f7915ce3b3f4f40a5bf73e852579b9, type: 3}
-  spriteOn: {fileID: 21300000, guid: 2fc2783ad4c10e148a0cfaf9ba370422, type: 3}
+  spriteOff: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
+  spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
   selectable: {fileID: 114311854266523010}
   image: {fileID: 114200847489401416}
   text: {fileID: 114659308104084556}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
+--- !u!114 &114887761406038922
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1725514654594324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2be5fcf4accb94998ef33d08856341, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorOff: {r: 0.96862745, g: 0.9764706, b: 0.4627451, a: 1}
+  colorOn: {r: 0.99607843, g: 0.24313726, b: 0.654902, a: 1}
+  colorDisabled: {r: 0.1, g: 0.1, b: 0.1, a: 1}
+  spriteOff: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
+  spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
+  selectable: {fileID: 114805574165814344}
+  image: {fileID: 114332435985099090}
+  text: {fileID: 114283468016944108}
   overrideDisabledColor: 0
   alwaysUpdate: 0
 --- !u!114 &114892668920149696
