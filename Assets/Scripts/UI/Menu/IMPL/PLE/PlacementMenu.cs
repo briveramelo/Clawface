@@ -194,11 +194,11 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
         TryDestroyPreview();
     }
 
-    public virtual void TrySelectFirstAvailable() {
+    public virtual void TrySelectFirstAvailable() {        
         PLEUIItem firstAvailable = scrollGroup.TryGetFirstAvailableUIItem();
         if (firstAvailable) {
             selectedPreviewImage.sprite = firstAvailable.imagePreview.sprite;
-            scrollGroup.SelectUIItem(firstAvailable.ItemIndex);
+            scrollGroup.SelectUIItem(firstAvailable.ItemIndex, false);
         }
     }
     #endregion

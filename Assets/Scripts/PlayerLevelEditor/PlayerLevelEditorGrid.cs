@@ -300,12 +300,19 @@ public class PlayerLevelEditorGrid : EventSubscriber {
     }
 
     private void ShowBlocks(List<GameObject> selectedObjects) {
+        bool tileWasShown = false;
         for (int i = 0; i < selectedObjects.Count; i++) {
             GridTile selectedTile = gridTiles.Find(tile => tile.ghostTile == selectedObjects[i]);
             if (selectedTile != null) {
                 selectedTile.ResetTileHeightAndStates();
+                if (!selectedTile.IsActive) {
+                    tileWasShown = true;
+                }
                 selectedTile.IsActive = true;
             }
+        }
+        if (tileWasShown) {
+            SFXManager.Instance.Play(SFXType.PLEPlaceObject);
         }
     }
 

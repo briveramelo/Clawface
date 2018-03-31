@@ -299,16 +299,18 @@ public class MallCopShotgun : EnemyBase
     private void ShowChargeEffect()
     {
         GameObject vfx = ObjectPool.Instance.GetObject(PoolObjectType.VFXEnemyChargeBlaster);
-        Vector3 scaleBackup = vfx.transform.localScale;
-        vfx.transform.SetParent(bulletHellController.transform);
-        //For offsetting the particle
-        vfx.transform.localPosition = Vector3.zero;
-        vfx.transform.localRotation = Quaternion.Euler(-90.0f,0.0f,0.0f);
-        vfx.transform.localScale = new Vector3(
-            scaleBackup.x / vfx.transform.localScale.x,
-            scaleBackup.y / vfx.transform.localScale.y,
-            scaleBackup.z / vfx.transform.localScale.z
-        );
+        if (vfx) {
+            Vector3 scaleBackup = vfx.transform.localScale;
+            vfx.transform.SetParent(bulletHellController.transform);
+            //For offsetting the particle
+            vfx.transform.localPosition = Vector3.zero;
+            vfx.transform.localRotation = Quaternion.Euler(-90.0f,0.0f,0.0f);
+            vfx.transform.localScale = new Vector3(
+                scaleBackup.x / vfx.transform.localScale.x,
+                scaleBackup.y / vfx.transform.localScale.y,
+                scaleBackup.z / vfx.transform.localScale.z
+            );
+        }
     }
 
     private void OnDrawGizmosSelected()

@@ -9,7 +9,4 @@ public class ExitMenu : PlayerLevelEditorMenu {
     public override void SetMenuButtonInteractabilityByState() {
         
     }
-    public override void BackAction() {
-        base.BackAction();
-    }
 }

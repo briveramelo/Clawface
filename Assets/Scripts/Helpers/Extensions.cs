@@ -4,6 +4,7 @@ using MEC;
 using System.Reflection;
 using System;
 using UnityEngine.UI;
+using System.Linq;
 namespace ModMan {
 
     public static class IntExtensions {
@@ -112,6 +113,26 @@ namespace ModMan {
     }
     public static class ListExtensions {
 
+        public static T FindInDirection<T>(this List<T> list, Predicate<T> condition, int anchorIndex, bool findAhead, bool getLinearFirst=true) {
+            Predicate<int> isInAppropriateDirection = (loopIndex)=> (findAhead ? loopIndex > anchorIndex : loopIndex < anchorIndex);
+            if (getLinearFirst) {
+                for (int i = 0; i < list.Count; i++) {
+                    T item = list[i];
+                    if (isInAppropriateDirection(i) && condition(item)) {
+                        return item;
+                    }
+                }
+            }
+            else {
+                for (int i = list.Count-1; i >= 0; i--) {
+                    T item = list[i];
+                    if (isInAppropriateDirection(i) && condition(item)) {
+                        return item;
+                    }
+                }
+            }
+            return default(T);
+        }
         public static void MoveToBack<T>(this List<T> list, T item) {
             list.Remove(item);
             list.Add(item);
@@ -240,6 +261,9 @@ namespace ModMan {
             for (int i = 0; i < eventBase.GetPersistentEventCount(); i++) {
                 eventBase.SetPersistentListenerState(i, newState);
             }
+        }
+        public static bool Interactable(this Selectable selectable) {
+            return selectable.interactable && selectable.IsActive();
         }
     }
 

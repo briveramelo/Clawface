@@ -78,7 +78,7 @@ public class ConfirmMenu: Menu
     public void YesAction()
     {
         MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { Effect.INSTANT });
-
+        SFXManager.Instance.Play(SFXType.UI_Click);
         if (onYesAction != null)
         {
             onYesAction();
@@ -88,7 +88,7 @@ public class ConfirmMenu: Menu
     public void NoAction()
     {
         MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { Effect.INSTANT });
-
+        SFXManager.Instance.Play(SFXType.UI_Click);
         if (onNoAction != null)
         {
             onNoAction();

@@ -293,16 +293,18 @@ public class MallCopReanimator : EnemyBase
     void ShowChargeEffect()
     {
         GameObject vfx = ObjectPool.Instance.GetObject(PoolObjectType.VFXEnemyChargeBlaster);
-        Vector3 scaleBackup = vfx.transform.localScale;
-        vfx.transform.SetParent(healParticleTransform);
-        //For offsetting the particle
-        vfx.transform.localPosition = Vector3.zero;
-        vfx.transform.localRotation = Quaternion.identity;
-        vfx.transform.localScale = new Vector3(
-            scaleBackup.x / vfx.transform.localScale.x,
-            scaleBackup.y / vfx.transform.localScale.y,
-            scaleBackup.z / vfx.transform.localScale.z
-        );
+        if (vfx) {
+            Vector3 scaleBackup = vfx.transform.localScale;
+            vfx.transform.SetParent(healParticleTransform);
+            //For offsetting the particle
+            vfx.transform.localPosition = Vector3.zero;
+            vfx.transform.localRotation = Quaternion.identity;
+            vfx.transform.localScale = new Vector3(
+                scaleBackup.x / vfx.transform.localScale.x,
+                scaleBackup.y / vfx.transform.localScale.y,
+                scaleBackup.z / vfx.transform.localScale.z
+            );
+        }
     }
     #endregion
 

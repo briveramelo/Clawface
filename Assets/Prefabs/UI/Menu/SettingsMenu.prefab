@@ -2915,6 +2915,8 @@ MonoBehaviour:
   selectable: {fileID: 114268484076326828}
   image: {fileID: 114401310067483842}
   text: {fileID: 114253287205890998}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114095227832718870
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3233,6 +3235,8 @@ MonoBehaviour:
   selectable: {fileID: 114437639731077888}
   image: {fileID: 114227146302262194}
   text: {fileID: 114425987655242838}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114178964634711344
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3448,6 +3452,8 @@ MonoBehaviour:
   selectable: {fileID: 114668007741606528}
   image: {fileID: 114475278092670278}
   text: {fileID: 114312058948162272}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114192637479617758
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3505,6 +3511,8 @@ MonoBehaviour:
   selectable: {fileID: 114895806857640176}
   image: {fileID: 114442085788986780}
   text: {fileID: 114841683232799806}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114196628910536888
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3877,6 +3885,30 @@ MonoBehaviour:
         m_Calls: []
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
 --- !u!114 &114228611795718156
 MonoBehaviour:
@@ -4200,6 +4232,8 @@ MonoBehaviour:
   selectable: {fileID: 114827463261208510}
   image: {fileID: 114070706377242730}
   text: {fileID: 114658155085170782}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114283215167608184
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4396,6 +4430,8 @@ MonoBehaviour:
   selectable: {fileID: 114499336397980770}
   image: {fileID: 114598785264062806}
   text: {fileID: 114713845694765374}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114312058948162272
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4442,7 +4478,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 1973469130101072}
   canvasGroup: {fileID: 225254382394479278}
-  faderDuration: 0.25
+  faderDuration: 0
   offRotation: 0
   onRotation: -10
   graphics: {fileID: 114391754161012212}
@@ -5383,6 +5419,8 @@ MonoBehaviour:
   selectable: {fileID: 114967187836009364}
   image: {fileID: 114496998784454382}
   text: {fileID: 114283215167608184}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114437639731077888
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5466,6 +5504,8 @@ MonoBehaviour:
   selectable: {fileID: 114663385945209828}
   image: {fileID: 114632480592275104}
   text: {fileID: 114888171276329368}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114442085788986780
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5542,6 +5582,8 @@ MonoBehaviour:
   selectable: {fileID: 114391754161012212}
   image: {fileID: 114102829367589036}
   text: {fileID: 114959449928117850}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114464457644763430
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6030,6 +6072,8 @@ MonoBehaviour:
   selectable: {fileID: 114722796179408138}
   image: {fileID: 114737456116390142}
   text: {fileID: 114904013716945346}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114516576254497724
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7213,6 +7257,8 @@ MonoBehaviour:
   selectable: {fileID: 114466658910548710}
   image: {fileID: 114991694085352768}
   text: {fileID: 114221798643379830}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114713672896066828
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7232,6 +7278,8 @@ MonoBehaviour:
   selectable: {fileID: 114886148133969880}
   image: {fileID: 114516576254497724}
   text: {fileID: 114697661045373804}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114713845694765374
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7657,6 +7705,8 @@ MonoBehaviour:
   selectable: {fileID: 114741036079989268}
   image: {fileID: 114036015302305082}
   text: {fileID: 114887259571839874}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114795294297541330
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7827,6 +7877,8 @@ MonoBehaviour:
   selectable: {fileID: 114822128677366802}
   image: {fileID: 114323417514514068}
   text: {fileID: 114809521405006078}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114820049621846430
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8029,6 +8081,8 @@ MonoBehaviour:
   selectable: {fileID: 114077939669446664}
   image: {fileID: 114483770225086752}
   text: {fileID: 114341814738182584}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114841683232799806
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8804,6 +8858,8 @@ MonoBehaviour:
   selectable: {fileID: 114260314599502718}
   image: {fileID: 114491362116982024}
   text: {fileID: 114897412656904450}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114933536594901782
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8875,6 +8931,8 @@ MonoBehaviour:
   selectable: {fileID: 114964325955591310}
   image: {fileID: 114969344816808202}
   text: {fileID: 114392805761026782}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114942648629528260
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8927,6 +8985,8 @@ MonoBehaviour:
   selectable: {fileID: 114393093982959278}
   image: {fileID: 114518852748215876}
   text: {fileID: 114032917190701078}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114949794223026016
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9006,6 +9066,30 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   - eventID: 9
@@ -9409,6 +9493,8 @@ MonoBehaviour:
   selectable: {fileID: 114658658612335198}
   image: {fileID: 114780169085689976}
   text: {fileID: 114218288155427738}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114984466093589166
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9509,6 +9595,30 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   - eventID: 9
