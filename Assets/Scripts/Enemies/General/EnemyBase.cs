@@ -116,7 +116,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
         {
             currentStunTime += Time.deltaTime;
 
-            if (currentStunTime > stunnedTime && !isIndestructable)
+            if (currentStunTime > stunnedTime)
             {
                 OnDeath();
             }
@@ -162,7 +162,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
 
     void IDamageable.TakeDamage(Damager damager)
     {
-        if (myStats.health > 0 && !isIndestructable)
+        if (myStats.health > 0)
         {
             DoHitReaction(damager);
             myStats.TakeDamage(damager.damage);
@@ -299,6 +299,8 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
             navAgent.enabled = false;
             gameObject.SetActive(false);
             aboutTobeEaten = false;
+            alreadyStunned = false;
+            isIndestructable = false;
             SFXManager.Instance.Play(deathSFX, transform.position);
             AIEnemyData testData = new AIEnemyData(controller.GetInstanceID());
             currentStunTime = 0.0f;
