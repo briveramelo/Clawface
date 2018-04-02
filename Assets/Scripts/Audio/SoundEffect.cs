@@ -23,7 +23,7 @@ public class SoundEffect
 
     public virtual void Play(Vector3 position)
     {
-        Debug.Log("playing " + m_SFX_GameObject.name);
+        //Debug.Log("playing " + m_SFX_GameObject.name);
         if (m_SFX_GameObject.transform.parent != m_SFXManager)
         {
             m_SFX_GameObject.transform.parent = m_SFXManager;
