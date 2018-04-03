@@ -721,8 +721,9 @@ GameObject:
   - component: {fileID: 222028921490575580}
   - component: {fileID: 114336450791347360}
   - component: {fileID: 114361070005517680}
+  - component: {fileID: 114136552475952314}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Exit Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1571,6 +1572,28 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: EXIT
+--- !u!114 &114136552475952314
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1567768906982570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2be5fcf4accb94998ef33d08856341, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorOff: {r: 0.96862745, g: 0.9764706, b: 0.4627451, a: 1}
+  colorOn: {r: 0.90588236, g: 0, b: 0.8039216, a: 1}
+  colorDisabled: {r: 0.1, g: 0.1, b: 0.1, a: 1}
+  spriteOff: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
+  spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
+  selectable: {fileID: 114361070005517680}
+  image: {fileID: 114336450791347360}
+  text: {fileID: 114127064508380496}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
+  selectorToggleGroup: {fileID: 0}
 --- !u!114 &114189350575119676
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4460,7 +4483,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -85, y: -186}
+  m_AnchoredPosition: {x: -85, y: -175.9}
   m_SizeDelta: {x: 835.1, y: 750}
   m_Pivot: {x: 1, y: 1}
 --- !u!224 &224338088830005984
@@ -4554,7 +4577,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 41.30005}
+  m_AnchoredPosition: {x: 0, y: 2.8000488}
   m_SizeDelta: {x: 168.9, y: 70}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!224 &224401256194616248
@@ -5029,7 +5052,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 85, y: -186}
+  m_AnchoredPosition: {x: 85, y: -175.9}
   m_SizeDelta: {x: 835.1, y: 750}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224735945021071940

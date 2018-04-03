@@ -113,6 +113,10 @@ namespace ModMan {
     }
     public static class ListExtensions {
 
+        public static bool IsValidIndex<T>(this List<T> list, int index) {
+            return list!=null && index >= 0 && index < list.Count;
+        }
+
         public static T FindInDirection<T>(this List<T> list, Predicate<T> condition, int anchorIndex, bool findAhead, bool getLinearFirst=true) {
             Predicate<int> isInAppropriateDirection = (loopIndex)=> (findAhead ? loopIndex > anchorIndex : loopIndex < anchorIndex);
             if (getLinearFirst) {

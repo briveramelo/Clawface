@@ -165,8 +165,8 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
 
         SaveMenu saveMenu = GetMenu(PLEMenu.SAVE) as SaveMenu;
         ConfirmMenu confirmMenu = (ConfirmMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONFIRM);
-        confirmMenu.SetYesButtonText("Save");
-        confirmMenu.SetNoButtonText("Save As");
+        confirmMenu.SetYesButtonText("SAVE");
+        confirmMenu.SetNoButtonText("SAVE AS");
 
         //set interactibility of buttons
         bool isSaveButtonInteractable = saveMenu.IsOverwriteButtonInteractable();
@@ -184,7 +184,12 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
             MenuManager.Instance.DoTransition(confirmMenu, Transition.HIDE, new Effect[] { Effect.INSTANT });
         };
 
-        confirmMenu.DefineActions("", saveAction, saveAsAction);
+        Action cancelAction = () => {
+            BackAction();
+            MenuManager.Instance.DoTransition(confirmMenu, Transition.HIDE, new Effect[] { Effect.INSTANT });
+        };
+
+        confirmMenu.DefineActions("Save?", saveAction, saveAsAction, cancelAction);
         MenuManager.Instance.DoTransition(confirmMenu, Transition.SHOW, new Effect[] { Effect.INSTANT });
     }
 

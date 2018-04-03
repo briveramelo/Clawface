@@ -25,8 +25,8 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     [SerializeField] private Selectable allFilter, downloadedFilter, userFilter, favoriteFilter;
     [SerializeField] private Scrollbar levelScrollBar;
     [SerializeField] private Sprite hathosBigPreview;
+    [SerializeField] private SelectorToggleGroup filterToggleGroup;
     [SerializeField] private List<MemorableTransform> preMadeLevelUITransforms;
-    [SerializeField] private List<GameObjectToggler> filterButtonTogglers;
     [SerializeField] private RectOffset gridLayoutConfigWithHathos, gridLayoutConfigWithoutHathos;
     [SerializeField] private DiffAnim scrollSlideAnim;
     [SerializeField] private AbsAnim selectLevelAnim;    
@@ -67,7 +67,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
                 value = filterSelectables.Count;
             }
             selectedFilterIndex = value;
-            filterButtonTogglers.ForEach(changer => changer.OnGroupSelectChanged(selectedFilterIndex));
+            filterToggleGroup.HandleGroupSelection(SelectedFilterToggle);
         }
     }
     private LevelSelectFilterType ActiveFilter { get { return (LevelSelectFilterType)SelectedFilterToggle; } }
@@ -84,8 +84,6 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     #region Unity Lifecyle
     protected override void Start() {
         base.Start();
-        int i = 0;
-        filterButtonTogglers.ForEach(changer => { changer.SetUIIndex(i); i++; });
 
         shouldSearchShow = (levelUI) => {
             string searchTerm = searchField.text.ToLowerInvariant();

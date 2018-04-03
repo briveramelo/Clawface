@@ -40,15 +40,14 @@ public class SelectorToggle : MonoBehaviour {
 
     [SerializeField]
     private bool alwaysUpdate;
-
+    [SerializeField] private SelectorToggleGroup selectorToggleGroup;
+    private bool CanStayOn { get { return selectorToggleGroup != null; } }
     #endregion
 
     #region Fields (Private)
 
     private bool selected;
-
     private bool hovered;
-
     private bool interactable;
 
     #endregion
@@ -138,12 +137,18 @@ public class SelectorToggle : MonoBehaviour {
     private void ButtonOnSelect(BaseEventData data)
     {
         selected = true;
+        if (CanStayOn) {
+            selectorToggleGroup.HandleGroupSelection(this);
+        }
         UpdateDisplay();
     }
 
     private void ButtonOnDeselect(BaseEventData data)
     {
         selected = false;
+        if (CanStayOn) {
+            selected = selectorToggleGroup.ShouldStaySelected(this);
+        }
         UpdateDisplay();
     }
 
@@ -156,6 +161,11 @@ public class SelectorToggle : MonoBehaviour {
     private void ButtonOnPointerExit(BaseEventData data)
     {
         hovered = false;
+        UpdateDisplay();
+    }
+
+    public void SetIsSelected(bool isSelectedInGroup) {
+        selected = isSelectedInGroup;
         UpdateDisplay();
     }
 

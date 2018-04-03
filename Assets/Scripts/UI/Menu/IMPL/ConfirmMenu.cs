@@ -10,6 +10,7 @@ public class ConfirmMenu: Menu
 
     private Action onYesAction;
     private Action onNoAction;
+    private Action onCancelAction;
 
     #endregion
 
@@ -28,6 +29,7 @@ public class ConfirmMenu: Menu
     #region Serialized Unity Fields
 
     [SerializeField] private Button mainButton;
+    [SerializeField] private Button cancelButton;
     [SerializeField] private Button yesButton;
     [SerializeField] private Button noButton;
     [SerializeField] private Text yesButtonText;
@@ -43,7 +45,12 @@ public class ConfirmMenu: Menu
         {
             if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
             {
-                NoAction();
+                if (onCancelAction != null) {
+                    CancelAction();
+                }
+                else {
+                    NoAction();
+                }
             }
         }
     }
@@ -56,25 +63,35 @@ public class ConfirmMenu: Menu
 
     #region Public Interface
 
-    public void DefineActions(string i_messageToSet, Action i_onYes = null, Action i_onNo = null)
+    public void DefineActions(string i_messageToSet, Action i_onYes = null, Action i_onNo = null, Action i_onCancel = null)
     {
         messageText.text = i_messageToSet;
         onYesAction = i_onYes;
         onNoAction = i_onNo;
+        onCancelAction = i_onCancel;
+        cancelButton.gameObject.SetActive(i_onCancel!=null);
     }
 
     public ConfirmMenu() : base(Strings.MenuStrings.CONFIRM) {}
 
     public void SetYesButtonText(string i_string)
     {
-        yesButtonText.text = i_string;
+        yesButtonText.text = i_string.ToUpper();
     }
 
     public void SetNoButtonText(string i_string)
     {
-        noButtonText.text = i_string;
+        noButtonText.text = i_string.ToUpper();
     }
-  
+
+    public void CancelAction() {
+        MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { Effect.INSTANT });
+        SFXManager.Instance.Play(SFXType.UI_Click);
+        if (onCancelAction != null) {
+            onCancelAction();
+        }
+    }
+
     public void YesAction()
     {
         MenuManager.Instance.DoTransition(this, Transition.HIDE, new Effect[] { Effect.INSTANT });
