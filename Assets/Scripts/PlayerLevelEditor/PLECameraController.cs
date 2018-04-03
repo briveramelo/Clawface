@@ -147,19 +147,19 @@ namespace PlayerLevelEditor
 
         private void HandleCameraWASD() {
             if (Input.GetKey(KeyCode.W)) {
-                transform.Translate(WASDSpeedAdjusted * Vector3.forward);
+                transform.Translate(WASDSpeedAdjusted * transform.TransformDirection(Vector3.up));
             }
 
             if (Input.GetKey(KeyCode.A)) {
-                transform.Translate(WASDSpeedAdjusted * Vector3.left);
+                transform.Translate(WASDSpeedAdjusted * transform.TransformDirection(Vector3.left));
             }
 
             if (Input.GetKey(KeyCode.S)) {
-                transform.Translate(WASDSpeedAdjusted * Vector3.back);
+                transform.Translate(WASDSpeedAdjusted * transform.TransformDirection(Vector3.down));
             }
 
             if (Input.GetKey(KeyCode.D)) {
-                transform.Translate(WASDSpeedAdjusted * Vector3.right);
+                transform.Translate(WASDSpeedAdjusted * transform.TransformDirection(Vector3.right));
             }
 
         }
