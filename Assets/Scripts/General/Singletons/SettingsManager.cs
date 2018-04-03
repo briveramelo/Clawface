@@ -139,6 +139,30 @@ public class SettingsManager : Singleton<SettingsManager>
         }
     }
 
+    public bool Vibration
+    {
+        get
+        {
+            return settings.vibration;
+        }
+        set
+        {
+            settings.vibration = value;
+        }
+    }
+
+    public bool CursorLock
+    {
+        get
+        {
+            return settings.cursorLock;
+        }
+        set
+        {
+            settings.cursorLock = value;
+        }
+    }
+
     public Difficulty Difficulty
     {
         get
@@ -160,6 +184,18 @@ public class SettingsManager : Singleton<SettingsManager>
         set
         {
             settings.tutorial = value;
+        }
+    }
+
+    public bool TutorialEncounteredInGameplay
+    {
+        get
+        {
+            return PlayerPrefs.GetInt(Strings.PlayerPrefStrings.TUTORIAL_ENCOUNTERED_IN_GAMEPLAY, 0) == 1;
+        }
+        set
+        {
+            PlayerPrefs.SetInt(Strings.PlayerPrefStrings.TUTORIAL_ENCOUNTERED_IN_GAMEPLAY, value ? 1 : 0);
         }
     }
 
@@ -287,6 +323,10 @@ public class SettingsManager : Singleton<SettingsManager>
 
         public bool snapLook;
 
+        public bool vibration;
+
+        public bool cursorLock;
+
         [Header("GamePlay")]
         public Difficulty difficulty;
 
@@ -332,6 +372,8 @@ public class SettingsManager : Singleton<SettingsManager>
                 fireMode = other.fireMode;
                 mouseAimMode = other.mouseAimMode;
                 snapLook = other.snapLook;
+                vibration = other.vibration;
+                cursorLock = other.cursorLock;
 
                 difficulty = other.difficulty;
                 tutorial = other.tutorial;
@@ -367,6 +409,7 @@ public class SettingsManager : Singleton<SettingsManager>
             Screen.SetResolution(resolutionData.width, resolutionData.height, fullscreen);
             MusicManager.Instance.SetMusicAudioLevel(music);
             SFXManager.Instance.SetSFXAudioLevel(sfx);
+            Cursor.lockState = cursorLock ? CursorLockMode.Confined : CursorLockMode.None;
         }
 
         public void WriteSettings()

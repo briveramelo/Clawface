@@ -279,5 +279,6 @@
         public const string MISSILE_GUN_ENABLED = "MissileGunEnabled";
         public const string BOOMERANG_ENABLED = "BoomerangEnabled";
         public const string LATEST_UNLOCKED_LEVEL = "LatestUnlockedLevel";
+        public const string TUTORIAL_ENCOUNTERED_IN_GAMEPLAY = "TutorialEncounteredInGameplay";
     }
 }
