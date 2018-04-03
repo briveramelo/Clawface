@@ -335,17 +335,19 @@ public class MallCop : EnemyBase
     void ShowChargeEffect ()
     {
         GameObject vfx = ObjectPool.Instance.GetObject(PoolObjectType.VFXEnemyChargeBlaster);
-        Vector3 scaleBackup = vfx.transform.localScale;
-        vfx.transform.SetParent (mod.transform);
-        //For offsetting the particle
-        vfx.transform.localPosition = new Vector3(0.0f,0.2f,1.0f);
-        vfx.transform.localRotation = Quaternion.identity;
-        vfx.transform.localScale = new Vector3 (
-            scaleBackup.x / vfx.transform.localScale.x,
-            scaleBackup.y / vfx.transform.localScale.y,
-            scaleBackup.z / vfx.transform.localScale.z
-        );
-        SFXManager.Instance.Play(SFXType.GuardPrepare, mod.transform.position);
+        if (vfx) {
+            Vector3 scaleBackup = vfx.transform.localScale;
+            vfx.transform.SetParent (mod.transform);
+            //For offsetting the particle
+            vfx.transform.localPosition = new Vector3(0.0f,0.2f,1.0f);
+            vfx.transform.localRotation = Quaternion.identity;
+            vfx.transform.localScale = new Vector3 (
+                scaleBackup.x / vfx.transform.localScale.x,
+                scaleBackup.y / vfx.transform.localScale.y,
+                scaleBackup.z / vfx.transform.localScale.z
+            );
+            SFXManager.Instance.Play(SFXType.GuardPrepare, mod.transform.position);
+        }
     }
 
     #endregion

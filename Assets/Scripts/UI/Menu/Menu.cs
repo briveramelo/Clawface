@@ -71,13 +71,14 @@ public abstract class Menu : EventSubscriber {
     private CanvasGroup canvasGroup;
 
     [SerializeField]
-    private float faderDuration = 1F;
+    private float faderDuration = 0F;
     #endregion
 
     #region Unity Lifecycle Methods
     protected override void Start()
     {
         base.Start();
+        faderDuration = 0f;
         canvasGroup.alpha = 0.0F;
     }
 
@@ -89,7 +90,6 @@ public abstract class Menu : EventSubscriber {
     #region Private Fields
 
     private bool displayed;
-
     #endregion
 
     #region Public Interface
@@ -202,12 +202,12 @@ public abstract class Menu : EventSubscriber {
     protected virtual void ShowStarted()
     {
         currentState = DisplayState.SHOW_TRANSITIONING;
+        displayed = true;
         canvas.SetActive(true);
     }
     protected virtual void ShowComplete()
     {
-        currentState = DisplayState.SHOW_FINISHED;
-        displayed = true;
+        currentState = DisplayState.SHOW_FINISHED;        
         allowInput = true;
     }
     protected virtual void HideStarted() {

@@ -56,6 +56,7 @@ public abstract class PLEItem : EventSubscriber {
     public virtual void Select(Color selectionColor) {
         Timing.KillCoroutines(coroutineName);
         jiggleAnim.Animate(coroutineName);
+        SFXManager.Instance.Play(SFXType.PLEPlaceObject, transform.position);
         IsSelected = true;
         MatPropBlock.SetColor(ColorTint, selectionColor);
         Renderers.ForEach(renderer => { renderer.SetPropertyBlock(MatPropBlock); });

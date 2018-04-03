@@ -67,19 +67,21 @@ public class GameObjectEmitter : MonoBehaviour {
     public virtual GameObject Emit ()
     {
         GameObject instance = ObjectPool.Instance.GetObject(spawnObjectType);
-        instance.transform.position = transform.position + Random.insideUnitSphere * emissionSphereRadius;
-        instance.transform.rotation = Quaternion.Euler(Random.insideUnitSphere * 360.0f);
+        if (instance) {
+            instance.transform.position = transform.position + Random.insideUnitSphere * emissionSphereRadius;
+            instance.transform.rotation = Quaternion.Euler(Random.insideUnitSphere * 360.0f);
 
-        EmittedGameObject emitted = instance.GetComponent<EmittedGameObject>();
-        emitted.Init(duration, scaleCurve);
+            EmittedGameObject emitted = instance.GetComponent<EmittedGameObject>();
+            emitted.Init(duration, scaleCurve);
         
-        Vector3 force = Random.insideUnitSphere * Random.Range(forceMin, forceMax)  + Vector3.forward*emissionbaseSpeed;
-        Rigidbody rigbod = instance.GetComponent<Rigidbody>();
-        rigbod.velocity = force;
-        Vector3 torque = Random.insideUnitSphere * Random.Range(rotationalVelocityMin, rotationalVelocityMax);
-        rigbod.AddTorque(torque, ForceMode.VelocityChange);
+            Vector3 force = Random.insideUnitSphere * Random.Range(forceMin, forceMax)  + Vector3.forward*emissionbaseSpeed;
+            Rigidbody rigbod = instance.GetComponent<Rigidbody>();
+            rigbod.velocity = force;
+            Vector3 torque = Random.insideUnitSphere * Random.Range(rotationalVelocityMin, rotationalVelocityMax);
+            rigbod.AddTorque(torque, ForceMode.VelocityChange);
 
-        instance.gameObject.SetActive(true);
+            instance.gameObject.SetActive(true);
+        }
 
         return instance;
     }

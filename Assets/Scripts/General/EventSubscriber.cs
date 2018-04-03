@@ -26,6 +26,7 @@ public abstract class EventSubscriber : RoutineRunner {
         if (SubscriptionLifecycle == LifeCycle.EnableDisable && EventSystem.Instance) {
             UnRegisterEvents();
         }
+        base.OnDisable();
     }
     protected virtual void OnDestroy() {
         if ((SubscriptionLifecycle == LifeCycle.AwakeDestroy || SubscriptionLifecycle == LifeCycle.StartDestroy) && EventSystem.Instance) {
