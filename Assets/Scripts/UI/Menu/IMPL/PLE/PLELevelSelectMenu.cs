@@ -140,7 +140,6 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
                 CheckToNullLastSelected(levelUIs[i].selectable);
             }
         }
-        SetButtonNavigation();
         PositionLevelsInSceneContext();
         StartCoroutine(ResortImagePositions());
     }
@@ -494,7 +493,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     }
 
     private void CheckToNullLastSelected(Selectable turnedOff) {
-        if (turnedOff == lastSelectedLevel) {
+        if (lastSelectedLevel!=null && turnedOff == lastSelectedLevel.selectable) {
             lastSelectedLevel = null;
         }
     }
@@ -522,6 +521,7 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
         gridLayoutGroup.enabled = false;
         yield return new WaitForEndOfFrame();
         gridLayoutGroup.enabled = true;
+        SetButtonNavigation();
         AlignScrollbar();
     }
 
