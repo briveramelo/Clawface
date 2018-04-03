@@ -300,6 +300,7 @@ public class PlayerStateManager : EventSubscriber {
             eatCollider.radius /= TutorialRadiusMultiplier;
             stateVariables.eatRadius /= TutorialRadiusMultiplier;            
             Timing.RunCoroutine(StartTutorialSpeedUp(), SpeedTime);
+            TrySetTutorialsEncounteredInGameplay();
         }
     }
 
@@ -313,6 +314,17 @@ public class PlayerStateManager : EventSubscriber {
             Timing.RunCoroutine(StartTutorialSpeedUp(), SpeedTime);
             //Reset the bool to false for the eat tutorial
             isSlowDownFinished = false;
+            TrySetTutorialsEncounteredInGameplay();
+        }
+    }
+
+    private void TrySetTutorialsEncounteredInGameplay()
+    {
+        if (isTutorialDone && isDashTutorialDone && !SettingsManager.Instance.TutorialEncounteredInGameplay)
+        {
+            SettingsManager.Instance.TutorialEncounteredInGameplay = true;
+            SettingsManager.Instance.Tutorial = false;
+            SettingsManager.Instance.ApplyChanges();
         }
     }
 
