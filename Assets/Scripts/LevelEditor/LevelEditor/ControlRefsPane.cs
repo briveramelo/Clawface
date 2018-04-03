@@ -13,21 +13,6 @@ public class ControlRefsPane : MonoBehaviour {
     // spawn 1
     // waves 2
     [SerializeField] private MainPLEMenu mainPLE;
-    [SerializeField] private Text titleBar;
-
-    #endregion
-
-    #region Unity Lifecycle
-
-    private void OnEnable()
-    {
-        titleBar.text = "V HELP V";
-        SetDisplayedContent(mainPLE.currentDisplayedMenu);
-    }
-    private void OnDisable()
-    {
-        titleBar.text = "^ HELP ^";
-    }
 
     #endregion
 
