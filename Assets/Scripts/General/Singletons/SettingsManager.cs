@@ -163,6 +163,18 @@ public class SettingsManager : Singleton<SettingsManager>
         }
     }
 
+    public bool TutorialEncounteredInGameplay
+    {
+        get
+        {
+            return PlayerPrefs.GetInt(Strings.PlayerPrefStrings.TUTORIAL_ENCOUNTERED_IN_GAMEPLAY, 0) == 1;
+        }
+        set
+        {
+            PlayerPrefs.SetInt(Strings.PlayerPrefStrings.TUTORIAL_ENCOUNTERED_IN_GAMEPLAY, value ? 1 : 0);
+        }
+    }
+
     #endregion
 
     #region Fields (Unity Serialization)

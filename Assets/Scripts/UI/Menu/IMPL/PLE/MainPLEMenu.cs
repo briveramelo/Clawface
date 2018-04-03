@@ -28,6 +28,7 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
     [Header("Other things")]
     [SerializeField] private Selectable firstSelectable;
     [SerializeField] private Selectable floorItem, propsItem, spawnsItem, waveItem, testItem, saveItem, loadItem, helpItem, exitItem;
+    [SerializeField] private ControlRefsPane refsPane;
     #endregion
 
     #region Private Fields
@@ -77,6 +78,8 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
         MenuManager.Instance.DoTransition(floorEditorMenu, Transition.SHOW, new Effect[] { Effect.INSTANT });
 
         currentDisplayedMenu = PLEMenu.FLOOR;
+        refsPane.SetDisplayedContent(currentDisplayedMenu);
+
         OpenFloorSystemAction();
         levelEditor.gridController.SetGridVisiblity(true);
         levelEditor.ToggleCameraController(true);
@@ -294,6 +297,7 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
             MenuManager.Instance.DoTransition(newMenu, Transition.SHOW, new Effect[] { Effect.INSTANT });
 
             currentDisplayedMenu = i_newMenu;
+            refsPane.SetDisplayedContent(currentDisplayedMenu);
             bool allowCameraMovement = !IsMenu(currentDisplayedMenu, PLEMenu.SAVE, PLEMenu.LEVELSELECT, PLEMenu.TEST);
             levelEditor.ToggleCameraController(allowCameraMovement);
         }
