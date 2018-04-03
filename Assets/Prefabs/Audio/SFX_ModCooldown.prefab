@@ -110,7 +110,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -159,7 +159,7 @@ MonoBehaviour:
   - {fileID: 114857286374500284}
   loop: 0
   playOnStart: 0
-  spatialBlend: 0
+  spatialBlend: 1
   maxDistance: 500
   changeVolumeEachLoop: 0
   uniformVolume: 1

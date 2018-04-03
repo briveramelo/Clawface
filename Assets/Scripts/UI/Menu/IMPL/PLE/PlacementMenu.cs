@@ -14,25 +14,27 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     [SerializeField] protected Transform createdItemsParent;
     [SerializeField] protected ScrollGroup scrollGroup;
     [SerializeField] protected Image selectedPreviewImage;
-    [SerializeField] protected Color highlightColor;
+    [SerializeField] protected Color highlightColor, hoverColor;
 
     protected PLEItem lastHoveredItem;
     protected PLEItem selectedPLEItem;
     protected GameObject selectedItemPrefab = null;
     protected GameObject previewItem = null;
     protected List<string> itemNames = new List<string>();
+    public Transform SelectedItem { get { return selectedPLEItem!=null ? selectedPLEItem.transform : null; } }
 
     #region Boolean Helpers
-    protected virtual bool SelectUI { get { return Input.GetMouseButtonDown(MouseButtons.LEFT); } }
-    protected virtual bool SelectItem { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && MouseHelper.currentItem != null && MouseHelper.currentBlockUnit != null; } }
-    protected virtual bool DeSelectItem { get { return (Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT)) && !MouseHelper.HitUI; } }
-    protected bool RightClick { get { return Input.GetMouseButtonDown(MouseButtons.RIGHT); } }
+    protected virtual bool SelectUI { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt); } }
+    protected virtual bool SelectItem { get { return (Input.GetMouseButtonDown(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt)) && MouseHelper.currentItem != null && MouseHelper.currentBlockUnit != null; } }
+    protected virtual bool DeSelectItem { get { return ((Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT)) && !Input.GetKey(KeyCode.LeftAlt)) && !MouseHelper.HitUI; } }
     protected virtual bool Place { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedItemPrefab != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied && MouseHelper.currentBlockUnit.IsFlatAtWave(PLESpawnManager.Instance.CurrentWaveIndex); } }
     protected virtual bool IsCurrentTileAvailable { get { return MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied && MouseHelper.currentBlockUnit.IsFlatAtWave(PLESpawnManager.Instance.CurrentWaveIndex); } }
     protected virtual bool UpdatePreview { get { return previewItem != null && IsCurrentTileAvailable; } }
-    protected virtual bool UpdateGameItem { get { return selectedPLEItem != null && Input.GetMouseButton(MouseButtons.LEFT) && IsCurrentTileAvailable; } }
-    protected virtual bool ReplaceGameItem { get { return selectedPLEItem != null && Input.GetMouseButtonUp(MouseButtons.LEFT) && IsCurrentTileAvailable; } }
-    protected virtual bool CanDeleteHoveredItem { get { return Input.GetMouseButtonDown(MouseButtons.RIGHT) && MouseHelper.currentHoveredObject!=null && itemNames.Contains(MouseHelper.currentHoveredObject.name); } }
+    protected virtual bool UpdateGameItem { get { return selectedPLEItem != null && (Input.GetMouseButton(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt) ) && IsCurrentTileAvailable; } }
+    protected virtual bool ReplaceGameItem { get { return selectedPLEItem != null && (Input.GetMouseButtonUp(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt)) && IsCurrentTileAvailable; } }
+    protected virtual bool DeleteInputDown { get { return (Input.GetMouseButtonDown(MouseButtons.RIGHT) || Input.GetKeyDown(KeyCode.Delete) || Input.GetKeyDown(KeyCode.Backspace)); } }
+    protected virtual bool CanDeleteHoveredItem { get { return DeleteInputDown && MouseHelper.currentHoveredObject!=null && itemNames.Contains(MouseHelper.currentHoveredObject.name); } }
+    protected virtual bool CanDeleteSelectedItem { get { return DeleteInputDown && selectedPLEItem != null; } }
     #endregion
 
     #region Unity Lifecycle
@@ -51,6 +53,11 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
                 if (!deletedPreviewItem && CanDeleteHoveredItem) {
                     DeleteHoveredItem();
                 }
+            }
+            else if (CanDeleteSelectedItem) {
+                DeleteItem(selectedPLEItem.gameObject);
+                DeselectUIItem();
+                DeselectItem();
             }
             else if (UpdatePreview) {
                 UpdatePreviewPosition();
@@ -72,7 +79,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
         MouseHelper.currentBlockUnit.AddSpawn(selectedPLEItem.gameObject);
         selectedPLEItem.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
         selectedPLEItem.tile = levelEditor.gridController.GetTileAtPoint(MouseHelper.currentBlockUnit.transform.position);
-        SelectGameItem(selectedPLEItem);
+        //SelectGameItem(selectedPLEItem);
     }
     protected virtual void CheckToHightlight() {
         if (previewItem==null && !(selectedPLEItem != null && Input.GetMouseButton(MouseButtons.LEFT))) {
@@ -81,7 +88,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
                 lastHoveredItem.TryUnHighlight();
             }
             if (currentItem != null) {
-                currentItem.TryHighlight(highlightColor);
+                currentItem.TryHighlight(hoverColor);
             }
             lastHoveredItem = currentItem;
         }
@@ -151,8 +158,11 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     }
 
     protected virtual void DeleteHoveredItem() {
-        itemNames.Remove(MouseHelper.currentHoveredObject.name);
-        Helpers.DestroyProper(MouseHelper.currentHoveredObject);
+        DeleteItem(MouseHelper.currentHoveredObject);
+    }
+    protected virtual void DeleteItem(GameObject item) {
+        itemNames.Remove(item.name);
+        Helpers.DestroyProper(item);
     }
 
     public void ResetMenu(List<string> loadedItemNames) {
@@ -184,11 +194,11 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
         TryDestroyPreview();
     }
 
-    public virtual void TrySelectFirstAvailable() {
+    public virtual void TrySelectFirstAvailable() {        
         PLEUIItem firstAvailable = scrollGroup.TryGetFirstAvailableUIItem();
         if (firstAvailable) {
             selectedPreviewImage.sprite = firstAvailable.imagePreview.sprite;
-            scrollGroup.SelectUIItem(firstAvailable.ItemIndex);
+            scrollGroup.SelectUIItem(firstAvailable.ItemIndex, false);
         }
     }
     #endregion

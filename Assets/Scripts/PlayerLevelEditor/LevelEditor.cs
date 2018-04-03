@@ -12,6 +12,7 @@ namespace PlayerLevelEditor
         #region Serialized Unity Fields        
         public PlayerLevelEditorGrid gridController;
         public LevelDataManager levelDataManager;
+
         [SerializeField] private Transform createdSpawnsParent;
         [SerializeField] private GameObject cameraGameObject;        
         [SerializeField] private PLECameraController cameraController;
@@ -30,15 +31,6 @@ namespace PlayerLevelEditor
         #endregion
 
         #region Unity Lifecycle
-        private void Start() {
-            //EventSystem.Instance.RegisterEvent(Strings.Events.PLE_ON_LEVEL_DATA_LOADED, ResetToWave0);
-        }
-
-        private void OnDestroy() {
-            if (EventSystem.Instance) {
-                //EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_ON_LEVEL_DATA_LOADED, ResetToWave0);
-            }
-        }
 
         #endregion
 

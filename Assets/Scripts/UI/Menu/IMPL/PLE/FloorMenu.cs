@@ -100,15 +100,16 @@ public class FloorMenu : PlayerLevelEditorMenu {
     #endregion
 
     #region Private Interface    
-    void UpdateSelectedAndOpenTilesState(LevelUnitStates state) {
+    private void UpdateSelectedAndOpenTilesState(LevelUnitStates state) {
         List<GridTile> selectedGridTiles = levelEditor.gridController.GetSelectedGridTiles();
         UpdateTiles(selectedGridTiles, state, false);
     }
 
-    void UpdateTiles(List<GridTile> tiles, LevelUnitStates state, bool wasToldToChangeColor) {
+    private void UpdateTiles(List<GridTile> tiles, LevelUnitStates state, bool wasToldToChangeColor) {
         if (tiles.Count == 0)
             return;
 
+        SFXManager.Instance.Play(SFXType.UI_Click);
         int currentWaveIndex = PLESpawnManager.Instance.CurrentWaveIndex;
         for (int i = 0; i < tiles.Count; i++) {
             GridTile tile = tiles[i];

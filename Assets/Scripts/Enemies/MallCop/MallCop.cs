@@ -37,12 +37,14 @@ public class MallCop : EnemyBase
     private float closeEnoughToFireDistance;
     private float maxToleranceTime;
     private Vector3 rayCastPosition;
+    private bool isUp;
     #endregion
 
     #region 3. Unity Lifecycle
 
-    public override void Awake()
+    protected override void Awake()
     {
+        isUp = false;
         myStats = GetComponent<Stats>();
         SetAllStats();
         InitilizeStates();
@@ -53,6 +55,7 @@ public class MallCop : EnemyBase
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
 
         controller.checksToUpdateState = new List<Func<bool>>() {
+            CheckDoneGettingUp,
             CheckPlayerDead,
             CheckToFire,
             CheckToFinishFiring,
@@ -69,6 +72,15 @@ public class MallCop : EnemyBase
     #region 4. Public Methods   
 
     //State conditions
+    bool CheckDoneGettingUp()
+    {
+        if (!isUp)
+        {
+            return true;
+        }
+        return false;
+    }
+
     bool CheckPlayerDead()
     {
         if (AIManager.Instance.GetPlayerDead())
@@ -83,8 +95,6 @@ public class MallCop : EnemyBase
         }
         return false;
     }
-
-
 
     bool CheckToFire()
     {
@@ -160,8 +170,9 @@ public class MallCop : EnemyBase
 
     public override void OnDeath()
     {
-        base.OnDeath();
+        isUp = false;
         mod.KillCoroutines();
+        base.OnDeath();
     }
 
     public override void ResetForRebirth()
@@ -193,7 +204,9 @@ public class MallCop : EnemyBase
 
     public void GetUpDone()
     {
-        getUp.Up();
+        isUp = true;
+        controller.CurrentState = chase;
+        controller.UpdateState(EAIState.Chase);
     }
 
     public override void DoPlayerKilledState(object[] parameters)
@@ -322,16 +335,19 @@ public class MallCop : EnemyBase
     void ShowChargeEffect ()
     {
         GameObject vfx = ObjectPool.Instance.GetObject(PoolObjectType.VFXEnemyChargeBlaster);
-        Vector3 scaleBackup = vfx.transform.localScale;
-        vfx.transform.SetParent (mod.transform);
-        //For offsetting the particle
-        vfx.transform.localPosition = new Vector3(0.0f,0.2f,1.0f);
-        vfx.transform.localRotation = Quaternion.identity;
-        vfx.transform.localScale = new Vector3 (
-            scaleBackup.x / vfx.transform.localScale.x,
-            scaleBackup.y / vfx.transform.localScale.y,
-            scaleBackup.z / vfx.transform.localScale.z
-        );
+        if (vfx) {
+            Vector3 scaleBackup = vfx.transform.localScale;
+            vfx.transform.SetParent (mod.transform);
+            //For offsetting the particle
+            vfx.transform.localPosition = new Vector3(0.0f,0.2f,1.0f);
+            vfx.transform.localRotation = Quaternion.identity;
+            vfx.transform.localScale = new Vector3 (
+                scaleBackup.x / vfx.transform.localScale.x,
+                scaleBackup.y / vfx.transform.localScale.y,
+                scaleBackup.z / vfx.transform.localScale.z
+            );
+            SFXManager.Instance.Play(SFXType.GuardPrepare, mod.transform.position);
+        }
     }
 
     #endregion

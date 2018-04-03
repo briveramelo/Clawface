@@ -14,7 +14,7 @@ public enum PushDirection{
     BACK_DOWN
 }
 
-public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatable, ISpawnable
+public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEatable, ISpawnable
 {
     #region serialized fields
     [SerializeField] protected AIController controller;
@@ -33,6 +33,9 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     [SerializeField] GameObject hips;
     [SerializeField] protected SpawnType enemyType;
     [SerializeField] private GameObject skeletonRoot;
+    [SerializeField] protected SFXType vocalizeSound = SFXType.None;
+    [SerializeField] protected Vector2 vocalizeInterval = Vector2.one;
+    [SerializeField] protected SFXType footstepSound = SFXType.None;
     #endregion
 
     #region 3. Private fields
@@ -81,19 +84,30 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             return myColliders;
         }
     }
+    protected bool canVocalize = true;
+    #endregion
+
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.EnableDisable; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.PLAYER_KILLED, DoPlayerKilledState},
+                { Strings.Events.ENEMY_INVINCIBLE, SetInvincible },
+                { Strings.Events.SHOW_TUTORIAL_TEXT, DisableVocalization },
+                { Strings.Events.HIDE_TUTORIAL_TEXT, EnableVocalization }
+            };
+        }
+    }
     #endregion
 
     #region 4. Unity Lifecycle
 
-    public void OnEnable()
+    protected override void OnEnable()
     {
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, DoPlayerKilledState);
-        EventSystem.Instance.RegisterEvent(Strings.Events.ENEMY_INVINCIBLE, SetInvincible);
+        base.OnEnable();
         id = GetInstanceID();
-        //if (will.willHasBeenWritten)
-        //{
-            ResetForRebirth();
-        //}
+        ResetForRebirth();
     }
 
     void Update()
@@ -102,7 +116,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         {
             currentStunTime += Time.deltaTime;
 
-            if (currentStunTime > stunnedTime && !isIndestructable)
+            if (currentStunTime > stunnedTime)
             {
                 OnDeath();
             }
@@ -115,8 +129,9 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         }       
     }
 
-    public virtual void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         poolParent = transform.parent;
         transformMemento.Initialize(transform);
         InitSkeleton();
@@ -132,11 +147,9 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     protected override void OnDisable()
     {
         base.OnDisable();
-        if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, DoPlayerKilledState);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.ENEMY_INVINCIBLE, SetInvincible);
-        }
+        CancelInvoke("Vocalize");
     }
+
     #endregion
 
     #region 5. Public Methods   
@@ -149,7 +162,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     void IDamageable.TakeDamage(Damager damager)
     {
-        if (myStats.health > 0 && !isIndestructable)
+        if (myStats.health > 0)
         {
             DoHitReaction(damager);
             myStats.TakeDamage(damager.damage);
@@ -286,6 +299,8 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             navAgent.enabled = false;
             gameObject.SetActive(false);
             aboutTobeEaten = false;
+            alreadyStunned = false;
+            isIndestructable = false;
             SFXManager.Instance.Play(deathSFX, transform.position);
             AIEnemyData testData = new AIEnemyData(controller.GetInstanceID());
             currentStunTime = 0.0f;
@@ -383,7 +398,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             }
         }
 
-        animator.enabled = true;        
+                
         if (grabObject)
         {
             grabObject.transform.parent = transform;
@@ -515,11 +530,32 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         if (spaceFound)
         {
             ActivateAIMethods(warpPosition);
+            Vocalize();
         }
         else
         {
             //Kill
             OnDeath();
+        }
+    }
+
+    void Vocalize ()
+    {
+        if (enabled && vocalizeSound != SFXType.None && canVocalize)
+        {
+            SFXManager.Instance.Play(vocalizeSound, transform.position);
+            Invoke ("Vocalize", UnityEngine.Random.Range(vocalizeInterval.x, vocalizeInterval.y));
+        }
+    }
+
+    void EnableVocalization (params object[] parameters) { canVocalize = true; }
+    void DisableVocalization (params object[] parameters) { canVocalize = false; }
+
+    void PlayFootstepSound ()
+    {
+        if (footstepSound != SFXType.None)
+        {
+            SFXManager.Instance.Play(footstepSound, transform.position);
         }
     }
 

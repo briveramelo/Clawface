@@ -13,8 +13,9 @@ public class SFXManager : Singleton<SFXManager>
     [SerializeField] private AudioMixer sfxMixer;
     #endregion
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         sfxDictionary = new Dictionary<SFXType, List<SoundEffect>>();
         foreach (SFXUnit unit in SFXList)
         {
@@ -23,6 +24,9 @@ public class SFXManager : Singleton<SFXManager>
         }
     }
 
+    public void Play(SFXType i_Type) {
+        Play(i_Type, Vector3.zero);
+    }
     public void Play(SFXType i_Type, Vector3 position)
     {
         if (sfxDictionary.ContainsKey(i_Type))

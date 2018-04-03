@@ -354,7 +354,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 1707386458081456}
   canvasGroup: {fileID: 225160659828769048}
-  faderDuration: 0.25
+  faderDuration: 0
   initiallySelected: {fileID: 114714374685131552}
   weaponSelectButton: {fileID: 114086849254144746}
   restartButton: {fileID: 114419440754143842}
@@ -527,6 +527,8 @@ MonoBehaviour:
   selectable: {fileID: 114714374685131552}
   image: {fileID: 114814671664330786}
   text: {fileID: 114344671044808096}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114419440754143842
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -959,6 +961,8 @@ MonoBehaviour:
   selectable: {fileID: 114801775362846806}
   image: {fileID: 114827429635576804}
   text: {fileID: 114676805766822834}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114814671664330786
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1078,6 +1082,8 @@ MonoBehaviour:
   selectable: {fileID: 114419440754143842}
   image: {fileID: 114317947701226988}
   text: {fileID: 114430617954526266}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114952391209793546
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1171,6 +1177,8 @@ MonoBehaviour:
   selectable: {fileID: 114086849254144746}
   image: {fileID: 114690849227519180}
   text: {fileID: 114964102880026074}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
 --- !u!114 &114984506068041934
 MonoBehaviour:
   m_ObjectHideFlags: 1

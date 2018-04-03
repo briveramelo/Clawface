@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public class CameraLerp : MonoBehaviour
+public class CameraLerp : EventSubscriber
 {
 
     [SerializeField]
@@ -30,22 +30,24 @@ public class CameraLerp : MonoBehaviour
     [SerializeField]
     private List<GameObject> activeEnemies = new List<GameObject>();
 
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.ENEMY_SPAWNED, OnEnemySpawned },
+                {Strings.Events.DEATH_ENEMY, OnEnemyKilled},
+            };
+        }
+    }
+    #endregion
+
+
     // Use this for initialization
-    void Start()
+    protected override void Start()
     {
         cam.gameObject.SetActive(true);
-
-        EventSystem.Instance.RegisterEvent(Strings.Events.ENEMY_SPAWNED, OnEnemySpawned);
-        EventSystem.Instance.RegisterEvent(Strings.Events.DEATH_ENEMY, OnEnemyKilled);
-    }
-
-    private void OnDestroy()
-    {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.ENEMY_SPAWNED, OnEnemySpawned);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.DEATH_ENEMY, OnEnemyKilled);
-        }
+        base.Start();
     }
 
     // Update is called once per frame

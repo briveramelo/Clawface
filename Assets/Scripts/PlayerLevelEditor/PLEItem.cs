@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using ModMan;
-public abstract class PLEItem : MonoBehaviour {
+using MEC;
+public abstract class PLEItem : EventSubscriber {
 
+    [SerializeField] AbsAnim jiggleAnim;
     public Sprite iconPreview;
+    private Vector3 startScale;
     protected Color startColor;
     protected Color StartColor {
         get {
@@ -34,15 +37,26 @@ public abstract class PLEItem : MonoBehaviour {
             }
             return matPropBlock;
         }
-    }
-
-    protected virtual void Start() {
-        
     }    
 
     protected abstract string ColorTint { get; }
 
+
+
+    protected override void Awake() {
+        base.Awake();
+        startScale = transform.localScale;
+        jiggleAnim.OnUpdate = ScaleItem;
+    }
+
+    void ScaleItem(float val) {
+        transform.localScale = startScale + startScale * val;
+    }
+
     public virtual void Select(Color selectionColor) {
+        Timing.KillCoroutines(coroutineName);
+        jiggleAnim.Animate(coroutineName);
+        SFXManager.Instance.Play(SFXType.PLEPlaceObject, transform.position);
         IsSelected = true;
         MatPropBlock.SetColor(ColorTint, selectionColor);
         Renderers.ForEach(renderer => { renderer.SetPropertyBlock(MatPropBlock); });

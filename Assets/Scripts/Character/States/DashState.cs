@@ -54,8 +54,9 @@ public class DashState : IPlayerState {
     #endregion
 
     #region Unity Lifecycle
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         isClawOut = false;
         currentRotation = 0.0f;
     }

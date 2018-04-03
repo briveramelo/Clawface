@@ -30,27 +30,30 @@ public class MusicManager : Singleton<MusicManager>
     [SerializeField] private AudioMixer musicMixer;
     #endregion
 
+
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.SCENE_LOADED, PlayMusicInSceneContext },
+                { Strings.Events.MUSIC_INTENSITY_STARTED, PlayMusicInSceneContext},
+            };
+        }
+    }
+    #endregion
+
     #region Unity Lifecycle
-    
-    private void Start()
+
+    protected override void Start()
     {
-        EventSystem.Instance.RegisterEvent(Strings.Events.SCENE_LOADED, PlayMusicInSceneContext);
-        EventSystem.Instance.RegisterEvent(Strings.Events.MUSIC_INTENSITY_STARTED, PlayMusicInSceneContext);
+        base.Start();
         musicDictionary = new Dictionary<MusicType, AudioClip>();
         foreach (GameTrack t in gameTracks) {
             musicDictionary.Add(t.type, t.trackClip);
         }
         if (!SceneTracker.IsCurrentSceneMovie) {
             PlayMusicInSceneContext();
-        }
-    }
-
-    private void OnDestroy()
-    {
-        if(EventSystem.Instance)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.SCENE_LOADED, PlayMusicInSceneContext);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.MUSIC_INTENSITY_STARTED, PlayMusicInSceneContext);
         }
     }
 
@@ -119,13 +122,5 @@ public class MusicManager : Singleton<MusicManager>
         loopMusicSource.clip = toPlay;
         loopMusicSource.Play();
     }
-
-    
-
-
-
     #endregion
-
-
-
 }

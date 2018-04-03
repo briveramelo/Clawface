@@ -6,7 +6,7 @@ using ModMan;
 using System.Linq;
 using UnityEngine.AI;
 
-public class PlayerLevelEditorGrid : MonoBehaviour {
+public class PlayerLevelEditorGrid : EventSubscriber {
     #region Private Fields
     private List<GridTile> gridTiles = new List<GridTile>();
 
@@ -67,16 +67,21 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
 
     #endregion
 
-    #region Unity Lifecycle
-    void Awake() {
-        Initialize();
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_ON_LEVEL_DATA_LOADED, BakeNavMesh);
-    }
-
-    private void OnDestroy() {
-        if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_ON_LEVEL_DATA_LOADED, BakeNavMesh);
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.AwakeDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.PLE_ON_LEVEL_DATA_LOADED, BakeNavMesh},
+            };
         }
+    }
+    #endregion
+
+    #region Unity Lifecycle
+    protected override void Awake() {
+        Initialize();
+        base.Awake();
     }
 
     void Update() {
@@ -109,6 +114,12 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     public bool AnyTilesSelected() { return selectedGridTiles.Count > 0; }
     public bool AnyTilesActive() { return gridTiles.Any(tile => tile.IsActive); }
     public bool AnyActiveTilesNotFlat() { return gridTiles.Any(tile => tile.IsActive && !tile.blockUnit.IsFlatAtWave(PLESpawnManager.Instance.CurrentWaveIndex)); }
+    public Transform GetFirstSelectedTile() {
+        if (AnyTilesSelected()) {
+            return selectedGridTiles[0].realTile.transform;
+        }
+        return null;
+    }
 
     public void ShowWalls() {
         gridTiles.ForEach(tile => tile.EnableWalls());
@@ -256,7 +267,7 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
             }            
         }
     }
-
+    private bool DeleteInputDown { get { return Input.GetKeyDown(KeyCode.Delete) || Input.GetKeyDown(KeyCode.Backspace); } }
     private void HandleDeleteBlockSelection(RaycastHit hit) {
         if (Input.GetMouseButtonDown(MouseButtons.RIGHT)) {
             DeselectBlocks();
@@ -274,6 +285,13 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
                 mainPLEMenu.SetMenuButtonInteractabilityByState();
             }
         }
+
+        if (DeleteInputDown) {
+            DeleteSelectedBlocks();
+            DeselectBlocks();
+            ShowWalls();
+            mainPLEMenu.SetMenuButtonInteractabilityByState();
+        }
     }
 
     private void ShowBlocks(RaycastHit hit) {
@@ -282,12 +300,19 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     }
 
     private void ShowBlocks(List<GameObject> selectedObjects) {
+        bool tileWasShown = false;
         for (int i = 0; i < selectedObjects.Count; i++) {
             GridTile selectedTile = gridTiles.Find(tile => tile.ghostTile == selectedObjects[i]);
             if (selectedTile != null) {
                 selectedTile.ResetTileHeightAndStates();
+                if (!selectedTile.IsActive) {
+                    tileWasShown = true;
+                }
                 selectedTile.IsActive = true;
             }
+        }
+        if (tileWasShown) {
+            SFXManager.Instance.Play(SFXType.PLEPlaceObject);
         }
     }
 
@@ -299,6 +324,15 @@ public class PlayerLevelEditorGrid : MonoBehaviour {
     private void DeleteBlocks(List<GameObject> selectedObjects) {
         for (int i = 0; i < selectedObjects.Count; i++) {
             GridTile selectedTile = gridTiles.Find(tile => tile.realTile == selectedObjects[i]);
+            if (selectedTile != null) {
+                selectedTile.IsActive = false;
+                selectedTile.blockUnit.ClearItems();
+            }
+        }
+    }
+    private void DeleteSelectedBlocks() {
+        for (int i = 0; i < selectedGridTiles.Count; i++) {
+            GridTile selectedTile = selectedGridTiles[i];
             if (selectedTile != null) {
                 selectedTile.IsActive = false;
                 selectedTile.blockUnit.ClearItems();

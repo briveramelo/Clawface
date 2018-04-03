@@ -720,7 +720,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.9764706}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.64705884}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -895,7 +895,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114182743538898960}
   m_HandleRect: {fileID: 224067242929056090}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1065,6 +1065,7 @@ MonoBehaviour:
   scrollGroup: {fileID: 114081709417863970}
   selectedPreviewImage: {fileID: 0}
   highlightColor: {r: 0, g: 0.627451, b: 1, a: 0.7764706}
+  hoverColor: {r: 0, g: 0, b: 0, a: 0}
   rotationLabel: {fileID: 114805001666463106}
 --- !u!222 &222039032279581622
 CanvasRenderer:

@@ -34,7 +34,8 @@ public class PlatformManager : Singleton<PlatformManager> {
         }
     }
 
-    void Start() {
+    protected override void Start() {
+        base.Start();
         GamePlatform plat = ActivePlatform;//test it finds expected platform
     }
 

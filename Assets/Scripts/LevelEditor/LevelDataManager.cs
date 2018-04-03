@@ -67,7 +67,7 @@ public class LevelDataManager : MonoBehaviour {
         if (SceneTracker.IsCurrentSceneEditor) {
             EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CALL_WAVE, waveIndex);
             mainPLEMenu.SetMenuButtonInteractabilityByState();
-            mainPLEMenu.SwitchToMenu(PLEMenu.FLOOR);
+            mainPLEMenu.SelectMenuItem(PLEMenu.FLOOR);
         }
     }    
 
@@ -277,11 +277,11 @@ public class LevelDataManager : MonoBehaviour {
         mainPLEMenu.GetMenu(PLEMenu.FLOOR).CanvasGroup.alpha = 0f;
         yield return new WaitForEndOfFrame();
         SavePicture();
-        dataPersister.TrySave();
+        dataPersister.TrySaveWorkingLevel();
         yield return new WaitForEndOfFrame();
         mainPLEMenu.CanvasGroup.alpha = 1f;
         mainPLEMenu.GetMenu(PLEMenu.FLOOR).CanvasGroup.alpha = 1f;
-        mainPLEMenu.SwitchToMenu(PLEMenu.FLOOR);
+        mainPLEMenu.SelectMenuItem(PLEMenu.FLOOR);
         levelEditor.gridController.SetGridVisiblity(true);
     }
 
@@ -301,7 +301,7 @@ public class LevelDataManager : MonoBehaviour {
     #region Delete
     public void TryDeleteLevel(string uniqueName) {
         dataPersister.TryDeleteLevel(uniqueName);
-        dataPersister.TrySave();
+        dataPersister.TrySaveDataFile();
         if (SceneTracker.IsCurrentSceneEditor) {
             mainPLEMenu.SetMenuButtonInteractabilityByState();
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+
 public class SoundEffect
 {
     public bool Available = true;
@@ -22,7 +23,8 @@ public class SoundEffect
 
     public virtual void Play(Vector3 position)
     {
-        if(m_SFX_GameObject.transform.parent != m_SFXManager)
+        //Debug.Log("playing " + m_SFX_GameObject.name);
+        if (m_SFX_GameObject.transform.parent != m_SFXManager)
         {
             m_SFX_GameObject.transform.parent = m_SFXManager;
         }

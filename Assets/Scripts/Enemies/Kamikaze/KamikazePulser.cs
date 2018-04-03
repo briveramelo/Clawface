@@ -1,11 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.AI;
 using System;
 
 [System.Serializable]
@@ -22,6 +16,7 @@ public class KamikazePulser : EnemyBase
 
     #region 3. Private fields
     private float closeEnoughToAttackDistance;
+    private bool isUp;
 
     //The AI States of the Kamikaze
     private KamikazeChaseState chase;
@@ -32,8 +27,9 @@ public class KamikazePulser : EnemyBase
     #endregion
 
     #region 4. Unity Lifecycle
-    public override void Awake()
-    {
+    protected override void Awake()
+    {        
+	isUp = false;
         myStats = GetComponent<Stats>();
         SetAllStats();
         InitilizeStates();
@@ -41,6 +37,7 @@ public class KamikazePulser : EnemyBase
         controller.Initialize(properties, velBody, animator, myStats, navAgent, navObstacle, aiStates);
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
         controller.checksToUpdateState = new List<Func<bool>>() {
+            CheckDoneGettingUp,
             CheckPlayerDead,
             CheckToAttack,
             CheckToFinishAttack,
@@ -53,6 +50,15 @@ public class KamikazePulser : EnemyBase
     #region 5. Public Methods   
 
     //State conditions
+    bool CheckDoneGettingUp()
+    {
+        if (!isUp)
+        {
+            return true;
+        }
+        return false;
+    }
+
     bool CheckPlayerDead()
     {
         if (AIManager.Instance.GetPlayerDead())
@@ -109,6 +115,11 @@ public class KamikazePulser : EnemyBase
         }
         return false;
     }
+    public override void OnDeath()
+    {
+        isUp = false;
+        base.OnDeath();
+    }
 
     public override void ResetForRebirth()
     {
@@ -127,7 +138,9 @@ public class KamikazePulser : EnemyBase
 
     public void GetUpDone()
     {
-        getUp.Up();
+        isUp = true;
+        controller.CurrentState = chase;
+        controller.UpdateState(EAIState.Chase);
     }
 
     public void SetScorePoints(int score)

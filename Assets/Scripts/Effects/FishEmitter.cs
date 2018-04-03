@@ -21,15 +21,16 @@ public class FishEmitter : GameObjectEmitter {
     public override GameObject Emit()
     {
         GameObject instance = base.Emit();
-
-        Fish fish = instance.GetComponent<Fish>();
-        float flopDist = Random.Range(shaderFlopDistanceMin, shaderFlopDistanceMax);
-        float flopRate = Random.Range(shaderFlopRateMin, shaderFlopRateMax);
-        float flopSpeed = Random.Range(shaderFlopSpeedMin, shaderFlopSpeedMax);
-        fish.Init(duration, scaleCurve,
-            popIntervalMin, popIntervalMax, popForceMin, popForceMax, 
-            popOriginOffsetMax, popRotationalForceMin, popRotationalForceMax,
-            flopDist, flopRate, flopSpeed);
+        if (instance) {
+            Fish fish = instance.GetComponent<Fish>();
+            float flopDist = Random.Range(shaderFlopDistanceMin, shaderFlopDistanceMax);
+            float flopRate = Random.Range(shaderFlopRateMin, shaderFlopRateMax);
+            float flopSpeed = Random.Range(shaderFlopSpeedMin, shaderFlopSpeedMax);
+            fish.Init(duration, scaleCurve,
+                popIntervalMin, popIntervalMax, popForceMin, popForceMax, 
+                popOriginOffsetMax, popRotationalForceMin, popRotationalForceMax,
+                flopDist, flopRate, flopSpeed);
+        }
         
         return instance;
     }    

@@ -16,6 +16,7 @@ public abstract class ScrollGroup : RoutineRunner {
 
     protected abstract string ResourcesPath { get; }
     protected List<PLEUIItem> pleUIItems = new List<PLEUIItem>();
+    protected List<PLEItem> pleItems = new List<PLEItem>();
     protected bool hasInitialized = false;
     public int LastSelectedIndex { get; private set; }
     private string ScrollCoroutineName{get{ return coroutineName + "Scroll"; } }
@@ -40,7 +41,10 @@ public abstract class ScrollGroup : RoutineRunner {
         TryInitialize();
         return pleUIItems.Find(item => item.isInteractable);
     }
-    public virtual void SelectUIItem(int itemIndex) {
+    public virtual void SelectUIItem(int itemIndex, bool playSound=true) {
+        if (playSound) {
+            SFXManager.Instance.Play(SFXType.UI_Click);
+        }
         LastSelectedIndex = itemIndex;
         pleUIItems.ForEach(item => { item.OnGroupSelectChanged(itemIndex); });
         placementMenu.PostSelectUIItem(pleUIItems[itemIndex]);
@@ -55,6 +59,7 @@ public abstract class ScrollGroup : RoutineRunner {
         pleUIItems.ForEach(item => { item.OnGroupSelectChanged(-1); });
     }
     public virtual void MoveScrollbar(bool isRight) {
+        SFXManager.Instance.Play(SFXType.UI_Click);
         float unitTileSize = 1f / (pleUIItems.Count-1);        
         float amountToMove = unitTileSize * (isRight.ToInt()) * scrollMultiplier;
         float targetAmount = scrollbar.value + amountToMove;
@@ -74,7 +79,8 @@ public abstract class ScrollGroup : RoutineRunner {
         for (int i = 0; i < itemPrefabs.Count; i++) {
             GameObject itemPrefab = itemPrefabs[i];
             GameObject toAdd = Instantiate(iconTemplate);
-            //PLEItem pleItem = itemPrefab.GetComponent<PLEItem>();
+            PLEItem pleItem = itemPrefab.GetComponent<PLEItem>();
+            pleItems.Add(pleItem);
             PLEUIItem pleUIItem = toAdd.GetComponent<PLEUIItem>();
             pleUIItems.Add(pleUIItem);
             pleUIItem.InitializeItem(i, this, itemPrefab);
@@ -87,7 +93,7 @@ public abstract class ScrollGroup : RoutineRunner {
             myRec.localScale = Vector3.one;
         }
 
-        SelectUIItem(0);
+        SelectUIItem(0, false);
     }
     #endregion
 

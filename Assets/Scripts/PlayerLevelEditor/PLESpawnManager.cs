@@ -27,31 +27,25 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
 
     #region Serialized Unity Fields
 
-    [SerializeField] private LevelEditor editorInstance;
+    [SerializeField] private LevelEditor editorInstance;    
+    #endregion
 
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.PLE_ON_LEVEL_READY, TryStartLevel },
+                { Strings.Events.PLE_TEST_END, Reset},
+            };
+        }
+    }
     #endregion
 
     private bool hasCycledLevel=false;
+    private List<PLESpawn> allSpawnTypes = new List<PLESpawn>();
+
     #region Unity Lifecycle
-
-    void Start()
-    {        
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_ON_LEVEL_READY, TryStartLevel);
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_TEST_END, Reset);
-        //EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_RESTARTED, StartLevel);
-    }
-
-    public void OnDestroy()
-    {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_ON_LEVEL_READY, TryStartLevel);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_TEST_END, Reset);
-            //EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_RESTARTED, StartLevel);
-        }
-    }
-
-
     #endregion
 
     #region Private Interface
@@ -127,13 +121,16 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
         CurrentWaveIndex = 0;
         hasCycledLevel = false;
     }
-    
+
 
 
     #endregion
 
     #region Public Interface
-
+    public void SetSpawnTypes(List<PLESpawn> spawnTypes) {
+        allSpawnTypes.Clear();
+        spawnTypes.ForEach(type => { allSpawnTypes.Add(type); });
+    }
     public void SyncLevelData() {
         editorInstance.levelDataManager.SyncWorkingSpawnData();
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_SYNC_LEVEL_UNIT_STATES);
@@ -184,6 +181,42 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
         return CurrentWaveIndex;
     }
 
+    public int NumberSpawnsInCurrentWave(SpawnType type) {
+        return WorkingLevelData.NumSpawns(type, CurrentWaveIndex);
+    }
+    public int GetMaxSpawnsAllowedInWave(PLESpawn spawn) {
+        int previousWaveIndex = CurrentWaveIndex - 1;
+        int previousWaveMinSpawnCount = 0;
+        if (previousWaveIndex < 0 && InfiniteWavesEnabled) {
+            previousWaveIndex = MaxWaveIndex;
+        }
+        if (previousWaveIndex >= 0) {
+            previousWaveMinSpawnCount = WorkingLevelData.MinNumSpawns(spawn.spawnType, previousWaveIndex);
+        }
+        return spawn.MaxPerWave - previousWaveMinSpawnCount;
+    }
+    public int GetNumberSpawnsInNextWave(PLESpawn spawn) {
+        int numSpawnsInNextWave = 0;
+        int currentIndex = CurrentWaveIndex;
+        int nextIndex = currentIndex + 1;
+        if (nextIndex > MaxWaveIndex && InfiniteWavesEnabled) {
+            nextIndex = 0;
+        }
+        if (nextIndex <= MaxWaveIndex) {
+            numSpawnsInNextWave = WorkingLevelData.NumSpawns(spawn.spawnType, nextIndex);
+        }
+        return numSpawnsInNextWave;
+    }
+    public bool SpawnsUnderMaximum(PLESpawn spawn) {
+        return NumberSpawnsInCurrentWave(spawn.spawnType) < GetMaxSpawnsAllowedInWave(spawn);
+    }
+    public bool Wave0SpawnsAllowForWrapping() {
+        return allSpawnTypes.All(spawn => {
+            int numSpawnsInWave0 = WorkingLevelData.NumSpawns(spawn.spawnType, 0);
+            int maxSpawnsAllowedInWave0 = spawn.MaxPerWave - WorkingLevelData.MinNumSpawns(spawn.spawnType, MaxWaveIndex);
+            return numSpawnsInWave0 <= maxSpawnsAllowedInWave0;
+        });
+    }
     #endregion
 
 }

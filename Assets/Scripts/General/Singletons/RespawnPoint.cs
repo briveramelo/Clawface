@@ -7,8 +7,9 @@ public class RespawnPoint : Singleton<RespawnPoint> {
 
     protected RespawnPoint() { }
 
-    void Start() {
-        if (GameObject.Find(Strings.RESPAWN_POINT) && !SceneTracker.IsCurrentSceneEditor) {
+    protected override void Start() {
+        base.Start();
+        if (GameObject.Find(Strings.RESPAWN_POINT)) {
         }
         else {
             Debug.LogWarning(string.Format("Put a GameObject named '{0}' in your scene!!!", Strings.RESPAWN_POINT));

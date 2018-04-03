@@ -48,7 +48,22 @@ public enum SFXType {
     LandmarkBlastShort,
     PLEPlaceObject,
     PLEHoverUI,
-    PLEClickUI
+    PLEClickUI,
+    BoomerangWallImpact,
+    BouncerLand,
+    BouncerVocalize,
+    EnemyFootstep,
+    KamikazeFootstep,
+    ZombieVocalize,
+    None,
+    AcidZombieVocalize,
+    TileLift,
+    Score,
+    KamikazeVocalize,
+    KamikazeWarn,
+    GuardVocalize,
+    GuardShotgunAttack,
+    GuardPrepare
 }
 
 public enum MusicType
@@ -132,6 +147,7 @@ public enum PoolObjectType {
     KamikazeExplosionSphere = 48,
     KamikazePulseGenerator = 54,
     AcidTrigger = 59,
+    AcidTrail = 72,
 
     //VFX
     VFXBlasterImpactEffect = 3,
