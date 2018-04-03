@@ -37,7 +37,6 @@ public class InputManager : Singleton<InputManager> {
     {
         base.Start();
         player = ReInput.players.GetPlayer(0); // get the only player
-        Cursor.lockState = CursorLockMode.Confined;
     }
 
     #endregion
@@ -108,6 +107,11 @@ public class InputManager : Singleton<InputManager> {
     //// Haptics
     public void Vibrate(VibrationTargets target, float intensity, float duration = 0.3f)
     {
+        if (!SettingsManager.Instance.Vibration)
+        {
+            return;
+        }
+
         if (target == VibrationTargets.BOTH)
         {
             player.SetVibration(0, intensity, duration);

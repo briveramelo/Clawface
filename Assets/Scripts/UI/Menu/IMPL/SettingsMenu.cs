@@ -78,6 +78,12 @@ public class SettingsMenu : Menu {
     [SerializeField]
     private Toggle snapLook = null;
 
+    [SerializeField]
+    private Toggle vibration = null;
+
+    [SerializeField]
+    private Toggle cursorLock = null;
+
     [Header("Settings Objects - GamePlay")]
     [SerializeField]
     private TextSlider difficulty = null;
@@ -129,7 +135,7 @@ public class SettingsMenu : Menu {
     public void RewireForControls()
     {
         LinkPanelButtonsTo(fireMode);
-        LinkActionButtonsTo(snapLook);
+        LinkActionButtonsTo(cursorLock);
     }
 
     public void RewireForGamePlay()
@@ -235,6 +241,8 @@ public class SettingsMenu : Menu {
         fireMode.DataSource.ForceUpdate();
         mouseAimMode.DataSource.ForceUpdate();
         snapLook.isOn = manager.SnapLook;
+        vibration.isOn = manager.Vibration;
+        cursorLock.isOn = manager.CursorLock;
 
         // GamePlay
         difficulty.DataSource.ForceUpdate();
@@ -259,6 +267,8 @@ public class SettingsMenu : Menu {
         manager.FireMode = (FireMode)fireMode.DataSource.Value;
         manager.MouseAimMode = (MouseAimMode)mouseAimMode.DataSource.Value;
         manager.SnapLook = snapLook.isOn;
+        manager.Vibration = vibration.isOn;
+        manager.CursorLock = cursorLock.isOn;
 
         // GamePlay
         manager.Difficulty = (Difficulty)difficulty.DataSource.Value;
