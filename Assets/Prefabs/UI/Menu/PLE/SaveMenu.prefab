@@ -163,6 +163,7 @@ GameObject:
   - component: {fileID: 114217473242018694}
   - component: {fileID: 114459433502548336}
   - component: {fileID: 114515021351934494}
+  - component: {fileID: 114801806485177382}
   m_Layer: 5
   m_Name: SaveAs-Button
   m_TagString: Untagged
@@ -390,6 +391,7 @@ GameObject:
   - component: {fileID: 114744509877856712}
   - component: {fileID: 114085040793766856}
   - component: {fileID: 114624962593369402}
+  - component: {fileID: 114936014368196922}
   m_Layer: 5
   m_Name: Cancel-Button
   m_TagString: Untagged
@@ -1362,6 +1364,28 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
+--- !u!114 &114801806485177382
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1328318417606604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2be5fcf4accb94998ef33d08856341, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorOff: {r: 0.96862745, g: 0.9764706, b: 0.4627451, a: 1}
+  colorOn: {r: 0.90588236, g: 0, b: 0.8039216, a: 1}
+  colorDisabled: {r: 0.52156866, g: 0.52156866, b: 0.52156866, a: 1}
+  spriteOff: {fileID: 21300000, guid: 2fc2783ad4c10e148a0cfaf9ba370422, type: 3}
+  spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
+  selectable: {fileID: 114459433502548336}
+  image: {fileID: 114217473242018694}
+  text: {fileID: 114906976994086838}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
+  selectorToggleGroup: {fileID: 0}
 --- !u!114 &114850697238916746
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1426,6 +1450,28 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &114936014368196922
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1960165052812158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2be5fcf4accb94998ef33d08856341, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorOff: {r: 0.96862745, g: 0.9764706, b: 0.4627451, a: 1}
+  colorOn: {r: 0.90588236, g: 0, b: 0.8039216, a: 1}
+  colorDisabled: {r: 0.52156866, g: 0.52156866, b: 0.52156866, a: 1}
+  spriteOff: {fileID: 21300000, guid: 2fc2783ad4c10e148a0cfaf9ba370422, type: 3}
+  spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
+  selectable: {fileID: 114085040793766856}
+  image: {fileID: 114744509877856712}
+  text: {fileID: 114992490156813632}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
+  selectorToggleGroup: {fileID: 0}
 --- !u!114 &114985074638358506
 MonoBehaviour:
   m_ObjectHideFlags: 1
