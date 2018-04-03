@@ -400,10 +400,10 @@ MonoBehaviour:
   m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -529,6 +529,7 @@ MonoBehaviour:
   text: {fileID: 114344671044808096}
   overrideDisabledColor: 0
   alwaysUpdate: 0
+  selectorToggleGroup: {fileID: 0}
 --- !u!114 &114419440754143842
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -963,6 +964,7 @@ MonoBehaviour:
   text: {fileID: 114676805766822834}
   overrideDisabledColor: 0
   alwaysUpdate: 0
+  selectorToggleGroup: {fileID: 0}
 --- !u!114 &114814671664330786
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1084,6 +1086,7 @@ MonoBehaviour:
   text: {fileID: 114430617954526266}
   overrideDisabledColor: 0
   alwaysUpdate: 0
+  selectorToggleGroup: {fileID: 0}
 --- !u!114 &114952391209793546
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1179,6 +1182,7 @@ MonoBehaviour:
   text: {fileID: 114964102880026074}
   overrideDisabledColor: 0
   alwaysUpdate: 0
+  selectorToggleGroup: {fileID: 0}
 --- !u!114 &114984506068041934
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1509,7 +1513,7 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1707386458081456}
   m_Enabled: 1
-  m_Alpha: 0.68
+  m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
