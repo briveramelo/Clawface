@@ -110,25 +110,6 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
         ResetForRebirth();
     }
 
-    void Update()
-    {
-        if (alreadyStunned)
-        {
-            currentStunTime += Time.deltaTime;
-
-            if (currentStunTime > stunnedTime)
-            {
-                OnDeath();
-            }
-        }
-
-        //Kill if it falls off the world
-        if(hips.transform.position.y < -100.0f)
-        {
-            OnDeath();
-        }       
-    }
-
     protected override void Awake()
     {
         base.Awake();
@@ -140,9 +121,28 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
         {
             grabObjectMomento = new TransformMemento();
             grabObjectMomento.Initialize(grabObject.transform);
-        }        
-        ResetForRebirth();        
-    }  
+        }
+        ResetForRebirth();
+    }
+
+    void Update()
+    {
+        if (alreadyStunned)
+        {
+            currentStunTime += Time.deltaTime;
+
+            if (currentStunTime > stunnedTime && !isIndestructable)
+            {
+                OnDeath();
+            }
+        }
+
+        //Kill if it falls off the world
+        if(hips.transform.position.y < -100.0f)
+        {
+            OnDeath();
+        }       
+    }
 
     protected override void OnDisable()
     {
@@ -162,14 +162,13 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
 
     void IDamageable.TakeDamage(Damager damager)
     {
-        if (myStats.health > 0)
+        if (myStats.health > 0 && !isIndestructable)
         {
             DoHitReaction(damager);
             myStats.TakeDamage(damager.damage);
             damagePack.Set(damager, damaged);
             SFXManager.Instance.Play(hitSFX, transform.position);
-            GoreManager.Instance.EmitDirectionalBlood(damagePack);
-            hitFlasher.HitFlash ();
+            GoreManager.Instance.EmitDirectionalBlood(damagePack);            
 
             // Blood effect
             GameObject blood = ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodSpurt);
@@ -297,7 +296,6 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
             }
             navAgent.speed = 0;
             navAgent.enabled = false;
-            gameObject.SetActive(false);
             aboutTobeEaten = false;
             alreadyStunned = false;
             isIndestructable = false;
@@ -309,6 +307,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
                 AIManager.Instance.Remove(testData);
             }
             ClearAffecters();
+            gameObject.SetActive(false);
         }
     }
 
@@ -412,9 +411,10 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
         return grabObject;
     }
 
-    public void MakeIndestructable()
+    public void TemporaryTerminalIndestructable()
     {
         isIndestructable = true;
+        StartCoroutine(FinalDeath());
     }
 
     public void CloserToEat(bool isClose)
@@ -646,6 +646,18 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
         {
             pushRoot.AddForce(force, ForceMode.Impulse);
         }
+    }
+
+    private IEnumerator FinalDeath()
+    {
+        float finalStunTime = 0.0f;
+
+        while(finalStunTime < stunnedTime)
+        {
+            finalStunTime += Time.deltaTime;
+            yield return null;
+        }
+        OnDeath();
     }
     #endregion
 }
