@@ -315,7 +315,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
     public virtual void ResetForRebirth()
     {
         DisableRagdoll();
-        ToggleCollider(true);
+        ToggleColliders(true);
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
         velBody.ResetForRebirth();
@@ -328,7 +328,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
         isIndestructable = false;
     }
 
-    void ToggleColliders(bool enabled) {
+    public void ToggleColliders(bool enabled) {
         MyColliders.ForEach(collider => collider.enabled = enabled);
     }
 

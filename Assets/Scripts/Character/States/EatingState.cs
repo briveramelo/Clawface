@@ -150,13 +150,12 @@ public class EatingState : IPlayerState
             if (eatable != null)
             {
                 stateVariables.eatTargetEnemy.transform.position = clawTransform.position;                
-                eatable.ToggleCollider(false);
+                eatable.ToggleColliders(false);
                 eatable.EnableRagdoll();
             }
         }
         SFXManager.Instance.Play(stateVariables.ArmEnemyCaptureSFX, transform.position);
         //clawArmController.StartRetraction(stateVariables.clawRetractionTime);
-
     }
 
     private void DoEating()
