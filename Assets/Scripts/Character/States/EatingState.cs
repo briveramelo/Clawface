@@ -149,14 +149,13 @@ public class EatingState : IPlayerState
             IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
             if (eatable != null)
             {
-                stateVariables.eatTargetEnemy.transform.position = clawTransform.position;
-                eatable.ToggleCollider(false);
+                stateVariables.eatTargetEnemy.transform.position = clawTransform.position;                
+                eatable.ToggleColliders(false);
                 eatable.EnableRagdoll();
             }
         }
         SFXManager.Instance.Play(stateVariables.ArmEnemyCaptureSFX, transform.position);
         //clawArmController.StartRetraction(stateVariables.clawRetractionTime);
-
     }
 
     private void DoEating()
