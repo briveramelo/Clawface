@@ -1,9 +1,7 @@
-﻿
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MEC;
 
 public class PlayerStateManager : EventSubscriber {
 
@@ -48,8 +46,6 @@ public class PlayerStateManager : EventSubscriber {
     private bool isSpeedUpFinished;
     private bool isLevelComplete;
 
-    const string SlowTime = "SlowTime";
-    const string SpeedTime = "SpeedTime";
     const float TutorialRadiusMultiplier = 3f;
     private float tutorialTimeScale = 1.0f;
     #endregion
@@ -69,11 +65,6 @@ public class PlayerStateManager : EventSubscriber {
     #endregion
 
     #region Unity Lifecycle
-    protected override void OnDisable() {
-        Timing.KillCoroutines(SlowTime);
-        Timing.KillCoroutines(SpeedTime);
-        base.OnDisable();
-    }
 
     // Use this for initialization
     protected override void Start () {
@@ -118,12 +109,12 @@ public class PlayerStateManager : EventSubscriber {
             playerStates.ForEach(state => state.StateUpdate());
         } else if (isInTutorial) {
             if (InputManager.Instance.QueryAction(Strings.Input.Actions.EAT, ButtonMode.DOWN) && isSlowDownFinished) {
-                if (CheckForEatableEnemy()) {
+                if (CheckForEatableEnemy())
+                {
                     SwitchState(eatingState);
                 }
                 FinishTutorial();
             }
-
             else {
                 SwitchState(defaultState);
                 defaultState.StateUpdate();
@@ -138,7 +129,6 @@ public class PlayerStateManager : EventSubscriber {
                 Physics.IgnoreLayerCollision(LayerMask.NameToLayer(Strings.Layers.ENEMY_BODY), LayerMask.NameToLayer(Strings.Layers.MODMAN), true);
                 FinishDashTutorial();
             }
-
             else {
                 SwitchState(defaultState);
                 defaultState.StateUpdate();
@@ -258,7 +248,7 @@ public class PlayerStateManager : EventSubscriber {
             EventSystem.Instance.TriggerEvent(Strings.Events.GAME_CAN_PAUSE, false);
             eatCollider.radius *= TutorialRadiusMultiplier;
             stateVariables.eatRadius *= TutorialRadiusMultiplier;
-            Timing.RunCoroutine(StartTutorialSlowDown(1), SlowTime);
+            StartCoroutine(StartTutorialSlowDown(1));
         }
     }
 
@@ -272,17 +262,17 @@ public class PlayerStateManager : EventSubscriber {
             //Using the same eat collider to trigger dash tutorial
             eatCollider.radius *= TutorialRadiusMultiplier;
             stateVariables.eatRadius *= TutorialRadiusMultiplier;
-            Timing.RunCoroutine(StartTutorialSlowDown(2), SlowTime);
+            StartCoroutine(StartTutorialSlowDown(2));
         }
     }
 
-    private IEnumerator<float> StartTutorialSlowDown(int i_eatOrDash)
+    private IEnumerator StartTutorialSlowDown(int i_eatOrDash)
     {        
         while (tutorialTimeScale > 0.1f)
         {
             tutorialTimeScale = Mathf.Lerp(tutorialTimeScale, 0.0f, tutorialSlowDownRate);
             Time.timeScale = tutorialTimeScale;
-            yield return 0f;
+            yield return null;
         }
         tutorialTimeScale = 0.0f;
         Time.timeScale = tutorialTimeScale;
@@ -299,7 +289,7 @@ public class PlayerStateManager : EventSubscriber {
             
             eatCollider.radius /= TutorialRadiusMultiplier;
             stateVariables.eatRadius /= TutorialRadiusMultiplier;            
-            Timing.RunCoroutine(StartTutorialSpeedUp(), SpeedTime);
+            StartCoroutine(StartTutorialSpeedUp());
             TrySetTutorialsEncounteredInGameplay();
         }
     }
@@ -311,7 +301,7 @@ public class PlayerStateManager : EventSubscriber {
             isDashTutorialDone = true;            
             eatCollider.radius /= TutorialRadiusMultiplier;
             stateVariables.eatRadius /= TutorialRadiusMultiplier;
-            Timing.RunCoroutine(StartTutorialSpeedUp(), SpeedTime);
+            StartCoroutine(StartTutorialSpeedUp());
             //Reset the bool to false for the eat tutorial
             isSlowDownFinished = false;
             TrySetTutorialsEncounteredInGameplay();
@@ -328,7 +318,7 @@ public class PlayerStateManager : EventSubscriber {
         }
     }
 
-    private IEnumerator<float> StartTutorialSpeedUp()
+    private IEnumerator StartTutorialSpeedUp()
     {        
         isInTutorial = false;
         isInDashTutorial = false;
@@ -336,7 +326,7 @@ public class PlayerStateManager : EventSubscriber {
         {
             tutorialTimeScale = Mathf.Lerp(tutorialTimeScale, 1.0f, tutorialSpeedUpRate);
             Time.timeScale = tutorialTimeScale;
-            yield return 0f;
+            yield return null;
         }
         tutorialTimeScale = 1.0f;
         Time.timeScale = tutorialTimeScale;
@@ -413,8 +403,8 @@ public class PlayerStateManager : EventSubscriber {
             IEatable skinnable = potentialEatableEnemy.GetComponent<IEatable>();
             if (skinnable != null && skinnable.IsEatable())
             {
-                stateVariables.eatTargetEnemy = potentialEatableEnemy;
-                stateVariables.eatTargetEnemy.GetComponent<EnemyBase>().MakeIndestructable();
+                stateVariables.eatTargetEnemy = potentialEatableEnemy;                
+                stateVariables.eatTargetEnemy.GetComponent<EnemyBase>().TemporaryTerminalIndestructable();
                 return true;
             }
         }
