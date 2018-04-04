@@ -226,9 +226,7 @@ public class WeaponSelectMenu : Menu
     #region Interface (Private)
 
     private void ResetMenu()
-    {        
-
-        startButton.image.sprite = unselectedButtonSprite;
+    {
         queryActionTimer = queryActionEverySeconds;
 
         ChangeWeaponTextPanel(rightArm);
@@ -278,7 +276,6 @@ public class WeaponSelectMenu : Menu
         {
             if (isSubmitDown)
             {
-                startButton.image.sprite = pressedButtonSprite;
                 StartAction();
             }
             else if (isCancelDown)
@@ -303,7 +300,6 @@ public class WeaponSelectMenu : Menu
     }
 
     private void GoBackFromBothSelected() {
-        startButton.image.sprite = unselectedButtonSprite;
         selectingPlayerLeft = true;
         selectingPlayerRight = false;
 
@@ -373,8 +369,7 @@ public class WeaponSelectMenu : Menu
     }
 
     private void LockInLeftAction()
-    {        
-        startButton.image.sprite = selectedButtonSprite;
+    {
         ModManager.leftArmOnLoad = leftArm.GetModType;
         selectingPlayerRight = false;
         selectingPlayerLeft = false;
@@ -383,6 +378,9 @@ public class WeaponSelectMenu : Menu
         leftArmAnimator.SetTrigger("DoLock");
         playerFaceController.SetTemporaryEmotion(PlayerFaceController.Emotion.Happy, .4f);
         SFXManager.Instance.Play(SFXType.LandmarkBlastShort, transform.position);
+
+        startButton.Select();
+        CurrentEventSystem.SetSelectedGameObject(startButton.gameObject);
     }
 
     public void ChangeWeaponTextPanel(WeaponLineup lineup)
