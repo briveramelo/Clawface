@@ -79,7 +79,7 @@ public class DataPersister : Singleton<DataPersister> {
 
     public void SaveSnapshotToFile(byte[] i_imgData)
     {
-        currentImagePath = currentLevelDataFolder + WorkingLevelData.name + ".png";
+        currentImagePath = currentLevelDataFolder +"/" + WorkingLevelData.name + ".jpg";
         File.WriteAllBytes(currentImagePath, i_imgData);
     }
 
@@ -125,7 +125,7 @@ public class DataPersister : Singleton<DataPersister> {
         {
             //success
             WorkingLevelData.fileID = fileId;
-            SteamWorkshop.Instance.UpdateItem(
+           SteamWorkshop.Instance.UpdateItem(
            WorkingLevelData.FileID,
            WorkingLevelData.name,
            WorkingLevelData.description,
