@@ -239,6 +239,7 @@ GameObject:
   - component: {fileID: 114311854266523010}
   - component: {fileID: 114200847489401416}
   - component: {fileID: 114883587693841898}
+  - component: {fileID: 114274901716562598}
   m_Layer: 5
   m_Name: Inf Waves
   m_TagString: Untagged
@@ -540,6 +541,28 @@ MonoBehaviour:
   type: 0
   updateTime: 0
   maskableGraphic: {fileID: 114659308104084556}
+--- !u!114 &114274901716562598
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1965226258355272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2be5fcf4accb94998ef33d08856341, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorOff: {r: 0.96862745, g: 0.9764706, b: 0.4627451, a: 1}
+  colorOn: {r: 0.99607843, g: 0.24313726, b: 0.654902, a: 1}
+  colorDisabled: {r: 0.1, g: 0.1, b: 0.1, a: 1}
+  spriteOff: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
+  spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
+  selectable: {fileID: 114311854266523010}
+  image: {fileID: 114200847489401416}
+  text: {fileID: 114459827019756670}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
+  selectorToggleGroup: {fileID: 0}
 --- !u!114 &114283468016944108
 MonoBehaviour:
   m_ObjectHideFlags: 1

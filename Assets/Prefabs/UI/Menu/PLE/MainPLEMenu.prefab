@@ -1446,6 +1446,7 @@ MonoBehaviour:
   loadItem: {fileID: 114128222101839638}
   helpItem: {fileID: 114331608440565014}
   exitItem: {fileID: 114624347817736608}
+  helpSideBarToggler: {fileID: 114866137860545486}
 --- !u!114 &114231065155599996
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1870,7 +1871,7 @@ MonoBehaviour:
     m_HighlightedSprite: {fileID: 21300000, guid: 0bbffc97aa8738b46be619473cbf5d8f,
       type: 3}
     m_PressedSprite: {fileID: 21300000, guid: 0bbffc97aa8738b46be619473cbf5d8f, type: 3}
-    m_DisabledSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 21300000, guid: d654c64854d686a4fa91c4f064951c7b, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
@@ -1882,7 +1883,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114866137860545486}
-        m_MethodName: TogglePaneAction
+        m_MethodName: TryTogglePaneAction
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2351,7 +2352,7 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 150
+    m_Top: 500
     m_Bottom: 0
   m_ChildAlignment: 0
   m_Spacing: 0
@@ -3114,6 +3115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   refsPane: {fileID: 1591412551518758}
+  toggleButton: {fileID: 114359953265869940}
 --- !u!114 &114944444792330400
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4394,7 +4396,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -500}
+  m_AnchoredPosition: {x: 0, y: -850}
   m_SizeDelta: {x: 225, y: 700}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!224 &224895612749015212
@@ -4538,7 +4540,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -405.7}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 730}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!225 &225877140838537834

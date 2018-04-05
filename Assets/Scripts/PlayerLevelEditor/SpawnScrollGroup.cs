@@ -17,10 +17,10 @@ public class SpawnScrollGroup : ScrollGroup {
         bool keiraExists = SpawnMenu.playerSpawnInstance != null;
         KeiraUIItem.ToggleInteractable(!keiraExists);
 
-        PLEUIItem lastItem = GetLastUIItem();
-        if (!lastItem.isInteractable) {
-            placementMenu.TrySelectFirstAvailable();
-        }
+        //PLEUIItem lastItem = GetLastUIItem();
+        //if (!lastItem.isInteractable) {
+        //    placementMenu.TrySelectFirstAvailable();
+        //}
     }
 
     protected override void InitializeUI() {

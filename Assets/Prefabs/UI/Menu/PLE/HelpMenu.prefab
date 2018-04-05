@@ -704,7 +704,7 @@ GameObject:
   - component: {fileID: 224740468662296450}
   - component: {fileID: 114549511462009136}
   m_Layer: 5
-  m_Name: '#To Advance'
+  m_Name: Required To Kill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -915,7 +915,7 @@ GameObject:
   - component: {fileID: 224166889881164142}
   - component: {fileID: 114603687405959472}
   m_Layer: 5
-  m_Name: '#Available'
+  m_Name: Available
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1052,7 +1052,7 @@ GameObject:
   - component: {fileID: 224818309051262332}
   - component: {fileID: 114605360020647564}
   m_Layer: 5
-  m_Name: '#ToSpawn'
+  m_Name: Spawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1367,7 +1367,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: NOTE
+  m_Text: '*NOTE'
 --- !u!114 &114065970779244660
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1707,8 +1707,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Leaving a wave with 0 spawns will disable saving. To save a level, please
-    place at least one spawn per wave.
+  m_Text: Leaving a wave with 0 spawns will disable testing and saving. To save a
+    level, please place at least one enemy spawn per wave.
 --- !u!114 &114224285236313798
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1814,7 +1814,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: WAVES
+  m_Text: WAVE TERMS
 --- !u!114 &114259721657731770
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1945,7 +1945,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: '# TO ADVANCE'
+  m_Text: REQUIRED TO KILL
 --- !u!114 &114308059093869898
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2339,7 +2339,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: SPAWNS
+  m_Text: SPAWN TERMS
 --- !u!114 &114409485523084062
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2447,7 +2447,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: = number of enemies that will spawn at this location at wave start, spaced
+  m_Text: The number of enemies that will spawn at this location at wave start, spaced
     out with a 0.5 second interval
 --- !u!114 &114440569475237280
 MonoBehaviour:
@@ -3238,7 +3238,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: '# AVAILABLE'
+  m_Text: AVAILABLE
 --- !u!114 &114747861889200300
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3293,7 +3293,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: '# TO SPAWN'
+  m_Text: SPAWN
 --- !u!114 &114767209654538288
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3541,6 +3541,8 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: Completing the final wave will play back to the first wave and so on, infinitely.
+    This may not be selectable if any spawn type's spawn amount would exceed the new
+    'available'
 --- !u!114 &114917303518713028
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3573,8 +3575,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Choose the minimum amount of the selected spawn type to advance to the next
-    wave. To advance to the next wave, this condition must be met by all spawns.
+  m_Text: The number that players must kill to advance to the next wave.
 --- !u!114 &114927257734583134
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3776,7 +3777,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: '= Spawn-type-max (per wave) - # to advance from previous wave'
+  m_Text: The number of spawns still available in the current wave. The maximum available
+    is restricted by how many spawns of this type may still be alive from the previous
+    wave.
 --- !u!114 &114979770413775654
 MonoBehaviour:
   m_ObjectHideFlags: 1

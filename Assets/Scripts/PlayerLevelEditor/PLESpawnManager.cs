@@ -182,10 +182,18 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
     }
 
     public int NumberSpawnsInCurrentWave(SpawnType type) {
-        return WorkingLevelData.NumSpawns(type, CurrentWaveIndex);
+        return NumberSpawnsInWave(type, CurrentWaveIndex);
     }
-    public int GetMaxSpawnsAllowedInWave(PLESpawn spawn) {
-        int previousWaveIndex = CurrentWaveIndex - 1;
+    public int NumberSpawnsInWave(SpawnType type, int waveIndex) {
+        waveIndex = Mathf.Clamp(waveIndex, 0, MaxWaveIndex);
+        return WorkingLevelData.NumSpawns(type, waveIndex);
+    }
+    public int GetMaxSpawnsAllowedInCurrentWave(PLESpawn spawn) {
+        return GetMaxSpawnsAllowedInWave(spawn, CurrentWaveIndex);
+    }
+    public int GetMaxSpawnsAllowedInWave(PLESpawn spawn, int waveIndex) {
+        waveIndex = Mathf.Clamp(waveIndex, 0, MaxWaveIndex);
+        int previousWaveIndex = waveIndex - 1;
         int previousWaveMinSpawnCount = 0;
         if (previousWaveIndex < 0 && InfiniteWavesEnabled) {
             previousWaveIndex = MaxWaveIndex;
@@ -208,14 +216,27 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
         return numSpawnsInNextWave;
     }
     public bool SpawnsUnderMaximum(PLESpawn spawn) {
-        return NumberSpawnsInCurrentWave(spawn.spawnType) < GetMaxSpawnsAllowedInWave(spawn);
+        return NumberSpawnsInCurrentWave(spawn.spawnType) < GetMaxSpawnsAllowedInCurrentWave(spawn);
     }
     public bool Wave0SpawnsAllowForWrapping() {
         return allSpawnTypes.All(spawn => {
-            int numSpawnsInWave0 = WorkingLevelData.NumSpawns(spawn.spawnType, 0);
-            int maxSpawnsAllowedInWave0 = spawn.MaxPerWave - WorkingLevelData.MinNumSpawns(spawn.spawnType, MaxWaveIndex);
+            int numSpawnsInWave0 = NumberSpawnsInWave(spawn.spawnType, 0);
+            int maxSpawnsAllowedInWave0 = GetMaxSpawnsAllowedInWave(spawn, 0);
             return numSpawnsInWave0 <= maxSpawnsAllowedInWave0;
         });
+    }
+
+    public int GetMaxMinSpawnsAllowedCurrentInWave(PLESpawn spawn) {
+        return
+            Mathf.Min(spawn.MaxPerWave - GetNumberSpawnsInNextWave(spawn),
+            WorkingLevelData.NumSpawns(spawn.spawnType, CurrentWaveIndex));
+    }
+    public int GetRequiredKillCountInCurrentWave(PLESpawn spawn) {
+        int maxMinSpawnsAllowed = GetMaxMinSpawnsAllowedCurrentInWave(spawn);
+        return Mathf.Clamp(maxMinSpawnsAllowed - spawn.MinSpawns, 0, maxMinSpawnsAllowed);
+    }
+    public int RemainingSpawnsInCurrentWave(PLESpawn spawn) {
+        return GetMaxSpawnsAllowedInCurrentWave(spawn) - NumberSpawnsInCurrentWave(spawn.spawnType);
     }
     #endregion
 

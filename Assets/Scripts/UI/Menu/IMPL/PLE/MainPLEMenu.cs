@@ -28,6 +28,7 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
     [Header("Other things")]
     [SerializeField] private Selectable firstSelectable;
     [SerializeField] private Selectable floorItem, propsItem, spawnsItem, waveItem, testItem, saveItem, loadItem, helpItem, exitItem;
+    [SerializeField] private RefsToggle helpSideBarToggler;
     #endregion
 
     #region Private Fields
@@ -297,6 +298,12 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
             currentDisplayedMenu = i_newMenu;
             bool allowCameraMovement = !IsMenu(currentDisplayedMenu, PLEMenu.SAVE, PLEMenu.LEVELSELECT, PLEMenu.TEST);
             levelEditor.ToggleCameraController(allowCameraMovement);
+
+            bool hideSideBar = IsMenu(currentDisplayedMenu, PLEMenu.HELP, PLEMenu.LEVELSELECT, PLEMenu.TEST);
+            if (hideSideBar) {
+                helpSideBarToggler.HidePane();
+            }
+            helpSideBarToggler.LockPane(hideSideBar);
         }
         SetMenuButtonInteractabilityByState();
     }
