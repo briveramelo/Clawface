@@ -45,9 +45,6 @@ public class SettingsMenu : Menu {
     [SerializeField]
     private Button _default = null;
 
-    [SerializeField]
-    private Button apply = null;
-
     [Header("Settings Objects - Graphics")]
     [SerializeField]
     private TextSlider quality = null;
@@ -148,10 +145,14 @@ public class SettingsMenu : Menu {
     {
         MenuManager.Instance.DoTransition(Strings.MenuStrings.MAIN, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
 
-        // Load ControlMapper Data
+        // Save OnExit Settings
+        TransferOnExitSettingsToManager();
+        SettingsManager.Instance.ApplyChanges();
+
+        // Save ControlMapper Data
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONTROLS);
         ControlMapperMenu cMenu = menu as ControlMapperMenu;
-        cMenu.UserDataStore.Load();
+        cMenu.UserDataStore.Save();
     }
 
     public void ButtonDefault()
@@ -160,20 +161,15 @@ public class SettingsMenu : Menu {
         TransferSettingsFromManager();
     }
 
-    public void ButtonApply()
-    {
-        TransferSettingsToManager();
-        SettingsManager.Instance.ApplyChanges();
-
-        // Apply ControlMapper Data
-        Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONTROLS);
-        ControlMapperMenu cMenu = menu as ControlMapperMenu;
-        cMenu.UserDataStore.Save();
-    }
-
     public void ButtonRemap()
     {
         MenuManager.Instance.DoTransition(Strings.MenuStrings.CONTROLS, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+    }
+
+    public void CallbackRealtimeSettingValueChanged()
+    {
+        TransferRealtimeSettingsToManager();
+        SettingsManager.Instance.ApplyChanges();
     }
 
     #endregion
@@ -208,7 +204,7 @@ public class SettingsMenu : Menu {
 
     private void LinkActionButtonsTo(Selectable item)
     {
-        foreach (Selectable selectable in new Selectable[] { back, _default, apply })
+        foreach (Selectable selectable in new Selectable[] { back, _default })
         {
             Navigation nav = selectable.navigation;
             nav.selectOnUp = item;
@@ -249,7 +245,16 @@ public class SettingsMenu : Menu {
         tutorial.isOn = manager.Tutorial;
     }
 
-    private void TransferSettingsToManager()
+    private void TransferRealtimeSettingsToManager()
+    {
+        SettingsManager manager = SettingsManager.Instance;
+
+        // Audio
+        manager.MusicVolume = music.value;
+        manager.SFXVolume = ui.value;
+    }
+
+    private void TransferOnExitSettingsToManager()
     {
         SettingsManager manager = SettingsManager.Instance;
 
@@ -258,10 +263,6 @@ public class SettingsMenu : Menu {
         manager.Resolution = (Resolution)resolution.DataSource.Value;
         manager.GoreDetail = (int)goreDetail.DataSource.Value;
         manager.FullScreen = fullscreen.isOn;
-
-        // Audio
-        manager.MusicVolume = music.value;
-        manager.SFXVolume = ui.value;
 
         // Controls
         manager.FireMode = (FireMode)fireMode.DataSource.Value;
