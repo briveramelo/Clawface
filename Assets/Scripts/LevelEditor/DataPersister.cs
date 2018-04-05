@@ -9,8 +9,9 @@ using System.Linq;
 public class DataPersister : Singleton<DataPersister> {
     
     public static DataSave ActiveDataSave = new DataSave();
-    string PathDirectory { get { return Application.dataPath + "/Saves";} }
-    string FilePath { get { return PathDirectory + "/savefile.dat"; } }
+    string SavesPathDirectory { get { return Application.dataPath + "/Saves";} }
+    string DataSaveFilePath { get { return SavesPathDirectory + "/savefile.dat"; } }
+    
 
     public DataSave dataSave;
 
@@ -35,19 +36,19 @@ public class DataPersister : Singleton<DataPersister> {
     #region Public Interface
     public void Load() {
         ActiveDataSave = null;
-        if (!Directory.Exists(PathDirectory)) {
-            Directory.CreateDirectory(PathDirectory);
+        if (!Directory.Exists(SavesPathDirectory)) {
+            Directory.CreateDirectory(SavesPathDirectory);
         }
-        if (File.Exists(FilePath)) {
+        if (File.Exists(DataSaveFilePath)) {
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream fileStream = File.Open(FilePath, FileMode.Open);
+            FileStream fileStream = File.Open(DataSaveFilePath, FileMode.Open);
             try {
                 ActiveDataSave = new DataSave((DataSave)bf.Deserialize(fileStream));
                 fileStream.Close();
             }
             catch {
                 fileStream.Close();
-                File.Delete(FilePath);
+                File.Delete(DataSaveFilePath);
                 ActiveDataSave = new DataSave();
             }
         }
@@ -71,14 +72,33 @@ public class DataPersister : Singleton<DataPersister> {
         ClearEmptyLevels();
         SaveDataFile();
     }
+
+    public void TrySaveLevelDataFile(LevelData i_Data)
+    {
+        string levelDirectory = SavesPathDirectory + "/" + i_Data.name;
+        if(!Directory.Exists(levelDirectory))
+        {
+            Directory.CreateDirectory(levelDirectory);
+        }
+        string completeFilePath = levelDirectory + "/" + i_Data.name + ".dat";
+        SaveLevelDataFile(completeFilePath, i_Data);
+    }
     #endregion
 
     #region Private Interface
     void SaveDataFile() {
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream fileStream = File.Create(FilePath);
+        FileStream fileStream = File.Create(DataSaveFilePath);
         bf.Serialize(fileStream, new DataSave(ActiveDataSave));
         fileStream.Close();
+    }
+
+    void SaveLevelDataFile(string i_filePath, LevelData i_Data)
+    {
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream fs = File.Create(i_filePath);
+        bf.Serialize(fs, i_Data);
+        fs.Close();
     }
 
     void ClearEmptyLevels() {

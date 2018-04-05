@@ -278,6 +278,7 @@ public class LevelDataManager : MonoBehaviour {
         yield return new WaitForEndOfFrame();
         SavePicture();
         dataPersister.TrySaveWorkingLevel();
+        //dataPersister.TrySaveLevelDataFile(WorkingLevelData);
         yield return new WaitForEndOfFrame();
         mainPLEMenu.CanvasGroup.alpha = 1f;
         mainPLEMenu.GetMenu(PLEMenuType.FLOOR).CanvasGroup.alpha = 1f;
@@ -307,5 +308,6 @@ public class LevelDataManager : MonoBehaviour {
         }
     }
     #endregion
+
 
 }
