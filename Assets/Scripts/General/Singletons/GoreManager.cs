@@ -4,13 +4,57 @@ using UnityEngine.Rendering;
 
 public class GoreManager : Singleton<GoreManager> {
 
+    #region Accessors (Public)
+
+    public bool GoreEnabled
+    {
+        get
+        {
+            return SettingsManager.Instance.GoreDetail > 0;
+        }
+    }
+
+    public Shader AdvancedSplatShader
+    {
+        get
+        {
+            return advancedSplatShader;
+        }
+    }
+
+    public Shader SimpleSplatShader
+    {
+        get
+        {
+            return simpleSplatShader;
+        }
+    }
+
+    public int NumSplatsToRender
+    {
+        get
+        {
+            return numSplatsToRender;
+        }
+    }
+
+    public Vector2 FrameDim
+    {
+        get
+        {
+            return frameDim;
+        }
+    }
+
+    #endregion
+
     #region Unity Serialization
 
     [Header ("Custom Cameras")]
     [SerializeField]
     private Camera uvSpaceCamera;
 
-    [Header ("Splat Stuffs")]
+    [Header ("Splat Queuing Stuffs")]
     [SerializeField]
     private SplatSO[] splats;
     [SerializeField]
@@ -18,8 +62,22 @@ public class GoreManager : Singleton<GoreManager> {
     [SerializeField]
     private float castDistance = 1.5F;
 
-    #if UNITY_EDITOR
+    [Header("Splat Rendering Stuffs")]
+    [SerializeField]
+    private Shader advancedSplatShader = null;
 
+    [SerializeField]
+    private Shader simpleSplatShader = null;
+
+    [SerializeField]
+    private int numSplatsToRender = 10;
+
+    [SerializeField]
+    private Vector2 frameDim = new Vector2(256, 256);
+
+#if UNITY_EDITOR
+
+    [Header("Editor Only")]
     [SerializeField]
     private bool debugSplats = false;
 
