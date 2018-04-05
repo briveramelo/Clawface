@@ -7,7 +7,7 @@ using PlayerLevelEditor;
 using System.Linq;
 using System;
 
-public class PLELevelSelectMenu : PlayerLevelEditorMenu {
+public class PLELevelSelectMenu : PLEMenu {
 
     public PLELevelSelectMenu() : base(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU) { }
 

@@ -10,7 +10,7 @@ namespace PlayerLevelEditor
     public class LevelEditor : MonoBehaviour {        
         
         #region Serialized Unity Fields        
-        public PlayerLevelEditorGrid gridController;
+        public PLEGrid gridController;
         public LevelDataManager levelDataManager;
 
         [SerializeField] private Transform createdSpawnsParent;
@@ -154,19 +154,5 @@ namespace PlayerLevelEditor
         public const int Jump = 2;
     }
 
-    public enum PLEMenu
-    {
-        INIT,
-        MAIN,
-        PROPS,
-        FLOOR,
-        SPAWN,
-        SAVE,
-        HELP,
-        WAVE,
-        TEST,
-        LEVELSELECT,
-        EXIT,
-        NONE
-    }
+
 }

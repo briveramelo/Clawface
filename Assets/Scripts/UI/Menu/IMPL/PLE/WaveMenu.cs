@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using PlayerLevelEditor;
 
-public class WaveMenu : PlayerLevelEditorMenu
+public class WaveMenu : PLEMenu
 {
     #region Public Fields
 

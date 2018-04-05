@@ -67,7 +67,7 @@ public class LevelDataManager : MonoBehaviour {
         if (SceneTracker.IsCurrentSceneEditor) {
             EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CALL_WAVE, waveIndex);
             mainPLEMenu.SetMenuButtonInteractabilityByState();
-            mainPLEMenu.SelectMenuItem(PLEMenu.FLOOR);
+            mainPLEMenu.SelectMenuItem(PLEMenuType.FLOOR);
         }
     }    
 
@@ -86,7 +86,7 @@ public class LevelDataManager : MonoBehaviour {
             rigbod.isKinematic = true;
         }
         if (SceneTracker.IsCurrentSceneEditor) {
-            (mainPLEMenu.GetMenu(PLEMenu.PROPS) as PropsMenu).ResetMenu(propNames);
+            (mainPLEMenu.GetMenu(PLEMenuType.PROPS) as PropsMenu).ResetMenu(propNames);
         }
     }
 
@@ -128,12 +128,12 @@ public class LevelDataManager : MonoBehaviour {
             SpawnMenu.playerSpawnInstance = keiraSpawnTransform.gameObject;
         }
         if (SceneTracker.IsCurrentSceneEditor) {
-            (mainPLEMenu.GetMenu(PLEMenu.SPAWN) as SpawnMenu).ResetMenu(spawnNames);
+            (mainPLEMenu.GetMenu(PLEMenuType.SPAWN) as SpawnMenu).ResetMenu(spawnNames);
         }
     }
 
     private void LoadTiles() {
-        PlayerLevelEditorGrid gridController = levelEditor.gridController;
+        PLEGrid gridController = levelEditor.gridController;
         gridController.ResetGrid();
         for (int i = 0; i < WorkingTileData.Count; i++) {
             TileData tileData = WorkingTileData[i];
@@ -274,14 +274,14 @@ public class LevelDataManager : MonoBehaviour {
         yield return new WaitForEndOfFrame();
         levelEditor.gridController.SetGridVisiblity(false);
         mainPLEMenu.CanvasGroup.alpha = 0f;
-        mainPLEMenu.GetMenu(PLEMenu.FLOOR).CanvasGroup.alpha = 0f;
+        mainPLEMenu.GetMenu(PLEMenuType.FLOOR).CanvasGroup.alpha = 0f;
         yield return new WaitForEndOfFrame();
         SavePicture();
         dataPersister.TrySaveWorkingLevel();
         yield return new WaitForEndOfFrame();
         mainPLEMenu.CanvasGroup.alpha = 1f;
-        mainPLEMenu.GetMenu(PLEMenu.FLOOR).CanvasGroup.alpha = 1f;
-        mainPLEMenu.SelectMenuItem(PLEMenu.FLOOR);
+        mainPLEMenu.GetMenu(PLEMenuType.FLOOR).CanvasGroup.alpha = 1f;
+        mainPLEMenu.SelectMenuItem(PLEMenuType.FLOOR);
         levelEditor.gridController.SetGridVisiblity(true);
     }
 

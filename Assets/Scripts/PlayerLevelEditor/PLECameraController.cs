@@ -85,7 +85,7 @@ namespace PlayerLevelEditor
 
         #region Unity LifeCycle
         private void Start() {
-            spawnMenu = (mainPLEMenu.GetMenu(PLEMenu.SPAWN) as PlacementMenu);
+            spawnMenu = (mainPLEMenu.GetMenu(PLEMenuType.SPAWN) as PlacementMenu);
             recenterAnim.OnUpdate = UpdateCameraRecenter;
 
             levelSize = levelEditor.gridController.LevelSize;

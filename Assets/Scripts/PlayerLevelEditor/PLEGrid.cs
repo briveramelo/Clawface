@@ -6,7 +6,7 @@ using ModMan;
 using System.Linq;
 using UnityEngine.AI;
 
-public class PlayerLevelEditorGrid : EventSubscriber {
+public class PLEGrid : EventSubscriber {
     #region Private Fields
     private List<GridTile> gridTiles = new List<GridTile>();
 
@@ -252,7 +252,7 @@ public class PlayerLevelEditorGrid : EventSubscriber {
         if (!OtherCameraInputIsBlocking) {
             if (Input.GetMouseButtonDown(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftShift)) {
                 DeselectBlocks();
-                mainPLEMenu.SetMenuButtonInteractabilityByState(PLEMenu.FLOOR);
+                mainPLEMenu.SetMenuButtonInteractabilityByState(PLEMenuType.FLOOR);
             }
             if (Input.GetMouseButton(MouseButtons.LEFT)) {
                 ReselectPreviouslySelected();
@@ -275,7 +275,7 @@ public class PlayerLevelEditorGrid : EventSubscriber {
     private void HandleDeleteBlockSelection(RaycastHit hit) {
         if (Input.GetMouseButtonDown(MouseButtons.RIGHT)) {
             DeselectBlocks();
-            mainPLEMenu.SetMenuButtonInteractabilityByState(PLEMenu.FLOOR);
+            mainPLEMenu.SetMenuButtonInteractabilityByState(PLEMenuType.FLOOR);
         }
         if (Input.GetMouseButton(MouseButtons.RIGHT) && !OtherCameraInputIsBlocking) {
             DeselectBlocks();

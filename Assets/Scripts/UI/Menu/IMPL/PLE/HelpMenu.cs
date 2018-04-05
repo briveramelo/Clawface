@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using PlayerLevelEditor;
 
-public class HelpMenu : PlayerLevelEditorMenu {
+public class HelpMenu : PLEMenu {
 
     #region Public Fields
 

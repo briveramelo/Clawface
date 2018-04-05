@@ -7,7 +7,7 @@ using ModMan;
 using UnityEngine.UI;
 using System.Linq;
 
-public abstract class PlacementMenu : PlayerLevelEditorMenu {
+public abstract class PlacementMenu : PLEMenu {
 
     public PlacementMenu(string menuName) : base(menuName) { }
 

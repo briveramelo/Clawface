@@ -367,3 +367,19 @@ public enum Difficulty
     HARD,
     COUNT
 }
+
+public enum PLEMenuType
+{
+    INIT,
+    MAIN,
+    PROPS,
+    FLOOR,
+    SPAWN,
+    SAVE,
+    HELP,
+    WAVE,
+    TEST,
+    LEVELSELECT,
+    EXIT,
+    NONE
+}

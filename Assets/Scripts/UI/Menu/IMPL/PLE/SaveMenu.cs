@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 using PlayerLevelEditor;
 
-public class SaveMenu : PlayerLevelEditorMenu {
+public class SaveMenu : PLEMenu {
     
     #region Public Fields
 

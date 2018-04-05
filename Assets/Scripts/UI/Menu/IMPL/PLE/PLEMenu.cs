@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class PlayerLevelEditorMenu : Menu {
+public abstract class PLEMenu : Menu {
 
-    public PlayerLevelEditorMenu(string name) : base(name) { }
+    public PLEMenu(string name) : base(name) { }
 
     [SerializeField] protected Selectable initiallySelected;
     [SerializeField] protected LevelEditor levelEditor;

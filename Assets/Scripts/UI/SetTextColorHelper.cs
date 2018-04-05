@@ -47,15 +47,15 @@ public class SetTextColorHelper : MonoBehaviour
 
         switch (mainPLEMenu.currentDisplayedMenu)
         {
-            case PLEMenu.FLOOR: floorText.color = selectedColor; break;
-            case PLEMenu.PROPS: propsText.color = selectedColor; break;
-            case PLEMenu.SPAWN: spawnsText.color = selectedColor; break;
-            case PLEMenu.WAVE: wavesText.color = selectedColor; break;
-            case PLEMenu.TEST: testText.color = selectedColor; break;
-            case PLEMenu.SAVE: saveText.color = selectedColor; break;
-            case PLEMenu.LEVELSELECT: loadText.color = selectedColor; break;
-            case PLEMenu.HELP: helpText.color = selectedColor; break;
-            case PLEMenu.NONE: floorText.color = selectedColor; break;
+            case PLEMenuType.FLOOR: floorText.color = selectedColor; break;
+            case PLEMenuType.PROPS: propsText.color = selectedColor; break;
+            case PLEMenuType.SPAWN: spawnsText.color = selectedColor; break;
+            case PLEMenuType.WAVE: wavesText.color = selectedColor; break;
+            case PLEMenuType.TEST: testText.color = selectedColor; break;
+            case PLEMenuType.SAVE: saveText.color = selectedColor; break;
+            case PLEMenuType.LEVELSELECT: loadText.color = selectedColor; break;
+            case PLEMenuType.HELP: helpText.color = selectedColor; break;
+            case PLEMenuType.NONE: floorText.color = selectedColor; break;
         }
 
     }

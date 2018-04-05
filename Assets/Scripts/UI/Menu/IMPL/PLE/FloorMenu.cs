@@ -5,7 +5,7 @@ using UnityEngine;
 using PlayerLevelEditor;
 using System.Linq;
 
-public class FloorMenu : PlayerLevelEditorMenu {
+public class FloorMenu : PLEMenu {
 
     #region Public Fields
 
