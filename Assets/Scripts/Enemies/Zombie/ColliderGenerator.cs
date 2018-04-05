@@ -72,7 +72,7 @@ public class ColliderGenerator : MonoBehaviour {
                     acidTriggers[i].gameObject.SetActive(false);
                 }
                 gameObject.SetActive(false);
-
+                acidTriggers.Clear();
             }
         }
 

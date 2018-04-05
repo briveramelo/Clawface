@@ -12,7 +12,7 @@ public class ZombieAciderChaseState : AIState {
 
     public ColliderGenerator colliderGenerator;
     public TrailRenderer trailRenderer;
-    private GameObject acidObject;
+    public GameObject acidObject;
 
     public override void OnEnter()
     {
@@ -54,5 +54,8 @@ public class ZombieAciderChaseState : AIState {
         navAgent.SetDestination(controller.AttackTarget.position);
     }
 
-
+    public void ResetAcidObject()
+    {
+        acidObject = null;
+    }
 }
