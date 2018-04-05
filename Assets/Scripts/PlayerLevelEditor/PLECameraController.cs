@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using ModMan;
 using MEC;
-namespace PlayerLevelEditor
+namespace PLE
 {
     [RequireComponent(typeof(Camera))]
     public class PLECameraController : RoutineRunner

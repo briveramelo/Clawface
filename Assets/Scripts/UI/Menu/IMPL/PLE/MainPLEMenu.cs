@@ -3,7 +3,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using ModMan;
-using PlayerLevelEditor;
+using PLE;
 
 public class MainPLEMenu : PLEMenu {
 

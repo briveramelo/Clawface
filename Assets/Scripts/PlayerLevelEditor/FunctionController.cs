@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace PlayerLevelEditor
+namespace PLE
 {
     public class FunctionController
     {

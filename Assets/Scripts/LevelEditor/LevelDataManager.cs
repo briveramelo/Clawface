@@ -5,7 +5,7 @@ using UnityEngine;
 using ModMan;
 using System.Linq;
 using UnityEngine.UI;
-using PlayerLevelEditor;
+using PLE;
 
 public class LevelDataManager : MonoBehaviour {
 

@@ -2,7 +2,7 @@
 
 using System.Collections.Generic;
 using UnityEngine;
-using PlayerLevelEditor;
+using PLE;
 using ModMan;
 using UnityEngine.UI;
 using System.Linq;

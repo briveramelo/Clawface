@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using ModMan;
 
-namespace PlayerLevelEditor
+namespace PLE
 {
     public class LevelEditor : MonoBehaviour {        
         
