@@ -6,6 +6,8 @@ using ModMan;
 using System.Linq;
 using UnityEngine.UI;
 using PLE;
+using Steamworks;
+using System;
 
 public class LevelDataManager : MonoBehaviour {
 
@@ -198,6 +200,8 @@ public class LevelDataManager : MonoBehaviour {
         SyncWorkingWaveState();
         StartCoroutine(TakePictureAndSave());
     }
+
+
     private void SyncWorkingTileData() {
         WorkingTileData.Clear();
         for (int i = 0; i < tileParent.childCount; i++) {
@@ -276,14 +280,16 @@ public class LevelDataManager : MonoBehaviour {
         mainPLEMenu.CanvasGroup.alpha = 0f;
         mainPLEMenu.GetMenu(PLEMenuType.FLOOR).CanvasGroup.alpha = 0f;
         yield return new WaitForEndOfFrame();
+        dataPersister.TrySaveLevelDataFile(WorkingLevelData);
         SavePicture();
         dataPersister.TrySaveWorkingLevel();
-        //dataPersister.TrySaveLevelDataFile(WorkingLevelData);
+        //TODO: Saves the current working level to it's own folder and file.dat
         yield return new WaitForEndOfFrame();
         mainPLEMenu.CanvasGroup.alpha = 1f;
         mainPLEMenu.GetMenu(PLEMenuType.FLOOR).CanvasGroup.alpha = 1f;
         mainPLEMenu.SelectMenuItem(PLEMenuType.FLOOR);
         levelEditor.gridController.SetGridVisiblity(true);
+        DataPersister.Instance.TrySendToSteam(WorkingLevelData);
     }
 
     private void SavePicture() {
@@ -293,6 +299,7 @@ public class LevelDataManager : MonoBehaviour {
         TextureScale.Bilinear(snapshot, (int)LevelData.fixedSize.x, (int)LevelData.fixedSize.y);
         snapshot.Apply();
         byte[] imageBytes = snapshot.EncodeToPNG();
+        DataPersister.Instance.SaveSnapshotToFile(imageBytes);
         WorkingLevelData.SetPicture(imageBytes);
     }
 

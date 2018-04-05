@@ -5,13 +5,17 @@ using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Linq;
+using Steamworks;
 
 public class DataPersister : Singleton<DataPersister> {
     
     public static DataSave ActiveDataSave = new DataSave();
     string SavesPathDirectory { get { return Application.dataPath + "/Saves";} }
     string DataSaveFilePath { get { return SavesPathDirectory + "/savefile.dat"; } }
-    
+
+    public static LevelData WorkingLevelData;
+    string currentLevelDataFolder;
+    string currentImagePath;
 
     public DataSave dataSave;
 
@@ -73,9 +77,16 @@ public class DataPersister : Singleton<DataPersister> {
         SaveDataFile();
     }
 
+    public void SaveSnapshotToFile(byte[] i_imgData)
+    {
+        currentImagePath = currentLevelDataFolder + WorkingLevelData.name + ".png";
+        File.WriteAllBytes(currentImagePath, i_imgData);
+    }
+
     public void TrySaveLevelDataFile(LevelData i_Data)
     {
         string levelDirectory = SavesPathDirectory + "/" + i_Data.name;
+        currentLevelDataFolder = levelDirectory;
         if(!Directory.Exists(levelDirectory))
         {
             Directory.CreateDirectory(levelDirectory);
@@ -83,9 +94,44 @@ public class DataPersister : Singleton<DataPersister> {
         string completeFilePath = levelDirectory + "/" + i_Data.name + ".dat";
         SaveLevelDataFile(completeFilePath, i_Data);
     }
+
+    public bool TrySendToSteam(LevelData i_Data)
+    {
+        WorkingLevelData = i_Data;
+        GenerateSteamFileID();
+        SteamWorkshop.Instance.UpdateItem(
+            WorkingLevelData.FileID,
+            WorkingLevelData.name,
+            WorkingLevelData.description,
+            currentLevelDataFolder,
+            currentImagePath,
+            "sup",
+            OnItemSubmitted
+            );
+        return true;
+    }
+
+    private void OnItemSubmitted(bool result)
+    {
+        print("Item Submitted");
+    }
     #endregion
 
     #region Private Interface
+    private void GenerateSteamFileID()
+    {
+        SteamWorkshop.Instance.CreateNewItem(OnCreateItem);
+    }
+
+    private void OnCreateItem(PublishedFileId_t fileId)
+    {
+        if (fileId.m_PublishedFileId != 0)
+        {
+            //success
+            WorkingLevelData.fileID = fileId;
+        }
+    }
+
     void SaveDataFile() {
         BinaryFormatter bf = new BinaryFormatter();
         FileStream fileStream = File.Create(DataSaveFilePath);
@@ -180,6 +226,7 @@ public class LevelData {
         this.isInfinite = copy.isInfinite;
         this.isHathosLevel = copy.isHathosLevel;
         this.dateString = copy.dateString;
+        this.fileID = copy.fileID;
         if (copy.imageData!=null) {
             this.imageData = copy.imageData.ToArray();
         }
@@ -198,6 +245,7 @@ public class LevelData {
     public bool isMadeByThisUser = true;
     public bool isInfinite;
     public bool isHathosLevel;
+    public PublishedFileId_t fileID;
     [SerializeField] string dateString;
     [HideInInspector] public byte[] imageData;
     public List<WaveData> waveData = new List<WaveData>();
@@ -315,6 +363,8 @@ public class LevelData {
     public int WaveCount { get { return waveData.Count; } }
     public int TileCount { get { return tileData.Count; } }
     public int PropCount { get { return propData.Count; } }
+    public PublishedFileId_t FileID { get { return fileID; } }
+
 
     public void SaveTimestamp() {
         this.timeSaved = DateTime.UtcNow;
