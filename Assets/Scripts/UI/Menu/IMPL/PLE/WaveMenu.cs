@@ -52,7 +52,7 @@ public class WaveMenu : PlayerLevelEditorMenu
 
         bool wavesCanWrap = PLESpawnManager.Instance.Wave0SpawnsAllowForWrapping();
         infWaveButton.interactable = wavesCanWrap;
-        if (!wavesCanWrap) {
+        if (!wavesCanWrap) { //shouldn't happen, but yeah why not?
             IsWavesInfinite = false;
         }
     }
