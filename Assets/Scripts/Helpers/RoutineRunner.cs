@@ -5,9 +5,17 @@ using MEC;
 using System;
 public class RoutineRunner : MonoBehaviour {
 
-    protected string coroutineName { get { return GetHashCode().ToString(); } }
+    private string coroutineName;
+    protected string CoroutineName {
+        get {
+            if (string.IsNullOrEmpty(coroutineName)) {
+                coroutineName = Guid.NewGuid().ToString();
+            }
+            return coroutineName;
+        }
+    }
     protected virtual void OnDisable() {
-        Timing.KillCoroutines(coroutineName);
+        KillCoroutines();
     }
 
     protected IEnumerator<float> DelayAction(Action action, float seconds = 0f) {
@@ -22,13 +30,24 @@ public class RoutineRunner : MonoBehaviour {
         }
         action();
     }
+    protected virtual void KillCoroutines() {
+        Timing.KillCoroutines(CoroutineName);
+    }
 }
 
 public class RoutineRunnerNonMono {
 
-    public string coroutineName { get { return GetHashCode().ToString(); } }
-    protected virtual void OnDisable() {
-        Timing.KillCoroutines(coroutineName);
+    private string coroutineName;
+    public string CoroutineName {
+        get {
+            if (string.IsNullOrEmpty(coroutineName)) {
+                coroutineName = Guid.NewGuid().ToString();
+            }
+            return coroutineName;
+        }
+    }
+    public virtual void Kill() {
+        Timing.KillCoroutines(CoroutineName);
     }
 
     protected IEnumerator<float> DelayAction(Action action, float seconds = 0f) {

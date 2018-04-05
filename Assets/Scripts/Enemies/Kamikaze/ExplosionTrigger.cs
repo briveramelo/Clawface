@@ -16,7 +16,7 @@ public class ExplosionTrigger : RoutineRunner {
 
     public void OnEnable()
     {
-        Timing.RunCoroutine(CreateExplosionSphere(), coroutineName);
+        Timing.RunCoroutine(CreateExplosionSphere(), CoroutineName);
     }
 
     private IEnumerator<float> CreateExplosionSphere()

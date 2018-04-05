@@ -24,7 +24,7 @@ public class ZombieBeserkerChaseState : AIState {
     public override void OnExit()
     {
         doneAttacking = false;
-        Timing.KillCoroutines(coroutineName);
+        Timing.KillCoroutines(CoroutineName);
     }
 
     public void RandomAttack()
@@ -34,7 +34,7 @@ public class ZombieBeserkerChaseState : AIState {
         attacks.Add((int)AnimationStates.Attack6);
         int animationAttackValue = attacks[Random.Range(0, attacks.Count)];
         animator.SetInteger("AttackValue", animationAttackValue);
-        Timing.RunCoroutine(SetDoneAttacking(), coroutineName);
+        Timing.RunCoroutine(SetDoneAttacking(), CoroutineName);
         
     }
 

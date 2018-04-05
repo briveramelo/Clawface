@@ -231,7 +231,7 @@ public class MallCopShotgun : EnemyBase
 
             currentHitReactionLayerWeight = 1.0f;
             animator.SetLayerWeight(3, currentHitReactionLayerWeight);
-            Timing.RunCoroutine(HitReactionLerp(), coroutineName);
+            Timing.RunCoroutine(HitReactionLerp(), CoroutineName);
         }
         base.DoHitReaction(damager);
     }

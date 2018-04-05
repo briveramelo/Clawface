@@ -66,7 +66,7 @@ public class KamikazePulserAttackState : AIState {
         if (currentPulseGenerator.gameObject != null && currentPulseGenerator.DonePulsing())
         {
             currentPulseGenerator.gameObject.SetActive(false);
-            Timing.RunCoroutine(WaitToMove(), coroutineName);
+            Timing.RunCoroutine(WaitToMove(), CoroutineName);
         }
     }
 

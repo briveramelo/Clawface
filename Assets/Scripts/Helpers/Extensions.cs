@@ -270,6 +270,11 @@ namespace ModMan {
             return selectable.interactable && selectable.IsActive();
         }
     }
+    public static class ClassExtensions {
+        public static bool IsNull<T>(this T thisInterface) where T : class {
+            return thisInterface==null || thisInterface.Equals(null);
+        }
+    }
 
     public static class GameObjectExtensions {
 

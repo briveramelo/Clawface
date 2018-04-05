@@ -21,7 +21,7 @@ public abstract class PlacementMenu : PlayerLevelEditorMenu {
     protected GameObject selectedItemPrefab = null;
     protected GameObject previewItem = null;
     protected List<string> itemNames = new List<string>();
-    public Transform SelectedItem { get { return selectedPLEItem!=null ? selectedPLEItem.transform : null; } }
+    public IPLESelectable SelectedItem { get { return selectedPLEItem ?? null; } }
 
     #region Boolean Helpers
     protected virtual bool SelectUI { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt); } }

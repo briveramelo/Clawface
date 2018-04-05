@@ -1,5 +1,4 @@
-﻿
-//Uses 
+﻿//Uses 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -90,7 +89,7 @@ public class MallCopReanimatorFireState : AIState {
 
     public void StopCoroutines()
     {
-        Timing.KillCoroutines(coroutineName);
+        Kill();
     }
 
 }

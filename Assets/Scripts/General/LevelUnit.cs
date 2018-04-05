@@ -43,7 +43,7 @@ public class LevelUnit : EventSubscriber, ILevelTilable {
     private Color startAlbedoColor, targetAlbedoColor, startEmissiveColor, targetEmissiveColor;
     private const string AlbedoTint = "_AlbedoTint";
     private const string EmissiveColor = "_EmissiveColor";
-    private string TintCoroutineName { get { return coroutineName + AlbedoTint; } }
+    private string TintCoroutineName { get { return CoroutineName + AlbedoTint; } }
     private List<LevelUnitStates> levelUnitStates = new List<LevelUnitStates>();
     private Splattable splattable;
     private static string[] masks = { Strings.Layers.ENEMY, Strings.Layers.ENEMY_BODY, Strings.Layers.MODMAN };

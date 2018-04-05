@@ -75,8 +75,8 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     private List<Selectable> bottomRowSelectables = new List<Selectable>();
     private int selectedFilterIndex;
     private bool IsLastLevelShowing { get { return lastSelectedLevel == null ? false : (lastSelectedLevel.gameObject.activeInHierarchy); } }
-    private string ScrollCoroutineName { get { return coroutineName + "Scroll"; } }
-    private string PulseCoroutineName { get { return coroutineName + "Pulse"; } }
+    private string ScrollCoroutineName { get { return CoroutineName + "Scroll"; } }
+    private string PulseCoroutineName { get { return CoroutineName + "Pulse"; } }
     #endregion
 
 

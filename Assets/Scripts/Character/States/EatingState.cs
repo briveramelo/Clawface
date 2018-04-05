@@ -186,7 +186,7 @@ public class EatingState : IPlayerState
                 GameObject healthJuice = ObjectPool.Instance.GetObject(PoolObjectType.VFXHealthGain);
                 if (healthJuice)
                 {
-                    healthJuice.FollowAndDeActivate(3f, transform, Vector3.up * 3.2f, coroutineName);
+                    healthJuice.FollowAndDeActivate(3f, transform, Vector3.up * 3.2f, CoroutineName);
                 }
                 SFXManager.Instance.Play(stateVariables.EatSFX, transform.position);
             }      

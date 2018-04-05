@@ -19,7 +19,7 @@ public abstract class ScrollGroup : RoutineRunner {
     protected List<PLEItem> pleItems = new List<PLEItem>();
     protected bool hasInitialized = false;
     public int LastSelectedIndex { get; private set; }
-    private string ScrollCoroutineName{get{ return coroutineName + "Scroll"; } }
+    private string ScrollCoroutineName{get{ return CoroutineName + "Scroll"; } }
 
     #region Unity Lifecycle
     private void Start() {        

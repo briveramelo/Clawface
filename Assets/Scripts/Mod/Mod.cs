@@ -29,7 +29,6 @@ public abstract class Mod : RoutineRunner {
     protected List<GameObject> recentlyHitObjects = new List<GameObject>();
     protected bool isAttached;
     protected Damager damager=new Damager();
-    protected string coroutineString { get { return GetInstanceID().ToString(); } }    
     #endregion
     
     #region Serialized Unity Inspector fields    
@@ -56,10 +55,7 @@ public abstract class Mod : RoutineRunner {
     }
     #endregion
 
-    #region Public Methods    
-    public void KillCoroutines() {
-        Timing.KillCoroutines(coroutineString);
-    }
+    #region Public Methods
 
     public virtual void Activate(Action onCompleteCoolDown=null, Action onActivate=null) {
         if (!energySettings.isInUse && !energySettings.isCoolingDown)

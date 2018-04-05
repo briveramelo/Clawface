@@ -75,7 +75,7 @@ public abstract class AIController : RoutineRunner {
             DEBUG_CURRENTSTATE = currentState.ToString();
             //DEBUG_ATTACKTARGET = attackTarget.gameObject.name.ToString();
             currentState.OnEnter();
-            Timing.RunCoroutine(IERestartStateTimer(), coroutineName);
+            Timing.RunCoroutine(IERestartStateTimer(), CoroutineName);
         }
     }
     public List<Func<bool>> checksToUpdateState = new List<Func<bool>>();
@@ -90,7 +90,7 @@ public abstract class AIController : RoutineRunner {
         base.OnDisable();
         foreach (KeyValuePair<EAIState, AIState> state in states.aiStates)
         {
-                Timing.KillCoroutines(state.Value.coroutineName);
+            state.Value.Kill();
         }
     }
 
@@ -153,7 +153,7 @@ public abstract class AIController : RoutineRunner {
     }
 
     public void RestartStateTimer() {
-        Timing.RunCoroutine(IERestartStateTimer(), coroutineName);
+        Timing.RunCoroutine(IERestartStateTimer(), CoroutineName);
     }
 
     public Transform FindPlayer()

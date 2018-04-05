@@ -38,7 +38,7 @@ public class SpawnManager : EventSubscriber
     #endregion
 
     void TerminateSpawnerAndEnemies(params object[] items) {
-        Timing.KillCoroutines(coroutineName);
+        Timing.KillCoroutines(CoroutineName);
         FindObjectsOfType<EnemyBase>().ToList().ForEach(enemy => { enemy.OnDeath(); });
         gameObject.SetActive(false);
         gameObject.SetActive(true);
@@ -67,7 +67,7 @@ public class SpawnManager : EventSubscriber
     {
         if (!started && !spawnersLocked)
         {
-            Timing.RunCoroutine(WaitAndSpawn(time), coroutineName);
+            Timing.RunCoroutine(WaitAndSpawn(time), CoroutineName);
             started = true;
         }
 
@@ -89,7 +89,7 @@ public class SpawnManager : EventSubscriber
 
     public void CallNextSpawner(params object[] parameters)
     {
-        Timing.RunCoroutine(WaitAndSpawn(time), coroutineName);
+        Timing.RunCoroutine(WaitAndSpawn(time), CoroutineName);
     } 
 
     IEnumerator<float> WaitAndSpawn(float waitTime)

@@ -71,7 +71,7 @@ public class ModUISelector : RoutineRunner {
                             !modManager.GetModSpotDictionary()[spotCommands.Key].mod.modEnergySettings.isActive)) {
 
                             modManager.EquipMod(spotCommands.Key, selectedMod);
-                            Timing.RunCoroutine(DelayCanActivate(command), coroutineName);
+                            Timing.RunCoroutine(DelayCanActivate(command), CoroutineName);
                             CloseCanvas();
                         }
                         else {
@@ -234,7 +234,7 @@ public class ModUISelector : RoutineRunner {
         public ModUIElement(ModType modType, GameObject uiElement) {
             this.modType=modType;
             this.uiElement=uiElement;
-            Timing.RunCoroutine(InternalUpdate(), Segment.LateUpdate, coroutineName);
+            Timing.RunCoroutine(InternalUpdate(), Segment.LateUpdate, CoroutineName);
         }
 
         public void Set(ModType modType, int numMods, int myIndex) {
@@ -256,21 +256,21 @@ public class ModUISelector : RoutineRunner {
         public void SetBadSelection() {
             uiElement.transform.localPosition = myPosition;
             Timing.KillCoroutines(coroutineString);
-            Timing.RunCoroutine(Shake(), coroutineName);
+            Timing.RunCoroutine(Shake(), CoroutineName);
         }        
                 
         public void SetSelected() {
             isSelected = true;
             uiElement.transform.localPosition = myPosition;
             Timing.KillCoroutines(coroutineString);
-            Timing.RunCoroutine(Bulge(), coroutineName);
+            Timing.RunCoroutine(Bulge(), CoroutineName);
         }
         
         public void SetUnSelected() {
             uiElement.transform.localPosition = myPosition;
             isSelected = false;
             Timing.KillCoroutines(coroutineString);
-            Timing.RunCoroutine(LerpToScale(startScale, 0.2f), coroutineName);
+            Timing.RunCoroutine(LerpToScale(startScale, 0.2f), CoroutineName);
         }
         public void Close() {
             uiElement.transform.localPosition = myPosition;
@@ -281,7 +281,7 @@ public class ModUISelector : RoutineRunner {
 
         private IEnumerable<float> ScaleToStart() {
             isShrinking=true;
-            yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToScale(startScale, 0.1f), coroutineName));
+            yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToScale(startScale, 0.1f), CoroutineName));
             isShrinking=false;
         }
         private IEnumerator<float> Bulge() {

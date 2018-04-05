@@ -25,7 +25,7 @@ public class KamikazeAttackState : AIState {
         waitTimeToDestruct = properties.selfDestructTime;
         blastRadius = properties.blastRadius;
         scaleRate = properties.selfDestructTime;
-        Timing.RunCoroutine(RunStartupTimer(),coroutineName);
+        Timing.RunCoroutine(RunStartupTimer(),CoroutineName);
     }
     public override void Update()
     {
@@ -105,7 +105,7 @@ public class KamikazeAttackState : AIState {
 
     public void StopCoroutines()
     {
-        Timing.KillCoroutines(coroutineName);
+        Timing.KillCoroutines(CoroutineName);
         if(explosionWarning)
         explosionWarning.gameObject.SetActive(false);
     }
