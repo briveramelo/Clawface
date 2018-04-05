@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace PlayerLevelEditor
+namespace PLE
 {
     public class DynamicLevelSystem : ISystem
     {

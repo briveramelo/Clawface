@@ -4,10 +4,23 @@ using System.Linq;
 using UnityEngine;
 using ModMan;
 using MEC;
-public abstract class PLEItem : EventSubscriber {
+
+public interface IPLESelectable {
+    bool IsSelected { get; }
+    bool IsFocused { get; }
+    void Focus();
+    Transform GetTransform { get; }
+}
+
+public abstract class PLEItem : EventSubscriber, IPLESelectable {
 
     [SerializeField] AbsAnim jiggleAnim;
     public Sprite iconPreview;
+    
+    public GridTile tile;
+    public bool IsSelected { get; private set; }
+    public bool IsFocused { get; private set; }
+    public Transform GetTransform { get { return transform; } }
     private Vector3 startScale;
     protected Color startColor;
     protected Color StartColor {
@@ -18,8 +31,15 @@ public abstract class PLEItem : EventSubscriber {
             return startColor;
         }
     }
-    public GridTile tile;
-    public bool IsSelected { get; private set; }
+    private MaterialPropertyBlock matPropBlock;
+    public MaterialPropertyBlock MatPropBlock {
+        get {
+            if (matPropBlock == null) {
+                matPropBlock = new MaterialPropertyBlock();
+            }
+            return matPropBlock;
+        }
+    }
     protected List<Renderer> Renderers {
         get {
             if (renderers == null) {
@@ -28,20 +48,9 @@ public abstract class PLEItem : EventSubscriber {
             return renderers;
         }
     }
-    protected List<Renderer> renderers;
-    protected MaterialPropertyBlock matPropBlock;
-    protected MaterialPropertyBlock MatPropBlock {
-        get {
-            if (matPropBlock==null) {
-                matPropBlock = new MaterialPropertyBlock();                
-            }
-            return matPropBlock;
-        }
-    }    
+    private List<Renderer> renderers;
 
     protected abstract string ColorTint { get; }
-
-
 
     protected override void Awake() {
         base.Awake();
@@ -49,13 +58,13 @@ public abstract class PLEItem : EventSubscriber {
         jiggleAnim.OnUpdate = ScaleItem;
     }
 
-    void ScaleItem(float val) {
+    private void ScaleItem(float val) {
         transform.localScale = startScale + startScale * val;
     }
 
     public virtual void Select(Color selectionColor) {
-        Timing.KillCoroutines(coroutineName);
-        jiggleAnim.Animate(coroutineName);
+        Timing.KillCoroutines(CoroutineName);
+        jiggleAnim.Animate(CoroutineName);
         SFXManager.Instance.Play(SFXType.PLEPlaceObject, transform.position);
         IsSelected = true;
         MatPropBlock.SetColor(ColorTint, selectionColor);
@@ -63,6 +72,7 @@ public abstract class PLEItem : EventSubscriber {
     }
     public virtual void Deselect() {
         IsSelected = false;
+        IsFocused = false;
         MatPropBlock.SetColor(ColorTint, StartColor);
         Renderers.ForEach(renderer => { renderer.SetPropertyBlock(MatPropBlock); });
     }
@@ -76,5 +86,8 @@ public abstract class PLEItem : EventSubscriber {
         if (!IsSelected) {
             Deselect();
         }
+    }
+    public virtual void Focus() {
+        IsFocused = true;
     }
 }

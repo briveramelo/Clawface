@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace PlayerLevelEditor
+namespace PLE
 {
     public class DynamicObject : IMapObject
     {

@@ -365,5 +365,23 @@ public enum Difficulty
     EASY,
     NORMAL,
     HARD,
+    VERY_EASY,
+    INSANE,
     COUNT
+}
+
+public enum PLEMenuType
+{
+    INIT,
+    MAIN,
+    PROPS,
+    FLOOR,
+    SPAWN,
+    SAVE,
+    HELP,
+    WAVE,
+    TEST,
+    LEVELSELECT,
+    EXIT,
+    NONE
 }

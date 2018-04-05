@@ -22,6 +22,9 @@ public class ScoreManager : Singleton<ScoreManager> {
     [SerializeField] private float maxTimeRemaining;
 
     [SerializeField]
+    private float veryEasyModeMultiplier;
+
+    [SerializeField]
     private float easyModeMultiplier;
 
     [SerializeField]
@@ -29,6 +32,9 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     [SerializeField]
     private float hardModeMultiplier;
+
+    [SerializeField]
+    private float veryHardModeMultiplier;
 
     /// <summary>
     /// Multiplies your max combo by this value at the end of the stage and the current difficulty multiplier, and adds it to your score
@@ -208,6 +214,9 @@ public class ScoreManager : Singleton<ScoreManager> {
         Difficulty difficulty = SettingsManager.Instance.Difficulty;
         float difficultyMultiplier = 0f;
         switch (difficulty) {
+            case Difficulty.VERY_EASY:
+                difficultyMultiplier = veryEasyModeMultiplier;
+                break;
             case Difficulty.EASY:
                 difficultyMultiplier = easyModeMultiplier;
                 break;
@@ -216,6 +225,9 @@ public class ScoreManager : Singleton<ScoreManager> {
                 break;
             case Difficulty.HARD:
                 difficultyMultiplier = hardModeMultiplier;
+                break;
+            case Difficulty.INSANE:
+                difficultyMultiplier = veryHardModeMultiplier;
                 break;
             default:
                 difficultyMultiplier = normalModeMultiplier;

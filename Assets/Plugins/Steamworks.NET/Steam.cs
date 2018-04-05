@@ -324,7 +324,7 @@ namespace Steamworks {
 			m_pSteamHTTP = SteamClient.GetISteamHTTP(hSteamUser, hSteamPipe, Constants.STEAMHTTP_INTERFACE_VERSION);
 			if (m_pSteamHTTP == IntPtr.Zero) { return false; }
 
-            //YOSEMITE PATCH: m_pSteamUnifiedMessages = SteamClient.GetISteamUnifiedMessages(hSteamUser, hSteamPipe, Constants.STEAMUNIFIEDMESSAGES_INTERFACE_VERSION);
+            m_pSteamUnifiedMessages = SteamClient.GetISteamUnifiedMessages(hSteamUser, hSteamPipe, Constants.STEAMUNIFIEDMESSAGES_INTERFACE_VERSION);
             if (m_pSteamUnifiedMessages == IntPtr.Zero) { return false; }
 
             m_pController = SteamClient.GetISteamController(hSteamUser, hSteamPipe, Constants.STEAMCONTROLLER_INTERFACE_VERSION);

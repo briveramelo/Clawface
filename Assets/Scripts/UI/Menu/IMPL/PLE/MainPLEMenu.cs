@@ -3,15 +3,11 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using ModMan;
-using PlayerLevelEditor;
+using PLE;
 
-public class MainPLEMenu : PlayerLevelEditorMenu {
+public class MainPLEMenu : PLEMenu {
 
     public MainPLEMenu() : base(Strings.MenuStrings.LevelEditor.MAIN_PLE_MENU) { }
-
-    #region Public Fields
-    public PLEMenu currentDisplayedMenu;
-    #endregion
 
     #region Serialized Unity Fields
     [Header ("Menus")]
@@ -28,11 +24,13 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
     [Header("Other things")]
     [SerializeField] private Selectable firstSelectable;
     [SerializeField] private Selectable floorItem, propsItem, spawnsItem, waveItem, testItem, saveItem, loadItem, helpItem, exitItem;
+    [SerializeField] private RefsToggle helpSideBarToggler;
     #endregion
 
     #region Private Fields
-    private List<PlayerLevelEditorMenu> pleMenus = new List<PlayerLevelEditorMenu>();
+    private List<PLEMenu> pleMenus = new List<PLEMenu>();
     private List<MenuSelectable> menuToggles = new List<MenuSelectable>();
+    private PLEMenuType currentDisplayedMenu;
     #endregion  
 
     #region Unity Lifecycle
@@ -52,7 +50,7 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
     #region Public Interface
     public void SetUpMenus() {
         pleMenus.Clear();
-        pleMenus = new List<PlayerLevelEditorMenu>() {
+        pleMenus = new List<PLEMenu>() {
             floorEditorMenu,
             propsEditorMenu,
             spawnsEditorMenu,
@@ -76,7 +74,7 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
         MenuManager.Instance.DoTransition(this, Transition.SHOW, new Effect[] { Effect.INSTANT });
         MenuManager.Instance.DoTransition(floorEditorMenu, Transition.SHOW, new Effect[] { Effect.INSTANT });
 
-        currentDisplayedMenu = PLEMenu.FLOOR;
+        currentDisplayedMenu = PLEMenuType.FLOOR;
         
         OpenFloorSystemAction();
         levelEditor.gridController.SetGridVisiblity(true);
@@ -84,7 +82,7 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
         SetMenuButtonInteractabilityByState();
     }
 
-    public void SelectMenuItem(PLEMenu menu) {
+    public void SelectMenuItem(PLEMenuType menu) {
         SFXManager.Instance.Play(SFXType.UI_Click);
         MenuSelectable selectedMenuItem = menuToggles.Find(menuToggle => menuToggle.menu == menu);
         Selectable selectedSelectable = selectedMenuItem.selectable;
@@ -112,7 +110,7 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
     /// </summary>
     public override void SetMenuButtonInteractabilityByState() {
         bool anyTilesOn = levelEditor.gridController.AnyTilesActive();
-        ToggleMenuInteractable(anyTilesOn, PLEMenu.PROPS, PLEMenu.SPAWN, PLEMenu.WAVE);
+        ToggleMenuInteractable(anyTilesOn, PLEMenuType.PROPS, PLEMenuType.SPAWN, PLEMenuType.WAVE);
 
         bool anyTilesOnAndPlayerOn = anyTilesOn && SpawnMenu.playerSpawnInstance != null;        
 
@@ -121,11 +119,11 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
 
         bool allWavesHaveEnemies = levelEditor.levelDataManager.WorkingLevelData.AllWavesHaveEnemies(PLESpawnManager.Instance.MaxWaveIndex);
         bool playerOnTilesOnAndAllWavesHaveEnemies = anyTilesOnAndPlayerOn && allWavesHaveEnemies;
-        ToggleMenuInteractable(playerOnTilesOnAndAllWavesHaveEnemies, PLEMenu.SAVE, PLEMenu.TEST);
+        ToggleMenuInteractable(playerOnTilesOnAndAllWavesHaveEnemies, PLEMenuType.SAVE, PLEMenuType.TEST);
 
         List<LevelData> levelDatas = DataPersister.ActiveDataSave.levelDatas;
         bool atLeastOneLevelExists = levelDatas.Count > 0 && !levelDatas[0].IsEmpty;
-        ToggleMenuInteractable(atLeastOneLevelExists, PLEMenu.LEVELSELECT);
+        ToggleMenuInteractable(atLeastOneLevelExists, PLEMenuType.LEVELSELECT);
 
         waveEditorMenu.UpdateWaveText();
         pleMenus.ForEach(menu => {
@@ -137,34 +135,34 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
     /// <summary>
     /// Only for Specific Menu
     /// </summary>    
-    public void SetMenuButtonInteractabilityByState(PLEMenu menuToSet) {
+    public void SetMenuButtonInteractabilityByState(PLEMenuType menuToSet) {
         GetMenu(menuToSet).SetMenuButtonInteractabilityByState();
     } 
 
     public void OpenFloorSystemAction() {
-        SelectMenuItem(PLEMenu.FLOOR);
+        SelectMenuItem(PLEMenuType.FLOOR);
     }
 
     public void OpenPropsAction()
     {
-        SelectMenuItem(PLEMenu.PROPS);
+        SelectMenuItem(PLEMenuType.PROPS);
     }
 
     public void OpenSpawnsAction()
     {
-        SelectMenuItem(PLEMenu.SPAWN);
+        SelectMenuItem(PLEMenuType.SPAWN);
     }    
 
     public void OpenWaveAction()
     {
-        SelectMenuItem(PLEMenu.WAVE);
+        SelectMenuItem(PLEMenuType.WAVE);
     }
 
     public void OpenSaveAction()
     {
-        SelectMenuItem(PLEMenu.SAVE);        
+        SelectMenuItem(PLEMenuType.SAVE);        
 
-        SaveMenu saveMenu = GetMenu(PLEMenu.SAVE) as SaveMenu;
+        SaveMenu saveMenu = GetMenu(PLEMenuType.SAVE) as SaveMenu;
         ConfirmMenu confirmMenu = (ConfirmMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONFIRM);
         confirmMenu.SetYesButtonText("SAVE");
         confirmMenu.SetNoButtonText("SAVE AS");
@@ -195,20 +193,20 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
     }
 
     public void OpenLevelSelectAction() {
-        SelectMenuItem(PLEMenu.LEVELSELECT);
+        SelectMenuItem(PLEMenuType.LEVELSELECT);
     }
 
     public void TestLevelAction()
     {
-        SelectMenuItem(PLEMenu.TEST);
+        SelectMenuItem(PLEMenuType.TEST);
     }
 
     public void OpenHelpAction() {
-        SelectMenuItem(PLEMenu.HELP);
+        SelectMenuItem(PLEMenuType.HELP);
     }
 
     public void QuitAction() {
-        SelectMenuItem(PLEMenu.EXIT);
+        SelectMenuItem(PLEMenuType.EXIT);
         ConfirmMenu confirmMenu = (ConfirmMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONFIRM);
 
         Action onYesAction = () => {
@@ -229,18 +227,18 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
         MenuManager.Instance.DoTransition(confirmMenu, Transition.SHOW, new Effect[] { Effect.INSTANT });
     }
     
-    public PlayerLevelEditorMenu GetMenu(PLEMenu i_menu) {
+    public PLEMenu GetMenu(PLEMenuType i_menu) {
         switch (i_menu) {
-            case PLEMenu.MAIN: return this;
-            case PLEMenu.PROPS: return propsEditorMenu;
-            case PLEMenu.SPAWN: return spawnsEditorMenu;
-            case PLEMenu.FLOOR: return floorEditorMenu;
-            case PLEMenu.WAVE: return waveEditorMenu;
-            case PLEMenu.HELP: return helpEditorMenu;
-            case PLEMenu.SAVE: return saveEditorMenu;
-            case PLEMenu.TEST: return testEditorMenu;
-            case PLEMenu.LEVELSELECT: return levelSelectEditorMenu;
-            case PLEMenu.EXIT: return exitMenu;
+            case PLEMenuType.MAIN: return this;
+            case PLEMenuType.PROPS: return propsEditorMenu;
+            case PLEMenuType.SPAWN: return spawnsEditorMenu;
+            case PLEMenuType.FLOOR: return floorEditorMenu;
+            case PLEMenuType.WAVE: return waveEditorMenu;
+            case PLEMenuType.HELP: return helpEditorMenu;
+            case PLEMenuType.SAVE: return saveEditorMenu;
+            case PLEMenuType.TEST: return testEditorMenu;
+            case PLEMenuType.LEVELSELECT: return levelSelectEditorMenu;
+            case PLEMenuType.EXIT: return exitMenu;
             default: return null;
         }
     }
@@ -265,15 +263,15 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
     #region Private interface
     private void InitializeMenuToggles() {
         menuToggles.Clear();
-        menuToggles.Add(new MenuSelectable(PLEMenu.FLOOR, floorItem));
-        menuToggles.Add(new MenuSelectable(PLEMenu.PROPS, propsItem));
-        menuToggles.Add(new MenuSelectable(PLEMenu.SPAWN, spawnsItem));
-        menuToggles.Add(new MenuSelectable(PLEMenu.WAVE, waveItem));
-        menuToggles.Add(new MenuSelectable(PLEMenu.TEST, testItem));
-        menuToggles.Add(new MenuSelectable(PLEMenu.SAVE, saveItem));
-        menuToggles.Add(new MenuSelectable(PLEMenu.LEVELSELECT, loadItem));
-        menuToggles.Add(new MenuSelectable(PLEMenu.HELP, helpItem));
-        menuToggles.Add(new MenuSelectable(PLEMenu.EXIT, exitItem));
+        menuToggles.Add(new MenuSelectable(PLEMenuType.FLOOR, floorItem));
+        menuToggles.Add(new MenuSelectable(PLEMenuType.PROPS, propsItem));
+        menuToggles.Add(new MenuSelectable(PLEMenuType.SPAWN, spawnsItem));
+        menuToggles.Add(new MenuSelectable(PLEMenuType.WAVE, waveItem));
+        menuToggles.Add(new MenuSelectable(PLEMenuType.TEST, testItem));
+        menuToggles.Add(new MenuSelectable(PLEMenuType.SAVE, saveItem));
+        menuToggles.Add(new MenuSelectable(PLEMenuType.LEVELSELECT, loadItem));
+        menuToggles.Add(new MenuSelectable(PLEMenuType.HELP, helpItem));
+        menuToggles.Add(new MenuSelectable(PLEMenuType.EXIT, exitItem));
     }
 
     private void SetupToggleInteractability() {
@@ -284,7 +282,7 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
         exitItem.interactable = true;
     }
 
-    private void SwitchToMenu(PLEMenu i_newMenu) {
+    private void SwitchToMenu(PLEMenuType i_newMenu) {
         if (i_newMenu != currentDisplayedMenu) {
             HideAllMenusExceptMain();
             ConfirmMenu confirmMenu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONFIRM) as ConfirmMenu;
@@ -295,21 +293,27 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
             MenuManager.Instance.DoTransition(newMenu, Transition.SHOW, new Effect[] { Effect.INSTANT });
 
             currentDisplayedMenu = i_newMenu;
-            bool allowCameraMovement = !IsMenu(currentDisplayedMenu, PLEMenu.SAVE, PLEMenu.LEVELSELECT, PLEMenu.TEST);
+            bool allowCameraMovement = !IsMenu(currentDisplayedMenu, PLEMenuType.SAVE, PLEMenuType.LEVELSELECT, PLEMenuType.TEST);
             levelEditor.ToggleCameraController(allowCameraMovement);
+
+            bool hideSideBar = IsMenu(currentDisplayedMenu, PLEMenuType.HELP, PLEMenuType.LEVELSELECT, PLEMenuType.TEST);
+            if (hideSideBar) {
+                helpSideBarToggler.HidePane();
+            }
+            helpSideBarToggler.LockPane(hideSideBar);
         }
         SetMenuButtonInteractabilityByState();
     }
 
-    private void ToggleMenuInteractable(bool isInteractable, params PLEMenu[] menus) {
-        foreach (PLEMenu menu in menus) {
+    private void ToggleMenuInteractable(bool isInteractable, params PLEMenuType[] menus) {
+        foreach (PLEMenuType menu in menus) {
             Selectable selectable = menuToggles.Find(item => item.menu == menu).selectable;
             selectable.interactable = isInteractable;
         }
     }
 
-    private bool IsMenu(PLEMenu menuInQuestion, params PLEMenu[] potentialMatches) {
-        foreach (PLEMenu menu in potentialMatches) {
+    private bool IsMenu(PLEMenuType menuInQuestion, params PLEMenuType[] potentialMatches) {
+        foreach (PLEMenuType menu in potentialMatches) {
             if (menuInQuestion == menu) {
                 return true;
             }
@@ -322,10 +326,10 @@ public class MainPLEMenu : PlayerLevelEditorMenu {
 
 [Serializable]
 class MenuSelectable {
-    public MenuSelectable(PLEMenu menu, Selectable selectable) {
+    public MenuSelectable(PLEMenuType menu, Selectable selectable) {
         this.menu = menu;
         this.selectable = selectable;
     }
-    public PLEMenu menu;
+    public PLEMenuType menu;
     public Selectable selectable;
 }

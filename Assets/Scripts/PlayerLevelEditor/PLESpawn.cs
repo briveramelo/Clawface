@@ -29,7 +29,12 @@ public class PLESpawn : PLEItem {
     public int totalSpawnAmount = 1;
     public SpawnType spawnType;
     public int minSpawns;
-    public int MinSpawns { get { return minSpawns; } set { FindObjectsOfType<PLESpawn>().ToList().FindAll(spawn => spawn.spawnType == this.spawnType).ForEach(spawn => spawn.minSpawns = value); } }
+    public int MinSpawns {
+        get { return minSpawns; }
+        set {
+            FindObjectsOfType<PLESpawn>().ToList().FindAll(spawn => spawn.spawnType == this.spawnType).ForEach(spawn => spawn.minSpawns = value);
+        }
+    }
     public string DisplayName { get { return spawnType.DisplayName(); } }
     public int MaxPerWave { get { return spawnType.MaxPerWave(); } }
     #endregion

@@ -175,7 +175,7 @@ public class BouncerChaseState : AIState {
             {
                 //Debug.Log("Normal");
                 moving = true;
-                Timing.RunCoroutine(Move(), coroutineName);
+                Timing.RunCoroutine(Move(), CoroutineName);
             }
 
             else
@@ -184,7 +184,7 @@ public class BouncerChaseState : AIState {
                 finalPosition = controller.transform.position + Random.insideUnitSphere * jumpTargetDistance / 2;
                 finalPosition.y = controller.transform.position.y;
                 moving = true;
-                Timing.RunCoroutine(Move(), coroutineName);
+                Timing.RunCoroutine(Move(), CoroutineName);
             }
         }
 
@@ -194,7 +194,7 @@ public class BouncerChaseState : AIState {
             finalPosition = controller.transform.position + Random.insideUnitSphere * jumpTargetDistance / 2;
             finalPosition.y = controller.transform.position.y;
             moving = true;
-            Timing.RunCoroutine(Move(), coroutineName);
+            Timing.RunCoroutine(Move(), CoroutineName);
         }
     }
 
@@ -222,10 +222,10 @@ public class BouncerChaseState : AIState {
         smoothMidpoint1.y += height * 0.7f;
         smoothMidpoint2.y += height * 0.7f;
 
-        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(initialPosition, smoothMidpoint1, myStats.moveSpeed*2.5f),coroutineName));
-        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(smoothMidpoint1, midpoint, myStats.moveSpeed * 2.0f) ,coroutineName));
-        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(midpoint, smoothMidpoint2, myStats.moveSpeed * 2.5f), coroutineName));
-        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(smoothMidpoint2, targetPosition, myStats.moveSpeed * 3.0f),coroutineName));
+        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(initialPosition, smoothMidpoint1, myStats.moveSpeed*2.5f),CoroutineName));
+        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(smoothMidpoint1, midpoint, myStats.moveSpeed * 2.0f) ,CoroutineName));
+        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(midpoint, smoothMidpoint2, myStats.moveSpeed * 2.5f), CoroutineName));
+        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(smoothMidpoint2, targetPosition, myStats.moveSpeed * 3.0f),CoroutineName));
 
         if (gotStunned)
         {
@@ -248,7 +248,7 @@ public class BouncerChaseState : AIState {
 
         navAgent.updatePosition = true;
 
-        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(controller.transform.position, navAgent.nextPosition, myStats.moveSpeed * 1.5f),coroutineName));
+        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(controller.transform.position, navAgent.nextPosition, myStats.moveSpeed * 1.5f),CoroutineName));
     }
 
 
@@ -304,7 +304,7 @@ public class BouncerChaseState : AIState {
 
     public void StopCoroutines()
     {
-        Timing.KillCoroutines(coroutineName);
+        Timing.KillCoroutines(CoroutineName);
 
         Vector3 fwd = -controller.transform.up;
         RaycastHit hit;

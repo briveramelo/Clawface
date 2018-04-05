@@ -16,7 +16,7 @@ public class BulletBehavior : RoutineRunner {
     {
         shooterProperties.Initialize(0, 5, 6, 2);
         SetShooterProperties(shooterProperties);
-       Timing.RunCoroutine(DestroyAfter(), coroutineName);
+       Timing.RunCoroutine(DestroyAfter(), CoroutineName);
     }
 
     private IEnumerator<float> DestroyAfter()

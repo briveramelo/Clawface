@@ -91,6 +91,10 @@ public class SelectorToggle : MonoBehaviour {
         });
     }
 
+    private void OnDisable() {
+        hovered = false;
+    }
+
     private void Start()
     {
         interactable = selectable.interactable;
@@ -166,6 +170,7 @@ public class SelectorToggle : MonoBehaviour {
 
     public void SetIsSelected(bool isSelectedInGroup) {
         selected = isSelectedInGroup;
+        hovered = false;
         UpdateDisplay();
     }
 

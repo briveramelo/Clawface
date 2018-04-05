@@ -1,4 +1,4 @@
-﻿Shader "Custom/Gore/RenderDirectionalSplat"
+﻿Shader "Custom/Gore/RenderDirectionalSplatAdvanced"
 {
 	Properties
 	{
@@ -92,4 +92,6 @@
 			ENDCG
 		}
 	}
+
+	Fallback Off
 }

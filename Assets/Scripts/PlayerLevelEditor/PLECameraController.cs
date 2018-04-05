@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using ModMan;
 using MEC;
-namespace PlayerLevelEditor
+namespace PLE
 {
     [RequireComponent(typeof(Camera))]
     public class PLECameraController : RoutineRunner
@@ -85,7 +85,7 @@ namespace PlayerLevelEditor
 
         #region Unity LifeCycle
         private void Start() {
-            spawnMenu = (mainPLEMenu.GetMenu(PLEMenu.SPAWN) as PlacementMenu);
+            spawnMenu = (mainPLEMenu.GetMenu(PLEMenuType.SPAWN) as PlacementMenu);
             recenterAnim.OnUpdate = UpdateCameraRecenter;
 
             levelSize = levelEditor.gridController.LevelSize;
@@ -111,29 +111,32 @@ namespace PlayerLevelEditor
                 SetupRecenter();
             }
 
-            //if (DoubleClicked) {                
-            //    SetupRecenter();
-            //}
-            //if (Input.GetMouseButtonDown(MouseButtons.LEFT)) {
-            //    lastClickTime = Time.time;
-            //}
+            /*
+            if (DoubleClicked) {                
+                SetupRecenter();
+            }
+            if (Input.GetMouseButtonDown(MouseButtons.LEFT)) {
+                lastClickTime = Time.time;
+            }
+            */
         }
 
         private void SetupRecenter() {
-            Transform target = levelEditor.gridController.GetFirstSelectedTile() ?? spawnMenu.SelectedItem;
-            if (target != null) {
-                Recenter(target);
+            IPLESelectable pleSelectable = levelEditor.gridController.GetFirstSelectedTile() ?? spawnMenu.SelectedItem;
+            if (!pleSelectable.IsNull()) {
+                Recenter(pleSelectable);
             }
         }
 
-        private void Recenter(Transform target) {
-            Timing.KillCoroutines(coroutineName);
-            
+        private void Recenter(IPLESelectable pleSelectable) {
+            Timing.KillCoroutines(CoroutineName);
+            pleSelectable.Focus();
+            Transform target = pleSelectable.GetTransform;
             startPosition = transform.position;
             startRotation = transform.rotation;
             targetPosition = target.position - Vector3.ClampMagnitude(target.position - startPosition, maxDistanceOnRecenter);
             targetRotation = Quaternion.LookRotation(target.position - startPosition, Vector3.up);
-            recenterAnim.Animate(coroutineName);
+            recenterAnim.Animate(CoroutineName);
         }
         private void UpdateCameraRecenter(float progress) {
             transform.position = startPosition + progress * (targetPosition - startPosition);
@@ -210,8 +213,9 @@ namespace PlayerLevelEditor
                 float yawDelta = RotationSpeedAdjusted * Input.GetAxis("Mouse X");
                 float pitchDelta = -RotationSpeedAdjusted * Input.GetAxis("Mouse Y");
 
-                Transform target = levelEditor.gridController.GetFirstSelectedTile() ?? spawnMenu.SelectedItem;
-                if (target != null) {
+                IPLESelectable pleSelectable = levelEditor.gridController.GetFirstSelectedTile() ?? spawnMenu.SelectedItem;
+                if (!pleSelectable.IsNull() && pleSelectable.IsFocused) {
+                    Transform target = pleSelectable.GetTransform;
                     transform.LookAt(target);
                     transform.RotateAround(target.position, transform.right, pitchDelta);
                     transform.RotateAround(target.position, transform.up, yawDelta);

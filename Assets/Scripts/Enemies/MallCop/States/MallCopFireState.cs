@@ -115,7 +115,7 @@ public class MallCopFireState : AIState {
 
     public void StopCoroutines()
     {
-        Timing.KillCoroutines(coroutineName);
+        Timing.KillCoroutines(CoroutineName);
     }
 
 }

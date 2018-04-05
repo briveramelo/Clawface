@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExitMenu : PlayerLevelEditorMenu {
+public class ExitMenu : PLEMenu {
 
     public ExitMenu() : base(Strings.MenuStrings.LevelEditor.EXIT_PLE_MENU) { }
 

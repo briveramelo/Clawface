@@ -197,7 +197,7 @@ public class ZombieAcider : EnemyBase
             }
             currentHitReactionLayerWeight = 1.0f;
             animator.SetLayerWeight(1, currentHitReactionLayerWeight);
-            Timing.RunCoroutine(HitReactionLerp(), coroutineName);
+            Timing.RunCoroutine(HitReactionLerp(), CoroutineName);
         }
         base.DoHitReaction(damager);
     }

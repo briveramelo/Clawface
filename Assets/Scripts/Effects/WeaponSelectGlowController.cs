@@ -33,12 +33,12 @@ public class WeaponSelectGlowController : RoutineRunner {
     }
 
     void TriggerColorChange(Color targetColor, bool instant) {
-        Timing.KillCoroutines(coroutineName);
+        Timing.KillCoroutines(CoroutineName);
         if (instant) {
             SetColorInstant(targetColor);
         }
         else if (!currentColor.IsAboutEqual(targetColor)) {
-            Timing.RunCoroutine(SetColorFade(targetColor), coroutineName);
+            Timing.RunCoroutine(SetColorFade(targetColor), CoroutineName);
         }
     }
 

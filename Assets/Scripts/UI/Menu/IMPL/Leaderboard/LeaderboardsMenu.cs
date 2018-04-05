@@ -182,7 +182,7 @@ public class LeaderboardsMenu : Menu
         {
             GetLeaderboardEntries(currentSelectionType);
         }
-        MEC.Timing.RunCoroutine(DelayPositioningVerticalScrollbar(), coroutineName);
+        MEC.Timing.RunCoroutine(DelayPositioningVerticalScrollbar(), CoroutineName);
     }
 
     IEnumerator<float> DelayPositioningVerticalScrollbar() {

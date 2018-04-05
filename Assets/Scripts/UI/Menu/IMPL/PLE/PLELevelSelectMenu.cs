@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using ModMan;
-using PlayerLevelEditor;
+using PLE;
 using System.Linq;
 using System;
 
-public class PLELevelSelectMenu : PlayerLevelEditorMenu {
+public class PLELevelSelectMenu : PLEMenu {
 
     public PLELevelSelectMenu() : base(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU) { }
 
@@ -75,8 +75,8 @@ public class PLELevelSelectMenu : PlayerLevelEditorMenu {
     private List<Selectable> bottomRowSelectables = new List<Selectable>();
     private int selectedFilterIndex;
     private bool IsLastLevelShowing { get { return lastSelectedLevel == null ? false : (lastSelectedLevel.gameObject.activeInHierarchy); } }
-    private string ScrollCoroutineName { get { return coroutineName + "Scroll"; } }
-    private string PulseCoroutineName { get { return coroutineName + "Pulse"; } }
+    private string ScrollCoroutineName { get { return CoroutineName + "Scroll"; } }
+    private string PulseCoroutineName { get { return CoroutineName + "Pulse"; } }
     #endregion
 
 

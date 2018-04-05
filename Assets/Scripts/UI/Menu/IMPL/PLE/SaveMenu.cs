@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-using PlayerLevelEditor;
+using PLE;
 
-public class SaveMenu : PlayerLevelEditorMenu {
+public class SaveMenu : PLEMenu {
     
     #region Public Fields
 

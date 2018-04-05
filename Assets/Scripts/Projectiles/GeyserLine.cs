@@ -89,7 +89,7 @@ public class GeyserLine : RoutineRunner {
         intensity = Mathf.Clamp(intensity, 0f, 1f);
         transform.localScale = initialScale * intensity;
         myParticleSystem.Play();
-        Timing.RunCoroutine(WaitForParticleSystem(liveTime), coroutineName);
+        Timing.RunCoroutine(WaitForParticleSystem(liveTime), CoroutineName);
     }
 
     public void SetShooterType(bool isPlayer)

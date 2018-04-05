@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using PlayerLevelEditor;
+using PLE;
 
-public class HelpMenu : PlayerLevelEditorMenu {
+public class HelpMenu : PLEMenu {
 
     #region Public Fields
 

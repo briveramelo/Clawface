@@ -25,7 +25,7 @@ public class BouncerFireState : AIState {
         shotCount = 0;
         navAgent.updatePosition = true;
         lerping = true;
-        Timing.RunCoroutine(LerpToNextPosition(controller.transform.position, navAgent.nextPosition, myStats.moveSpeed * 3.5f),coroutineName);
+        Timing.RunCoroutine(LerpToNextPosition(controller.transform.position, navAgent.nextPosition, myStats.moveSpeed * 3.5f),CoroutineName);
         maxShots = Random.Range(properties.minShots, properties.maxShots);
         rotation = controller.transform.eulerAngles.y;
         oldAnimatorSpeed = animator.speed;
