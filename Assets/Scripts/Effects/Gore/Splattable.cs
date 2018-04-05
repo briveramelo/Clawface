@@ -68,7 +68,7 @@ public class Splattable : MonoBehaviour
             // Set up Splatting
             paintMask = paintMask != null ? paintMask : Texture2D.whiteTexture;
             renderMask = renderMask != null ? renderMask : Texture2D.whiteTexture;
-            renderer = GetComponent<Renderer>();
+            renderer = GetComponent<Renderer>(); // this must be done BEFORE the splatter is created
             splatter = CreateSplatter(); // this must be done BEFORE the property block is updated
             PaintMask = paintMask;
             splatsToRender = new Queue<Splatter.QueuedSplat>();
@@ -135,7 +135,7 @@ public class Splattable : MonoBehaviour
     /// <returns>A splatter for splatting le blood.</returns>
     private Splatter CreateSplatter()
     {
-        if (SystemInfo.supports2DArrayTextures)
+        if (SystemInfo.supports2DArrayTextures && SystemInfo.graphicsShaderLevel >= 35)
         {
             return new AdvancedSplatter(renderer);
         } else
