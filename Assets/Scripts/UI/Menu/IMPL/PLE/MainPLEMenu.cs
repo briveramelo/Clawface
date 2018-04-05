@@ -9,10 +9,6 @@ public class MainPLEMenu : PLEMenu {
 
     public MainPLEMenu() : base(Strings.MenuStrings.LevelEditor.MAIN_PLE_MENU) { }
 
-    #region Public Fields
-    public PLEMenuType currentDisplayedMenu;
-    #endregion
-
     #region Serialized Unity Fields
     [Header ("Menus")]
     [SerializeField] private FloorMenu floorEditorMenu;
@@ -34,6 +30,7 @@ public class MainPLEMenu : PLEMenu {
     #region Private Fields
     private List<PLEMenu> pleMenus = new List<PLEMenu>();
     private List<MenuSelectable> menuToggles = new List<MenuSelectable>();
+    private PLEMenuType currentDisplayedMenu;
     #endregion  
 
     #region Unity Lifecycle
