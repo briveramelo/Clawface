@@ -87,6 +87,7 @@ public class DataPersister : Singleton<DataPersister> {
     {
         string levelDirectory = SavesPathDirectory + "/" + i_Data.name;
         currentLevelDataFolder = levelDirectory;
+        WorkingLevelData = i_Data;
         if(!Directory.Exists(levelDirectory))
         {
             Directory.CreateDirectory(levelDirectory);
@@ -99,21 +100,16 @@ public class DataPersister : Singleton<DataPersister> {
     {
         WorkingLevelData = i_Data;
         GenerateSteamFileID();
-        SteamWorkshop.Instance.UpdateItem(
-            WorkingLevelData.FileID,
-            WorkingLevelData.name,
-            WorkingLevelData.description,
-            currentLevelDataFolder,
-            currentImagePath,
-            "sup",
-            OnItemSubmitted
-            );
         return true;
     }
 
     private void OnItemSubmitted(bool result)
     {
-        print("Item Submitted");
+        if(result == true)
+        {
+            print("Item Submitted");
+        }
+
     }
     #endregion
 
@@ -129,6 +125,16 @@ public class DataPersister : Singleton<DataPersister> {
         {
             //success
             WorkingLevelData.fileID = fileId;
+            SteamWorkshop.Instance.UpdateItem(
+           WorkingLevelData.FileID,
+           WorkingLevelData.name,
+           WorkingLevelData.description,
+           currentLevelDataFolder,
+           currentImagePath,
+           "sup",
+           OnItemSubmitted
+           );
+
         }
     }
 
