@@ -8,18 +8,26 @@ using System.Linq;
 using Steamworks;
 
 public class DataPersister : Singleton<DataPersister> {
-    
+
+    #region Public Fields
+
     public static DataSave ActiveDataSave = new DataSave();
-    string SavesPathDirectory { get { return Application.dataPath + "/Saves";} }
-    string DataSaveFilePath { get { return SavesPathDirectory + "/savefile.dat"; } }
-
-    public static LevelData WorkingLevelData;
-    string currentLevelDataFolder;
-    string currentImagePath;
-
+    public static string SavesPathDirectory { get { return Application.dataPath + "/Saves"; } }
     public DataSave dataSave;
 
-    #region Event Subscriptions
+    #endregion
+
+    #region Private Fields
+    private string DataSaveFilePath { get { return SavesPathDirectory + "/savefile.dat"; } }
+
+    private LevelData WorkingLevelData;
+    //TODO: No, delete these
+    private string currentLevelDataFolder;
+    private string currentImagePath;
+    #endregion
+
+    #region Event Subscriptions (Protected)
+
     protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
     protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
         get {
@@ -28,6 +36,7 @@ public class DataPersister : Singleton<DataPersister> {
             };
         }
     }
+
     #endregion
 
     #region Unity Lifecyle
@@ -77,22 +86,19 @@ public class DataPersister : Singleton<DataPersister> {
         SaveDataFile();
     }
 
-    public void SaveSnapshotToFile(byte[] i_imgData)
+    public void SaveSnapshotToFile(string i_fileName, byte[] i_imgData)
     {
-        currentImagePath = currentLevelDataFolder + WorkingLevelData.name + ".png";
-        File.WriteAllBytes(currentImagePath, i_imgData);
+        //currentImagePath = currentLevelDataFolder + WorkingLevelData.name + ".png";
+        File.WriteAllBytes(i_fileName, i_imgData);
     }
 
-    public void TrySaveLevelDataFile(LevelData i_Data)
+    public void TrySaveLevelDataFile(string i_dir, LevelData i_Data)
     {
-        string levelDirectory = SavesPathDirectory + "/" + i_Data.name + "/";
-        currentLevelDataFolder = levelDirectory;
-        WorkingLevelData = i_Data;
-        if(!Directory.Exists(levelDirectory))
+        if(!Directory.Exists(i_dir))
         {
-            Directory.CreateDirectory(levelDirectory);
+            Directory.CreateDirectory(i_dir);
         }
-        string completeFilePath = levelDirectory + "/" + i_Data.name + ".dat";
+        string completeFilePath = i_dir + "/" + i_Data.name + ".dat";
         SaveLevelDataFile(completeFilePath, i_Data);
     }
 

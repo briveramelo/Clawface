@@ -11,6 +11,8 @@ using System;
 
 public class LevelDataManager : MonoBehaviour {
 
+    #region Serialized Unity Fields
+
     [Header("Required for all scenes")]
     [SerializeField] private LevelEditor levelEditor;
     [SerializeField] private Transform tileParent, propsParent, spawnParent;
@@ -20,13 +22,25 @@ public class LevelDataManager : MonoBehaviour {
     [SerializeField] private InputField levelName;
     [SerializeField] private InputField levelDescription;
 
-    private DataPersister dataPersister { get { return DataPersister.Instance; } }
+    #endregion
+
+    #region Public Fields
+
     public DataSave ActiveDataSave { get { return DataPersister.ActiveDataSave; } }
     public LevelData WorkingLevelData { get { return ActiveDataSave.workingLevelData; } }
     public List<WaveData> WorkingWaveData { get { return WorkingLevelData.waveData; } }
     public List<TileData> WorkingTileData { get { return WorkingLevelData.tileData; } }
     public List<PropData> WorkingPropData { get { return WorkingLevelData.propData; } }
+
+    #endregion
+
+    #region Private Fields
     private int spawnLayerMask;
+    private DataPersister dataPersister { get { return DataPersister.Instance; } }
+
+    private string workingLevelDataFolderPath;
+    private string workingLevelDataImagePath;
+    #endregion
 
     #region Unity Lifecycle
 
@@ -193,6 +207,7 @@ public class LevelDataManager : MonoBehaviour {
     }
 
     public void SaveLevel() {
+        SaveSingleLevelData();
         SyncWorkingTileData();
         SyncWorkingPropData();
         SyncWorkingSpawnData();
@@ -280,27 +295,24 @@ public class LevelDataManager : MonoBehaviour {
         mainPLEMenu.CanvasGroup.alpha = 0f;
         mainPLEMenu.GetMenu(PLEMenuType.FLOOR).CanvasGroup.alpha = 0f;
         yield return new WaitForEndOfFrame();
-        dataPersister.TrySaveLevelDataFile(WorkingLevelData);
         SavePicture();
         dataPersister.TrySaveWorkingLevel();
-        //TODO: Saves the current working level to it's own folder and file.dat
         yield return new WaitForEndOfFrame();
         mainPLEMenu.CanvasGroup.alpha = 1f;
         mainPLEMenu.GetMenu(PLEMenuType.FLOOR).CanvasGroup.alpha = 1f;
         mainPLEMenu.SelectMenuItem(PLEMenuType.FLOOR);
         levelEditor.gridController.SetGridVisiblity(true);
-        DataPersister.Instance.TrySendToSteam(WorkingLevelData);
     }
 
-    private void SavePicture() {
+    private byte[] SavePicture() {
         Texture2D snapshot = new Texture2D((int)Camera.main.pixelRect.width, (int)Camera.main.pixelRect.height);
         Rect snapRect = Camera.main.pixelRect;
         snapshot.ReadPixels(snapRect, 0, 0);
         TextureScale.Bilinear(snapshot, (int)LevelData.fixedSize.x, (int)LevelData.fixedSize.y);
         snapshot.Apply();
         byte[] imageBytes = snapshot.EncodeToPNG();
-        DataPersister.Instance.SaveSnapshotToFile(imageBytes);
         WorkingLevelData.SetPicture(imageBytes);
+        return imageBytes;
     }
 
     private string GetWaveName(int i) { return Strings.Editor.Wave + i; }
@@ -314,6 +326,23 @@ public class LevelDataManager : MonoBehaviour {
             mainPLEMenu.SetMenuButtonInteractabilityByState();
         }
     }
+    #endregion
+
+    #region Steam Implementations
+    public void SaveSingleLevelData()
+    {
+        //create directory
+        //save picture to directory
+        string levelDirectory = DataPersister.SavesPathDirectory + "/" + WorkingLevelData.name + "/";
+        string levelImagePath = levelDirectory + WorkingLevelData.name + ".png";
+        byte[] levelImageData = SavePicture();
+
+        int x = 3;
+        //dataPersister.TrySaveLevelDataFile(levelDirectory, WorkingLevelData);
+        //dataPersister.SaveSnapshotToFile(levelImagePath, levelImageData);
+
+    }
+
     #endregion
 
 
