@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using ModMan;
 
 public class StageOverMenu : Menu
 {
@@ -173,8 +174,8 @@ public class StageOverMenu : Menu
 
     private void UpdateScores()
     {
-        score.text = ScoreManager.Instance.GetScore().ToString();
-        combo.text = ScoreManager.Instance.GetHighestCombo().ToString();
+        score.text = ScoreManager.Instance.GetScore().ToCommaSeparated();
+        combo.text = ScoreManager.Instance.GetHighestCombo().ToCommaSeparated();
     }
 
     IEnumerator DoLevelComplete(params object[] parameter)

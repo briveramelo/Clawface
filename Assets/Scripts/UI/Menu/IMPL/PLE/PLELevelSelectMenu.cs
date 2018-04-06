@@ -25,6 +25,8 @@ public class PLELevelSelectMenu : PLEMenu {
     [SerializeField] private Selectable allFilter, downloadedFilter, userFilter, favoriteFilter;
     [SerializeField] private Scrollbar levelScrollBar;
     [SerializeField] private Sprite hathosBigPreview;
+    [SerializeField] private RectTransform levelSelectArea;
+    [SerializeField] private Vector2 offsetMinEditor, offsetMaxEditor, offsetMinMain, offsetMaxMain;
     [SerializeField] private SelectorToggleGroup filterToggleGroup;
     [SerializeField] private List<MemorableTransform> preMadeLevelUITransforms;
     [SerializeField] private RectOffset gridLayoutConfigWithHathos, gridLayoutConfigWithoutHathos;
@@ -306,10 +308,14 @@ public class PLELevelSelectMenu : PLEMenu {
         if (SceneTracker.IsCurrentSceneEditor) {
             deleteButton.gameObject.SetActive(true);
             leaderboardButton.gameObject.SetActive(false);
+            levelSelectArea.offsetMin = offsetMinEditor;
+            levelSelectArea.offsetMax = offsetMaxEditor;
         }
         else {
             deleteButton.gameObject.SetActive(false);
             leaderboardButton.gameObject.SetActive(true);
+            levelSelectArea.offsetMin = offsetMinMain;
+            levelSelectArea.offsetMax = offsetMaxMain;
         }
     }
     #endregion
