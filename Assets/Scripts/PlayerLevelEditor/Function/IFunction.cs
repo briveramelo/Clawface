@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace PlayerLevelEditor
+namespace PLE
 {
     public abstract class IFunction
     {
@@ -43,7 +43,7 @@ namespace PlayerLevelEditor
 
         protected GameObject SetUIObject(string UIName)
         {
-            GameObject UIObject = PlayerLevelEditor.UITool.FindUIGameObject(UIName);
+            GameObject UIObject = PLE.UITool.FindUIGameObject(UIName);
 
             if (UIObject == null)
             {

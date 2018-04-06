@@ -28,13 +28,14 @@ public class ZombieBeserker : EnemyBase
     private float currentHitReactionLayerWeight;
     private float hitReactionLayerDecrementSpeed = 1.5f;
     private float closeEnoughToAttackDistance;
-
+    private bool isUp;
     #endregion
 
     #region 3. Unity Lifecycle
 
-    public override void Awake()
+    protected override void Awake()
     {
+        isUp = false;
         myStats = GetComponent<Stats>();
         SetAllStats();
         InitilizeStates();
@@ -42,6 +43,8 @@ public class ZombieBeserker : EnemyBase
         controller.Initialize(properties,velBody, animator, myStats, navAgent, navObstacle,aiStates);
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
         controller.checksToUpdateState = new List<Func<bool>>() {
+            CheckDoneGettingUp,
+            CheckPlayerDead,
             CheckIfStunned,
             CheckToAttack,
             CheckToFinishAttacking
@@ -55,6 +58,30 @@ public class ZombieBeserker : EnemyBase
     #region 4. Public Methods   
 
     //State conditions
+    bool CheckDoneGettingUp()
+    {
+        if (!isUp)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    bool CheckPlayerDead()
+    {
+        if (AIManager.Instance.GetPlayerDead())
+        {
+            if (myStats.health > myStats.skinnableHealth && !celebrate.isCelebrating())
+            {
+                animator.SetLayerWeight(2, 0.0f);
+                controller.CurrentState = celebrate;
+                controller.UpdateState(EAIState.Celebrate);
+            }
+            return true;
+        }
+        return false;
+    }
+
     bool CheckToAttack()
     {
         if (controller.CurrentState == chase && controller.DistanceFromTarget < closeEnoughToAttackDistance)
@@ -121,7 +148,9 @@ public class ZombieBeserker : EnemyBase
 
     public void GetUpDone()
     {
-        getUp.Up();
+        isUp = true;
+        controller.CurrentState = chase;
+        controller.UpdateState(EAIState.Chase);
     }
 
     public void FinishedAttack()
@@ -138,6 +167,7 @@ public class ZombieBeserker : EnemyBase
 
     public override void OnDeath()
     {
+        isUp = false;
         base.OnDeath();
     }
 
@@ -148,14 +178,6 @@ public class ZombieBeserker : EnemyBase
 
     public override void DoPlayerKilledState(object[] parameters)
     {
-        if (myStats.health > myStats.skinnableHealth)
-        {
-            animator.SetLayerWeight(2, 0.0f);
-            animator.SetTrigger("DoVictoryDance");
-            controller.CurrentState = celebrate;
-            controller.UpdateState(EAIState.Celebrate);
-            animator.SetInteger("AnimationState", -1);
-        }
     }
 
     public override Vector3 ReCalculateTargetPosition()
@@ -183,7 +205,7 @@ public class ZombieBeserker : EnemyBase
             }
             currentHitReactionLayerWeight = 1.0f;
             animator.SetLayerWeight(1, currentHitReactionLayerWeight);
-            Timing.RunCoroutine(HitReactionLerp(), coroutineName);
+            Timing.RunCoroutine(HitReactionLerp(), CoroutineName);
         }
         base.DoHitReaction(damager);
     }

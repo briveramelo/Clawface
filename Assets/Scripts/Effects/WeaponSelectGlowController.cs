@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MEC;
+using ModMan;
 public class WeaponSelectGlowController : RoutineRunner {
 
 	[SerializeField] private Color confirmedColor;
@@ -9,7 +10,8 @@ public class WeaponSelectGlowController : RoutineRunner {
     [SerializeField] private Color halfColor;
     [SerializeField] private float fadeTime = 0.5f;
     [SerializeField] new MeshRenderer renderer;
-    private Color color;
+    const string TintColor = "_Tint";
+    private Color currentColor;
     private MaterialPropertyBlock propBlock;
     private MaterialPropertyBlock PropBlock {
         get {
@@ -18,35 +20,34 @@ public class WeaponSelectGlowController : RoutineRunner {
             }
             return propBlock;
         }
-    }   
+    }
 
     private void Awake()
     {        
-        color = renderer.material.GetColor("_Tint");
+        currentColor = renderer.material.GetColor(TintColor);
     }
 
-    public void SetConfirmed (bool instant=false)
-    {
-        Timing.KillCoroutines(coroutineName);
-        if (instant) SetColorInstant(confirmedColor);
-        else {
-            Timing.RunCoroutine(SetColorFade (confirmedColor), coroutineName);
+    public void SetState(WeaponSelectState state, bool instant = false) {
+        Color targetColor = GetColor(state);
+        TriggerColorChange(targetColor, instant);
+    }
+
+    void TriggerColorChange(Color targetColor, bool instant) {
+        Timing.KillCoroutines(CoroutineName);
+        if (instant) {
+            SetColorInstant(targetColor);
+        }
+        else if (!currentColor.IsAboutEqual(targetColor)) {
+            Timing.RunCoroutine(SetColorFade(targetColor), CoroutineName);
         }
     }
 
-    public void Reset(bool instant=false)
-    {
-        Timing.KillCoroutines(coroutineName);
-        if (instant) SetColorInstant(normalColor);
-        else {
-            Timing.RunCoroutine(SetColorFade (normalColor), coroutineName);
-        }
-    }
 
     void SetColor (Color color)
     {
-        PropBlock.SetColor ("_Tint", color);
-        renderer.SetPropertyBlock(PropBlock);        
+        currentColor = color;
+        PropBlock.SetColor (TintColor, currentColor);
+        renderer.SetPropertyBlock(PropBlock);
     }
 
     void SetColorInstant (Color color)
@@ -54,31 +55,32 @@ public class WeaponSelectGlowController : RoutineRunner {
         SetColor (color);
     }
 
-    public void SetUnselected(bool instant = false)
+    IEnumerator<float> SetColorFade (Color targetColor)
     {
-        Timing.KillCoroutines(coroutineName);
-        if (instant)
+        Color startColor = this.currentColor;
+        float currentTimer = 0.0f;
+        while (currentTimer < fadeTime)
         {
-            SetColorInstant(halfColor);
-        }
-        else
-        {
-            Timing.RunCoroutine(SetColorFade(halfColor), coroutineName);
-        }
-    }
-
-    IEnumerator<float> SetColorFade (Color color)
-    {
-        Color startColor = this.color;
-        float t = 0.0f;
-        while (t < fadeTime)
-        {
-            SetColor (Color.Lerp(startColor, color, t / fadeTime));
-
-            t += Time.deltaTime;
+            Color newColor = Color.Lerp(startColor, targetColor, currentTimer / fadeTime);
+            SetColor(newColor);
+            currentTimer += Time.deltaTime;
             yield return 0f;
         }
 
-        this.color = color;
+        SetColor(targetColor);
     }
+
+    private Color GetColor(WeaponSelectState state) {
+        switch (state) {
+            case WeaponSelectState.Confirmed:   return confirmedColor;
+            case WeaponSelectState.Highlighted: return normalColor;
+            case WeaponSelectState.Unselected:  return halfColor;
+        }
+        return normalColor;
+    }
+}
+public enum WeaponSelectState {
+    Confirmed,
+    Highlighted,
+    Unselected,
 }

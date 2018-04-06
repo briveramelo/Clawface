@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class ModManager : MonoBehaviour
+public class ModManager : EventSubscriber
 {
 
     #region Public Statics
@@ -33,35 +33,46 @@ public class ModManager : MonoBehaviour
     [SerializeField] private ModType[] modPool;
     [SerializeField] private ModPositions modPositions;
 
-    [SerializeField] private bool rightStickFire = true;
     [SerializeField] private float minJoystickFireMagnitude = 0.7f;
-
-    [SerializeField] private bool oneButtonFiresBoth = false;
-
-    [SerializeField] private bool useAutofire = false;
     #endregion    
 
     #region Private Fields
     private Dictionary<ModSpot, ModSocket> modSocketDictionary;
     private List<ModSpot> allModSpots;
-    private ModSpot modToSwap;    
+    private ModSpot modToSwap;
     private bool isOkToSwapMods = true;
     List<Mod> overlapMods = new List<Mod>();
-    private bool canActivate=true;
-    private bool isDead;
+    private bool canActivate = true;
+    private bool isDead, isLevelComplete;
+    #endregion
+
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.EnableDisable; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.PLAYER_KILLED, PlayerDead },
+                { Strings.Events.LEVEL_COMPLETED, OnLevelCompleted},
+                { Strings.Events.ACTIVATE_MOD, SetCanActivate},
+                { Strings.Events.DEACTIVATE_MOD, DisableCanActivate},
+            };
+        }
+    }
     #endregion
 
     #region Unity Lifecycle
 
-    private void OnDrawGizmos() {
+    private void OnDrawGizmos()
+    {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, modPickupRadius);
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         modSocketDictionary = new Dictionary<ModSpot, ModSocket>(){
-            {ModSpot.ArmR, new ModSocket(rightArmSocket) },            
+            {ModSpot.ArmR, new ModSocket(rightArmSocket) },
             {ModSpot.ArmL, new ModSocket(leftArmSocket) },
         };
         allModSpots = new List<ModSpot>() {
@@ -74,48 +85,37 @@ public class ModManager : MonoBehaviour
         modInventory = GetComponent<ModInventory>();
         Debug.Assert(modInventory);
 
-        if (assignFromPool) {
+        if (assignFromPool)
+        {
             AttachRandomMods();
-        } else {
+        }
+        else
+        {
             AttachMods(leftArmOnLoad, rightArmOnLoad);
         }
         isDead = false;
+        isLevelComplete = false;
     }
 
-    private void OnEnable()
-    {
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, PlayerDead);
-        EventSystem.Instance.RegisterEvent(Strings.Events.ACTIVATE_MOD, SetCanActivate);
-        EventSystem.Instance.RegisterEvent(Strings.Events.DEACTIVATE_MOD, DisableCanActivate);
-    }
-
-    private void OnDisable()
-    {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, PlayerDead);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.ACTIVATE_MOD, SetCanActivate);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.DEACTIVATE_MOD, DisableCanActivate);
-        }
+    private void OnLevelCompleted(params object[] parameters) {
+        isLevelComplete = true;
     }
 
     private void Update()
     {
-        CheckToCollectMod();
         CheckToChargeAndFireMods();
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            AcquireRandomMods();
-        }
     }
 
-    private void AcquireRandomMods() {
+    private void AcquireRandomMods()
+    {
         Mod rightMod = rightArmSocket.GetComponentInChildren<Mod>();
         Mod leftMod = leftArmSocket.GetComponentInChildren<Mod>();
-        if (rightMod) {
+        if (rightMod)
+        {
             rightMod.gameObject.SetActive(false);
         }
-        if (leftMod) {
+        if (leftMod)
+        {
             leftMod.gameObject.SetActive(false);
         }
         modSocketDictionary[ModSpot.ArmL].mod = null;
@@ -130,15 +130,18 @@ public class ModManager : MonoBehaviour
         return modSocketDictionary;
     }
 
-    public void EquipMod(ModSpot spot, ModType type) {        
+    public void EquipMod(ModSpot spot, ModType type)
+    {
         canActivate = false;
         Mod modToEquip = modInventory.GetMod(type, spot);
-        if (modToEquip!=null) {
+        if (modToEquip != null)
+        {
             Attach(spot, modToEquip);
         }
     }
 
-    public void SetCanActivate(params object[] parameters) {
+    public void SetCanActivate(params object[] parameters)
+    {
         canActivate = true;
     }
 
@@ -158,7 +161,9 @@ public class ModManager : MonoBehaviour
             ModType rightHandModType = modPool[UnityEngine.Random.Range(0, modPool.Length)];
             ModType leftHandModType = modPool[UnityEngine.Random.Range(0, modPool.Length)];
             AttachMods(leftHandModType, rightHandModType);
-        } else { // fallback to defaults
+        }
+        else
+        { // fallback to defaults
             AttachMods(leftArmOnLoad, rightArmOnLoad);
         }
     }
@@ -192,15 +197,6 @@ public class ModManager : MonoBehaviour
         }
     }
 
-    private void CheckToCollectMod() {
-        Physics.OverlapSphere(transform.position, modPickupRadius).ToList().ForEach(other => {
-            if (other.tag == Strings.Tags.MOD)
-            {
-                InitializeAndAttachMod(other.gameObject);
-            }
-        });
-    }
-
     private void InitializeAndAttachMod(GameObject other)
     {
         if (!IsHoldingMod(other.transform))
@@ -226,10 +222,10 @@ public class ModManager : MonoBehaviour
         }
     }
 
-    private void CheckToChargeAndFireMods(){        
-        if (canActivate && !isDead)
+    private void CheckToChargeAndFireMods()
+    {
+        if (canActivate && !isDead && !isLevelComplete)
         {
-
             CheckForModInput((ModSpot spot) =>
             {
                 modSocketDictionary[spot].mod.Activate();
@@ -237,23 +233,28 @@ public class ModManager : MonoBehaviour
         }
     }
 
-    private void CheckForModInput(Action<ModSpot> onComplete, ButtonMode mode) {
+    private void CheckForModInput(Action<ModSpot> onComplete, ButtonMode mode)
+    {
         List<ModSpot> chargeSpots = GetCommandedModSpots(mode);
-        if (!chargeSpots.Contains(ModSpot.Default)) {
-            chargeSpots.ForEach(spot => {
-                if (modSocketDictionary[spot].mod != null){
-                    onComplete(spot);                    
+        if (!chargeSpots.Contains(ModSpot.Default))
+        {
+            chargeSpots.ForEach(spot =>
+            {
+                if (modSocketDictionary[spot].mod != null)
+                {
+                    onComplete(spot);
                 }
             });
         }
-    }    
+    }
 
     private void PlayerDead(params object[] parameters)
     {
         isDead = true;
     }
-    
-    private ModSpot GetCommandedModSpot(ButtonMode mode){
+
+    private ModSpot GetCommandedModSpot(ButtonMode mode)
+    {
         if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_LEFT, mode))
         {
             return ModSpot.ArmL;
@@ -265,76 +266,77 @@ public class ModManager : MonoBehaviour
         return ModSpot.Default;
     }
 
-    private List<ModSpot> GetCommandedModSpots(ButtonMode mode) {
+    private List<ModSpot> GetCommandedModSpots(ButtonMode mode)
+    {
         List<ModSpot> modSpots = new List<ModSpot>();
 
-        if (useAutofire)
+        switch (SettingsManager.Instance.FireMode)
         {
-            modSpots.Add(ModSpot.ArmL);
-            modSpots.Add(ModSpot.ArmR);
-            return modSpots;
-        }
-
-        if (rightStickFire)
-        {
-            bool joystickInput = InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK).magnitude >= minJoystickFireMagnitude ? true : false;
-
-            if (joystickInput)
-            {
+            case FireMode.AIM_TO_SHOOT:
+                bool joystickInput = InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK).magnitude >= minJoystickFireMagnitude;
+                if (MenuManager.Instance.MouseMode || joystickInput)
+                {
+                    modSpots.Add(ModSpot.ArmL);
+                    modSpots.Add(ModSpot.ArmR);
+                }
+                break;
+            case FireMode.SINGLE_TRIGGER:
+                if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_LEFT, mode) ||
+                    InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_RIGHT, mode))
+                {
+                    modSpots.Add(ModSpot.ArmL);
+                    modSpots.Add(ModSpot.ArmR);
+                }
+                break;
+            case FireMode.AUTOFIRE:
                 modSpots.Add(ModSpot.ArmL);
                 modSpots.Add(ModSpot.ArmR);
-                return modSpots;
-            }
+                break;
+            case FireMode.MANUAL:
+                if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_LEFT, mode))
+                {
+                    modSpots.Add(ModSpot.ArmL);
+                }
+                if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_RIGHT, mode))
+                {
+                    modSpots.Add(ModSpot.ArmR);
+                }
+                break;
         }
 
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_LEFT, mode))
+        if (modSpots.Count == 0)
         {
-            modSpots.Add(ModSpot.ArmL);
-
-            if (oneButtonFiresBoth)
-            {
-                modSpots.Add(ModSpot.ArmR);
-                return modSpots;
-            }
-        }
-        if (InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_RIGHT, mode))
-        {
-            modSpots.Add(ModSpot.ArmR);
-
-            if (oneButtonFiresBoth)
-            {
-                modSpots.Add(ModSpot.ArmL);
-                return modSpots;
-            }
-        }
-
-        if (modSpots.Count==0) {
             modSpots.Add(ModSpot.Default);
         }
-        return modSpots;        
+
+        return modSpots;
     }
 
-    private void Attach(ModSpot spot, Mod mod, bool isSwapping = false){
+    private void Attach(ModSpot spot, Mod mod, bool isSwapping = false)
+    {
         mod.gameObject.SetActive(true);
-        if (modSocketDictionary[spot].mod != null && !isSwapping){
+        if (modSocketDictionary[spot].mod != null && !isSwapping)
+        {
             Detach(spot);
         }
 
-        
+
         mod.setModSpot(spot);
         mod.transform.SetParent(modSocketDictionary[spot].socket);
         Vector3 localPos = modPositions[mod.getModType()].localPos;
-        localPos.x *= Mathf.Sign(modSocketDictionary[spot].socket.localPosition.x);        
+        localPos.x *= Mathf.Sign(modSocketDictionary[spot].socket.localPosition.x);
         mod.transform.localPosition = localPos;
         mod.transform.localRotation = Quaternion.identity;
         mod.transform.localScale = Vector3.one;
-        modSocketDictionary[spot].mod = mod;        
+        modSocketDictionary[spot].mod = mod;
         mod.AttachAffect(ref playerStats, velBody);
     }
 
-    private void Detach(ModSpot spot, bool isSwapping = false){
-        if (modSocketDictionary[spot].mod != null){
-            
+    private void Detach(ModSpot spot, bool isSwapping = false)
+    {
+        if (modSocketDictionary[spot].mod != null)
+        {
+
             modSocketDictionary[spot].mod.transform.SetParent(modInventory.GetModParent(modSocketDictionary[spot].mod.getModType()));
             modSocketDictionary[spot].mod.gameObject.SetActive(false);
             modSocketDictionary[spot].mod.DetachAffect();
@@ -349,7 +351,8 @@ public class ModManager : MonoBehaviour
     {
         public Transform socket;
         public Mod mod;
-        public ModSocket(Transform i_socket){
+        public ModSocket(Transform i_socket)
+        {
             socket = i_socket;
         }
     }
@@ -358,31 +361,37 @@ public class ModManager : MonoBehaviour
     #region Private Structures
 
 
-    private class CommandedMod{
+    private class CommandedMod
+    {
         public ModSpot modSpot = ModSpot.Default;
         public bool isHeld = false;
         public bool wasHeld = false;
         public float holdTime = 0.0f;
-    } 
+    }
 
-    private bool IsHoldingMod(Transform otherMod) {
-        foreach (KeyValuePair<ModSpot, ModSocket> modSocket in modSocketDictionary) {
-            if (modSocket.Value.socket==otherMod.parent) {
+    private bool IsHoldingMod(Transform otherMod)
+    {
+        foreach (KeyValuePair<ModSpot, ModSocket> modSocket in modSocketDictionary)
+        {
+            if (modSocket.Value.socket == otherMod.parent)
+            {
                 return true;
             }
         }
-        return false;        
+        return false;
     }
 
     [System.Serializable]
-    public class ModPosition {
+    public class ModPosition
+    {
         public ModType type;
         public Vector3 localPos;
     }
     [System.Serializable]
-    public class ModPositions {
+    public class ModPositions
+    {
         public List<ModPosition> modPositions;
-        public ModPosition this[ModType type] { get { return modPositions.Find(modPos=>modPos.type==type); } }
+        public ModPosition this[ModType type] { get { return modPositions.Find(modPos => modPos.type == type); } }
     }
     #endregion
 

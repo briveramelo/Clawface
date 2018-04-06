@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace PlayerLevelEditor
+namespace PLE
 {
     public static class EditorToolKit
     {
@@ -191,7 +191,7 @@ namespace PlayerLevelEditor
     {
         public static void draft(GameObject i_Object, Vector3 decal3, Color color)
         {
-            PLECameraController camControl = UnityEngine.Camera.main.GetComponent<PlayerLevelEditor.PLECameraController>();
+            PLECameraController camControl = UnityEngine.Camera.main.GetComponent<PLE.PLECameraController>();
             if(camControl)
             {
                 camControl.SetLineColor(color);
@@ -266,7 +266,7 @@ namespace PlayerLevelEditor
             v3_BackBottomRight = new Vector3(v3_BackBottomRight.x + decal3.x, v3_BackBottomRight.y + decal3.y, v3_BackBottomRight.z + decal3.z);
 
 
-            PLECameraController camControl = UnityEngine.Camera.main.GetComponent<PlayerLevelEditor.PLECameraController>();
+            PLECameraController camControl = UnityEngine.Camera.main.GetComponent<PLE.PLECameraController>();
             if (camControl)
             {
 

@@ -664,8 +664,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 0.52}
-  m_Center: {x: 0, y: 0.25, z: 0.24}
+  m_Size: {x: 0.68, y: 3.16, z: 3.61}
+  m_Center: {x: 0, y: 0.93, z: -0.21}
 --- !u!95 &95301121879857044
 Animator:
   serializedVersion: 3
@@ -1050,6 +1050,7 @@ MonoBehaviour:
   fishEmitter: {fileID: 114908430418538556}
   enemyImpactEffect: 42
   wallImpactEffect: 42
+  scaleUpTime: 0.25
 --- !u!114 &114908430418538556
 MonoBehaviour:
   m_ObjectHideFlags: 1

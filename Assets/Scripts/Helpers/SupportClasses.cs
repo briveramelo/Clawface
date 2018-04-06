@@ -40,7 +40,12 @@ public class TransformMemento {
         startPosition = transform.localPosition;
         startScale = transform.localScale;
         startRotation = transform.localRotation;
-    }    
+    }
+    public void Reset(Transform transform) {
+        transform.localPosition = startPosition;
+        transform.localScale = startScale;
+        transform.localRotation = startRotation;
+    }
 }
 
 public class Will {

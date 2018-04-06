@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Turing.VFX;
 
-public class LevelLandmark : MonoBehaviour
+public class LevelLandmark : EventSubscriber
 {
     [SerializeField] VFXOneOff vfx;
     [SerializeField] LineRenderer line;
@@ -16,19 +16,27 @@ public class LevelLandmark : MonoBehaviour
 
     ParticleSystem[] particleSystems;
 
-    private void Start()
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.WAVE_COMPLETE, DoShowEffects },
+            };
+        }
+    }
+    #endregion
+
+    protected override void Start()
     {
-        EventSystem.Instance.RegisterEvent(Strings.Events.WAVE_COMPLETE, DoShowEffects);
+        base.Start();
         particleSystems = vfx.GetComponentsInChildren<ParticleSystem>();
         HideVFX();
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
-        if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.WAVE_COMPLETE, DoShowEffects);
-        } 
-
+        base.OnDestroy();
         StopAllCoroutines();
     }
 
@@ -42,6 +50,8 @@ public class LevelLandmark : MonoBehaviour
         vfx.Play();
         line.widthMultiplier = activeWidth;
         line.material = activeMaterial;
+
+        SFXManager.Instance.Play(SFXType.LandmarkBlast, transform.position);
     }
 
     void HideVFX ()

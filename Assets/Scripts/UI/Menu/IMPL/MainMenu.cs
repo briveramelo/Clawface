@@ -5,13 +5,7 @@ public class MainMenu : Menu
 {
     #region Public Fields
 
-    public override Button InitialSelection
-    {
-        get
-        {
-            return mainButton;
-        }
-    }
+    public override Selectable InitialSelection { get { return mainButton; } }
 
     #endregion
 
@@ -25,6 +19,10 @@ public class MainMenu : Menu
     #region Public Interface
 
     public MainMenu() : base(Strings.MenuStrings.MAIN) {}
+    protected override void ShowStarted() {
+        base.ShowStarted();        
+    }
+
 
     //// Actions used by Buttons on this Menu
     public void StartAction()
@@ -32,15 +30,13 @@ public class MainMenu : Menu
         // Target Level is hard coded right now.
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = menu as LoadMenu;
-        loadMenu.TargetScene = Strings.Scenes.Arena;        
+        loadMenu.SetNavigation(Strings.Scenes.ScenePaths.Arena);
 
-        // Transition to weapon select
-        // TODO - When adding level editor + more levels will need new and improved level select.
-        menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
-        WeaponSelectMenu weaponMenu = menu as WeaponSelectMenu;
-        weaponMenu.menuTarget = Strings.MenuStrings.MAIN;
-        MenuManager.Instance.DoTransition(weaponMenu, Transition.SHOW,
-            new Effect[] { Effect.EXCLUSIVE });
+        // Transition to level Select
+        menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU);
+        PLELevelSelectMenu levelSelectMenu = menu as PLELevelSelectMenu;
+        levelSelectMenu.backMenuTarget = Strings.MenuStrings.MAIN;
+        MenuManager.Instance.DoTransition(levelSelectMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
         //SFXManager.Instance.Play(SFXType.AnnounceTitle, Vector3.zero);
     }
 
@@ -48,15 +44,14 @@ public class MainMenu : Menu
     {
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         LoadMenu loadMenu = menu as LoadMenu;
-        loadMenu.TargetScene = Strings.Scenes.Editor;
-        loadMenu.Fast = true;
+        loadMenu.SetNavigation(Strings.Scenes.ScenePaths.Editor);
 
         MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
-    public void ControlsAction()
+    public void SettingsAction()
     {
-        MenuManager.Instance.DoTransition(Strings.MenuStrings.CONTROLS,
+        MenuManager.Instance.DoTransition(Strings.MenuStrings.SETTINGS,
             Transition.SHOW, new Effect[] { Effect.EXCLUSIVE, Effect.FADE });
     }
 
@@ -69,20 +64,6 @@ public class MainMenu : Menu
     public void QuitAction()
     {
         Application.Quit();
-    }
-
-    #endregion
-
-    #region Protected Interface
-
-    protected override void DefaultShow(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
-    }
-
-    protected override void DefaultHide(Transition transition, Effect[] effects)
-    {
-        Fade(transition, effects);
     }
 
     #endregion

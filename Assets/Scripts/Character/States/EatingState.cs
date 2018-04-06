@@ -11,6 +11,12 @@ public class EatingState : IPlayerState
     #region Serialized Fields
     [SerializeField]
     private ClawArmController clawArmController;
+
+    [SerializeField]
+    private Turing.VFX.PlayerFaceController playerFaceController;
+
+    [SerializeField]
+    private float happyTimeAfterEating;
     #endregion
 
     #region Private Fields
@@ -20,28 +26,28 @@ public class EatingState : IPlayerState
     private GameObject dummyObject;
     #endregion
 
-    #region Unity Lifecycle
 
-    private void Start()
-    {
-        dummyObject = new GameObject();
-        dummyObject.name = "Dummy";
-        Assert.IsNotNull(clawArmController);
-    }
-
-    private void OnEnable()
-    {        
-        EventSystem.Instance.RegisterEvent(Strings.Events.FACE_OPEN, DoArmExtension);
-        EventSystem.Instance.RegisterEvent(Strings.Events.CAPTURE_ENEMY, CaptureEnemy);
-        EventSystem.Instance.RegisterEvent(Strings.Events.ARM_ANIMATION_COMPLETE, EndState);
-    }
-    private void OnDisable() {
-        if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.FACE_OPEN, DoArmExtension);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.CAPTURE_ENEMY, CaptureEnemy);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.ARM_ANIMATION_COMPLETE, EndState);
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.EnableDisable; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.FACE_OPEN, DoArmExtension},
+                { Strings.Events.CAPTURE_ENEMY, CaptureEnemy},
+                { Strings.Events.ARM_ANIMATION_COMPLETE, EndState},
+            };
         }
     }
+    #endregion
+    #region Unity Lifecycle
+
+    protected override void Start()
+    {
+        base.Start();
+        dummyObject = new GameObject("Dummy");
+        Assert.IsNotNull(clawArmController);
+    }
+    
     #endregion
 
     #region Public Methods
@@ -59,7 +65,7 @@ public class EatingState : IPlayerState
 
     public override void StateUpdate()
     {
-        if (!isAnimating)
+        if (!isAnimating && stateVariables.playerCanMove)
         {
             if (stateVariables.eatTargetEnemy && stateVariables.eatTargetEnemy.activeSelf)
             {
@@ -82,6 +88,19 @@ public class EatingState : IPlayerState
     {
         LookAtEnemy();
     }
+
+    public override void ResetState()
+    {
+        EventSystem.Instance.TriggerEvent(Strings.Events.FINISHED_EATING);
+        clawArmController.ResetClawArm();
+        stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.CloseFace);
+        stateVariables.modelHead.transform.LookAt(stateVariables.playerTransform.forward);
+        stateVariables.eatTargetEnemy = null;
+        clawTransform = null;
+        grabObject = null;
+        isAnimating = false;
+        stateVariables.stateFinished = true;
+    }
     #endregion
 
     #region Private Methods
@@ -94,20 +113,6 @@ public class EatingState : IPlayerState
         }
     }
 
-    protected override void ResetState()
-    {
-        EventSystem.Instance.TriggerEvent(Strings.Events.FINISHED_EATING);
-        clawArmController.ResetClawArm();
-        stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.CloseFace);
-        stateVariables.modelHead.transform.LookAt(stateVariables.playerTransform.forward);
-        stateVariables.eatTargetEnemy = null;
-        clawTransform = null;
-        grabObject = null;
-        isAnimating = false;
-        stateVariables.stateFinished = true;
-    }
-
-
     private void DoArmExtension(params object[] parameters)
     {
 
@@ -115,7 +120,7 @@ public class EatingState : IPlayerState
         {
             if (stateVariables.eatTargetEnemy)
             {
-                stateVariables.statsManager.MakeHappy();
+                // stateVariables.statsManager.MakeHappy();
                 IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
                 if (eatable != null)
                 {
@@ -144,14 +149,13 @@ public class EatingState : IPlayerState
             IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
             if (eatable != null)
             {
-                stateVariables.eatTargetEnemy.transform.position = clawTransform.position;
-                eatable.DisableCollider();
+                stateVariables.eatTargetEnemy.transform.position = clawTransform.position;                
+                eatable.ToggleColliders(false);
                 eatable.EnableRagdoll();
             }
         }
         SFXManager.Instance.Play(stateVariables.ArmEnemyCaptureSFX, transform.position);
         //clawArmController.StartRetraction(stateVariables.clawRetractionTime);
-
     }
 
     private void DoEating()
@@ -166,28 +170,26 @@ public class EatingState : IPlayerState
                 eatable.Eat(out health);
                 stateVariables.statsManager.TakeHealth(health);
                 Stats stats = GetComponent<Stats>();
+
                 EventSystem.Instance.TriggerEvent(Strings.Events.UPDATE_HEALTH, stats.GetHealthFraction());
+                EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_DEATH_BY_EATING);
+
                 GameObject skinningEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXMallCopExplosion);
+                playerFaceController.SetTemporaryEmotion(Turing.VFX.PlayerFaceController.Emotion.Happy, happyTimeAfterEating);
+
                 if (skinningEffect && clawTransform)
                 {
                     skinningEffect.transform.position = clawTransform.position;
                 }
 
-
+                
                 GameObject healthJuice = ObjectPool.Instance.GetObject(PoolObjectType.VFXHealthGain);
                 if (healthJuice)
                 {
-                    healthJuice.FollowAndDeActivate(3f, transform, Vector3.up * 3.2f, coroutineName);
+                    healthJuice.FollowAndDeActivate(3f, transform, Vector3.up * 3.2f, CoroutineName);
                 }
                 SFXManager.Instance.Play(stateVariables.EatSFX, transform.position);
-            }
-
-            else
-            {
-
-            }
-
-           
+            }      
         }
     }
 

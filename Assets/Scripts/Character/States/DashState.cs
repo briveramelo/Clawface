@@ -34,6 +34,10 @@ public class DashState : IPlayerState {
 
     [SerializeField]
     private float dashITimeEnd;
+
+    [SerializeField]
+    private float dashComboTime;
+
     #endregion
 
     #region Private Fields
@@ -42,12 +46,17 @@ public class DashState : IPlayerState {
     private bool isClawOut;
     private float currentRotation;
 
+    [SerializeField]
     private float dashTimer;
+
+    [SerializeField]
+    private float dashComboTimer;
     #endregion
 
     #region Unity Lifecycle
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         isClawOut = false;
         currentRotation = 0.0f;
     }
@@ -59,23 +68,24 @@ public class DashState : IPlayerState {
         currentFrame = 0;
         currentPose = 0;
         dashTimer = 0f;
+        dashComboTimer = 0f;
     }
+
+    public void Update()
+    {
+        dashComboTimer += Time.deltaTime;
+    }
+
 
     public override void StateFixedUpdate()
     {
-        //currentFrame++;
-        //PlayAnimation();
-        //CheckForIFrames();
-        //MovePlayer();        
-        //PushEnemies();
-        //if (currentFrame >= totalDashFrames) {
-        //    ResetState();
-        //}
+        
     }
 
     public void StartDash()
     {
         SFXManager.Instance.Play(SFXType.Dash, transform.position);
+        dashTimer = 0f;
         dashPuff.Play();
         dashTrail.GetComponent<TrailRenderer>().enabled = true;
     }
@@ -83,9 +93,9 @@ public class DashState : IPlayerState {
     public override void StateUpdate()
     {
         dashTimer += Time.deltaTime;
+        
         PlayAnimation();
         MovePlayer();
-        PushEnemies();
 
         if (dashTimer >= totalDashTime) ResetState();
     }
@@ -94,10 +104,8 @@ public class DashState : IPlayerState {
     {
         
     }
-    #endregion
 
-    #region Private Methods
-    protected override void ResetState()
+    public override void ResetState()
     {
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer(Strings.Layers.ENEMY), LayerMask.NameToLayer(Strings.Layers.MODMAN), false);
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer(Strings.Layers.ENEMY_BODY), LayerMask.NameToLayer(Strings.Layers.MODMAN), false);
@@ -105,8 +113,9 @@ public class DashState : IPlayerState {
         currentPose = 0;
         dashTimer = 0f;
         stateVariables.statsManager.damageModifier = 1.0f;
-        if (stateVariables.velBody.GetMovementMode()==MovementMode.ICE) {
-            stateVariables.velBody.velocity = stateVariables.velBody.GetForward() * dashVelocity/10f;
+        if (stateVariables.velBody.GetMovementMode() == MovementMode.ICE)
+        {
+            stateVariables.velBody.velocity = stateVariables.velBody.GetForward() * dashVelocity / 10f;
         }
         dashTrail.GetComponent<TrailRenderer>().Clear();
         dashTrail.GetComponent<TrailRenderer>().enabled = false;
@@ -114,7 +123,9 @@ public class DashState : IPlayerState {
         currentRotation = 0.0f;
         stateVariables.stateFinished = true;
     }
+    #endregion
 
+    #region Private Methods
     private void PlayAnimation()
     {
         if (currentPose != highlightPoses[0] || totalDashFrames - currentFrame <= totalAttackPoses / 2)
@@ -133,6 +144,17 @@ public class DashState : IPlayerState {
         if (dashTimer >= dashITimeStart && dashTimer < dashITimeEnd) return true;
 
         return false;
+    }
+
+    public bool CheckIfDashGivesCombo()
+    {
+        if (dashComboTimer >= dashComboTime) return true;
+        return false;
+    }
+
+    public void ResetDashComboTimer()
+    {
+        dashComboTimer = 0f;
     }
 
     private void MovePlayer()

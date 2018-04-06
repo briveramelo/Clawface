@@ -6,6 +6,7 @@ using Turing.VFX;
 using ModMan;
 using MEC;
 using System;
+using System.Linq;
 
 public enum PushDirection{
     BACK,
@@ -13,7 +14,7 @@ public enum PushDirection{
     BACK_DOWN
 }
 
-public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatable, ISpawnable
+public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEatable, ISpawnable
 {
     #region serialized fields
     [SerializeField] protected AIController controller;
@@ -31,6 +32,10 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     [SerializeField] PushDirection pushDirection;
     [SerializeField] GameObject hips;
     [SerializeField] protected SpawnType enemyType;
+    [SerializeField] private GameObject skeletonRoot;
+    [SerializeField] protected SFXType vocalizeSound = SFXType.None;
+    [SerializeField] protected Vector2 vocalizeInterval = Vector2.one;
+    [SerializeField] protected SFXType footstepSound = SFXType.None;
     #endregion
 
     #region 3. Private fields
@@ -39,14 +44,23 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     private bool aboutTobeEaten = false;
     private Collider[] playerColliderList = new Collider[10];
     private Rigidbody[] jointRigidBodies;
-    private List<float> rigidBodyMasses;
-    private Vector3 grabStartPosition;
+    private Rigidbody[] JointRigidBodies {
+        get {
+            if (jointRigidBodies == null) {
+                jointRigidBodies = GetComponentsInChildren<Rigidbody>();
+            }
+            return jointRigidBodies;
+        }
+    }
+    private List<TransformMemento> skeletonTransformMomentos;
+    private Transform[] skeletonTransforms;
+    private List<float> rigidBodyMasses;    
     private bool isIndestructable;
     private int id;
     private bool ragdollOn;
     private float currentStunTime = 0.0f;
-    private int bufferHealth = 3;
     private Vector3 spawnPosition;
+    private TransformMemento grabObjectMomento;
     #endregion
 
     #region 0. Protected fields
@@ -61,28 +75,63 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     protected List<AIState> aiStates;
     protected TransformMemento transformMemento=new TransformMemento();
     protected Transform poolParent;
+    protected List<Collider> myColliders;
+    protected List<Collider> MyColliders {
+        get {
+            if (myColliders==null) {
+                myColliders = GetComponentsInChildren<Collider>().ToList();
+            }
+            return myColliders;
+        }
+    }
+    protected bool canVocalize = true;
+    #endregion
+
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.EnableDisable; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.PLAYER_KILLED, DoPlayerKilledState},
+                { Strings.Events.ENEMY_INVINCIBLE, SetInvincible },
+                { Strings.Events.SHOW_TUTORIAL_TEXT, DisableVocalization },
+                { Strings.Events.HIDE_TUTORIAL_TEXT, EnableVocalization }
+            };
+        }
+    }
     #endregion
 
     #region 4. Unity Lifecycle
 
-    public void OnEnable()
+    protected override void OnEnable()
     {
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, DoPlayerKilledState);
-        EventSystem.Instance.RegisterEvent(Strings.Events.ENEMY_INVINCIBLE, SetInvincible);
+        base.OnEnable();
         id = GetInstanceID();
-        //if (will.willHasBeenWritten)
-        //{
-            ResetForRebirth();
-        //}
+        ResetForRebirth();
     }
 
-    public void Update()
+    protected override void Awake()
+    {
+        base.Awake();
+        poolParent = transform.parent;
+        transformMemento.Initialize(transform);
+        InitSkeleton();
+        ExtractRbWeights();
+        if (grabObject != null)
+        {
+            grabObjectMomento = new TransformMemento();
+            grabObjectMomento.Initialize(grabObject.transform);
+        }
+        ResetForRebirth();
+    }
+
+    void Update()
     {
         if (alreadyStunned)
         {
             currentStunTime += Time.deltaTime;
 
-            if (currentStunTime > stunnedTime)
+            if (currentStunTime > stunnedTime && !isIndestructable)
             {
                 OnDeath();
             }
@@ -95,24 +144,12 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         }       
     }
 
-    public virtual void Awake()
+    protected override void OnDisable()
     {
-        poolParent = transform.parent;
-        transformMemento.Initialize(transform);        
-        InitRagdoll();        
-        if (grabObject != null)
-        {
-            grabStartPosition = grabObject.transform.localPosition;
-        }        
-        ResetForRebirth();        
+        base.OnDisable();
+        CancelInvoke("Vocalize");
     }
 
-    private new void OnDisable()
-    {
-        EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, DoPlayerKilledState);
-        EventSystem.Instance.UnRegisterEvent(Strings.Events.ENEMY_INVINCIBLE, SetInvincible);
-        base.OnDisable();
-    }
     #endregion
 
     #region 5. Public Methods   
@@ -131,23 +168,15 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             myStats.TakeDamage(damager.damage);
             damagePack.Set(damager, damaged);
             SFXManager.Instance.Play(hitSFX, transform.position);
-            GoreManager.Instance.EmitDirectionalBlood(damagePack);
-            hitFlasher.HitFlash ();
+            GoreManager.Instance.EmitDirectionalBlood(damagePack);            
 
             // Blood effect
             GameObject blood = ObjectPool.Instance.GetObject(PoolObjectType.VFXBloodSpurt);
             if (blood) blood.transform.position = transform.position;
 
-            if (myStats.health <= 0)
+            if (myStats.health <= 0 || myStats.health <= myStats.skinnableHealth)
             {
-                myStats.health = bufferHealth;
-            }
-
-
-            if (myStats.health <= myStats.skinnableHealth)
-            {
-                    myStats.health = bufferHealth;
-                    alreadyStunned = true;
+                alreadyStunned = true;
             }
         }
 
@@ -222,7 +251,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
         hitFlasher.StopAllCoroutines();
         hitFlasher.SetStrength(0.0f);
-        controller.SetDefaultState();
+        controller.SetDefaultChaseState();
         controller.ActivateAI();
         currentStunTime = 0.0f;
     }
@@ -232,13 +261,23 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         return affectObject;
     }
 
+    public void EnableNavAgent()
+    {
+        navAgent.enabled = true;
+    }
+
+    public void WarpNavAgent(Vector3 position)
+    {
+        navAgent.Warp(position);
+    }
 
     public virtual void OnDeath()
     {
-        EventSystem.Instance.TriggerEvent(Strings.Events.DEATH_ENEMY, gameObject, scoreValue);
-
+        
         if (!will.isDead)
         {
+            EventSystem.Instance.TriggerEvent(Strings.Events.DEATH_ENEMY, gameObject, scoreValue);
+
             will.isDead = true;
             if (will.willHasBeenWritten)
             {
@@ -257,8 +296,9 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
             }
             navAgent.speed = 0;
             navAgent.enabled = false;
-            gameObject.SetActive(false);
             aboutTobeEaten = false;
+            alreadyStunned = false;
+            isIndestructable = false;
             SFXManager.Instance.Play(deathSFX, transform.position);
             AIEnemyData testData = new AIEnemyData(controller.GetInstanceID());
             currentStunTime = 0.0f;
@@ -267,13 +307,14 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
                 AIManager.Instance.Remove(testData);
             }
             ClearAffecters();
+            gameObject.SetActive(false);
         }
     }
 
     public virtual void ResetForRebirth()
     {
-        DisableRagdoll();        
-        GetComponent<CapsuleCollider>().enabled = true;
+        DisableRagdoll();
+        ToggleColliders(true);
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
         velBody.ResetForRebirth();
@@ -284,7 +325,10 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         isStunFlashing = false;
         alreadyStunned = false;
         isIndestructable = false;
+    }
 
+    public void ToggleColliders(bool enabled) {
+        MyColliders.ForEach(collider => collider.enabled = enabled);
     }
 
     public virtual void DisableStateResidue()
@@ -292,22 +336,22 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     }
 
-    public void DisableCollider()
+    public void ToggleCollider(bool enabled)
     {
-        GetComponent<CapsuleCollider>().enabled = false;
+        GetComponent<CapsuleCollider>().enabled = enabled;
     }
 
     public void EnableRagdoll(float weight = 1.0f)
     {
         DisableStateResidue();
-        if (jointRigidBodies != null)
+        if (JointRigidBodies != null)
         {
             //Ignore the first entry (its the self rigidbody)
-            for (int i = 1; i < jointRigidBodies.Length; i++)
+            for (int i = 1; i < JointRigidBodies.Length; i++)
             {
-                jointRigidBodies[i].mass *= weight;
-                jointRigidBodies[i].useGravity = true;
-                jointRigidBodies[i].isKinematic = false;                
+                JointRigidBodies[i].mass *= weight;
+                JointRigidBodies[i].useGravity = true;
+                JointRigidBodies[i].isKinematic = false;                
             }
         }
         animator.enabled = false;
@@ -324,32 +368,40 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     public void DisableRagdoll()
     {        
-        if (jointRigidBodies != null)
+        if (JointRigidBodies != null)
         {
             //Ignore the first entry (its the self rigidbody)
-            for (int i = 1; i < jointRigidBodies.Length; i++)
+            for (int i = 1; i < JointRigidBodies.Length; i++)
             {
-                RagdollHandler ragdollHandler = jointRigidBodies[i].GetComponent<RagdollHandler>();
-                if (ragdollHandler)
-                {
-                    ragdollHandler.ResetBone();
-                }
-                jointRigidBodies[i].useGravity = false;
-                jointRigidBodies[i].velocity = Vector3.zero;
-                jointRigidBodies[i].angularVelocity = Vector3.zero;
-                jointRigidBodies[i].isKinematic = true;
+                //RagdollHandler ragdollHandler = jointRigidBodies[i].GetComponent<RagdollHandler>();
+                //if (ragdollHandler)
+                //{
+                //    ragdollHandler.ResetBone();
+                //}
+                JointRigidBodies[i].useGravity = false;
+                JointRigidBodies[i].velocity = Vector3.zero;
+                JointRigidBodies[i].angularVelocity = Vector3.zero;
+                JointRigidBodies[i].isKinematic = true;
                 if (rigidBodyMasses != null)
                 {
-                    jointRigidBodies[i].mass = rigidBodyMasses[i];
+                    JointRigidBodies[i].mass = rigidBodyMasses[i];
                 }                
             }
         }
-        animator.enabled = true;        
+        //Reset skeleton
+        if (skeletonRoot)
+        {
+            for(int i = 0; i < skeletonTransforms.Length; i++)
+            {
+                skeletonTransformMomentos[i].Reset(skeletonTransforms[i]);
+            }
+        }
+
+                
         if (grabObject)
         {
             grabObject.transform.parent = transform;
-            grabObject.transform.localPosition = grabStartPosition;
-            grabObject.transform.localScale = Vector3.one;
+            grabObjectMomento.Reset(grabObject.transform);
         }        
         ragdollOn = false;
     }
@@ -359,9 +411,10 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         return grabObject;
     }
 
-    public void MakeIndestructable()
+    public void TemporaryTerminalIndestructable()
     {
         isIndestructable = true;
+        StartCoroutine(FinalDeath());
     }
 
     public void CloserToEat(bool isClose)
@@ -429,13 +482,9 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
     {
         yield return new WaitForSeconds(3.0f);
         bool findNearestTile = false;
-        while (PlayerIsNear() || IsFalling())
+        while ((PlayerIsNear() || IsFalling()) && !findNearestTile)
         {
             findNearestTile = IsOnObstacle();
-            if (findNearestTile)
-            {
-                break;
-            }
             yield return new WaitForEndOfFrame();
         }
         GetUp(findNearestTile);
@@ -481,11 +530,32 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         if (spaceFound)
         {
             ActivateAIMethods(warpPosition);
+            Vocalize();
         }
         else
         {
             //Kill
             OnDeath();
+        }
+    }
+
+    void Vocalize ()
+    {
+        if (enabled && vocalizeSound != SFXType.None && canVocalize)
+        {
+            SFXManager.Instance.Play(vocalizeSound, transform.position);
+            Invoke ("Vocalize", UnityEngine.Random.Range(vocalizeInterval.x, vocalizeInterval.y));
+        }
+    }
+
+    void EnableVocalization (params object[] parameters) { canVocalize = true; }
+    void DisableVocalization (params object[] parameters) { canVocalize = false; }
+
+    void PlayFootstepSound ()
+    {
+        if (footstepSound != SFXType.None)
+        {
+            SFXManager.Instance.Play(footstepSound, transform.position);
         }
     }
 
@@ -528,7 +598,7 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
 
     private void FallDown()
     {
-        DisableCollider();
+        ToggleCollider(false);
         EnableRagdoll();
     }
 
@@ -546,22 +616,28 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         }
     }
 
+    private void InitSkeleton() {
+        if (skeletonRoot) {
+            skeletonTransformMomentos = new List<TransformMemento>();
+            skeletonTransforms = skeletonRoot.GetComponentsInChildren<Transform>();
+            foreach (Transform transform in skeletonTransforms) {
+                TransformMemento transformMemento = new TransformMemento();
+                transformMemento.Initialize(transform);
+                skeletonTransformMomentos.Add(transformMemento);
+            }
+        }
+    }
+
     private void ExtractRbWeights()
     {
         if(rigidBodyMasses == null)
         {
-            rigidBodyMasses = new List<float>(jointRigidBodies.Length);
+            rigidBodyMasses = new List<float>(JointRigidBodies.Length);
         }
-        foreach(Rigidbody rb in jointRigidBodies)
+        foreach(Rigidbody rb in JointRigidBodies)
         {
             rigidBodyMasses.Add(rb.mass);
         }
-    }
-
-    private void InitRagdoll()
-    {
-        jointRigidBodies = GetComponentsInChildren<Rigidbody>();       
-        ExtractRbWeights();
     }
 
     private void AddForce(Vector3 force)
@@ -570,6 +646,18 @@ public abstract class EnemyBase : RoutineRunner, IStunnable, IDamageable, IEatab
         {
             pushRoot.AddForce(force, ForceMode.Impulse);
         }
+    }
+
+    private IEnumerator FinalDeath()
+    {
+        float finalStunTime = 0.0f;
+
+        while(finalStunTime < stunnedTime)
+        {
+            finalStunTime += Time.deltaTime;
+            yield return null;
+        }
+        OnDeath();
     }
     #endregion
 }

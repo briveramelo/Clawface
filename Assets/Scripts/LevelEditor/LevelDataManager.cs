@@ -5,37 +5,34 @@ using UnityEngine;
 using ModMan;
 using System.Linq;
 using UnityEngine.UI;
-using PlayerLevelEditor;
+using PLE;
 
 public class LevelDataManager : MonoBehaviour {
 
-	[SerializeField] private DataPersister dataPersister;
+    [Header("Required for all scenes")]
     [SerializeField] private LevelEditor levelEditor;
     [SerializeField] private Transform tileParent, propsParent, spawnParent;
-    [SerializeField] private PlayerLevelEditorGrid playerLevelEditorGrid;
-    [SerializeField] private WaveSystem waveSystem;
-    [SerializeField] private InputField levelName, levelDescription;
-    [SerializeField] private SpawnMenu spawnMenu;
-    [SerializeField] private PropsMenu propsMenu;
 
-    private DataSave ActiveDataSave { get { return DataPersister.ActiveDataSave; } }
-    private LevelData ActiveLevelData { get { return ActiveDataSave.ActiveLevelData; } }
-    private List<WaveData> ActiveWaveData { get { return ActiveLevelData.waveData; } set { ActiveLevelData.waveData = value; } }
-    private List<TileData> ActiveTileData { get { return ActiveLevelData.tileData; } set { ActiveLevelData.tileData = value; } }
-    private List<PropData> ActivePropData { get { return ActiveLevelData.propData; } set { ActiveLevelData.propData = value; } }
+    [Header("Player Editor Scene-specific")]
+    [SerializeField] private MainPLEMenu mainPLEMenu;
+    [SerializeField] private InputField levelName;
+    [SerializeField] private InputField levelDescription;
 
-    private string GetWaveName(int i) { return Strings.Editor.Wave + i; }
-
+    private DataPersister dataPersister { get { return DataPersister.Instance; } }
+    public DataSave ActiveDataSave { get { return DataPersister.ActiveDataSave; } }
+    public LevelData WorkingLevelData { get { return ActiveDataSave.workingLevelData; } }
+    public List<WaveData> WorkingWaveData { get { return WorkingLevelData.waveData; } }
+    public List<TileData> WorkingTileData { get { return WorkingLevelData.tileData; } }
+    public List<PropData> WorkingPropData { get { return WorkingLevelData.propData; } }
+    private int spawnLayerMask;
 
     #region Unity Lifecycle
-    private void Start() {
-        LoadSelectedLevel();
+
+    private void Awake() {
+        spawnLayerMask = LayerMask.GetMask(Strings.Layers.SPAWN);
     }
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.Alpha7)) {
-            SaveLevel();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha0)) {
+    private void Start() {
+        if (!SceneTracker.IsCurrentSceneEditor) {
             LoadSelectedLevel();
         }
     }
@@ -43,57 +40,43 @@ public class LevelDataManager : MonoBehaviour {
 
     #region Load
     public void LoadSelectedLevel() {
-        StartCoroutine(DelayLoad());
+        StartCoroutine(DelayLoadOneFrame());        
     }
 
-    IEnumerator DelayLoad() {
-        yield return new WaitForEndOfFrame();
+    private IEnumerator DelayLoadOneFrame() {
+        propsParent.DestroyAllChildren();
+        spawnParent.DestroyAllChildren();
+        yield return null;
+        LoadEntireLevel();
+    }
+
+    private void LoadEntireLevel() {
         LoadProps();
         LoadSpawnsAllOn();
         LoadTiles();
         LoadSpawnsToggledState();
-        waveSystem.ResetToWave0();
         LoadImages();
-        levelEditor.CheckToSetMenuInteractability();
-    }
 
-    private void LoadTiles() {
-        playerLevelEditorGrid.ResetGrid();
-        for (int i = 0; i < ActiveTileData.Count; i++) {
-            TileData tileData = ActiveTileData[i];
-            List<LevelUnitStates> levelStates = new List<LevelUnitStates>();
-            foreach (LevelUnitStates levelUnitState in tileData.levelStates) {
-                levelStates.Add(levelUnitState);
-            }
-            GridTile tile = playerLevelEditorGrid.GetTileAtPoint(tileData.position.AsVector);
-            tile.IsActive = true;
-            LevelUnit levelUnit = tile.realTile.GetComponent<LevelUnit>();
-            PLEBlockUnit blockUnit = tile.realTile.GetComponent<PLEBlockUnit>();
-            blockUnit.SetLevelStates(levelStates);
-            List<GameObject> props = Physics.OverlapBox(tile.realTile.transform.position, new Vector3(1,10,1)).ToList().Where(prop => prop.GetComponent<PLEProp>()).Select(item => item.gameObject).ToList();
+        PLESpawnManager.Instance.MaxWaveIndex = WorkingLevelData.MaxWaveIndex;
+        PLESpawnManager.Instance.InfiniteWavesEnabled = WorkingLevelData.isInfinite;
 
-            if (props.Count>0) {
-                blockUnit.SetOccupation(true);
-                blockUnit.SetProp(props[0]);
-            }
+        int waveIndex = 0;
+        waveIndex = PLESpawnManager.Instance.SetToWave(waveIndex);//sets spawn parent enabling in here
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_ON_LEVEL_DATA_LOADED);
 
-            List<PLESpawn> spawns = Physics.OverlapBox(tile.realTile.transform.position, new Vector3(1, 10, 1)).ToList().Where(prop => prop.GetComponent<PLESpawn>()).Select(prop => prop.GetComponent<PLESpawn>()).ToList();
-            spawns.ForEach(spawn => {
-                blockUnit.AddSpawn(spawn.gameObject);
-            });
-
-            tile.realTile.transform.SetParent(tileParent);
+        if (SceneTracker.IsCurrentSceneEditor) {
+            EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CALL_WAVE, waveIndex);
+            mainPLEMenu.SetMenuButtonInteractabilityByState();
+            mainPLEMenu.SelectMenuItem(PLEMenuType.FLOOR);
         }
-        playerLevelEditorGrid.ShowWalls();
-    }
+    }    
 
     private void LoadProps() {
-        List<string> propNames = new List<string>();
-        propsParent.DestroyAllChildren();
+        List<string> propNames = new List<string>();        
         List<GameObject> propPrefabs = Resources.LoadAll<GameObject>(Strings.Editor.ENV_OBJECTS_PATH).ToList();
-        for (int i = 0; i < ActivePropData.Count; i++) {
-            PropData propData = ActivePropData[i];
-            GameObject propToSpawn = propPrefabs.Find(item=>item.name==propData.propType);
+        for (int i = 0; i < WorkingPropData.Count; i++) {
+            PropData propData = WorkingPropData[i];
+            GameObject propToSpawn = propPrefabs.Find(item => item.name == propData.propType);
             Transform child = Instantiate(propToSpawn, propsParent, false).transform;
             child.name = propData.propType;
             propNames.Add(child.name);
@@ -102,7 +85,9 @@ public class LevelDataManager : MonoBehaviour {
             Rigidbody rigbod = child.GetComponent<Rigidbody>();
             rigbod.isKinematic = true;
         }
-        propsMenu.ResetMenu(propNames);
+        if (SceneTracker.IsCurrentSceneEditor) {
+            (mainPLEMenu.GetMenu(PLEMenuType.PROPS) as PropsMenu).ResetMenu(propNames);
+        }
     }
 
     private void LoadSpawnsAllOn() {
@@ -110,23 +95,30 @@ public class LevelDataManager : MonoBehaviour {
         List<GameObject> spawnObjects = Resources.LoadAll<GameObject>(Strings.Editor.SPAWN_OBJECTS_PATH).ToList();
         List<PLESpawn> pleSpawns = spawnObjects.Select(spawn => spawn.GetComponent<PLESpawn>()).ToList();
         List<PLESpawn> spawnedPLEs = new List<PLESpawn>();
-        spawnParent.DestroyAllChildren();
-        for (int i = 0; i < ActiveWaveData.Count; i++) {
+        for (int i = 0; i < WorkingWaveData.Count; i++) {
             GameObject waveParent = new GameObject(GetWaveName(i));
             waveParent.transform.SetParent(spawnParent);
-            for (int j = 0; j < ActiveWaveData[i].spawnData.Count; j++) {
-                SpawnData spawnData = ActiveWaveData[i].spawnData[j];
+
+            for (int j = 0; j < WorkingWaveData[i].spawnData.Count; j++) {
+                SpawnData spawnData = WorkingWaveData[i].spawnData[j];
+                int minSpawns = WorkingWaveData[i].GetMinSpawns(spawnData.SpawnType);
+
                 GameObject enemyUIPrefabToSpawn = pleSpawns.Find(spawn=>(int)(spawn.spawnType)==spawnData.spawnType).gameObject;
-                Transform child = Instantiate(enemyUIPrefabToSpawn, waveParent.transform, false).transform;
-                child.name = child.name.TryCleanClone();
-                spawnNames.Add(child.name);
-                PLESpawn pleSpawn = child.GetComponent<PLESpawn>();
+                Transform newSpawnTransform = Instantiate(enemyUIPrefabToSpawn, waveParent.transform, false).transform;
+                newSpawnTransform.name = newSpawnTransform.name.TryCleanName(Strings.CLONE);
+                spawnNames.Add(newSpawnTransform.name);
+                PLESpawn pleSpawn = newSpawnTransform.GetComponent<PLESpawn>();
+                spawnData.pleSpawn = pleSpawn;
+                
                 spawnedPLEs.Add(pleSpawn);
+                pleSpawn.minSpawns = minSpawns;
                 pleSpawn.totalSpawnAmount = spawnData.count;
                 pleSpawn.spawnType = (SpawnType)spawnData.spawnType;
-                child.position = spawnData.position.AsVector;
+                pleSpawn.tile = levelEditor.gridController.GetTileAtPoint(spawnData.position.AsVector);
+                newSpawnTransform.position = spawnData.position.AsVector;
             }
-        }        
+        }
+        
 
         System.Predicate<PLESpawn> keiraSpawn = spawn => spawn.spawnType == SpawnType.Keira;
         if (spawnedPLEs.Exists(keiraSpawn)) {
@@ -135,7 +127,42 @@ public class LevelDataManager : MonoBehaviour {
             keiraSpawnTransform.SetAsFirstSibling();
             SpawnMenu.playerSpawnInstance = keiraSpawnTransform.gameObject;
         }
-        spawnMenu.ResetMenu(spawnNames);
+        if (SceneTracker.IsCurrentSceneEditor) {
+            (mainPLEMenu.GetMenu(PLEMenuType.SPAWN) as SpawnMenu).ResetMenu(spawnNames);
+        }
+    }
+
+    private void LoadTiles() {
+        PLEGrid gridController = levelEditor.gridController;
+        gridController.ResetGrid();
+        for (int i = 0; i < WorkingTileData.Count; i++) {
+            TileData tileData = WorkingTileData[i];
+            List<LevelUnitStates> levelStates = new List<LevelUnitStates>();
+            foreach (LevelUnitStates levelUnitState in tileData.levelStates) {
+                levelStates.Add(levelUnitState);
+            }
+            GridTile tile = gridController.GetTileAtPoint(tileData.position.AsVector);
+            tile.IsActive = true;
+            LevelUnit levelUnit = tile.levelUnit;
+            PLEBlockUnit blockUnit = tile.blockUnit;
+            blockUnit.SetLevelStates(levelStates, tileData.RiseColor);
+            List<GameObject> props = Physics.OverlapBox(tile.realTile.transform.position, new Vector3(1, 10, 1)).ToList().Where(prop => prop.GetComponent<PLEProp>()).Select(item => item.gameObject).ToList();
+
+            if (props.Count > 0) {
+                blockUnit.SetProp(props[0]);
+            }
+
+            List<PLESpawn> spawns = Physics.OverlapBox(tile.realTile.transform.position, new Vector3(1, 10, 1), Quaternion.identity, spawnLayerMask).ToList().Select(prop => prop.GetComponent<PLESpawn>()).ToList();
+            spawns.ForEach(spawn => {
+                blockUnit.AddSpawn(spawn.gameObject);
+            });
+
+            tile.realTile.transform.SetParent(tileParent);
+        }
+        gridController.ShowWalls();
+        if (!SceneTracker.IsCurrentSceneEditor) {
+            gridController.SetGridVisiblity(false);
+        }
     }
 
     private void LoadSpawnsToggledState() {
@@ -152,12 +179,9 @@ public class LevelDataManager : MonoBehaviour {
     }
 
     private void LoadImages() {
-        ActiveDataSave.levelDatas.ForEach(levelData => {
-            Sprite dummySprite = levelData.MySprite;
-        });
+        ActiveDataSave.levelDatas.ForEach(levelData => { Sprite dummySprite = levelData.MySprite; });
     }
 
-    
     #endregion
 
     #region Save
@@ -167,99 +191,120 @@ public class LevelDataManager : MonoBehaviour {
     }
 
     public void SaveLevel() {
-        SaveTiles();
-        SaveProps();
-        SaveSpawns();
-        SaveLevelText();
+        SyncWorkingTileData();
+        SyncWorkingPropData();
+        SyncWorkingSpawnData();
+        SyncWorkingLevelText();
+        SyncWorkingWaveState();
         StartCoroutine(TakePictureAndSave());
     }
-    private void SaveTiles() {
-        ActiveTileData.Clear();
+    private void SyncWorkingTileData() {
+        WorkingTileData.Clear();
         for (int i = 0; i < tileParent.childCount; i++) {
             Transform tile = tileParent.GetChild(i);
             PLEBlockUnit blockUnit = tile.GetComponent<PLEBlockUnit>();
             if (blockUnit) {
                 List<LevelUnitStates> levelStates = blockUnit.GetLevelStates();
-                int tileType = 0; //HOW DO I GET THIS FOR REAL
+                int tileType = blockUnit.TileType;
                 TileData tileData = new TileData(tileType, tile.position, levelStates);
-                ActiveTileData.Add(tileData);
+                WorkingTileData.Add(tileData);
             }
         }
     }
 
-    private void SaveProps() {
+    private void SyncWorkingPropData() {
         //List<string> propNames = Resources.LoadAll<GameObject>(Strings.Editor.ENV_OBJECTS_PATH).Select(item=>item.name).ToList();
-        ActivePropData.Clear();
+        WorkingPropData.Clear();
         for (int i = 0; i < propsParent.childCount; i++) {
             Transform prop = propsParent.GetChild(i);
             string propType = prop.name;
             PropData propData = new PropData(propType, prop);
-            ActivePropData.Add(propData);
+            WorkingPropData.Add(propData);
         }
     }
-    private void SaveSpawns() {
-        ActiveWaveData.Clear();
+    
+    public void SyncWorkingSpawnData() {
+        WorkingWaveData.Clear();
         spawnParent.SortChildrenByName();
-        //TODO Need to check that keira has been placed
-        int startIndex = 0;
-        if (SpawnMenu.playerSpawnInstance) {
-            startIndex = 1;            
-        }
 
-        for (int i = startIndex; i < spawnParent.childCount; i++) {
-            int currentIndex = SpawnMenu.playerSpawnInstance ? i-1 : i;
-            ActiveWaveData.Add(new WaveData());
+        for (int i = 0; i < spawnParent.childCount; i++) {
             Transform waveParent = spawnParent.GetChild(i);
-            for (int j = 0; j < waveParent.childCount; j++) {
-                Transform spawnUI = waveParent.GetChild(j);
-                PLESpawn spawn = spawnUI.GetComponent<PLESpawn>();
-                int spawnType = (int)spawn.spawnType;
-                int spawnCount = spawn.totalSpawnAmount;
-                SpawnData spawnData = new SpawnData(spawnType, spawnCount, spawnUI.position);
-                ActiveWaveData[currentIndex].spawnData.Add(spawnData);
+            PLESpawn spawn = waveParent.GetComponent<PLESpawn>();
+            if (spawn != null) {
+                AddSpawnData(waveParent, 0);//keira
+            }
+            else {//any other baddy
+                int waveChildCount = waveParent.childCount;
+                for (int j = 0; j < waveParent.childCount; j++) {
+                    Transform spawnUI = waveParent.GetChild(j);
+                    if (spawnUI) {
+                        AddSpawnData(spawnUI, i-1);
+                    }
+                }
             }
         }
-
-        if (SpawnMenu.playerSpawnInstance) {
-            Transform keira = spawnParent.GetChild(0);
-            SpawnData keiraSpawnData = new SpawnData((int)SpawnType.Keira, 1, keira.position);
-            ActiveWaveData[0].spawnData.Add(keiraSpawnData);
-        }
     }
 
-    private void SaveLevelText() {
-        ActiveLevelData.name = levelName.text;
-        ActiveLevelData.description = levelDescription.text;
+    void AddSpawnData(Transform spawnUI, int waveIndex) {
+        waveIndex = Mathf.Max(waveIndex, 0);
+        PLESpawn spawn = spawnUI.GetComponent<PLESpawn>();
+        int spawnType = (int)spawn.spawnType;
+        int spawnCount = spawn.totalSpawnAmount;
+        SpawnData spawnData = new SpawnData(spawnType, spawnCount, spawnUI.position) {
+            pleSpawn = spawn
+        };
+        while (WorkingWaveData.Count <= waveIndex) {
+            WorkingWaveData.Add(new WaveData());
+        }
+        WorkingWaveData[waveIndex].spawnData.Add(spawnData);
+        WorkingWaveData[waveIndex].SetMinSpawns(spawnType, spawn.MinSpawns);
+    }
+
+    private void SyncWorkingLevelText() {
+        WorkingLevelData.name = levelName.text;
+        WorkingLevelData.description = levelDescription.text;
+    }
+
+    private void SyncWorkingWaveState() {
+        WorkingLevelData.isInfinite = PLESpawnManager.Instance.InfiniteWavesEnabled;
     }
 
     IEnumerator TakePictureAndSave() {
-        levelEditor.GetMenu(PLEMenu.MAIN).CanvasGroup.alpha = 0f;
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+        levelEditor.gridController.SetGridVisiblity(false);
+        mainPLEMenu.CanvasGroup.alpha = 0f;
+        mainPLEMenu.GetMenu(PLEMenuType.FLOOR).CanvasGroup.alpha = 0f;
         yield return new WaitForEndOfFrame();
         SavePicture();
-        dataPersister.TrySave();
+        dataPersister.TrySaveWorkingLevel();
         yield return new WaitForEndOfFrame();
-        levelEditor.GetMenu(PLEMenu.MAIN).CanvasGroup.alpha = 1f;
+        mainPLEMenu.CanvasGroup.alpha = 1f;
+        mainPLEMenu.GetMenu(PLEMenuType.FLOOR).CanvasGroup.alpha = 1f;
+        mainPLEMenu.SelectMenuItem(PLEMenuType.FLOOR);
+        levelEditor.gridController.SetGridVisiblity(true);
     }
 
     private void SavePicture() {
         Texture2D snapshot = new Texture2D((int)Camera.main.pixelRect.width, (int)Camera.main.pixelRect.height);
         Rect snapRect = Camera.main.pixelRect;
-        //snapRect.width = LevelData.width;
-        //snapRect.height = LevelData.height;
         snapshot.ReadPixels(snapRect, 0, 0);
         TextureScale.Bilinear(snapshot, (int)LevelData.fixedSize.x, (int)LevelData.fixedSize.y);
         snapshot.Apply();
         byte[] imageBytes = snapshot.EncodeToPNG();
-        ActiveLevelData.SetPicture(imageBytes);
+        WorkingLevelData.SetPicture(imageBytes);
     }
 
-
+    private string GetWaveName(int i) { return Strings.Editor.Wave + i; }
     #endregion
 
     #region Delete
-    public void DeleteSelectedLevel() {
-        dataPersister.DeleteSelectedLevel();
-        dataPersister.TrySave();
+    public void TryDeleteLevel(string uniqueName) {
+        dataPersister.TryDeleteLevel(uniqueName);
+        dataPersister.TrySaveDataFile();
+        if (SceneTracker.IsCurrentSceneEditor) {
+            mainPLEMenu.SetMenuButtonInteractabilityByState();
+        }
     }
     #endregion
 

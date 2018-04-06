@@ -36,12 +36,14 @@ public class MallCopShotgun : EnemyBase
     private float closeEnoughToFireDistance;
     private float maxToleranceTime;
     private Vector3 rayCastPosition;
+    private bool isUp;
     #endregion
 
     #region 3. Unity Lifecycle
 
-    public override void Awake()
+    protected override void Awake()
     {
+        isUp = false;
         myStats = GetComponent<Stats>();
         SetAllStats();
         InitilizeStates();
@@ -50,9 +52,11 @@ public class MallCopShotgun : EnemyBase
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
 
         controller.checksToUpdateState = new List<Func<bool>>() {
+            CheckDoneGettingUp,
+            CheckPlayerDead,
+            CheckIfStunned,
             CheckToFire,
-            CheckToFinishFiring,
-            CheckIfStunned
+            CheckToFinishFiring
         };
         currentToleranceTime = 0.0f;
         base.Awake();
@@ -61,8 +65,33 @@ public class MallCopShotgun : EnemyBase
     #endregion
 
     #region 4. Public Methods   
+    //State conditions
+    bool CheckDoneGettingUp()
+    {
+        if (!isUp)
+        {
+            return true;
+        }
+        return false;
+    }
+
 
     //State conditions
+    bool CheckPlayerDead()
+    {
+        if (AIManager.Instance.GetPlayerDead())
+        {
+            if (myStats.health > myStats.skinnableHealth && !celebrate.isCelebrating())
+            {
+                fire.StopCoroutines();
+                controller.CurrentState = celebrate;
+                controller.UpdateState(EAIState.Celebrate);
+            }
+            return true;
+        }
+        return false;
+    }
+
     bool CheckToFire()
     {
         Vector3 fwd = controller.DirectionToTarget;
@@ -84,28 +113,17 @@ public class MallCopShotgun : EnemyBase
     {
         rayCastPosition = new Vector3(controller.transform.position.x, controller.transform.position.y + 1f, controller.transform.position.z);
 
-        if (myStats.health <= myStats.skinnableHealth || alreadyStunned)
+        if (controller.CurrentState == fire && fire.DoneFiring())
         {
-            controller.CurrentState = stun;
-            controller.UpdateState(EAIState.Stun);
-            controller.DeActivateAI();
-        }
-
-            if (controller.CurrentState == fire && fire.DoneFiring())
+            if (controller.DistanceFromTarget > closeEnoughToFireDistance)
+            {
+                ToleranceTimeToExit();
+            }
+            else if (controller.DistanceFromTarget < closeEnoughToFireDistance)
             {
 
-                if (controller.DistanceFromTarget > closeEnoughToFireDistance)
-                {
-                    ToleranceTimeToExit();
-                }
-                else if (controller.DistanceFromTarget < closeEnoughToFireDistance)
-                {
-                    ToleranceTimeToExit();
-                    currentToleranceTime = 0.0f;
-                }
-            else
-            {
                 Vector3 fwd = controller.DirectionToTarget;
+                rayCastPosition = new Vector3(controller.transform.position.x, controller.transform.position.y + 1f, controller.transform.position.z);
                 RaycastHit hit;
 
                 if (Physics.Raycast(rayCastPosition, fwd, out hit, 50, LayerMask.GetMask(Strings.Layers.MODMAN, Strings.Layers.OBSTACLE)))
@@ -113,9 +131,14 @@ public class MallCopShotgun : EnemyBase
                     if (hit.transform.tag != Strings.Tags.PLAYER)
                     {
                         fire.StartEndFire();
+
+                    }
+                    else
+                    {
+                        currentToleranceTime = 0.0f;
+                        ToleranceTimeToExit();
                     }
                 }
-
             }
             return true;
         }
@@ -125,6 +148,7 @@ public class MallCopShotgun : EnemyBase
     {
         if (myStats.health <= myStats.skinnableHealth || alreadyStunned)
         {
+            fire.StopCoroutines();
             controller.CurrentState = stun;
             controller.UpdateState(EAIState.Stun);
             controller.DeActivateAI();
@@ -139,6 +163,7 @@ public class MallCopShotgun : EnemyBase
 
     public override void OnDeath()
     {
+        isUp = false;
         base.OnDeath();
     }
 
@@ -175,18 +200,13 @@ public class MallCopShotgun : EnemyBase
 
     public void GetUpDone()
     {
-        getUp.Up();
+        isUp = true;
+        controller.CurrentState = chase;
+        controller.UpdateState(EAIState.Chase);
     }
 
     public override void DoPlayerKilledState(object[] parameters)
     {
-        if (myStats.health > myStats.skinnableHealth)
-        {
-            animator.SetTrigger("DoVictoryDance");
-            controller.CurrentState = celebrate;
-            controller.UpdateState(EAIState.Celebrate);
-            animator.SetInteger("AnimationState", -1);
-        }
     }
 
     public override Vector3 ReCalculateTargetPosition()
@@ -216,7 +236,7 @@ public class MallCopShotgun : EnemyBase
 
             currentHitReactionLayerWeight = 1.0f;
             animator.SetLayerWeight(3, currentHitReactionLayerWeight);
-            Timing.RunCoroutine(HitReactionLerp(), coroutineName);
+            Timing.RunCoroutine(HitReactionLerp(), CoroutineName);
         }
         base.DoHitReaction(damager);
     }
@@ -284,16 +304,18 @@ public class MallCopShotgun : EnemyBase
     private void ShowChargeEffect()
     {
         GameObject vfx = ObjectPool.Instance.GetObject(PoolObjectType.VFXEnemyChargeBlaster);
-        Vector3 scaleBackup = vfx.transform.localScale;
-        vfx.transform.SetParent(bulletHellController.transform);
-        //For offsetting the particle
-        vfx.transform.localPosition = Vector3.zero;
-        vfx.transform.localRotation = Quaternion.Euler(-90.0f,0.0f,0.0f);
-        vfx.transform.localScale = new Vector3(
-            scaleBackup.x / vfx.transform.localScale.x,
-            scaleBackup.y / vfx.transform.localScale.y,
-            scaleBackup.z / vfx.transform.localScale.z
-        );
+        if (vfx) {
+            Vector3 scaleBackup = vfx.transform.localScale;
+            vfx.transform.SetParent(bulletHellController.transform);
+            //For offsetting the particle
+            vfx.transform.localPosition = Vector3.zero;
+            vfx.transform.localRotation = Quaternion.Euler(-90.0f,0.0f,0.0f);
+            vfx.transform.localScale = new Vector3(
+                scaleBackup.x / vfx.transform.localScale.x,
+                scaleBackup.y / vfx.transform.localScale.y,
+                scaleBackup.z / vfx.transform.localScale.z
+            );
+        }
     }
 
     private void OnDrawGizmosSelected()

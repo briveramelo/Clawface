@@ -387,7 +387,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 7f9a1e85823345244bd40a63187b5da8, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -412,8 +412,8 @@ MonoBehaviour:
     cooldownTimer: 0
   shootSFX: 20
   missileSpeed: 30
-  closeDamage: 2
-  farDamage: 0.75
+  closeDamage: 2.5
+  farDamage: 1
   closeRadius: 3.5
   farRadius: 10
   projectileLifetime: 8

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Turing.VFX;
 
 public class PulseProjectile : MonoBehaviour
 {
@@ -10,7 +11,11 @@ public class PulseProjectile : MonoBehaviour
     [SerializeField] Material ringMaterial;
     [SerializeField] Renderer ringRenderer;
     [SerializeField] AnimationCurve ringOpacity;
+    [SerializeField] ParticleSystem sparkPS;
+    [SerializeField] AudioSource audioSource;
     Material materialInstance;
+    Camera mainCamera;
+    GameObject player;
 
     private Damager damager = new Damager();
     private float scaleValue = 0.0f;
@@ -56,8 +61,18 @@ public class PulseProjectile : MonoBehaviour
         scaleRate = newScaleRate;
         maxScale = newMaxScale;
         damage = newDamage;
-
+        VFXOneOff vfx = ps.GetComponent<VFXOneOff>();
+        vfx.Stop();
+        ParticleSystem.MainModule main = ps.main;
+        float newDuration = (maxScale / scaleRate) - main.startLifetime.constantMax;
+        main.duration = newDuration;
+        vfx.Play();
 }
+
+    public void SetRenderQueue (int queue)
+    {
+        ringRenderer.material.renderQueue = queue;
+    }
 
 
     private void ScalePulse()
@@ -74,10 +89,35 @@ public class PulseProjectile : MonoBehaviour
         //materialInstance.SetColor("_Color", color);
 
         MaterialPropertyBlock props = new MaterialPropertyBlock();
-        props.SetFloat("_Radius", scaleValue * 8.91f - ringWidth);
+        props.SetFloat("_Radius", scaleValue * 8.91f);
         props.SetColor("_Color", color);
         ringRenderer.SetPropertyBlock(props);
+
+        ParticleSystem.ShapeModule sparkShape = sparkPS.shape;
+        sparkShape.scale = 8.91f * scaleValue * Vector3.one;
+
+        audioSource.panStereo = GetPanPosition();
+        audioSource.volume = 1.0f - Mathf.Abs(audioSource.panStereo);
     }
+
+    float GetPanPosition ()
+        {
+            if (mainCamera == null || !mainCamera.isActiveAndEnabled)
+                mainCamera = Camera.main;
+
+            if (!player)
+                player = GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER);
+
+            float distToPlayer = Vector3.Distance (player.transform.position, transform.position);
+            Vector3 closestPointToPlayer = Vector3.Lerp (transform.position, player.transform.position, 
+                (scaleValue * 8.91f / (distToPlayer + 0.01f)));
+
+            Debug.DrawLine (closestPointToPlayer, player.transform.position);
+
+            Vector3 screenPos = mainCamera.WorldToViewportPoint(closestPointToPlayer);
+            screenPos = screenPos - Vector3.one + 2.0f * screenPos;
+            return screenPos.x / 2.0f;
+        }
 
     private void OnDisable()
     {

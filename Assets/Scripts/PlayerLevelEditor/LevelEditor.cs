@@ -3,157 +3,147 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using ModMan;
 
-namespace PlayerLevelEditor
+namespace PLE
 {
-    public class LevelEditor : MonoBehaviour
-    {
-        #region Public Fields
+    public class LevelEditor : MonoBehaviour {        
         
-        public PLEMenu currentDisplayedMenu;
-        public PlayerLevelEditorGrid gridController;
-        public WaveSystem waveSystem;
-        #endregion
+        #region Serialized Unity Fields        
+        public PLEGrid gridController;
+        public LevelDataManager levelDataManager;
 
-
-        #region Serialized Unity Fields
-
-        [SerializeField] private MainPLEMenu mainEditorMenu;
-        [SerializeField] private FloorMenu floorEditorMenu;
-        [SerializeField] private PropsMenu propsEditorMenu;
-        [SerializeField] private SpawnMenu spawnsEditorMenu;
-        [SerializeField] private WaveMenu waveEditorMenu;
-        [SerializeField] private TestMenu testEditorMenu;
-        [SerializeField] private SaveMenu saveEditorMenu;
-        [SerializeField] private PLELevelSelectMenu levelSelectEditorMenu;
-        [SerializeField] private HelpMenu helpEditorMenu;
+        [SerializeField] private Transform createdSpawnsParent;
+        [SerializeField] private GameObject cameraGameObject;        
         [SerializeField] private PLECameraController cameraController;
-        private List<Menu> pleMenus;
-        //[SerializeField] private Button initialMenuButton;
 
+        [Header("Editor-Scene Only")]
+        [SerializeField] private MainPLEMenu mainPLEMenu;
         #endregion
 
         #region Private Fields
+        #endregion
+
+        #region Public Fields
+
+        public bool IsTesting { get; private set; }
 
         #endregion
 
-        private void Start() {
-            pleMenus = new List<Menu>() {
-                mainEditorMenu,
-                floorEditorMenu,
-                propsEditorMenu,
-                spawnsEditorMenu,
-                waveEditorMenu,
-                testEditorMenu,
-                saveEditorMenu,
-                levelSelectEditorMenu,
-                helpEditorMenu
-            };
-            MenuSetup();
-        }
+        #region Unity Lifecycle
 
-        void Update()
-        {
-
-        }
+        #endregion
 
         #region Public Interface
-        public void CheckToSetMenuInteractability() {
-            bool isInteractable = gridController.AnyTilesEnabled();
-            ToggleMenuInteractable(isInteractable, PLEMenu.PROPS, PLEMenu.SPAWN, PLEMenu.WAVE);
+        public string GetWaveName(int i) { return Strings.Editor.Wave + i; }
+        public void EnableCurrentWaveSpawnParents(params object[] parameters)
+        {
+            createdSpawnsParent.SortChildrenByName();
+            int currentWaveIndex = 0;
+            if (parameters.Length > 0) {
+                currentWaveIndex = (int)parameters[0];
+            }
+            else {
+                currentWaveIndex = PLESpawnManager.Instance.CurrentWaveIndex;
+            }
 
-            isInteractable = SpawnMenu.playerSpawnInstance != null;
-            ToggleMenuInteractable(isInteractable, PLEMenu.SAVE, PLEMenu.TEST);
-        }
-        
-
-        public void SwitchToMenu(PLEMenu i_newMenu) {
-            
-            if (i_newMenu!=currentDisplayedMenu) {                
-                if (currentDisplayedMenu != PLEMenu.NONE) {
-                    Menu menuToHide = GetMenu(currentDisplayedMenu);
-                    MenuManager.Instance.DoTransition(menuToHide, Menu.Transition.HIDE, new Menu.Effect[] { });
+            int startIndex = SpawnMenu.playerSpawnInstance == null ? 0 : 1;
+            for (int i = startIndex; i < createdSpawnsParent.childCount; i++)
+            {
+                GameObject waveParent = createdSpawnsParent.GetChild(i).gameObject;
+                if (!waveParent.CompareTag(Strings.Editor.PLAYER_SPAWN_TAG)) {
+                    waveParent.SetActive(false);
                 }
+            }
 
-                Menu newMenu = GetMenu(i_newMenu);
-                MenuManager.Instance.DoTransition(newMenu, Menu.Transition.SHOW, new Menu.Effect[] { });
-
-                currentDisplayedMenu = i_newMenu;
+            string activeWaveName = GetWaveName(currentWaveIndex);
+            Transform currentWaveParent = createdSpawnsParent.Find(activeWaveName);
+            if (currentWaveParent != null)
+            {
+                currentWaveParent.gameObject.SetActive(true);
             }
         }
+
+        public void TryCreateAllWaveParents() {
+            for (int i = 0; i < PLESpawnManager.Instance.MaxWaveIndex; i++) {
+                TryCreateWaveParent(i);
+            }
+        }
+        public Transform TryCreateWaveParent(int i) {
+            string waveName = GetWaveName(i);
+            Transform waveParent = createdSpawnsParent.Find(waveName);
+            if (waveParent == null) {
+                waveParent = new GameObject(waveName).transform;
+                waveParent.SetParent(createdSpawnsParent);
+            }
+            return waveParent;
+        }
         
+        public void ExitLevel() {
+            TryDestroyPlayer();
+            ToggleCameraController(true);
+            SetIsTesting(false);
+            ObjectPool.Instance.ResetPools();
+            EventSystem.Instance.TriggerEvent(Strings.Events.PLE_TEST_END);
+            ResetToWave0();
+        }
+
+        private void ResetToWave0() {
+            gridController.ResetTileHeightsAndStates();
+            PLESpawnManager.Instance.SetToWave(0);//sets spawn parent enabling in here
+            EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CALL_WAVE, 0);
+        }
+
         public void UsingQuitFunction(Button thisBtn)
         {
             Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
             LoadMenu loadMenu = menu as LoadMenu;
-            loadMenu.TargetScene = Strings.Scenes.MainMenu;
+            loadMenu.SetNavigation(Strings.Scenes.ScenePaths.MainMenu);
 
             MenuManager.Instance.DoTransition(loadMenu,Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
         }
 
         public void ToggleCameraController(bool isEnabled) {
             cameraController.enabled=isEnabled;
-        }
-
-        public Menu GetMenu(PLEMenu i_menu)
-        {
-            switch (i_menu)
-            {
-                case PLEMenu.MAIN:
-                    return mainEditorMenu;
-                case PLEMenu.PROPS:
-                    return propsEditorMenu;
-                case PLEMenu.SPAWN:
-                    return spawnsEditorMenu;
-                case PLEMenu.FLOOR:
-                    return floorEditorMenu;
-                case PLEMenu.WAVE:
-                    return waveEditorMenu;
-                case PLEMenu.HELP:
-                    return helpEditorMenu;
-                case PLEMenu.SAVE:
-                    return saveEditorMenu;
-                case PLEMenu.TEST:
-                    return testEditorMenu;
-                case PLEMenu.LEVELSELECT:
-                    return levelSelectEditorMenu;
-                default:
-                    return null;
+            if (isEnabled) {
+                ToggleCameraGameObject(true);
             }
         }
+        public void ToggleCameraGameObject(bool isEnabled) {
+            cameraGameObject.SetActive(isEnabled);
+        }
 
-        
-        
-
-        #endregion  
+        public void SetIsTesting(bool i_status)
+        {
+            IsTesting = i_status;
+            if (IsTesting) {
+                gridController.BakeNavMesh();
+            }
+        }
+        #endregion
 
         #region Private Interface
+        private void TryDestroyPlayer() {
+            if (PlayerStateManager.keiraRootGameObject) {
+                Helpers.DestroyProper(PlayerStateManager.keiraRootGameObject);
+            }
+            else {
+                GameObject player = GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER);
 
-
-        private void MenuSetup()
-        {
-            //Hide menus that aren't need to be shown yet
-            pleMenus.ForEach(menu => {
-                MenuManager.Instance.DoTransition(menu, Menu.Transition.HIDE, new Menu.Effect[] { Menu.Effect.INSTANT });
-                menu.Canvas.SetActive(false);
-                menu.CanvasGroup.alpha = 0.0F;
-                menu.CanvasGroup.blocksRaycasts = false;
-                menu.CanvasGroup.interactable = false;
-            });
-
-            //show the main/floor menus
-            MenuManager.Instance.DoTransition(mainEditorMenu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.INSTANT });
-            MenuManager.Instance.DoTransition(floorEditorMenu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.INSTANT });
-
-            currentDisplayedMenu = PLEMenu.FLOOR;
-            mainEditorMenu.OpenFloorSystemAction();
-            gridController.SetGridVisiblity(true);
-        }
-        void ToggleMenuInteractable(bool isInteractable, params PLEMenu[] menus) {
-            foreach (PLEMenu menu in menus) {
-                mainEditorMenu.ToggleMenuInteractable(menu, isInteractable);
+                if (player) {
+                    Helpers.DestroyProper(player.transform.root.gameObject);
+                }
+                else {
+                    player = GameObject.Find("Keira_GroupV1.5(Clone)");
+                    if (player) {
+                        Helpers.DestroyProper(player.transform.root.gameObject);
+                    }
+                }
             }
         }
+
+
+
         #endregion
     }
 
@@ -164,18 +154,5 @@ namespace PlayerLevelEditor
         public const int Jump = 2;
     }
 
-    public enum PLEMenu
-    {
-        INIT,
-        MAIN,
-        PROPS,
-        FLOOR,
-        SPAWN,
-        SAVE,
-        HELP,
-        WAVE,
-        TEST,
-        LEVELSELECT,
-        NONE
-    }
+
 }

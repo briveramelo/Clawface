@@ -5,13 +5,15 @@ using ModMan;
 
 public class ZombieCelebrateState : AIState {
 
+    private bool alreadyCelebrating = false;
 
     public override void OnEnter()
     {
-        List<int> celebrations = new List<int>() { 0, 1, 2, 3, 4 };
-        animator.SetInteger("VictoryDanceIndex", celebrations.GetRandom());
         navAgent.enabled = false;
         navObstacle.enabled = true;
+        alreadyCelebrating = true;
+        animator.SetInteger("AnimationState", -1);
+        animator.SetTrigger("DoVictoryDance");
     }
     public override void Update()
     {
@@ -20,5 +22,11 @@ public class ZombieCelebrateState : AIState {
     {
         navObstacle.enabled = false;
         navAgent.enabled = true;
+        alreadyCelebrating = false;
+    }
+
+    public bool isCelebrating()
+    {
+        return alreadyCelebrating;
     }
 }

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class IPlayerState:RoutineRunner {
+public abstract class IPlayerState:EventSubscriber {
 
     #region Serialized Fields    
     [SerializeField]
@@ -22,6 +22,7 @@ public abstract class IPlayerState:RoutineRunner {
     public abstract void StateUpdate();
     public abstract void StateFixedUpdate();
     public abstract void StateLateUpdate();
+    public abstract void ResetState();
     #endregion
 
     #region Public Methods
@@ -31,7 +32,6 @@ public abstract class IPlayerState:RoutineRunner {
     }
     #endregion
 
-    #region Private Methods
-    protected abstract void ResetState();
+    #region Private Methods    
     #endregion
 }

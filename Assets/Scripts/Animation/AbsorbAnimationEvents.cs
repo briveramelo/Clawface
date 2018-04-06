@@ -22,4 +22,8 @@ public sealed class AbsorbAnimationEvents : MonoBehaviour
     public void StartAiming() { }
 
     public void StopAiming() { }
+
+    public void GetUpDone () { }
+
+    public void ShowChargeEffect () { }
 }

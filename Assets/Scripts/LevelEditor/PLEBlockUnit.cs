@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PLEBlockUnit : MonoBehaviour
+public class PLEBlockUnit : EventSubscriber
 {
     #region Public Fields
 
@@ -11,64 +11,43 @@ public class PLEBlockUnit : MonoBehaviour
 
     #region Private Fields
 
-    private bool occupied;
-    [SerializeField] private int blockID = 0;
     [SerializeField] public Transform spawnTrans;
+    [SerializeField] private LevelUnit levelUnit;
 
     public List<LevelUnitStates> levelStates = new List<LevelUnitStates>();
+    public Color riseColor;
+    public int TileType { get { return TileColors.GetType(riseColor); } }
     [HideInInspector] public GameObject prop;
     [HideInInspector] public List<GameObject> spawns;
     #endregion
-
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.EnableDisable; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.PLE_ADD_WAVE, AddNewWave},
+                { Strings.Events.PLE_DELETE_CURRENTWAVE, DeleteCurrentWave},
+                { Strings.Events.PLE_SYNC_LEVEL_UNIT_STATES, SyncTileStatesAndColors},
+            };
+        }
+    }
+    #endregion
     #region Unity Lifecycle
 
-    private void Awake()
-    {
-        occupied = false;
-    }
-
-    IEnumerator Start()
+    new IEnumerator Start()
     {
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
         if (levelStates.Count == 0) {
-            for (int i = 0; i < WaveSystem.maxWave; i++) {
-                levelStates.Add(LevelUnitStates.floor);
+            for (int i = 0; i <= PLESpawnManager.Instance.MaxWaveIndex; i++) {
+                levelStates.Add(LevelUnitStates.Floor);
             }
-            RegisterDefaultState();
-        }
-    }
-
-    private void OnEnable()
-    {
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_ADD_WAVE, AddNewWave);
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_DELETE_CURRENTWAVE, DeleteCurrentWave);
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_UPDATE_LEVELSTATE, UpdateDynamicLevelState);
-    }
-
-    private void OnDisable()
-    {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_ADD_WAVE, AddNewWave);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_DELETE_CURRENTWAVE, DeleteCurrentWave);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_UPDATE_LEVELSTATE, UpdateDynamicLevelState);
-        }
+        }        
     }
 
     #endregion
 
-    #region Private Interface
-
-    void RegisterDefaultState()
-    {
-        LevelUnit levelUnit = GetComponent<LevelUnit>();
-        if (levelUnit == null) return;
-
-        string event_name = Strings.Events.PLE_RESET_LEVELSTATE;
-        levelUnit.AddFloorStateEvent(event_name);
-        levelUnit.RegisterToEvents();
-    }
+    #region Private Interface    
 
 
     #endregion
@@ -76,16 +55,13 @@ public class PLEBlockUnit : MonoBehaviour
 
 
     #region Public Interface
-
-    public void SetOccupation(bool i_state)
-    {
-        occupied = i_state;
-    }
     public void SetProp(GameObject prop) {
         this.prop = prop;
     }
     public void AddSpawn(GameObject spawn) {
-        spawns.Add(spawn);
+        if (!spawns.Contains(spawn)) {
+            spawns.Add(spawn);
+        }
     }
     public void RemoveSpawn(GameObject spawn) {
         spawns.Remove(spawn);
@@ -93,7 +69,7 @@ public class PLEBlockUnit : MonoBehaviour
     public bool HasActiveSpawn {
         get {
             CleanNullSpawns();
-            return spawns.Exists(spawn => { return spawn.activeSelf; });
+            return spawns.Exists(spawn => { return spawn.activeInHierarchy; });
         }
     }
     void CleanNullSpawns() {
@@ -106,11 +82,11 @@ public class PLEBlockUnit : MonoBehaviour
     public void ClearItems() {
         transform.position = transform.position.NoY();
         levelStates.Clear();
-        for (int i = 0; i < WaveSystem.maxWave; i++) {
-            levelStates.Add(LevelUnitStates.floor);
+        
+        for (int i = 0; i <= PLESpawnManager.Instance.MaxWaveIndex; i++) {
+            levelStates.Add(LevelUnitStates.Floor);
         }
-        UpdateDynamicLevelState();
-
+        riseColor = TileColors.Green;
 
         for (int i = spawns.Count - 1; i >= 0; i--) {
             Helpers.DestroyProper(spawns[i]);
@@ -120,28 +96,10 @@ public class PLEBlockUnit : MonoBehaviour
         if (prop!=null) {
             Helpers.DestroyProper(prop);
         }
-        SetOccupation(false);
+        SyncTileStatesAndColors();
     }
 
-    public bool IsOccupied()
-    {
-        return occupied;
-    }
-
-    public void SetBlockID(int i_id)
-    {
-        blockID = i_id;
-    }
-
-    public int GetBlockID()
-    {
-        return blockID;
-    }
-
-    public Vector3 GetSpawnPosition()
-    {
-        return spawnTrans.position;
-    }
+    public bool IsOccupied { get { return HasActiveSpawn || prop!=null; } }
 
     public List<LevelUnitStates> GetLevelStates()
     {
@@ -151,56 +109,37 @@ public class PLEBlockUnit : MonoBehaviour
         return levelStates[waveIndex];
     }
     public bool IsFlatAtWave(int waveIndex) {
-        return GetStateAtWave(waveIndex) == LevelUnitStates.floor;
+        return waveIndex < levelStates.Count && GetStateAtWave(waveIndex) == LevelUnitStates.Floor;
     }
 
-    public void SetLevelStates(List<LevelUnitStates> newLevelStates) {
+    public void SetLevelStates(List<LevelUnitStates> newLevelStates, Color riseColor) {
         levelStates.Clear();
         newLevelStates.ForEach(state => {
             levelStates.Add(state);
         });
-        UpdateDynamicLevelState();
+        this.riseColor = riseColor;
+        SyncTileStatesAndColors();
     }
 
 
     public void AddNewWave(params object[] parameters)
     {
-        levelStates.Add(LevelUnitStates.floor);
+        LevelUnitStates newState = LevelUnitStates.Floor;
+        int currentWaveIndex = PLESpawnManager.Instance.CurrentWaveIndex;
+        if (levelStates.Count > currentWaveIndex) {
+            newState = levelStates[currentWaveIndex];
+        }
+        levelStates.Insert(currentWaveIndex, newState);
     }
 
     public void DeleteCurrentWave(params object[] parameters)
     {
-        levelStates.RemoveAt(WaveSystem.currentWave);
+        levelStates.RemoveAt(PLESpawnManager.Instance.CurrentWaveIndex);
     }
 
-    public void UpdateDynamicLevelState(params object[] parameters)
+    public void SyncTileStatesAndColors(params object[] parameters)
     {
-        LevelUnit levelUnit = GetComponent<LevelUnit>();
-
-        if (levelUnit == null) return;
-
-        levelUnit.DeRegisterFromEvents();
-
-        for (int i = 0; i < levelStates.Count; i++)
-        {
-            string event_name = Strings.Events.PLE_TEST_WAVE_ + i.ToString();
-
-            LevelUnitStates state = levelStates[i];
-
-            switch (state) {
-                case LevelUnitStates.cover:
-                    levelUnit.AddCoverStateEvent(event_name);
-                    break;
-                case LevelUnitStates.floor:
-                    levelUnit.AddFloorStateEvent(event_name);
-                    break;
-                case LevelUnitStates.pit:
-                    levelUnit.AddPitStateEvent(event_name);
-                    break;
-            }
-        }
-
-        levelUnit.RegisterToEvents();
+        levelUnit.SetLevelUnitStates(levelStates, riseColor);
     }
 
     #endregion

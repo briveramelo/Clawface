@@ -3,15 +3,61 @@ using UnityEngine;
 using MEC;
 using System.Reflection;
 using System;
-
+using UnityEngine.UI;
+using System.Linq;
 namespace ModMan {
 
+    public static class IntExtensions {
+        public static string ToCommaSeparated(this int myValue) {
+            return string.Format("{0:n0}",myValue);
+        }
+
+    }
+    public static class BoolExtensions {
+        public static int ToInt(this bool myBool) {
+            return myBool ? 1 : -1;
+        }
+    }
     public static class StringExtension
     {
-        public static string TryCleanClone(this string myStringName) {
-            const string clone = "(Clone)";
-            if (myStringName.Contains(clone)) {
-                myStringName = myStringName.Substring(0, myStringName.Length - clone.Length);
+        public static string DisplayName(this SpawnType spawn) {
+            switch (spawn) {
+                case SpawnType.Blaster: return "Blaster";
+                case SpawnType.BlasterShotgun: return "Shotgun Blaster";
+                case SpawnType.Bouncer: return "Bouncer";
+                case SpawnType.GreenBouncer: return "Green Bouncer";
+                case SpawnType.Kamikaze: return "Kamikaze";
+                case SpawnType.KamikazeMommy: return "Kamikaze Mommy";
+                case SpawnType.KamikazePulser: return "Kamikaze Pulser";
+                case SpawnType.Keira: return "Keira";
+                case SpawnType.RedBouncer: return "Red Bouncer";
+                case SpawnType.Zombie: return "Zombie";
+                case SpawnType.ZombieAcider: return "Acid Zombie";
+                case SpawnType.ZombieBeserker: return "Berserker Zombie";
+            }
+            return "unnamed";
+        }
+        public static int MaxPerWave(this SpawnType spawn) {
+            switch (spawn) {
+                case SpawnType.Keira: return 1;
+                case SpawnType.Blaster: return 15;
+                case SpawnType.BlasterShotgun: return 15;
+                case SpawnType.Zombie: return 15;
+                case SpawnType.ZombieAcider: return 15;
+                case SpawnType.ZombieBeserker: return 15;
+                case SpawnType.Bouncer: return 5;
+                case SpawnType.GreenBouncer: return 5;
+                case SpawnType.RedBouncer: return 3;
+                case SpawnType.Kamikaze: return 25;
+                case SpawnType.KamikazeMommy: return 2;
+                case SpawnType.KamikazePulser: return 25;
+            }
+            return 0;
+        }
+
+        public static string TryCleanName(this string myStringName, string suffixToRemove) {
+            if (!string.IsNullOrEmpty(myStringName) && !string.IsNullOrEmpty(suffixToRemove) && myStringName.Contains(suffixToRemove)) {
+                myStringName = myStringName.Substring(0, myStringName.Length - suffixToRemove.Length);
             }
             return myStringName;
         }
@@ -53,7 +99,7 @@ namespace ModMan {
             return (rDif + gDif + bDif + aDif) < tolerance;
         }
         public static Color ChangeAlpha(this Color color, float newAlpha) {
-            color.a = newAlpha;
+            color.a = newAlpha;           
             return color;
         }
         public static string ToHex(this Color color)
@@ -66,6 +112,35 @@ namespace ModMan {
         }
     }
     public static class ListExtensions {
+
+        public static bool IsValidIndex<T>(this List<T> list, int index) {
+            return list!=null && index >= 0 && index < list.Count;
+        }
+
+        public static T FindInDirection<T>(this List<T> list, Predicate<T> condition, int anchorIndex, bool findAhead, bool getLinearFirst=true) {
+            Predicate<int> isInAppropriateDirection = (loopIndex)=> (findAhead ? loopIndex > anchorIndex : loopIndex < anchorIndex);
+            if (getLinearFirst) {
+                for (int i = 0; i < list.Count; i++) {
+                    T item = list[i];
+                    if (isInAppropriateDirection(i) && condition(item)) {
+                        return item;
+                    }
+                }
+            }
+            else {
+                for (int i = list.Count-1; i >= 0; i--) {
+                    T item = list[i];
+                    if (isInAppropriateDirection(i) && condition(item)) {
+                        return item;
+                    }
+                }
+            }
+            return default(T);
+        }
+        public static void MoveToBack<T>(this List<T> list, T item) {
+            list.Remove(item);
+            list.Add(item);
+        }
         public static void AddUntil<T>(this List<T> list, int index) {
             while (list.Count <= index) {
                 list.Add(default(T));
@@ -111,6 +186,19 @@ namespace ModMan {
 
     public static class FloatExtensions
     {
+        public const float minDB = -80f;
+        public static float ToDecibel(this float linear) {
+            float dB;
+            if (linear != 0) {
+                dB = 40F * Mathf.Log10(linear);
+            }
+            else {
+                dB = minDB;
+            }
+            return dB;
+        }
+
+
         public static bool AboutEqual(this float flo, float other, float tolerance = 0.1f)
         {
             return Mathf.Abs(flo-other)<tolerance;
@@ -172,6 +260,22 @@ namespace ModMan {
         }
     }
 
+    public static class UIExtensions {
+        public static void SwitchListenerState(this UnityEngine.Events.UnityEventBase eventBase, UnityEngine.Events.UnityEventCallState newState) {
+            for (int i = 0; i < eventBase.GetPersistentEventCount(); i++) {
+                eventBase.SetPersistentListenerState(i, newState);
+            }
+        }
+        public static bool Interactable(this Selectable selectable) {
+            return selectable.interactable && selectable.IsActive();
+        }
+    }
+    public static class ClassExtensions {
+        public static bool IsNull<T>(this T thisInterface) where T : class {
+            return thisInterface==null || thisInterface.Equals(null);
+        }
+    }
+
     public static class GameObjectExtensions {
 
         public static void DeActivate(this GameObject obj, float timeToDeactivate, string coroutineName) {
@@ -188,7 +292,7 @@ namespace ModMan {
         }
         static IEnumerator<float> IEDeActivate(GameObject obj, float timeToDeactivate, Transform objToFollow, Vector3 offset) {
             float timeRemaining=timeToDeactivate;
-            while(timeRemaining>0f && obj!=null) {
+            while(timeRemaining>0f && obj!=null && objToFollow!=null) {
                 timeRemaining-=Time.fixedDeltaTime;
                 obj.transform.position = objToFollow.position + offset;
                 yield return 0f;

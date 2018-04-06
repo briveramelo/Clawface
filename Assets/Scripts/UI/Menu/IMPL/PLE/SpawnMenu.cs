@@ -1,120 +1,292 @@
 ﻿//Garin + Brandon
 using UnityEngine.EventSystems;
 using UnityEngine;
-using PlayerLevelEditor;
+using PLE;
+using UnityEngine.UI;
+using System;
+using System.Linq;
+using ModMan;
+using System.Collections.Generic;
 
 public class SpawnMenu : PlacementMenu {
 
-    private PLESpawn selectedSpawn;
+    private const int minSpawns = 1;
+    public SpawnMenu() : base(Strings.MenuStrings.LevelEditor.SPAWNS_PLE_MENU) { }
 
-    #region Public Interface
-    public SpawnMenu() : base(Strings.MenuStrings.ADD_SPAWNS_PLE) { }
+    private PLESpawn SelectedSpawn { get { return selectedPLEItem as PLESpawn; } }
+    private static LevelData WorkingLevelData { get { return DataPersister.ActiveDataSave.workingLevelData; } }
+    private PLESpawnManager SpawnManager { get { return PLESpawnManager.Instance; } }
+    private int NumberSpawnsInCurrentWave { get { return WorkingLevelData.NumSpawns(SelectedSpawn.spawnType, SpawnManager.CurrentWaveIndex); } }
+    
+    
+    private int MaxSpawnsAllowedInWave { get { return SpawnManager.GetMaxSpawnsAllowedInCurrentWave(SelectedSpawn); } }
+    private int MaxMinSpawnsAllowedInCurrentWave { get { return SpawnManager.GetMaxMinSpawnsAllowedCurrentInWave(SelectedSpawn); } }
+    private int GetMaxMinSpawnsAllowedInCurrentWave(PLESpawn spawn) { return SpawnManager.GetMaxMinSpawnsAllowedCurrentInWave(spawn); }
+    private int GetRequiredKillCountInCurrentWave(PLESpawn spawn) { return SpawnManager.GetRequiredKillCountInCurrentWave(spawn); }
+    private int RemainingSpawnsInCurrentWave(PLESpawn spawn) { return SpawnManager.RemainingSpawnsInCurrentWave(spawn); }
+
+    private List<PLESpawn> CurrentWavePLESpawns { get { return WorkingLevelData.GetPLESpawnsFromWave(PLESpawnManager.Instance.CurrentWaveIndex); } }
+
+    #region Serialized Unity Fields
+
+    [SerializeField] protected Selectable decreaseSpawnCountButton, increaseSpawnCountButton, decreaseRequiredKillCountButton, increaseRequiredKillCountButton;
+    [SerializeField] private InputField spawnCountAmountField, requiredKillCountAmountField;
+    [SerializeField] private Text amountAvailable;
+    [SerializeField] private Text nameText;
+    [SerializeField] private GameObject previewImageGameObject;
     #endregion
 
-    #region Private Fields
+    #region Public Fields
 
     static public GameObject playerSpawnInstance = null;
 
-    #endregion  
+    #endregion
 
-    private void Awake() {
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLE_CHANGEWAVE, OnWaveChange);
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.PLE_TEST_END, TryEnableKeira },
+                { Strings.Events.PLE_CALL_WAVE, DeselectOnWaveChange},
+            };
+        }
     }
-    private void OnDestroy() {
-        if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_CHANGEWAVE, OnWaveChange);
+    #endregion
+
+    #region Unity Lifecycle    
+    #endregion
+
+    void DeselectOnWaveChange(params object[] parameters) {
+        if (!levelEditor.IsTesting) {
+            DeselectAllGameItems();
+            DeselectItem();
+            DeselectUIItem();
         }
     }
 
-    void OnWaveChange(params object[] parameters) {
+    void TryEnableKeira(params object[] parameters) {
+        if (playerSpawnInstance != null) {
+            playerSpawnInstance.SetActive(true);
+        }
+    }
 
-        string activeWaveName = GetWaveName(WaveSystem.currentWave);
+    #region Public Interface    
+    public void IncrementRequiredKillCount() {
+        int newRequiredKillCount = Mathf.Clamp(GetRequiredKillCountInCurrentWave(SelectedSpawn) + 1, 0, MaxMinSpawnsAllowedInCurrentWave);
+        ChangeSpawnAmountsInternally(SelectedSpawn.totalSpawnAmount, newRequiredKillCount);
+    }
+    public void DecrementRequiredKillCount() {
+        int newRequiredKillCount = Mathf.Clamp(GetRequiredKillCountInCurrentWave(SelectedSpawn) - 1, 0, MaxMinSpawnsAllowedInCurrentWave);
+        ChangeSpawnAmountsInternally(SelectedSpawn.totalSpawnAmount, newRequiredKillCount);
+    }
 
-        for (int i = 0; i < createdItemsParent.childCount; i++)
-        {
-            //Accounts for not disabling the player spawn object between switching of waves.
-            GameObject currentGO = createdItemsParent.GetChild(i).gameObject;
+    public void IncrementSpawns() {
+        int newSpawnAmount = Mathf.Clamp(SelectedSpawn.totalSpawnAmount + 1, minSpawns, MaxSpawnsAllowedInWave);
+        ChangeSpawnAmountsInternally(newSpawnAmount, GetRequiredKillCountInCurrentWave(SelectedSpawn));
+    }
+    public void DecrementSpawns() {
+        int newSpawnAmount = Mathf.Clamp(SelectedSpawn.totalSpawnAmount - 1, minSpawns, MaxSpawnsAllowedInWave);
+        ChangeSpawnAmountsInternally(newSpawnAmount, GetRequiredKillCountInCurrentWave(SelectedSpawn));
 
-            if (!currentGO.CompareTag(Strings.Editor.PLAYER_SPAWN_TAG))
-            {
-                currentGO.SetActive(false);
+        int numSpawnsInWave = NumberSpawnsInCurrentWave;
+        if (SelectedSpawn.MinSpawns > numSpawnsInWave) {
+            ChangeSpawnAmountsInternally(SelectedSpawn.totalSpawnAmount, GetRequiredKillCountInCurrentWave(SelectedSpawn), false);
+        }
+    }
+    public void SetSpawnAmountsOnSelectedSpawn(bool playSound) {
+        int spawnCount = 0;
+        int requiredKillCount = 0;
+        if (selectedPLEItem) {
+            if (playSound) {
+                SFXManager.Instance.Play(SFXType.UI_Click);
             }
+            if (System.Int32.TryParse(spawnCountAmountField.text, out spawnCount)) {
+                int maxAllowed = MaxSpawnsAllowedInWave;
+                int numberOfOtherSpawnsOfThisType = NumberSpawnsInCurrentWave - SelectedSpawn.totalSpawnAmount;
+                int maxAllowedForThisSpawn = maxAllowed - numberOfOtherSpawnsOfThisType;
+                spawnCount = Mathf.Clamp(spawnCount, minSpawns, maxAllowedForThisSpawn);
+                SelectedSpawn.totalSpawnAmount = spawnCount;
+            }
+            if (System.Int32.TryParse(requiredKillCountAmountField.text, out requiredKillCount)) {
+                requiredKillCount = Mathf.Clamp(requiredKillCount, 0, MaxMinSpawnsAllowedInCurrentWave);
+                SelectedSpawn.MinSpawns = MaxMinSpawnsAllowedInCurrentWave - requiredKillCount;
+            }
+            UpdateAmountFields(SelectedSpawn.totalSpawnAmount, GetRequiredKillCountInCurrentWave(SelectedSpawn));
+            mainPLEMenu.SetMenuButtonInteractabilityByState();
         }
-        Transform activeWave = createdItemsParent.Find(activeWaveName);
-        if (activeWave!=null) {
-            activeWave.gameObject.SetActive(true);
-        }
+        UpdateAvailableField();
     }
+
+    public override void SetMenuButtonInteractabilityByState() {
+        levelEditor.levelDataManager.SyncWorkingSpawnData();
+        bool isItemSelectedAndNotKeira = selectedPLEItem != null && SelectedSpawn.spawnType != SpawnType.Keira;
+        allSelectables.ForEach(selectable => { selectable.interactable = isItemSelectedAndNotKeira; });
+
+        decreaseSpawnCountButton.interactable = isItemSelectedAndNotKeira && SelectedSpawn.totalSpawnAmount > minSpawns;
+        increaseSpawnCountButton.interactable = isItemSelectedAndNotKeira && NumberSpawnsInCurrentWave < MaxSpawnsAllowedInWave;
+
+        decreaseRequiredKillCountButton.interactable = isItemSelectedAndNotKeira && GetRequiredKillCountInCurrentWave(SelectedSpawn) > 0 ;
+        increaseRequiredKillCountButton.interactable = isItemSelectedAndNotKeira && GetRequiredKillCountInCurrentWave(SelectedSpawn) < GetMaxMinSpawnsAllowedInCurrentWave(SelectedSpawn);
+
+
+        (scrollGroup as SpawnScrollGroup).HandleSpawnUIInteractability();
+    }
+    #endregion
 
     #region Protected Interface
-    protected override bool SelectUI { get { return base.SelectUI && ScrollGroupHelper.currentUIItem != null; } }
-    protected override bool SelectItem { get { return base.SelectUI && MouseHelper.currentSpawn != null; } }
+    protected override bool SelectUI { get { return base.SelectUI && ScrollGroupHelper.currentUIItem != null && ScrollGroupHelper.currentUIItem.isInteractable; } }
+    protected override bool SelectItem { get { return base.SelectItem && MouseHelper.currentSpawn != null; } }
+    protected override bool CanDeleteHoveredItem { get { return base.CanDeleteHoveredItem && MouseHelper.currentSpawn; } }
+    protected override bool Place { get { return base.Place && !MouseHelper.currentBlockUnit.HasActiveSpawn && !(!MouseHelper.currentBlockUnit.IsFlatAtWave(0) && selectedItemPrefab.GetComponent<PLESpawn>().spawnType==SpawnType.Keira); } }
+    protected override bool ReplaceGameItem { get { return base.ReplaceGameItem && !(!MouseHelper.currentBlockUnit.IsFlatAtWave(0) && SelectedSpawn.spawnType == SpawnType.Keira); } }
+    protected override bool UpdateGameItem { get { return base.UpdateGameItem && !(!MouseHelper.currentBlockUnit.IsFlatAtWave(0) && SelectedSpawn.spawnType == SpawnType.Keira); } }
+    protected override bool UpdatePreview { get { return base.UpdatePreview && !MouseHelper.currentBlockUnit.HasActiveSpawn; } }
+
+
     protected override void DeleteHoveredItem() {
+        PLESpawn currentSpawn = MouseHelper.currentSpawn;
+        PLESpawn existingMatchingType = null;
+        List<PLESpawn> allVisibleSpawns = FindObjectsOfType<PLESpawn>().ToList();
+        if (allVisibleSpawns.Count > 1) {
+            existingMatchingType = allVisibleSpawns.Find(spawn => spawn.spawnType == currentSpawn.spawnType && spawn != currentSpawn);
+        }
         base.DeleteHoveredItem();
-        editorInstance.CheckToSetMenuInteractability();
-    }
-    protected override void ShowComplete() {
-        base.ShowComplete();
+        mainPLEMenu.SetMenuButtonInteractabilityByState();
+        if (existingMatchingType!=null) {
+            existingMatchingType.MinSpawns = Mathf.Clamp(existingMatchingType.MinSpawns, 0, GetMaxMinSpawnsAllowedInCurrentWave(existingMatchingType));
+        }
     }
 
-    protected override void DeselectAll() {
-        base.DeselectAll();
-        selectedSpawn = null;
+    protected override void ShowStarted() {
+        base.ShowStarted();
+        mainPLEMenu.SetMenuButtonInteractabilityByState();
+        TrySelectFirstAvailable();
     }
-    protected override void SelectUIItem() {
-        base.SelectUIItem();
-    }
+
+
     protected override void PostPlaceItem(GameObject newItem) {
-        int currentWave = WaveSystem.currentWave;
-        Transform waveParent = TryCreateWaveParent(currentWave);
-        for (int i = currentWave; i >= 0; i--) {
-            TryCreateWaveParent(i);
+        int currentWaveIndex = PLESpawnManager.Instance.CurrentWaveIndex;
+        int maxWaveIndex = PLESpawnManager.Instance.MaxWaveIndex;
+        Transform waveParent = levelEditor.TryCreateWaveParent(currentWaveIndex);
+        for (int i = maxWaveIndex; i >= 0; i--) {
+            levelEditor.TryCreateWaveParent(i);
         }
-        newItem.transform.SetParent(waveParent);
-        
+        newItem.transform.SetParent(waveParent);        
         MouseHelper.currentBlockUnit.AddSpawn(newItem);
 
-        PLESpawn spawn = newItem.GetComponent<PLESpawn>();
-        if(spawn)
-        {
-            PLESpawnManager.Instance.RegisterSpawner(currentWave, spawn);
-            spawn.registeredWave = currentWave;
-        }
-
-        if(newItem.CompareTag(Strings.Editor.PLAYER_SPAWN_TAG))
-        {
-            if(playerSpawnInstance != null)
-            {
+        if(newItem.CompareTag(Strings.Editor.PLAYER_SPAWN_TAG)) {
+            if(playerSpawnInstance != null) {
                 DestroyImmediate(playerSpawnInstance);
             }
-
             playerSpawnInstance = newItem;
-            playerSpawnInstance.transform.SetParent(TryCreateWaveParent(0).parent);
+            playerSpawnInstance.transform.SetParent(levelEditor.TryCreateWaveParent(0).parent);
         }
-        editorInstance.CheckToSetMenuInteractability();
+        PLESpawn newSpawn = newItem.GetComponent<PLESpawn>();
+        if (newSpawn) {
+            int spawnAmount = newSpawn.totalSpawnAmount;
+            UpdateMinSpawnAmounts(newSpawn);
+            int requiredAmount = GetRequiredKillCountInCurrentWave(newSpawn);
+            ChangeSpawnAmountsInternally(spawnAmount, requiredAmount, false);
+
+            int remainingSpawns = RemainingSpawnsInCurrentWave(newSpawn);
+            UpdateAvailableField(remainingSpawns);
+            SelectGameItem(newSpawn);
+
+            //if (!SpawnManager.SpawnsUnderMaximum(newSpawn)) {
+            //    DeselectItem();
+            //    DeselectUIItem();//destroys preview gameobject too
+            //}
+
+            if (newSpawn.spawnType==SpawnType.Keira) {
+                PLEUIItem firstAvailable = scrollGroup.TryGetFirstAvailableUIItem();
+                if (firstAvailable) {
+                    selectedPreviewImage.sprite = firstAvailable.imagePreview.sprite;
+                    scrollGroup.SelectUIItem(firstAvailable.ItemIndex, false);
+                }
+            }
+        }
+        mainPLEMenu.SetMenuButtonInteractabilityByState();
     }
-    Transform TryCreateWaveParent(int i) {
-        string waveName = GetWaveName(i);
-        Transform waveParent = createdItemsParent.Find(waveName);
-        if (waveParent == null) {
-            waveParent = new GameObject(waveName).transform;
-            waveParent.SetParent(createdItemsParent);
+
+    protected override void SelectGameItem(PLEItem selectedItem, bool isPickingUp=false) {
+        base.SelectGameItem(selectedItem, isPickingUp);        
+        int spawnAmount = SelectedSpawn.totalSpawnAmount;
+        int requiredAmount = GetRequiredKillCountInCurrentWave(SelectedSpawn);
+        UpdateAllFields(spawnAmount, requiredAmount, SelectedSpawn.DisplayName.ToUpper(), SelectedSpawn.iconPreview);
+        ChangeSpawnAmountsInternally(spawnAmount, requiredAmount, false);
+    }
+
+    protected override void DeselectItem() {
+        base.DeselectItem();
+        ForceMenuButtonInteractability(false);
+        UpdateAllFields(0, 0, "-", null, true);        
+    }
+
+
+    
+
+    protected override void PostSelectUIItemMenuSpecific(GameObject newItem) {
+        base.PostSelectUIItemMenuSpecific(newItem);
+        PLESpawn spawn = newItem.GetComponent<PLESpawn>();
+        UpdateAllFields(spawn.totalSpawnAmount, spawn.MinSpawns, spawn.DisplayName.ToUpper(), spawn.iconPreview);
+        int remainingSpawns = RemainingSpawnsInCurrentWave(spawn);
+        UpdateAvailableField(remainingSpawns);
+    }
+    #endregion
+
+    #region Private Interface
+    private int UpdateMinSpawnAmounts(PLESpawn newSpawn) {
+        List<PLESpawn> allVisibleSpawns = FindObjectsOfType<PLESpawn>().ToList();
+        int minSpawnAmount = 0;
+        if (allVisibleSpawns.Count > 1) {
+            PLESpawn existingMatchingType = allVisibleSpawns.Find(spawn => spawn.spawnType == newSpawn.spawnType && spawn != newSpawn && !spawn.gameObject.name.Contains(Strings.PREVIEW));
+            if (existingMatchingType != null) {
+                minSpawnAmount = existingMatchingType.MinSpawns;
+            }
         }
-        return waveParent;
-    }    
+        newSpawn.MinSpawns = minSpawnAmount;
+        return minSpawnAmount;
+    }
+    private void ChangeSpawnAmountsInternally(int newSpawnAmount, int newRequiredKillCount, bool playSound = true) {
+        UpdateAmountFields(newSpawnAmount, newRequiredKillCount);
+        SetSpawnAmountsOnSelectedSpawn(playSound);
+        mainPLEMenu.SetMenuButtonInteractabilityByState();
+    }
+
+    private void UpdateAllFields(int spawnAmount, int requiredKillCount, string newName, Sprite iconPreview, bool isAmountEmpty = false) {
+        UpdateAmountFields(spawnAmount, requiredKillCount, isAmountEmpty);
+        nameText.text = newName;
+
+        previewImageGameObject.SetActive(iconPreview != null);
+        selectedPreviewImage.sprite = iconPreview;
+    }
+
+    private void UpdateAmountFields(int spawnAmount, int requiredKillCount, bool makeEmpty = false) {
+        if (makeEmpty) {
+            spawnCountAmountField.text = "";
+            requiredKillCountAmountField.text = "";
+            amountAvailable.text = "-";
+        }
+        else {
+            string newAmount = Convert.ToString(spawnAmount);
+            string newRequiredKillCount = Convert.ToString(requiredKillCount);
+            spawnCountAmountField.text = newAmount;
+            requiredKillCountAmountField.text = newRequiredKillCount;
+        }
+    }
+    private void UpdateAvailableField(int available) {
+        string availableAmount = available.ToString();
+        amountAvailable.text = availableAmount;
+    }
+    private void UpdateAvailableField() {
+        if (SelectedSpawn != null) {
+            string remainingAmount = Convert.ToString(RemainingSpawnsInCurrentWave(SelectedSpawn));
+            amountAvailable.text = remainingAmount;
+        }
+    }
 
     #endregion
-    private string GetWaveName(int i) { return Strings.Editor.Wave + i; }
 
-    protected override void SelectGameItem() {
-        base.SelectGameItem();
-        MouseHelper.currentSpawn.Select();
-        selectedSpawn = MouseHelper.currentSpawn;
-    }
-    protected override void DeselectItem() {
-        if (selectedSpawn!=null) {
-            selectedSpawn.Deselect();
-            selectedSpawn = null;
-        }
-    }
 }
+

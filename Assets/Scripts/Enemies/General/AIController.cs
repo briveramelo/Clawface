@@ -75,7 +75,7 @@ public abstract class AIController : RoutineRunner {
             DEBUG_CURRENTSTATE = currentState.ToString();
             //DEBUG_ATTACKTARGET = attackTarget.gameObject.name.ToString();
             currentState.OnEnter();
-            Timing.RunCoroutine(IERestartStateTimer(), coroutineName);
+            Timing.RunCoroutine(IERestartStateTimer(), CoroutineName);
         }
     }
     public List<Func<bool>> checksToUpdateState = new List<Func<bool>>();
@@ -85,11 +85,12 @@ public abstract class AIController : RoutineRunner {
         player = null;
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
         foreach (KeyValuePair<EAIState, AIState> state in states.aiStates)
         {
-                Timing.KillCoroutines(state.Value.coroutineName);
+            state.Value.Kill();
         }
     }
 
@@ -102,6 +103,7 @@ public abstract class AIController : RoutineRunner {
     {
         CurrentState = states.getUp;
         deActivateAI = false;
+        animator.enabled = true;
     }
 
     public bool isAIActive()
@@ -132,7 +134,7 @@ public abstract class AIController : RoutineRunner {
         stateTimerIsRunning = false;
         timeInLastState = 0f;
         deActivateAI = false;
-        CurrentState = states.chase;
+        CurrentState = states.getUp;
 
         if (mod != null)
         {
@@ -145,13 +147,13 @@ public abstract class AIController : RoutineRunner {
         return currentState == states.stun;
     }
 
-    public void SetDefaultState()
+    public void SetDefaultChaseState()
     {
         CurrentState = states.chase;
     }
 
     public void RestartStateTimer() {
-        Timing.RunCoroutine(IERestartStateTimer(), coroutineName);
+        Timing.RunCoroutine(IERestartStateTimer(), CoroutineName);
     }
 
     public Transform FindPlayer()
@@ -211,7 +213,7 @@ public abstract class AIController : RoutineRunner {
         if (mod != null)
             modMemento.Initialize(mod.transform);
 
-        CurrentState = states.getUp;
+        //CurrentState = states.getUp;
     }
 
     public void Initialize(
@@ -238,7 +240,7 @@ public abstract class AIController : RoutineRunner {
         if(mod != null)
         modMemento.Initialize(mod.transform);
 
-        CurrentState = states.getUp;
+        //CurrentState = states.getUp;
     }
 
     public void Initialize(
@@ -264,7 +266,7 @@ public abstract class AIController : RoutineRunner {
         if (mod != null)
             modMemento.Initialize(mod.transform);
 
-        CurrentState = states.getUp;
+        //CurrentState = states.getUp;
     }
 
     public void UpdateState(EAIState state)

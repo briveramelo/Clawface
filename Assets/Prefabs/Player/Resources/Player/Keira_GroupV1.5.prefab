@@ -910,6 +910,7 @@ GameObject:
   - component: {fileID: 114325496831137656}
   - component: {fileID: 114132200228300390}
   - component: {fileID: 114929162397462484}
+  - component: {fileID: 114610520375812168}
   m_Layer: 8
   m_Name: Player_Combat
   m_TagString: Player
@@ -2395,8 +2396,8 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.1
-  far clip plane: 5000
+  near clip plane: 250
+  far clip plane: 1000
   field of view: 5.5
   orthographic: 0
   orthographic size: 8.5
@@ -2868,10 +2869,7 @@ MonoBehaviour:
       localPos: {x: 0.105, y: 0, z: 0}
     - type: 5
       localPos: {x: 0.05, y: 0, z: 0}
-  rightStickFire: 1
   minJoystickFireMagnitude: 0.7
-  oneButtonFiresBoth: 0
-  useAutofire: 0
 --- !u!114 &114071297937733786
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2887,7 +2885,6 @@ MonoBehaviour:
   keiraMesh: {fileID: 4806380322644202}
   moveState: {fileID: 114776189445566068}
   playerRigidbody: {fileID: 54953484378717752}
-  playerFace: {fileID: 114929162397462484}
 --- !u!114 &114081852227380934
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2936,8 +2933,11 @@ MonoBehaviour:
   highlightPoses: 01000000
   totalAttackPoses: 10
   totalDashTime: 0.283
-  dashITimeStart: 0.016
-  dashITimeEnd: 0.233
+  dashITimeStart: 0.001
+  dashITimeEnd: 0.283
+  dashComboTime: 0.1
+  dashTimer: 0
+  dashComboTimer: 0
 --- !u!114 &114136393911348448
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3218,6 +3218,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isBlockingState: 0
   clawArmController: {fileID: 114675049875242238}
+  playerFaceController: {fileID: 114929162397462484}
+  happyTimeAfterEating: 0.75
 --- !u!114 &114345112533484480
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3230,6 +3232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateVariables:
+    playerCanMove: 0
     stateFinished: 0
     acceleration: 50
     manualDrag: 30
@@ -3243,7 +3246,7 @@ MonoBehaviour:
     modelHead: {fileID: 1123885398707320}
     clawExtensionTime: 0.35
     clawRetractionTime: 0.35
-    eatRadius: 10
+    eatRadius: 12
     ArmExtensionSFX: 14
     ArmEnemyCaptureSFX: 15
     EatSFX: 16
@@ -3253,8 +3256,8 @@ MonoBehaviour:
   playerStatsManager: {fileID: 114430878911601216}
   holdAttackSlowDown: 3
   dashState: {fileID: 114132200228300390}
-  dashCoolDown: 0.29
-  eatCoolDown: 0.29
+  dashCoolDown: 0.3
+  eatCoolDown: 0.3
   eatingState: {fileID: 114325496831137656}
   eatCollider: {fileID: 135888620666243734}
   tutorialSlowDownRate: 0.05
@@ -3408,8 +3411,13 @@ MonoBehaviour:
     damageRatio: 0.6
   stats: {fileID: 114482720515291186}
   playerTakesSetDamage: 1
-  setDamageToTake: 3
+  veryEasyDamageToTake: 0.5
+  easyDamageToTake: 1
+  normalDamageToTake: 3
+  hardDamageToTake: 4.5
+  veryHardDamageToTake: 9
   dashState: {fileID: 114132200228300390}
+  invincibleTime: 0.4
 --- !u!114 &114440139089632224
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3453,7 +3461,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   palette: {fileID: 11400000, guid: d523dec5d4d7f3b4095ef641ce76b2a8, type: 2}
-  type: 1
+  type: 0
   updateTime: 0
 --- !u!114 &114461110543041426
 MonoBehaviour:
@@ -3600,8 +3608,8 @@ MonoBehaviour:
   m_Lens:
     FieldOfView: 5.5
     OrthographicSize: 8.5
-    NearClipPlane: 0.1
-    FarClipPlane: 5000
+    NearClipPlane: 250
+    FarClipPlane: 1000
     Dutch: 4
   m_ComponentOwner: {fileID: 4389288433435948}
 --- !u!114 &114538159332933710
@@ -3664,6 +3672,19 @@ MonoBehaviour:
   m_PitchDamping: 0
   m_YawDamping: 0
   m_RollDamping: 0
+--- !u!114 &114610520375812168
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1737478168596758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47775603a55940d479bc9d660c708323, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashSpeed: 8
+  renderer: {fileID: 137286752708950636}
 --- !u!114 &114629925188236412
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3841,7 +3862,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBlockingState: 0
-  simpleMoveAndRotate: 1
+  mouseLookMask:
+    serializedVersion: 2
+    m_Bits: 526848
 --- !u!114 &114777409757151710
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3974,7 +3997,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89f60c4196cdba9418afd934866d4338, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMaterial: {fileID: 2100000, guid: 74f4f482051380e4eb096d09801c0686, type: 2}
   playerRenderer: {fileID: 137286752708950636}
   idleExpression: {fileID: 2800000, guid: b304d9d1355731e49bb82a259ca2b4ac, type: 3}
   idleColor: {r: 1, g: 1, b: 1, a: 0}
@@ -3986,7 +4008,7 @@ MonoBehaviour:
   blinkDuration: 0.2
   blinkExpression: {fileID: 2800000, guid: 04448cb6ee122a1489140bc530afa13d, type: 3}
   happyExpression: {fileID: 2800000, guid: c8f1b120b7693cb46a7bd15440d05afb, type: 3}
-  happyColor: {r: 1, g: 1, b: 1, a: 0}
+  happyColor: {r: 0.07586217, g: 1, b: 0, a: 0}
   angryExpression: {fileID: 2800000, guid: e2987098f2e176f4681654c12fef1b9d, type: 3}
   angryColor: {r: 1, g: 0.11764706, b: 0, a: 0}
 --- !u!114 &114972007725581484
@@ -10677,8 +10699,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e3b7c53b900314a49b8a8cc86224a5a1, type: 3}
-  m_Color: {r: 0.827451, g: 0.827451, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: ddb08c124bf1c07468e2946f9e613d58, type: 3}
+  m_Color: {r: 0.9960785, g: 0.24313727, b: 0.654902, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

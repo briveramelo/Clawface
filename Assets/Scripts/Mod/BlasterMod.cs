@@ -39,7 +39,7 @@ public class BlasterMod : Mod {
 
     #region public functions
     public override void Activate(Action onCompleteCoolDown=null, Action onActivate=null){
-        onActivate = ()=> { SFXManager.Instance.Play(SFXType.BlasterShoot, transform.position);};
+        onActivate = ()=> { SFXManager.Instance.Play(shootSFX, transform.position);};
         base.Activate(onCompleteCoolDown, onActivate);
     }
 

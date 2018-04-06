@@ -50,11 +50,12 @@ AudioSource:
   m_GameObject: {fileID: 1321609121875476}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 243513465488017574, guid: 7912cd0fac86ed741b76e37da7a81fd1,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
-  m_Pitch: 1
+  m_Pitch: 1.0173415
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -97,7 +98,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -109,7 +110,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -121,7 +122,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!114 &114642073869708300
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -137,7 +138,7 @@ MonoBehaviour:
   - {fileID: 114816500413269780}
   loop: 0
   playOnStart: 0
-  spatialBlend: 0
+  spatialBlend: 1
   maxDistance: 500
   changeVolumeEachLoop: 0
   uniformVolume: 1
@@ -147,14 +148,14 @@ MonoBehaviour:
     maxLimit: 0
     min: 1
     max: 1
-  randomPitch: 0
+  randomPitch: 1
   changePitchEachLoop: 0
-  pitch: 1
+  pitch: 1.0173415
   pitchRange:
     minLimit: 0
     maxLimit: 0
-    min: 1
-    max: 1
+    min: 0.9
+    max: 1.1
 --- !u!114 &114816500413269780
 MonoBehaviour:
   m_ObjectHideFlags: 1

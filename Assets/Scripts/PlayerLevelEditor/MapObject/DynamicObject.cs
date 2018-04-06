@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace PlayerLevelEditor
+namespace PLE
 {
     public class DynamicObject : IMapObject
     {
@@ -22,7 +22,7 @@ namespace PlayerLevelEditor
             if(m_LevelUnit != null)
             {
                 m_Material.color = Color.red;
-                m_LevelUnit.defaultState = LevelUnitStates.floor;
+                m_LevelUnit.defaultState = LevelUnitStates.Floor;
             }
         }
 
@@ -38,17 +38,17 @@ namespace PlayerLevelEditor
             switch (DynamicTypeObject.value)
             {
                 case 0:
-                    m_LevelUnit.defaultState = LevelUnitStates.cover;
+                    m_LevelUnit.defaultState = LevelUnitStates.Cover;
                     m_Material.color = Color.green;
                     return;
 
                 case 1:
-                    m_LevelUnit.defaultState = LevelUnitStates.floor;
+                    m_LevelUnit.defaultState = LevelUnitStates.Floor;
                     m_Material.color = Color.red;
                     return;
 
                 case 2:
-                    m_LevelUnit.defaultState = LevelUnitStates.pit;
+                    m_LevelUnit.defaultState = LevelUnitStates.Pit;
                     m_Material.color = Color.blue;
                     return;
 
@@ -69,15 +69,15 @@ namespace PlayerLevelEditor
 
             switch(m_LevelUnit.defaultState)
             {
-                case LevelUnitStates.floor:
+                case LevelUnitStates.Floor:
                     m_Material.color = Color.red;
                     return;
 
-                case LevelUnitStates.pit:
+                case LevelUnitStates.Pit:
                     m_Material.color = Color.blue;
                     return;
 
-                case LevelUnitStates.cover:
+                case LevelUnitStates.Cover:
                     m_Material.color = Color.green;
                     return;
             }

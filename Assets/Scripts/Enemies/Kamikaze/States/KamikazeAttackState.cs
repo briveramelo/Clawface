@@ -25,7 +25,7 @@ public class KamikazeAttackState : AIState {
         waitTimeToDestruct = properties.selfDestructTime;
         blastRadius = properties.blastRadius;
         scaleRate = properties.selfDestructTime;
-        Timing.RunCoroutine(RunStartupTimer(),coroutineName);
+        Timing.RunCoroutine(RunStartupTimer(),CoroutineName);
     }
     public override void Update()
     {
@@ -49,6 +49,7 @@ public class KamikazeAttackState : AIState {
         if (explosionWarning) {
             explosionWarning.transform.position = controller.transform.position + new Vector3(0.0f, 0.25f, 0.0f);
         }
+        SFXManager.Instance.Play(SFXType.KamikazeWarn, controller.transform.position);
 
         yield return Timing.WaitForSeconds(waitTimeToDestruct);
         //Make sure the kamikaze is not stunned
@@ -56,22 +57,28 @@ public class KamikazeAttackState : AIState {
         {
             controller.UpdateState(EAIState.Stun);
             controller.DeActivateAI();
+            StopCoroutines();
         }
-        else if (Vector3.Distance(controller.transform.position, controller.AttackTarget.transform.position) < blastRadius * 0.5f)
+        else
         {
-            //Set Damage to the player
-            Damage(controller.AttackTarget.gameObject.GetComponent<IDamageable>());
             GameObject effect = ObjectPool.Instance.GetObject(PoolObjectType.VFXKamikazeExplosion);
             if (effect) {
                 effect.transform.position = controller.transform.position;
             }
-            attackDone = true;
-            setToSelfDestruct = true;
-        }
-        else
-        {
-            attackDone = true;
-            setToSelfDestruct = true;
+            SFXManager.Instance.Play(SFXType.KamikazeAttack, controller.transform.position);
+
+            if (Vector3.Distance(controller.transform.position, controller.AttackTarget.transform.position) < blastRadius * 0.5f)
+            {
+                //Set Damage to the player
+                Damage(controller.AttackTarget.gameObject.GetComponent<IDamageable>());
+                attackDone = true;
+                setToSelfDestruct = true;
+            }
+            else
+            {
+                attackDone = true;
+                setToSelfDestruct = true;
+            }
         }
     }
 
@@ -98,7 +105,7 @@ public class KamikazeAttackState : AIState {
 
     public void StopCoroutines()
     {
-        Timing.KillCoroutines(coroutineName);
+        Timing.KillCoroutines(CoroutineName);
         if(explosionWarning)
         explosionWarning.gameObject.SetActive(false);
     }

@@ -150,10 +150,10 @@ public class Spawner : RoutineRunner
     {
         spawnPosition.y += spawnHeightOffset;
         GameObject spawnedObject = ObjectPool.Instance.GetObject(enemy);
-        spawnedObject.transform.position = spawnPosition;
         //spawnedObject.SetActive(false);
 
         if (spawnedObject) {
+            spawnedObject.transform.position = spawnPosition;
             ISpawnable spawnable = spawnedObject.GetComponentInChildren<ISpawnable>();
 
             if (!spawnable.HasWillBeenWritten())

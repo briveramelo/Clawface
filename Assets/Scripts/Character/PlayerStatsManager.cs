@@ -28,10 +28,26 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     private bool playerTakesSetDamage;
 
     [SerializeField]
-    private float setDamageToTake;
+    private float veryEasyDamageToTake;
+
+    [SerializeField]
+    private float easyDamageToTake;
+
+    [SerializeField]
+    private float normalDamageToTake;
+
+    [SerializeField]
+    private float hardDamageToTake;
+
+    [SerializeField]
+    private float veryHardDamageToTake;
 
     [SerializeField]
     private DashState dashState;
+
+    [SerializeField]
+    private float invincibleTime;
+
     #endregion
 
     #region Private Fields
@@ -39,6 +55,9 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     float healthAtLastSkin;
     float lastSkinHealthBoost;
     HitFlasher hitFlasher;
+    private float invincibleTimer;
+
+    bool gotDashComboThisFrame;
     #endregion
 
     #region Unity Lifecycle
@@ -48,6 +67,13 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
         startHealth = stats.GetStat(CharacterStatType.MaxHealth);
         hitFlasher = GetComponentInChildren<HitFlasher>();
         stats.SetStats();
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_BIRTHED);
+    }
+
+    void Update()
+    {
+        invincibleTimer -= Time.deltaTime;
+        gotDashComboThisFrame = false;
     }
 	
     #endregion
@@ -60,74 +86,92 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
     public void TakeDamage(Damager damager)
     {
-        if (dashState.CheckForIFrames())
+        if(stats.health > 0)
         {
-            ScoreManager.Instance.AddToCombo();
-            return;
-        }
-
-
-        float healthFraction = stats.GetHealthFraction();
-
-        if (!playerTakesSetDamage)
-        {
-            if (damageModifier > 0.0f)
+            if (dashState.CheckForIFrames())
             {
-                if (stats.GetStat(CharacterStatType.Health) > 0)
+                if (dashState.CheckIfDashGivesCombo() && !gotDashComboThisFrame)
                 {
-                    for (int i = 0; i < damageScaling.Count; i++)
-                    {
-                        if (healthFraction >= damageScaling[i].healthPercentage)
-                        {
-                            damageModifier = damageScaling[i].damageRatio;
-                            break;
-                        }
-                    }
+                    gotDashComboThisFrame = true;
+                    dashState.ResetDashComboTimer();
+                    ScoreManager.Instance.AddToCombo();
                 }
-                stats.TakeDamage(damageModifier * damager.damage); 
+                return;
             }
-        }
-        else
-        {
-            stats.TakeDamage(setDamageToTake);
-        }
 
-        EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_DAMAGED);
-        healthFraction = stats.GetHealthFraction();
-        EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, healthFraction);
-
-        float shakeIntensity = 1f - healthFraction;
-        if (shake)
-        {
-            InputManager.Instance.Vibrate(VibrationTargets.BOTH, shakeIntensity);
-        }
-        SFXManager.Instance.Play(SFXType.PlayerTakeDamage, transform.position);
-
-        faceController.SetTemporaryEmotion(PlayerFaceController.Emotion.Angry, 0.5f);
-
-        hitFlasher.HitFlash();
-
-        if (stats.GetStat(CharacterStatType.Health) <= 0)
-        {
-            EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_KILLED, SceneManager.GetActiveScene().name, AnalyticsManager.Instance.GetCurrentWave(), ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
-            //SFXManager.Instance.Play(SFXType.AnnounceDeath, Vector3.zero);
-            //Revive(); //removed because of the inclusion of the game over menu
-            if (playerMesh && modSockets)
+            if (invincibleTimer >= 0f)
             {
-                GameObject vfx = ObjectPool.Instance.GetObject(deathVFX);
-                if (vfx)
+                return;
+            }
+
+            
+
+
+            float healthFraction = stats.GetHealthFraction();
+
+            float damageToTake;
+            switch (SettingsManager.Instance.Difficulty)
+            {
+                case Difficulty.VERY_EASY:
+                    damageToTake = veryEasyDamageToTake;
+                    break;
+                case Difficulty.EASY:
+                    damageToTake = easyDamageToTake;
+                    break;
+                case Difficulty.HARD:
+                    damageToTake = hardDamageToTake;
+                    break;
+                case Difficulty.INSANE:
+                    damageToTake = veryHardDamageToTake;
+                    break;
+                case Difficulty.NORMAL:
+                default:
+                    damageToTake = normalDamageToTake;
+                    break;
+            }
+
+            stats.TakeDamage(damageToTake);
+
+
+
+            invincibleTimer = invincibleTime;
+            EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_DAMAGED);
+            healthFraction = stats.GetHealthFraction();
+            EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_HEALTH_MODIFIED, healthFraction);
+
+            float shakeIntensity = 1f - healthFraction;
+            if (shake)
+            {
+                InputManager.Instance.Vibrate(VibrationTargets.BOTH, shakeIntensity);
+            }
+            SFXManager.Instance.Play(SFXType.PlayerTakeDamage, transform.position);
+
+            faceController.SetTemporaryEmotion(PlayerFaceController.Emotion.Angry, 0.5f);
+
+            hitFlasher.HitFlash();
+
+            if (stats.GetStat(CharacterStatType.Health) <= 0)
+            {
+                EventSystem.Instance.TriggerEvent(Strings.Events.PLAYER_KILLED, SceneTracker.CurrentSceneName, AnalyticsManager.Instance.GetCurrentWave(), ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString());
+                //SFXManager.Instance.Play(SFXType.AnnounceDeath, Vector3.zero);
+                //Revive(); //removed because of the inclusion of the game over menu
+                if (playerMesh && modSockets)
                 {
-                    vfx.transform.position = playerMesh.transform.position;
-                    vfx.SetActive(true);
+                    GameObject vfx = ObjectPool.Instance.GetObject(deathVFX);
+                    if (vfx)
+                    {
+                        vfx.transform.position = playerMesh.transform.position;
+                        vfx.SetActive(true);
+                    }
+                    CapsuleCollider collider = GetComponent<CapsuleCollider>();
+                    if (collider)
+                    {
+                        collider.enabled = false;
+                    }
+                    playerMesh.SetActive(false);
+                    modSockets.SetActive(false);
+                    SFXManager.Instance.Play(deathSFX, playerMesh.transform.position);
                 }
-                CapsuleCollider collider = GetComponent<CapsuleCollider>();
-                if (collider)
-                {
-                    collider.enabled = false;
-                }
-                playerMesh.SetActive(false);
-                modSockets.SetActive(false);
-                SFXManager.Instance.Play(deathSFX, playerMesh.transform.position);
             }
         }
     }
@@ -171,7 +215,7 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     #region Private Methods
     private void Revive() {
         SFXManager.Instance.Play(SFXType.PlayerDeath, transform.position);
-        transform.position = GameObject.Find("RespawnPoint").transform.position;
+        transform.position = GameObject.Find(Strings.RESPAWN_POINT).transform.position;
         stats.Add(CharacterStatType.Health, (int)startHealth);
         startHealth = stats.GetStat(CharacterStatType.MaxHealth);
 

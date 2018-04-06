@@ -8,6 +8,7 @@ public class TentacleTrigger : MonoBehaviour {
     [SerializeField] private ZombieBeserker zombieBeserkerParent;
     [SerializeField] private ZombieAcider zombieAciderParent;
     [SerializeField] private Collider childCollider;
+    [SerializeField] private SFXType swingSound;
     private bool triggerDamage = false;
 
 
@@ -39,6 +40,8 @@ public class TentacleTrigger : MonoBehaviour {
 
     public void ActivateTriggerDamage()
     {
+        SFXManager.Instance.Play(swingSound, transform.position);
+
         triggerDamage = true;
         childCollider.enabled = false;
     }

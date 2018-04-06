@@ -26,6 +26,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 0e6775693c8cc17498ce62285614d729, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _BloodMask:
+        m_Texture: {fileID: 2800000, guid: ee9dbdb3539e6f94fa4ad912d446c3d8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BloodSplat1:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -110,7 +114,9 @@ Material:
     - _ASEOutlineWidth: 0
     - _BloodColorationScale: 2
     - _BloodHighlightSmoothness: 0.8
+    - _BloodMaskScale: 0.5
     - _BloodSmoothness: 0.5
+    - _BloodStrength: 0.8
     - _BumpScale: 1
     - _ChromaticAberration: 0.1
     - _Cutoff: 0.5
@@ -146,13 +152,13 @@ Material:
     - _fbcurrenttileindex6: 0
     m_Colors:
     - _ASEOutlineColor: {r: 0, g: 0, b: 0, a: 0}
-    - _AlbedoTint: {r: 0.08088237, g: 0.08088237, b: 0.08088237, a: 0}
+    - _AlbedoTint: {r: 0.8308824, g: 0.81255406, b: 0.81255406, a: 0}
     - _Blood1: {r: 1, g: 0, b: 0.03999996, a: 1}
     - _Blood2: {r: 0.5137255, g: 0.003921569, b: 0.003921569, a: 1}
     - _BloodColor: {r: 0.5955882, g: 0.01751732, b: 0.01751732, a: 0}
     - _BloodHighlightColor: {r: 1, g: 0.8602941, b: 0.8602941, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _EmissiveColor: {r: 0.09834559, g: 0.78676474, b: 0.27401105, a: 0}
+    - _EmissiveColor: {r: 0.12229672, g: 0.6397059, b: 0.18299833, a: 1}
     - _WaterInner: {r: 0.4392157, g: 0.7294118, b: 1, a: 1}
     - _WaterOuter: {r: 0, g: 0.2980392, b: 0.6980392, a: 1}

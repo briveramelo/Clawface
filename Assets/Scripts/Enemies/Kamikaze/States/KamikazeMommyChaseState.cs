@@ -5,7 +5,7 @@ using UnityEngine;
 public class KamikazeMommyChaseState : AIState {
 
     private float currentSpawnRate = 0.0f;
-
+    private float spawnDisplacementFactor = 10.0f;
     public override void OnEnter()
     {
         animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Walk);
@@ -39,8 +39,12 @@ public class KamikazeMommyChaseState : AIState {
             GameObject kamikaze = ObjectPool.Instance.GetObject(PoolObjectType.Kamikaze);
             if (kamikaze)
             {
+                Vector3 spawnPosition = controller.transform.position + Random.insideUnitSphere * spawnDisplacementFactor;
+                spawnPosition.y = controller.transform.position.y;
                 kamikaze.GetComponent<Kamikaze>().SetScorePoints(0);
-                kamikaze.transform.position = controller.transform.position;
+                kamikaze.GetComponent<EnemyBase>().WarpNavAgent(spawnPosition);
+                kamikaze.GetComponent<EnemyBase>().EnableNavAgent();
+                kamikaze.transform.position = spawnPosition;
             }
         }
         else if (randomRoll > properties.kamikazeProbability && randomRoll <= probabilitySum)
@@ -48,8 +52,12 @@ public class KamikazeMommyChaseState : AIState {
             GameObject kamikaze = ObjectPool.Instance.GetObject(PoolObjectType.KamikazePulser);
             if (kamikaze)
             {
+                Vector3 spawnPosition = controller.transform.position + Random.insideUnitSphere * spawnDisplacementFactor;
+                spawnPosition.y = controller.transform.position.y;
                 kamikaze.GetComponent<KamikazePulser>().SetScorePoints(0);
-                kamikaze.transform.position = controller.transform.position;
+                kamikaze.GetComponent<EnemyBase>().WarpNavAgent(spawnPosition);
+                kamikaze.GetComponent<EnemyBase>().EnableNavAgent();
+                kamikaze.transform.position = spawnPosition;
             }
         }
     }

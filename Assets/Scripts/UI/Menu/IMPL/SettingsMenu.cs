@@ -1,45 +1,297 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
-public class SettingsMenu : Menu
-{
-    #region Public Accessors
+public class SettingsMenu : Menu {
 
-    public override Button InitialSelection
+    #region Accessors (Menu)
+
+    public override Selectable InitialSelection
     {
         get
         {
-            return doneButton;
+            return graphics;
+        }
+    }
+
+    #endregion
+
+    #region Fields (Unity Serialization)
+
+    [Header("Camera Manipulation")]
+    [SerializeField]
+    private float offRotation = 0F;
+
+    [SerializeField]
+    private float onRotation = -10F;
+
+    [Header("Panel Buttons")]
+    [SerializeField]
+    private Button graphics = null;
+
+    [SerializeField]
+    private new Button audio = null;
+
+    [SerializeField]
+    private Button controls = null;
+
+    [SerializeField]
+    private Button other = null;
+
+    [Header("Action Buttons")]
+    [SerializeField]
+    private Button back = null;
+
+    [SerializeField]
+    private Button _default = null;
+
+    [Header("Settings Objects - Graphics")]
+    [SerializeField]
+    private TextSlider quality = null;
+
+    [SerializeField]
+    private TextSlider resolution = null;
+
+    [SerializeField]
+    private TextSlider goreDetail = null;
+
+    [SerializeField]
+    private Toggle fullscreen = null;
+
+    [Header("Settings Objects - Audio")]
+    [SerializeField]
+    private Slider music = null;
+
+    [SerializeField]
+    private Slider ui = null;
+
+    [Header("Settings Objects - Controls")]
+    [SerializeField]
+    private TextSlider fireMode = null;
+
+    [SerializeField]
+    private TextSlider mouseAimMode = null;
+
+    [SerializeField]
+    private Toggle snapLook = null;
+
+    [SerializeField]
+    private Toggle vibration = null;
+
+    [SerializeField]
+    private Toggle cursorLock = null;
+
+    [Header("Settings Objects - GamePlay")]
+    [SerializeField]
+    private TextSlider difficulty = null;
+
+    [SerializeField]
+    private Toggle tutorial = null;
+
+    #endregion
+
+    #region Fields (Internal)
+
+    internal bool shouldInitialize = true;
+
+    #endregion
+
+    #region Fields (Private)
+    #endregion
+
+    #region Constructors (Public)
+
+    public SettingsMenu() : base(Strings.MenuStrings.SETTINGS) {}
+
+    #endregion
+    
+    #region Unity Lifecycle
+    private void Update() {
+        if (allowInput) {
+            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN)) {
+                ButtonBack();
+            }
         }
     }
     #endregion
 
-    #region Unity Serializations
+    #region Interface (Public)
 
-    [SerializeField]
-    private Button doneButton;
+    public void RewireForGraphics()
+    {
+        LinkPanelButtonsTo(quality);
+        LinkActionButtonsTo(fullscreen);
+    }
+
+    public void RewireForAudio()
+    {
+        LinkPanelButtonsTo(music);
+        LinkActionButtonsTo(ui);
+    }
+
+    public void RewireForControls()
+    {
+        LinkPanelButtonsTo(fireMode);
+        LinkActionButtonsTo(cursorLock);
+    }
+
+    public void RewireForGamePlay()
+    {
+        LinkPanelButtonsTo(difficulty);
+        LinkActionButtonsTo(tutorial);
+    }
+
+    public void ButtonBack()
+    {
+        MenuManager.Instance.DoTransition(Strings.MenuStrings.MAIN, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+
+        // Save OnExit Settings
+        TransferOnExitSettingsToManager();
+        SettingsManager.Instance.ApplyChanges();
+
+        // Save ControlMapper Data
+        Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONTROLS);
+        ControlMapperMenu cMenu = menu as ControlMapperMenu;
+        cMenu.UserDataStore.Save();
+    }
+
+    public void ButtonDefault()
+    {
+        SettingsManager.Instance.SetDefault();
+        TransferSettingsFromManager();
+    }
+
+    public void ButtonRemap()
+    {
+        MenuManager.Instance.DoTransition(Strings.MenuStrings.CONTROLS, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+    }
+
+    public void CallbackRealtimeSettingValueChanged()
+    {
+        TransferRealtimeSettingsToManager();
+        SettingsManager.Instance.ApplyChanges();
+    }
 
     #endregion
 
-    #region Public Interface
-    public SettingsMenu() : base(Strings.MenuStrings.CONTROLS) {}
-
-    public void DoneEditingControls()
+    #region Interface (Protected)
+    protected override void ShowStarted()
     {
-        MenuManager.Instance.DoTransition(Strings.MenuStrings.MAIN, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE } );
+        base.ShowStarted();
+        TransferSettingsFromManager();
+        StartCoroutine(RotateCamera(offRotation, onRotation));
     }
+
+    protected override void HideStarted()
+    {
+        base.HideStarted();
+        StartCoroutine(RotateCamera(onRotation, offRotation));
+    }
+
     #endregion
 
-    #region Protected Interface
+    #region Interface (Private)
 
-    protected override void DefaultShow(Transition transition, Effect[] effects)
+    private void LinkPanelButtonsTo(Selectable item)
     {
-        Fade(transition, effects);
+        foreach (Selectable selectable in new Selectable[] { graphics, audio, controls, other })
+        {
+            Navigation nav = selectable.navigation;
+            nav.selectOnDown = item;
+            selectable.navigation = nav;
+        }
     }
 
-    protected override void DefaultHide(Transition transition, Effect[] effects)
+    private void LinkActionButtonsTo(Selectable item)
     {
-        Fade(transition, effects);
+        foreach (Selectable selectable in new Selectable[] { back, _default })
+        {
+            Navigation nav = selectable.navigation;
+            nav.selectOnUp = item;
+            selectable.navigation = nav;
+        }
+    }
+
+    private void TransferSettingsFromManager()
+    {
+        if (!shouldInitialize)
+        {
+            shouldInitialize = true;
+            return;
+        }
+
+        graphics.onClick.Invoke();
+        SettingsManager manager = SettingsManager.Instance;
+
+        // Graphics
+        quality.DataSource.ForceUpdate();
+        resolution.DataSource.ForceUpdate();
+        goreDetail.DataSource.ForceUpdate();
+        fullscreen.isOn = manager.FullScreen;
+
+        // Audio
+        music.value = manager.MusicVolume;
+        ui.value = manager.SFXVolume;
+
+        // Controls
+        fireMode.DataSource.ForceUpdate();
+        mouseAimMode.DataSource.ForceUpdate();
+        snapLook.isOn = manager.SnapLook;
+        vibration.isOn = manager.Vibration;
+        cursorLock.isOn = manager.CursorLock;
+
+        // GamePlay
+        difficulty.DataSource.ForceUpdate();
+        tutorial.isOn = manager.Tutorial;
+    }
+
+    private void TransferRealtimeSettingsToManager()
+    {
+        SettingsManager manager = SettingsManager.Instance;
+
+        // Audio
+        manager.MusicVolume = music.value;
+        manager.SFXVolume = ui.value;
+    }
+
+    private void TransferOnExitSettingsToManager()
+    {
+        SettingsManager manager = SettingsManager.Instance;
+
+        // Graphics
+        manager.QualityLevel = (int)quality.DataSource.Value;
+        manager.Resolution = (Resolution)resolution.DataSource.Value;
+        manager.GoreDetail = (int)goreDetail.DataSource.Value;
+        manager.FullScreen = fullscreen.isOn;
+
+        // Controls
+        manager.FireMode = (FireMode)fireMode.DataSource.Value;
+        manager.MouseAimMode = (MouseAimMode)mouseAimMode.DataSource.Value;
+        manager.SnapLook = snapLook.isOn;
+        manager.Vibration = vibration.isOn;
+        manager.CursorLock = cursorLock.isOn;
+
+        // GamePlay
+        manager.Difficulty = (Difficulty)difficulty.DataSource.Value;
+        manager.Tutorial = tutorial.isOn;
+    }
+
+    private IEnumerator RotateCamera(float start, float end)
+    {
+        Transform camera = Camera.main.transform;
+        Vector3 rotation = camera.localEulerAngles;
+
+        float elapsed = 0F;
+        while (elapsed < FaderDuration)
+        {
+            rotation.y = Mathf.Lerp(start, end, elapsed / FaderDuration);
+            camera.localEulerAngles = rotation;
+            yield return null;
+            elapsed += Time.deltaTime;
+        }
+
+        rotation.y = end;
+        camera.localEulerAngles = rotation;
     }
 
     #endregion

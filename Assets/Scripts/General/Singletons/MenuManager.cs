@@ -9,6 +9,8 @@ using UnityEngine.Assertions;
 using UnityEngine.UI;
 using Rewired.Integration.UnityUI;
 
+using UnityES = UnityEngine.EventSystems.EventSystem;
+
 public class MenuManager : Singleton<MenuManager> {
 
     #region Accessors (Internal)
@@ -19,6 +21,18 @@ public class MenuManager : Singleton<MenuManager> {
         {
             return mouseMode;
         }
+        private set
+        {
+            mouseMode = value;
+            Cursor.visible = mouseMode;
+            if (mouseMode)
+            {
+                eventSystem.SetSelectedGameObject(null);
+            } else
+            {
+                StartCoroutine(SelectNextFrame());
+            }
+        }
     }
 
     #endregion
@@ -26,6 +40,8 @@ public class MenuManager : Singleton<MenuManager> {
     #region Unity Serialization Fields
     [SerializeField]
     private List<GameObject> menuPrefabs;
+    [SerializeField]
+    private UnityES eventSystem;
     [SerializeField]
     private RewiredStandaloneInputModule input;
     [SerializeField]
@@ -36,7 +52,7 @@ public class MenuManager : Singleton<MenuManager> {
     private List<Menu> menus = new List<Menu>();
     private Queue<TransitionBundle> transitionQueue = new Queue<TransitionBundle>();
     private List<Menu> menuStack = new List<Menu>();
-    bool mouseMode = false;
+    private bool mouseMode = true;
     #endregion
 
     #region Unity Lifecycle Functions
@@ -58,7 +74,14 @@ public class MenuManager : Singleton<MenuManager> {
             menus.Add(menu);
         }
     }
-    void Update()
+
+    protected override void Start()
+    {
+        base.Start();
+        MouseMode = !InputManager.Instance.HasJoystick();
+    }
+
+    private void Update()
     {
         if (transitionQueue.Count > 0)
         {
@@ -73,17 +96,24 @@ public class MenuManager : Singleton<MenuManager> {
         }
 
         // Check if we should switch between mouse mode or not
-        if (!mouseMode && Input.GetMouseButtonDown (0))
+        bool mouseInput = InputManager.Instance.Player.controllers.Mouse.GetAnyButton();
+        if (!mouseMode && (InputManager.Instance.Player.controllers.Mouse.GetAnyButtonDown()
+            || Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0))
         {
-            mouseMode = true;
-        } else if (mouseMode && InputManager.Instance.Player.GetAnyButtonDown())
+            MouseMode = true;
+        } else if (!mouseInput && mouseMode && (
+            InputManager.Instance.Player.controllers.Joysticks.Any((joystick) => joystick.GetAnyButton()) ||
+            InputManager.Instance.Player.controllers.Joysticks.Any((joystick) => joystick.Axes.Any((axis) => axis.value != 0))
+            ))
         {
-            mouseMode = false;
-            if (menuStack.Count > 0)
-            {
-                Menu active = menuStack[menuStack.Count - 1];
-                active.SelectInitialButton();
-            }
+            MouseMode = false;
+        }
+
+        // Coerce back to keyboard navigation if necessary
+        if ((UnityES.current.currentSelectedGameObject == null || UnityES.current.currentSelectedGameObject == deadNavButton.gameObject) 
+            && InputManager.Instance.QueryAxes(Strings.Input.UI.NAVIGATION).sqrMagnitude > 0)
+        {
+            StartCoroutine(SelectNextFrame());
         }
     }
     #endregion
@@ -177,7 +207,7 @@ public class MenuManager : Singleton<MenuManager> {
         {
             ClearMenus();
         }
-
+        if (bundle.menu == null) return;
         switch (bundle.transition)
         {
             case Menu.Transition.HIDE:
@@ -199,6 +229,22 @@ public class MenuManager : Singleton<MenuManager> {
                 break;
         }
     }
+
+    private void SelectInitialButtonIfPossible()
+    {
+        if (menuStack.Count > 0)
+        {
+            Menu active = menuStack[menuStack.Count - 1];
+            active.SelectInitialButton();
+        }
+    }
+
+    private System.Collections.IEnumerator SelectNextFrame()
+    {
+        yield return null;
+        SelectInitialButtonIfPossible();
+    }
+
     #endregion
 
     #region Types

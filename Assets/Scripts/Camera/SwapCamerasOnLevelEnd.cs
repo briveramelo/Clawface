@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Turing.VFX;
 
-public class SwapCamerasOnLevelEnd : MonoBehaviour {
+public class SwapCamerasOnLevelEnd : EventSubscriber {
 
     #region Serialized
     [SerializeField]
@@ -17,35 +17,20 @@ public class SwapCamerasOnLevelEnd : MonoBehaviour {
 
     [SerializeField]
     private Rigidbody playerRigidbody;
-
-    [SerializeField]
-    private PlayerFaceController playerFace;
     #endregion
 
     #region Unity Lifetime
-    // Use this for initialization
-    void Start () {
-        EventSystem.Instance.RegisterEvent(Strings.Events.LEVEL_COMPLETED, SwitchCameras); 
-	}
-
-    private void Update()
-    {
-		/*
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            SwitchCameras();
-        }
-		*/
-    }
-
-    private void OnDestroy()
-    {
-        if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.LEVEL_COMPLETED, SwitchCameras);
-        }
-    }
     #endregion
+    // Use this for initialization
 
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions { get {
+        return new Dictionary<string, FunctionPrototype>() {
+            { Strings.Events.LEVEL_COMPLETED, SwitchCameras},            
+        };
+    } }
+    #endregion
 
     #region Private Methods
     void SwitchCameras(params object[] parameters)
@@ -53,7 +38,6 @@ public class SwapCamerasOnLevelEnd : MonoBehaviour {
         endCamera.gameObject.SetActive(true);
         moveState.enabled = false;
         playerRigidbody.velocity = Vector3.zero;
-        playerFace.SetEmotion(PlayerFaceController.Emotion.Happy);
         // keiraMesh.localRotation = Quaternion.Euler(0f, keiraMesh.transform.rotation.y, 0f);
     }
     #endregion

@@ -36,12 +36,14 @@ public class MallCopReanimator : EnemyBase
     private Vector3 rayCastPosition;
     private bool foundStunnedEnemy = false;
     private float closeEnoughToReanimateDistance;
+    private bool isUp;
     #endregion
 
     #region 3. Unity Lifecycle
 
-    public override void Awake()
+    protected override void Awake()
     {
+        isUp = false;
         myStats = GetComponent<Stats>();
         SetAllStats();
         InitilizeStates();
@@ -50,6 +52,8 @@ public class MallCopReanimator : EnemyBase
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
 
         controller.checksToUpdateState = new List<Func<bool>>() {
+            CheckDoneGettingUp,
+            CheckPlayerDead,
             CheckToFire,
             CheckToFinishFiring,
             CheckIfStunned
@@ -77,6 +81,31 @@ public class MallCopReanimator : EnemyBase
     #region 4. Public Methods   
 
     //State conditions
+    bool CheckDoneGettingUp()
+    {
+        if (!isUp)
+        {
+            return true;
+        }
+        return false;
+    }
+
+
+    bool CheckPlayerDead()
+    {
+        if (AIManager.Instance.GetPlayerDead())
+        {
+            if (myStats.health > myStats.skinnableHealth && !celebrate.isCelebrating())
+            {
+                fire.StopCoroutines();
+                controller.CurrentState = celebrate;
+                controller.UpdateState(EAIState.Celebrate);
+            }
+            return true;
+        }
+        return false;
+    }
+
     bool CheckToFire()
     {
         if ((controller.CurrentState == chase && foundStunnedEnemy &&  controller.DistanceFromTarget <closeEnoughToReanimateDistance))
@@ -126,6 +155,7 @@ public class MallCopReanimator : EnemyBase
 
     public override void OnDeath()
     {
+        isUp = false;
         base.OnDeath();
     }
 
@@ -152,18 +182,13 @@ public class MallCopReanimator : EnemyBase
 
     public void GetUpDone()
     {
-        getUp.Up();
+        isUp = true;
+        controller.CurrentState = chase;
+        controller.UpdateState(EAIState.Chase);
     }
 
     public override void DoPlayerKilledState(object[] parameters)
     {
-        if (myStats.health > myStats.skinnableHealth)
-        {
-            animator.SetTrigger("DoVictoryDance");
-            controller.CurrentState = celebrate;
-            controller.UpdateState(EAIState.Celebrate);
-            animator.SetInteger("AnimationState", -1);
-        }
     }
 
     public override Vector3 ReCalculateTargetPosition()
@@ -193,7 +218,7 @@ public class MallCopReanimator : EnemyBase
 
             currentHitReactionLayerWeight = 1.0f;
             animator.SetLayerWeight(3, currentHitReactionLayerWeight);
-            Timing.RunCoroutine(HitReactionLerp(), coroutineName);
+            Timing.RunCoroutine(HitReactionLerp(), CoroutineName);
         }
         base.DoHitReaction(damager);
     }
@@ -268,16 +293,18 @@ public class MallCopReanimator : EnemyBase
     void ShowChargeEffect()
     {
         GameObject vfx = ObjectPool.Instance.GetObject(PoolObjectType.VFXEnemyChargeBlaster);
-        Vector3 scaleBackup = vfx.transform.localScale;
-        vfx.transform.SetParent(healParticleTransform);
-        //For offsetting the particle
-        vfx.transform.localPosition = Vector3.zero;
-        vfx.transform.localRotation = Quaternion.identity;
-        vfx.transform.localScale = new Vector3(
-            scaleBackup.x / vfx.transform.localScale.x,
-            scaleBackup.y / vfx.transform.localScale.y,
-            scaleBackup.z / vfx.transform.localScale.z
-        );
+        if (vfx) {
+            Vector3 scaleBackup = vfx.transform.localScale;
+            vfx.transform.SetParent(healParticleTransform);
+            //For offsetting the particle
+            vfx.transform.localPosition = Vector3.zero;
+            vfx.transform.localRotation = Quaternion.identity;
+            vfx.transform.localScale = new Vector3(
+                scaleBackup.x / vfx.transform.localScale.x,
+                scaleBackup.y / vfx.transform.localScale.y,
+                scaleBackup.z / vfx.transform.localScale.z
+            );
+        }
     }
     #endregion
 

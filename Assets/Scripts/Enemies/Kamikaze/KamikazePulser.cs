@@ -1,11 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.AI;
 using System;
 
 [System.Serializable]
@@ -22,6 +16,7 @@ public class KamikazePulser : EnemyBase
 
     #region 3. Private fields
     private float closeEnoughToAttackDistance;
+    private bool isUp;
 
     //The AI States of the Kamikaze
     private KamikazeChaseState chase;
@@ -32,14 +27,18 @@ public class KamikazePulser : EnemyBase
     #endregion
 
     #region 4. Unity Lifecycle
-    public override void Awake()
-    {
+    protected override void Awake()
+    {        
+	isUp = false;
         myStats = GetComponent<Stats>();
         SetAllStats();
         InitilizeStates();
+        attack.waitTimeAfterAttack = EnemyStatsManager.Instance.kamikazePulserStats.waitTimeAfterAttack;
         controller.Initialize(properties, velBody, animator, myStats, navAgent, navObstacle, aiStates);
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
         controller.checksToUpdateState = new List<Func<bool>>() {
+            CheckDoneGettingUp,
+            CheckPlayerDead,
             CheckToAttack,
             CheckToFinishAttack,
             CheckIfStunned
@@ -51,6 +50,30 @@ public class KamikazePulser : EnemyBase
     #region 5. Public Methods   
 
     //State conditions
+    bool CheckDoneGettingUp()
+    {
+        if (!isUp)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    bool CheckPlayerDead()
+    {
+        if (AIManager.Instance.GetPlayerDead())
+        {
+            if (myStats.health > myStats.skinnableHealth && !celebrate.isCelebrating())
+            {
+                attack.StopPulse();
+                controller.CurrentState = celebrate;
+                controller.UpdateState(EAIState.Celebrate);
+            }
+            return true;
+        }
+        return false;
+    }
+
     bool CheckToAttack()
     {
         if (controller.CurrentState == chase && controller.DistanceFromTarget < closeEnoughToAttackDistance)
@@ -84,12 +107,18 @@ public class KamikazePulser : EnemyBase
     {
         if (myStats.health <= myStats.skinnableHealth || alreadyStunned)
         {
+            attack.StopPulse();
             controller.CurrentState = stun;
             controller.UpdateState(EAIState.Stun);
             controller.DeActivateAI();
             return true;
         }
         return false;
+    }
+    public override void OnDeath()
+    {
+        isUp = false;
+        base.OnDeath();
     }
 
     public override void ResetForRebirth()
@@ -100,12 +129,6 @@ public class KamikazePulser : EnemyBase
 
     public override void DoPlayerKilledState(object[] parameters)
     {
-        if (myStats.health > myStats.skinnableHealth)
-        {
-            animator.SetInteger("AnimationState", -1);
-            controller.CurrentState = celebrate;
-            controller.UpdateState(EAIState.Celebrate);
-        }
     }
 
     public override Vector3 ReCalculateTargetPosition()
@@ -115,9 +138,10 @@ public class KamikazePulser : EnemyBase
 
     public void GetUpDone()
     {
-        getUp.Up();
+        isUp = true;
+        controller.CurrentState = chase;
+        controller.UpdateState(EAIState.Chase);
     }
-
 
     public void SetScorePoints(int score)
     {
@@ -178,8 +202,6 @@ public class KamikazePulser : EnemyBase
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, closeEnoughToAttackDistance);
     }
-
-
     #endregion
 
 

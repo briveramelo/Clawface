@@ -2,7 +2,7 @@
 // Author: Aaron
 
 using System.Collections;
-
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Turing.VFX
@@ -10,15 +10,15 @@ namespace Turing.VFX
     /// <summary>
     /// Controller for player's facial expression.
     /// </summary>
-    public class PlayerFaceController : MonoBehaviour
+    public class PlayerFaceController : EventSubscriber
     {
         #region Serialized Unity Inspector Fields
 
         /// <summary>
         /// Reference to the player's material instance.
         /// </summary>
-        [Tooltip("Reference to the player's material instance.")]
-        [SerializeField] Material playerMaterial;
+        //[Tooltip("Reference to the player's material instance.")]
+        //[SerializeField] Material playerMaterial;
 
         /// <summary>
         /// Reference to the player's mesh renderer.
@@ -87,69 +87,92 @@ namespace Turing.VFX
         [SerializeField] Color angryColor;
 
         #endregion
+
         #region Private Fields
 
         /// <summary>
         /// Instantiated material (so that template material isn't changed).
         /// </summary>
-        Material material;
+        //Material material;
 
         /// <summary>
         /// Current emotional state of the player.
         /// </summary>
         Emotion emotion = Emotion.Idle;
-
+        bool isLevelComplete = false;
         #endregion
-        #region Unity Lifecycle
 
-        void Awake ()
-        {
-            // Instantiate material
-            material = Instantiate (playerMaterial) as Material;
-            material.CopyPropertiesFromMaterial (playerMaterial);
-            playerRenderer.material = material;
-
-            // Set initial emotion
-            SetEmotion (emotion);
-
-            // Start main face coroutine
-            StartCoroutine (FaceCoroutine());
+        #region Event Subscriptions
+        protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
+        protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+            get {
+                return new Dictionary<string, FunctionPrototype>() {
+                    { Strings.Events.LEVEL_COMPLETED,      LevelComplete },
+                    { Strings.Events.SCENE_LOADED, ResetToDefaultStates},
+                    { Strings.Events.PLE_ON_LEVEL_READY, ResetToDefaultStates},
+                };
+            }
         }
-
         #endregion
-        #region Public Methods
 
+        #region Unity Lifecycle
+        protected override void Start ()
+        {
+            base.Start();
+            if (gameObject.activeInHierarchy) {
+                SetEmotion (emotion);
+            }
+        }
+        #endregion
+
+        #region Public Methods
+        public void SetTemporaryEmotion(Emotion emotion, float time) {
+
+            if (gameObject.activeInHierarchy) {
+                SetEmotion(emotion);
+                StartCoroutine(DoTemporaryEmotion(time));
+            }
+        }
         /// <summary>
         /// Sets the emotional state of the character.
         /// </summary>
         public void SetEmotion (Emotion emotion)
         {
-            // Interrupt all face coroutines
-            StopAllCoroutines();
-            this.emotion = emotion;
+            if (!isLevelComplete && gameObject.activeInHierarchy) {
+                StopAllCoroutines();
+                this.emotion = emotion;
 
-            switch (emotion)
-            {
-                case Emotion.Idle:
-                    SetFacialExpression (idleExpression);
-                    SetFacialColor (idleColor);
-                    break;
-                case Emotion.Happy:
-                    SetFacialExpression (happyExpression);
-                    SetFacialColor (happyColor);
-                    break;
-                case Emotion.Angry:
-                    SetFacialExpression (angryExpression);
-                    SetFacialColor (angryColor);
-                    break;
+                switch (emotion)
+                {
+                    case Emotion.Idle:
+                        SetFacialExpression (idleExpression);
+                        SetFacialColor (idleColor);
+                        break;
+                    case Emotion.Happy:
+                        SetFacialExpression (happyExpression);
+                        SetFacialColor (happyColor);
+                        break;
+                    case Emotion.Angry:
+                        SetFacialExpression (angryExpression);
+                        SetFacialColor (angryColor);
+                        break;
+                }
+
+                StartCoroutine(FaceCoroutine());
             }
-
-            StartCoroutine(FaceCoroutine());
         }
 
         #endregion
-        #region Private Methods
 
+        #region Private Methods
+        private void ResetToDefaultStates(params object[] parameters) {
+            isLevelComplete = false;
+            SetEmotion(Emotion.Idle);
+        }
+        private void LevelComplete(params object[] parameters) {
+            SetEmotion(Emotion.Happy);
+            isLevelComplete = true;
+        }
         /// <summary>
         /// Main facial expression coroutine.
         /// </summary>
@@ -196,24 +219,21 @@ namespace Turing.VFX
         /// </summary>
         void SetFacialExpression (Texture2D face)
         {
-            material.SetTexture ("_FaceTexture", face);
+            playerRenderer.material.SetTexture ("_FaceTexture", face);
         }
 
-        public void SetTemporaryEmotion (Emotion emotion, float time)
-        {
-            SetEmotion (emotion);
-            StartCoroutine (DoTemporaryEmotion(time));
-        }
+        
 
         /// <summary>
         /// Sets the current facial color of the character.
         /// </summary>
         void SetFacialColor (Color color)
         {
-            material.SetColor ("_FaceColor", color);
+            playerRenderer.material.SetColor ("_FaceColor", color);
         }
 
         #endregion
+
         #region Public Structures
 
         /// <summary>

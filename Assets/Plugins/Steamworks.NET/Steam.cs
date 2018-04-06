@@ -324,10 +324,10 @@ namespace Steamworks {
 			m_pSteamHTTP = SteamClient.GetISteamHTTP(hSteamUser, hSteamPipe, Constants.STEAMHTTP_INTERFACE_VERSION);
 			if (m_pSteamHTTP == IntPtr.Zero) { return false; }
 
-			m_pSteamUnifiedMessages = SteamClient.GetISteamUnifiedMessages(hSteamUser, hSteamPipe, Constants.STEAMUNIFIEDMESSAGES_INTERFACE_VERSION);
-			if (m_pSteamUnifiedMessages == IntPtr.Zero) { return false; }
+            m_pSteamUnifiedMessages = SteamClient.GetISteamUnifiedMessages(hSteamUser, hSteamPipe, Constants.STEAMUNIFIEDMESSAGES_INTERFACE_VERSION);
+            if (m_pSteamUnifiedMessages == IntPtr.Zero) { return false; }
 
-			m_pController = SteamClient.GetISteamController(hSteamUser, hSteamPipe, Constants.STEAMCONTROLLER_INTERFACE_VERSION);
+            m_pController = SteamClient.GetISteamController(hSteamUser, hSteamPipe, Constants.STEAMCONTROLLER_INTERFACE_VERSION);
 			if (m_pController == IntPtr.Zero) { return false; }
 
 			m_pSteamUGC = SteamClient.GetISteamUGC(hSteamUser, hSteamPipe, Constants.STEAMUGC_INTERFACE_VERSION);
@@ -369,8 +369,8 @@ namespace Steamworks {
 		internal static IntPtr GetSteamRemoteStorage() { return m_pSteamRemoteStorage; }
 		internal static IntPtr GetSteamScreenshots() { return m_pSteamScreenshots; }
 		internal static IntPtr GetSteamHTTP() { return m_pSteamHTTP; }
-		internal static IntPtr GetSteamUnifiedMessages() { return m_pSteamUnifiedMessages; }
-		internal static IntPtr GetSteamController() { return m_pController; }
+        internal static IntPtr GetSteamUnifiedMessages() { return m_pSteamUnifiedMessages; }
+        internal static IntPtr GetSteamController() { return m_pController; }
 		internal static IntPtr GetSteamUGC() { return m_pSteamUGC; }
 		internal static IntPtr GetSteamAppList() { return m_pSteamAppList; }
 		internal static IntPtr GetSteamMusic() { return m_pSteamMusic; }
@@ -392,8 +392,8 @@ namespace Steamworks {
 		private static IntPtr m_pSteamRemoteStorage;
 		private static IntPtr m_pSteamScreenshots;
 		private static IntPtr m_pSteamHTTP;
-		private static IntPtr m_pSteamUnifiedMessages;
-		private static IntPtr m_pController;
+        private static IntPtr m_pSteamUnifiedMessages;
+        private static IntPtr m_pController;
 		private static IntPtr m_pSteamUGC;
 		private static IntPtr m_pSteamAppList;
 		private static IntPtr m_pSteamMusic;

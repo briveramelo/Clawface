@@ -7,71 +7,76 @@ public class AIManager : Singleton<AIManager> {
     #region 0. Private fields
     private List<AIEnemyData> enemyData;
     private float separationDistance = 10;
+    private bool removingEnemy = false;
+    private bool isPlayerDead = false;
+    #endregion
+
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.EnableDisable; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.PLAYER_KILLED, SetPlayerDead },
+                { Strings.Events.PLAYER_BIRTHED, SetPlayerNotDead},
+            };
+        }
+    }
     #endregion
 
     #region 1. UnityLifeCycle
-    public new void Awake()
+
+    protected override void Awake()
     {
         base.Awake();
         enemyData = new List<AIEnemyData>();
     }
+
     #endregion
 
     #region 2. Public methods
-    public bool Contains(AIEnemyData enemy)
-    {
-        //Enemy in the list
-        if (enemyData.Contains(enemy))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-
     public bool AssignPosition(AIEnemyData enemy)
     {
-        //Check if the list is empty
-        if (enemyData.Count < 1)
+        if (!removingEnemy)
         {
-            enemyData.Add(enemy);
-            return true;
-        }
-
-        //Enemy in the list
-        if (enemyData.Count >= 1)
-        {
-            bool enemyFound = false;
-            for (int i = 0; i < enemyData.Count; i++)
-            {
-                if (enemyData[i].enemyId == enemy.enemyId)
-                {
-                    enemyData[i].targetPosition = enemy.targetPosition;
-                    enemyFound = true;
-                }
-                
-            }
-
-            if (!enemyFound)
+            //Check if the list is empty
+            if (enemyData.Count < 1)
             {
                 enemyData.Add(enemy);
+                return true;
             }
 
-            return ComparePosition(enemy);
-        }
-        //Enemy is not in the list
-        else
-        {
-            return true;
-        }
+            //Enemy in the list
+            else if (enemyData.Count >= 1)
+            {
+                bool enemyFound = false;
+                for (int i = 0; i < enemyData.Count; i++)
+                {
+                    if (enemyData[i].enemyId == enemy.enemyId)
+                    {
+                        enemyData[i].targetPosition = enemy.targetPosition;
+                        enemyFound = true;
+                    }
+                }
 
+                if (!enemyFound)
+                {
+                    enemyData.Add(enemy);
+                }
+
+                return ComparePosition(enemy);
+            }
+            //Enemy is not in the list
+            else
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void Remove(AIEnemyData enemy)
     {
+        removingEnemy = true;
         if (enemyData.Count > 0)
         {
             for (int i = 0; i < enemyData.Count; i++)
@@ -80,11 +85,14 @@ public class AIManager : Singleton<AIManager> {
                 {
                     enemyData.RemoveAt(i);
                 }
-
             }
         }
+        removingEnemy = false;
     }
-
+    public bool GetPlayerDead()
+    {
+        return isPlayerDead;
+    }
 
     #endregion
 
@@ -103,6 +111,17 @@ public class AIManager : Singleton<AIManager> {
         }
         return true;
     }
+
+    private void SetPlayerDead(object[] parameters)
+    {
+        isPlayerDead = true;
+    }
+
+    private void SetPlayerNotDead(object[] parameters)
+    {
+        isPlayerDead = false;
+    }
+
     #endregion
 }
 

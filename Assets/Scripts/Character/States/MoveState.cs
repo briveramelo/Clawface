@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections;
+﻿using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine;
+public class MoveState : IPlayerState {
+    #region Fields (Unity Serialization)
 
-public class MoveState : IPlayerState
-{
-    [Tooltip("Whether the left joystick handles both movement or rotation or just movement")]
     [SerializeField]
-    private bool simpleMoveAndRotate = false;
+    private LayerMask mouseLookMask;
+
+    #endregion
 
     #region Private Fields
     private float sphereRadius = 0.1f;
@@ -19,20 +18,20 @@ public class MoveState : IPlayerState
     private bool playerDead;
     #endregion
 
-    #region Unity lifecycle
-    private void OnEnable()
-    {
-        EventSystem.Instance.RegisterEvent(Strings.Events.PLAYER_KILLED, PlayerDead);
-    }
-
-    private void OnDisable()
-    {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLAYER_KILLED, PlayerDead);
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.EnableDisable; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.PLAYER_KILLED, PlayerDead },
+                { Strings.Events.LEVEL_COMPLETED, StopMoving},
+            };
         }
     }
     #endregion
+
+    #region Unity lifecycle
+    #endregion      
 
     #region Public Methods    
     public override void Init(ref PlayerStateManager.StateVariables moveStateVariables)
@@ -44,29 +43,32 @@ public class MoveState : IPlayerState
 
     public override void StateUpdate()
     {
-        if (!playerDead)
-        {
+        if (!playerDead && stateVariables.playerCanMove) {
             Vector2 controllerMoveDir = InputManager.Instance.QueryAxes(Strings.Input.Axes.MOVEMENT);
             Vector2 lookDir = InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK);
+
+            bool usesMouse = ShouldUseMouse();
+            if (usesMouse) {
+                lookDir = DetermineMouseLook();
+            } else {
+                lookDir = InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK);
+            }
+
             bool isAnyAxisInput = controllerMoveDir.magnitude > stateVariables.axisThreshold;
-            if (!isAnyAxisInput)
-            {
+            if (!isAnyAxisInput) {
                 controllerMoveDir = Vector2.zero;
             }
-            if (lookDir.magnitude > stateVariables.axisThreshold)
-            {
+            if (lookDir.magnitude > stateVariables.axisThreshold) {
                 lastLookDirection = new Vector3(lookDir.x, 0, lookDir.y);
             }
-            else
-            {
+            else {
                 lastLookDirection = Vector3.zero;
             }
             Vector2 moveModified = new Vector2(controllerMoveDir.x, controllerMoveDir.y);
 
             moveDirection = new Vector3(moveModified.x, 0.0F, moveModified.y);
 
-            if (!canMove)
-            {
+            if (!canMove) {
                 moveDirection = Vector3.zero;
                 lastMoveDirection = Vector3.zero;
             }
@@ -75,22 +77,21 @@ public class MoveState : IPlayerState
             moveDirection.y = 0f;
             moveDirection.Normalize();
 
-            lastLookDirection = Camera.main.transform.TransformDirection(lastLookDirection);
+            if (!usesMouse) {
+                lastLookDirection = Camera.main.transform.TransformDirection(lastLookDirection);
+            }
             lastLookDirection.y = 0f;
             lastLookDirection.Normalize();
 
-            if (moveDirection != Vector3.zero)
-            {
+            if (moveDirection != Vector3.zero) {
                 lastMoveDirection = moveDirection;
             }
-            else if (lastLookDirection != Vector3.zero)
-            {
+            else if (lastLookDirection != Vector3.zero) {
                 lastMoveDirection = lastLookDirection;
             }
             stateVariables.velBody.MoveDirection = lastMoveDirection;
 
-            switch (stateVariables.velBody.GetMovementMode())
-            {
+            switch (stateVariables.velBody.GetMovementMode()) {
                 case MovementMode.PRECISE:
                     MovePrecise();
                     break;
@@ -104,7 +105,6 @@ public class MoveState : IPlayerState
 
     public override void StateFixedUpdate()
     {
-        
     }
 
     public override void StateLateUpdate()
@@ -114,6 +114,11 @@ public class MoveState : IPlayerState
     #endregion
 
     #region Private Methods
+
+    private void StopMoving(params object[] parameters) {
+        stateVariables.velBody.velocity = Vector3.zero;
+    }
+
     private void MovePrecise() {
         stateVariables.velBody.velocity = moveDirection * stateVariables.statsManager.GetStat(CharacterStatType.MoveSpeed);
         if (moveDirection.magnitude > stateVariables.axisThreshold)
@@ -170,7 +175,7 @@ public class MoveState : IPlayerState
     }
 
     private void HandleRotation(){
-        if (simpleMoveAndRotate)
+        if (SettingsManager.Instance.SnapLook)
         {
             if (lastLookDirection != Vector3.zero)
             {
@@ -188,11 +193,7 @@ public class MoveState : IPlayerState
                 stateVariables.playerTransform.forward = lastLookDirection;
             }
         }
-    }
-
-    protected override void ResetState()
-    {
-    }
+    }    
 
     private void PlayerDead(params object[] parameters)
     {
@@ -206,6 +207,42 @@ public class MoveState : IPlayerState
     public PlayerStateManager.StateVariables GetStateVariables()
     {
         return stateVariables;
+    }
+
+    private bool ShouldUseMouse()
+    {
+        switch (SettingsManager.Instance.MouseAimMode)
+        {
+            case MouseAimMode.AUTOMATIC:
+                return MenuManager.Instance.MouseMode;
+            case MouseAimMode.ALWAYS_ON:
+                return true;
+            case MouseAimMode.ALWAYS_OFF:
+                return false;
+            default:
+                throw new System.Exception("Bad MouseAimMode parameter!");
+        }
+    }
+
+    private Vector2 DetermineMouseLook()
+    {
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hit, 1000F, mouseLookMask))
+        {
+            Vector3 hitPosition = hit.point;
+            Vector3 playerPosition = stateVariables.playerTransform.position;
+            Vector3 look = hitPosition - playerPosition;
+            return new Vector2(look.x, look.z);
+        }
+        else
+        {
+            return Vector3.zero;
+        }
+    }
+
+    public override void ResetState()
+    {
     }
     #endregion
 }

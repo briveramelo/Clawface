@@ -1286,11 +1286,15 @@ MonoBehaviour:
   affectObject: {fileID: 1697594495471972}
   hitFlasher: {fileID: 114419598569920118}
   hitSFX: 0
-  deathSFX: 0
+  deathSFX: 26
   pushRoot: {fileID: 54723900465810428}
   pushDirection: 0
   hips: {fileID: 1228589784813594}
   enemyType: 3
+  skeletonRoot: {fileID: 1697594495471972}
+  vocalizeSound: 42
+  vocalizeInterval: {x: 1, y: 2}
+  footstepSound: 36
   properties:
     runMultiplier: 2.5
     hitRate: 0

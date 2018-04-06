@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace PlayerLevelEditor
+namespace PLE
 {
     public class DynamicLevelSystem : ISystem
     {
@@ -49,7 +49,7 @@ namespace PlayerLevelEditor
                 {
                     if (map[i].ContainsKey(_Object.GetInstanceID()) == false)
                     {
-                        map[i].Add(_Object.GetInstanceID(), LevelUnitStates.floor);
+                        map[i].Add(_Object.GetInstanceID(), LevelUnitStates.Floor);
                     }
                 }
             }
@@ -73,7 +73,7 @@ namespace PlayerLevelEditor
                 if (map[Stage.value].ContainsKey(_Object.GetInstanceID()) == false)
                 {
                     int key = _Object.GetInstanceID();
-                    map[Stage.value].Add(key, LevelUnitStates.floor);
+                    map[Stage.value].Add(key, LevelUnitStates.Floor);
 
                     _Object.GetComponent<ClickableObject>().ObjectType = new DynamicObject(_Object);
                 }
@@ -96,7 +96,7 @@ namespace PlayerLevelEditor
                 LevelUnit LU = m_GameObjects[j].GetComponent<LevelUnit>();
 
                 if(LU)
-                    LU.DeRegisterFromEvents();
+                    LU.DeRegisterFromNamedStateEvents();
             }
 
             for (int j = 0; j < m_GameObjects.Count; j++)
@@ -110,24 +110,10 @@ namespace PlayerLevelEditor
                     string event_name = "PLE_TEST_WAVE_" + i.ToString();
 
                     LevelUnitStates state = map[i][m_GameObjects[j].GetInstanceID()];
-
-                    switch (state)
-                    {
-                        case LevelUnitStates.cover:
-                            LU.AddCoverStateEvent(event_name);
-                            break;
-
-                        case LevelUnitStates.floor:
-                            LU.AddFloorStateEvent(event_name);
-                            break;
-
-                        case LevelUnitStates.pit:
-                            LU.AddPitStateEvent(event_name);
-                            break;
-                    }
+                    LU.AddNamedStateEvent(state, event_name);                    
                 }
 
-                LU.RegisterToEvents();
+                LU.RegisterToNamedStateEvents();
             }
         }
 
@@ -139,7 +125,7 @@ namespace PlayerLevelEditor
                 LevelUnit LU = m_GameObjects[j].GetComponent<LevelUnit>();
 
                 if(LU)
-                   LU.DeRegisterFromEvents();
+                   LU.DeRegisterFromNamedStateEvents();
             }
 
             Release();

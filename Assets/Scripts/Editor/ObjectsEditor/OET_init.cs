@@ -68,7 +68,7 @@ namespace OET_init
                         else if (_instance.GetComponent<LevelUnit>() == null)
                         {
                             LevelUnit LU = _instance.AddComponent<LevelUnit>() as LevelUnit;
-                            LU.defaultState = LevelUnitStates.floor;
+                            LU.defaultState = LevelUnitStates.Floor;
                             _AddNavMeshModifier(_instance, OET_lib.NavMeshAreas.Walkable);
                         }
  

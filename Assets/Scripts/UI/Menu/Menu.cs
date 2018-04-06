@@ -3,19 +3,24 @@
  */
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class Menu : MonoBehaviour {
+public abstract class Menu : EventSubscriber {
 
     #region Properties
     private string menuName;
+    protected UnityEngine.EventSystems.EventSystem CurrentEventSystem {get{ return UnityEngine.EventSystems.EventSystem.current; } }
+    protected GameObject CurrentEventSystemGameObject { get { return CurrentEventSystem.currentSelectedGameObject; } }
+    protected GameObject lastSelectedGameObject;    
+
     public string MenuName
     {
         get { return menuName; }
     }
 
-    public abstract Button InitialSelection
+    public abstract Selectable InitialSelection
     {
         get;
     }
@@ -44,28 +49,47 @@ public abstract class Menu : MonoBehaviour {
     }
     #endregion
 
+    #region Accessors (Protected)
+
+    protected float FaderDuration
+    {
+        get
+        {
+            return faderDuration;
+        }
+    }
+    protected bool allowInput;
+    protected DisplayState currentState=DisplayState.HIDE_FINISHED;
+    protected Coroutine transitionRoutine;
+    #endregion
+
     #region Serialized Unity Fields
     [SerializeField]
-    private GameObject canvas;
+    protected GameObject canvas;
 
     [SerializeField]
     private CanvasGroup canvasGroup;
 
     [SerializeField]
-    private float faderDuration = 1F;
+    private float faderDuration = 0F;
     #endregion
 
     #region Unity Lifecycle Methods
-    protected virtual void Start()
+    protected override void Start()
     {
+        base.Start();
+        faderDuration = 0f;
         canvasGroup.alpha = 0.0F;
+    }
+
+    protected virtual void LateUpdate() {
+        lastSelectedGameObject = CurrentEventSystemGameObject;
     }
     #endregion
 
     #region Private Fields
-    
-    private bool displayed;
 
+    private bool displayed;
     #endregion
 
     #region Public Interface
@@ -80,24 +104,21 @@ public abstract class Menu : MonoBehaviour {
         {
             case Transition.SHOW:
                 if (Displayed) return;
-                OnTransitionStarted(transition, effects);
                 ShowStarted();
-                CallByEffect(transition, effects);
+                TransitionWithEffects(transition, effects);
                 return;
             case Transition.HIDE:
                 if (!Displayed) return;
-                OnTransitionStarted(transition, effects);
                 HideStarted();
-                CallByEffect(transition, effects);
+                TransitionWithEffects(transition, effects);
                 return;
             case Transition.TOGGLE:
                 MenuManager.Instance.DoTransition(this, Displayed ? Transition.HIDE : Transition.SHOW, effects);
                 return;
-            case Transition.SPECIAL:
-                OnTransitionStarted(transition, effects);
-                SpecialStarted();
-                Special(transition, effects);
-                return;
+            //case Transition.SPECIAL:
+            //    SpecialStarted();
+            //    Special(transition, effects);
+            //    return;
         }
     }
     #endregion
@@ -109,39 +130,40 @@ public abstract class Menu : MonoBehaviour {
         if (InitialSelection != null && Displayed)
         {
             InitialSelection.Select();
+            CurrentEventSystem.SetSelectedGameObject(InitialSelection.gameObject);
         }
     }
 
     #endregion
 
     #region Protected Interface
-    protected virtual void OnTransitionStarted(Transition transition, Effect[] effects)
-    {
-        if (TransitionStarted != null)
-            TransitionStarted(transition, effects);
-    }
     protected virtual void OnTransitionEnded(Transition transition, Effect[] effects)
     {
-        if (TransitionEnded != null)
-            TransitionEnded(transition, effects);
-
         if (!MenuManager.Instance.MouseMode)
         {
-            SelectInitialButton();
+            Invoke ("SelectInitialButton", 0.0f);
+            //SelectInitialButton();
         }
     }
 
     //// Helper Functions for Transitioning between menus
     // Default Show / Hide
-    protected abstract void DefaultShow(Transition transition, Effect[] effects);
-    protected abstract void DefaultHide(Transition transition, Effect[] effects);
+    protected virtual void DefaultShow(Transition transition, Effect[] effects) {
+        Fade(transition, effects);
+    }
+    protected virtual void DefaultHide(Transition transition, Effect[] effects) {
+        Fade(transition, effects);
+    }
 
     // Effect Based Implementations
     protected virtual void Fade(Transition transition, Effect[] effects)
     {
-        float start = (transition == Transition.SHOW) ? 0F : 1F;
-        float end = (transition == Transition.SHOW) ? 1F : 0F;
-        StartCoroutine(MenuTransitionsCommon.FadeCoroutine(start, end, faderDuration,
+        float startAlpha = (transition == Transition.SHOW) ? 0F : 1F;
+        float endAlpha = (transition == Transition.SHOW) ? 1F : 0F;
+        if (transitionRoutine!=null) {
+            StopCoroutine(transitionRoutine);
+        }
+        transitionRoutine = StartCoroutine(MenuTransitionsCommon.FadeCoroutine(startAlpha, endAlpha, faderDuration,
             canvasGroup, () =>
             {
                 if (transition == Transition.SHOW)
@@ -179,17 +201,24 @@ public abstract class Menu : MonoBehaviour {
     // "Events" Used Internally by implementations
     protected virtual void ShowStarted()
     {
+        currentState = DisplayState.SHOW_TRANSITIONING;
+        displayed = true;
         canvas.SetActive(true);
     }
     protected virtual void ShowComplete()
     {
-        displayed = true;
+        currentState = DisplayState.SHOW_FINISHED;        
+        allowInput = true;
     }
-    protected virtual void HideStarted() { }
+    protected virtual void HideStarted() {
+        allowInput = false;
+        currentState = DisplayState.HIDE_TRANSITIONING;
+    }
     protected virtual void HideComplete()
     {
         canvas.SetActive(false);
         displayed = false;
+        currentState = DisplayState.HIDE_FINISHED;
     }
     protected virtual void SpecialStarted() { }
     protected virtual void SpecialComplete() { } 
@@ -197,8 +226,8 @@ public abstract class Menu : MonoBehaviour {
 
     #region Private Interface
 
-    private void CallByEffect(Transition transition, Effect[] effects)
-    {
+    private void TransitionWithEffects(Transition transition, Effect[] effects)
+    {        
         foreach (Effect effect in effects)
         { // First come, first serve
             if (effect == Effect.FADE)
@@ -219,7 +248,7 @@ public abstract class Menu : MonoBehaviour {
         if (transition == Transition.SHOW)
         {
             DefaultShow(transition, effects);
-        } else
+        } else if(transition == Transition.HIDE)
         {
             DefaultHide(transition, effects);
         }
@@ -228,6 +257,12 @@ public abstract class Menu : MonoBehaviour {
     #endregion
 
     #region Types
+    public enum DisplayState {
+        SHOW_FINISHED,
+        SHOW_TRANSITIONING,
+        HIDE_TRANSITIONING,
+        HIDE_FINISHED,
+    }
     public enum Transition
     {
         SHOW,       // Reveals this menu
@@ -245,12 +280,7 @@ public abstract class Menu : MonoBehaviour {
         TWEEN,      // Perform a motion tween transition (implementation defined)
     }
 
-    public delegate void TransitionStartedEventHandler(Transition transition,
-            Effect[] effects);
-    public delegate void TransitionEndedEventHandler(Transition transition,
-            Effect[] effects);
-
-    public event TransitionStartedEventHandler TransitionStarted;
-    public event TransitionEndedEventHandler TransitionEnded;
+    public delegate void TransitionStartedEventHandler(Transition transition, Effect[] effects);
+    public delegate void TransitionEndedEventHandler(Transition transition, Effect[] effects);    
     #endregion
 }

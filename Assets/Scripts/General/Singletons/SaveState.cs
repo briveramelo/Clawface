@@ -20,26 +20,26 @@ public class SaveState : Singleton<SaveState> {
     private bool lightningGunEnabled;
     [SerializeField]
     private bool spreadGunEnabled;
-//#endif
+    //#endif
+
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.UNLOCK_WEAPON, UnlockWeapon },
+                { Strings.Events.UNLOCK_NEXT_LEVEL, UnlockNextLevel},
+                { Strings.Events.SET_LEVEL_SCORE, SetScoreForLevel},
+            };
+        }
+    }
+    #endregion
 
     #region Unity  lifecycle
-    private void Start()
+    protected override void Start()
     {
         Load();
-        EventSystem.Instance.RegisterEvent(Strings.Events.UNLOCK_WEAPON, UnlockWeapon);
-        EventSystem.Instance.RegisterEvent(Strings.Events.UNLOCK_NEXT_LEVEL, UnlockNextLevel);
-        EventSystem.Instance.RegisterEvent(Strings.Events.SET_LEVEL_SCORE, SetScoreForLevel);
-    }
-
-    private new void OnDestroy()
-    {
-        if (EventSystem.Instance)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.UNLOCK_WEAPON, UnlockWeapon);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.UNLOCK_NEXT_LEVEL, UnlockNextLevel);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.SET_LEVEL_SCORE, SetScoreForLevel);
-        }
-        base.OnDestroy();
+        base.Start();
     }
     #endregion
 

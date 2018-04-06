@@ -1,48 +1,126 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
+using System;
+using ModMan;
+
+[Serializable]
+public struct GameTrack
+{
+    public MusicType type;
+    public AudioClip trackClip;
+}
 
 public class MusicManager : Singleton<MusicManager>
 {
     protected MusicManager() { }
-    private Dictionary<MusicType, MusicTrack> musicDictionary;
 
-    #region MusicObject
-    [SerializeField]
-    private GameObject MainMenuTrack;
+    #region Public Fields
+    public GameTrack[] gameTracks;
     #endregion
 
-    private void Start()
+    #region Private Fields
+    private Dictionary<MusicType, AudioClip> musicDictionary;
+    #endregion
+
+    #region Serialized Unity Fields
+    [SerializeField] private AudioSource oneShotMusicSource;
+    [SerializeField] private AudioSource loopMusicSource;
+    [SerializeField] private AudioMixer musicMixer;
+    #endregion
+
+
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.SCENE_LOADED, PlayMusicInSceneContext },
+                { Strings.Events.MUSIC_INTENSITY_STARTED, PlayMusicInSceneContext},
+            };
+        }
+    }
+    #endregion
+
+    #region Unity Lifecycle
+
+    protected override void Start()
     {
-        musicDictionary = new Dictionary<MusicType, MusicTrack>() {
-            {MusicType.MainMenu_Track, new MusicTrack(Instantiate(MainMenuTrack)) }
-        };
-        foreach (KeyValuePair<MusicType, MusicTrack> kp in musicDictionary)
-        {
-            kp.Value.SetParent(transform);
+        base.Start();
+        musicDictionary = new Dictionary<MusicType, AudioClip>();
+        foreach (GameTrack t in gameTracks) {
+            musicDictionary.Add(t.type, t.trackClip);
+        }
+        if (!SceneTracker.IsCurrentSceneMovie) {
+            PlayMusicInSceneContext();
         }
     }
 
-    public void PlayMusic(MusicType i_type, Vector3 i_position)
-    {
-        if (musicDictionary.ContainsKey(i_type))
-        {
-            musicDictionary[i_type].Play(i_position);
-            return;
-        }
+    #endregion
 
-        string message = "No Music Track Found for " + i_type + ". Please add.";
-        Debug.LogFormat("<color=#0000FF>" + message + "</color>");
+    #region Public Interface
+   
+
+    public void SetMusicAudioLevel(float i_newlevel) {
+        i_newlevel = Mathf.Clamp01(i_newlevel);
+        musicMixer.SetFloat("Volume", i_newlevel.ToDecibel());
     }
 
-    public void Stop(MusicType i_type)
+
+    #endregion
+
+    #region Private Interface
+
+    private void PlayMusicInSceneContext(params object[] i_params)
     {
-        if (musicDictionary.ContainsKey(i_type))
-        {
-            musicDictionary[i_type].Stop();
-            return;
+        if (SceneTracker.IsCurrentSceneMovie || SceneTracker.IsCurrentSceneMain || SceneTracker.IsCurrentSceneEditor) {
+            StartCoroutine(PlayMainMenuMusic());
         }
-        string message = "No Music Track Found for " + i_type + ". Please add.";
-        Debug.LogFormat("<color=#0000FF>" + message + "</color>");
+        else if(SceneTracker.IsCurrentScenePlayerLevels) {
+            StopSources();
+            PlayRandomGameTrack();
+        }
+        else if (SceneTracker.IsCurrentScene80sShit) {
+            StopSources();
+        }
     }
+    private IEnumerator PlayMainMenuMusic() {
+        AudioClip firstToPlay = musicDictionary[MusicType.MainMenu_Intro];
+        AudioClip toLoop = musicDictionary[MusicType.MainMenu_Loop];
+        bool isAlreadyPlayingMenuMusic = ((oneShotMusicSource.clip == firstToPlay && oneShotMusicSource.isPlaying) || (loopMusicSource.clip == toLoop && loopMusicSource.isPlaying));
+        if (!isAlreadyPlayingMenuMusic) {
+            oneShotMusicSource.clip = firstToPlay;
+            loopMusicSource.clip = toLoop;
+            oneShotMusicSource.Play();
+            while (!(oneShotMusicSource.time - oneShotMusicSource.clip.length).AboutEqual(0f, 0.01f))
+            {
+                yield return null;
+            }
+            loopMusicSource.Play();
+            oneShotMusicSource.Stop();
+        }
+    }
+
+    private void StopSources() {
+        oneShotMusicSource.Stop();
+        loopMusicSource.Stop();
+    }
+
+    private void PlayRandomGameTrack() {
+        AudioClip toPlay = musicDictionary[MusicType.Hathos_Lo];
+        int sel = (int)UnityEngine.Random.Range(1, 4);
+        switch(sel)
+        {
+            case 2:
+                toPlay = musicDictionary[MusicType.Hathos_Med];
+                break;
+            case 3:
+                toPlay = musicDictionary[MusicType.Hathos_Hi];
+                break;
+        }
+        loopMusicSource.clip = toPlay;
+        loopMusicSource.Play();
+    }
+    #endregion
 }

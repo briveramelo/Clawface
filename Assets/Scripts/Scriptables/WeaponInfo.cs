@@ -13,5 +13,17 @@ public class WeaponInfo : ScriptableObject {
     [TextArea]
     public string weaponDescription = "Weapon Description";
 
-    public Sprite weaponGraph;
+    [Range(0f, 1f)]
+    public float damageValue;
+
+    [Range(0f, 1f)]
+    public float rangeValue;
+
+    [Range(0f, 1f)]
+    public float rofValue;
+
+    [Range(0f, 1f)]
+    public float difficultyValue;
+
+    public Sprite weaponImage;
 }

@@ -7,11 +7,12 @@ public class RespawnPoint : Singleton<RespawnPoint> {
 
     protected RespawnPoint() { }
 
-    void Start() {
-        if (GameObject.Find("RespawnPoint")) {
+    protected override void Start() {
+        base.Start();
+        if (GameObject.Find(Strings.RESPAWN_POINT)) {
         }
         else {
-            Debug.LogWarning("Put a GameObject named 'RespawnPoint' in your scene!!!");
+            Debug.LogWarning(string.Format("Put a GameObject named '{0}' in your scene!!!", Strings.RESPAWN_POINT));
         }
         Destroy(gameObject);
     }

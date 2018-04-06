@@ -20,6 +20,7 @@ public class Kamikaze : EnemyBase
     private float selfDestructTime;
     private float blastRadius;
     private float closeEnoughToAttackDistance;
+    private bool isUp;
 
     //The AI States of the Kamikaze
     private KamikazeChaseState chase;
@@ -30,14 +31,18 @@ public class Kamikaze : EnemyBase
     #endregion
 
     #region 4. Unity Lifecycle
-    public override void Awake()
-    {
+
+    protected override void Awake()
+    {        
+	isUp = false;
         myStats = GetComponent<Stats>();
         SetAllStats();
         InitilizeStates();
         controller.Initialize(properties,velBody, animator, myStats, navAgent, navObstacle, aiStates);
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
         controller.checksToUpdateState = new List<Func<bool>>() {
+            CheckDoneGettingUp,
+            CheckPlayerDead,
             CheckToSelfDestruct,
             CheckIfStunned,
             DeleteKamikaze
@@ -53,6 +58,29 @@ public class Kamikaze : EnemyBase
 
 
     //State conditions
+    bool CheckDoneGettingUp()
+    {
+        if (!isUp)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    bool CheckPlayerDead()
+    {
+        if (AIManager.Instance.GetPlayerDead())
+        {
+            if (myStats.health > myStats.skinnableHealth && !celebrate.isCelebrating())
+            {
+                controller.CurrentState = celebrate;
+                controller.UpdateState(EAIState.Celebrate);
+            }
+            return true;
+        }
+        return false;
+    }
+
     bool CheckToSelfDestruct()
     {
         if (controller.CurrentState == chase && controller.DistanceFromTarget < closeEnoughToAttackDistance)
@@ -66,6 +94,7 @@ public class Kamikaze : EnemyBase
     {
         if (myStats.health <= myStats.skinnableHealth || alreadyStunned)
         {
+            DisableStateResidue();
             controller.CurrentState = stun;
             controller.UpdateState(EAIState.Stun);
             controller.DeActivateAI();
@@ -80,16 +109,18 @@ public class Kamikaze : EnemyBase
         {
             if (attack.setToSelfDestruct)
             {
+                DisableStateResidue();
                 OnDeath();
-                return true;
-            }
-            else
-            {
-                controller.UpdateState(EAIState.Attack);
                 return true;
             }
         }
         return false;
+    }
+
+    public override void OnDeath()
+    {
+        isUp = false;
+        base.OnDeath();
     }
 
     public override void ResetForRebirth()
@@ -101,12 +132,7 @@ public class Kamikaze : EnemyBase
 
     public override void DoPlayerKilledState(object[] parameters)
     {
-        if (myStats.health > myStats.skinnableHealth)
-        {
-            animator.SetInteger("AnimationState", -1);
-            controller.CurrentState = celebrate;
-            controller.UpdateState(EAIState.Celebrate);
-        }
+
     }
 
     public override Vector3 ReCalculateTargetPosition()
@@ -116,7 +142,9 @@ public class Kamikaze : EnemyBase
 
     public void GetUpDone()
     {
-        getUp.Up();
+        isUp = true;
+        controller.CurrentState = chase;
+        controller.UpdateState(EAIState.Chase);
     }
 
     public void SetScorePoints(int score)

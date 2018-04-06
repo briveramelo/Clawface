@@ -5,6 +5,7 @@ using ModMan;
 
 using Turing.VFX;
 using System;
+using System.Linq;
 
 public class PLESpawn : PLEItem {
 
@@ -12,56 +13,69 @@ public class PLESpawn : PLEItem {
     private int currentSpawnAmount;
     private float spawnHeightOffset = 50.0f;
     private List<GameObject> spawnedEnemies = new List<GameObject>();
-    private Renderer rend;
+    
+    private Vector3 ActualSpawnPos { get { return transform.position + Vector3.up * spawnHeightOffset; } }
+    private Action onCriticalEnemiesDead;
     #endregion
     
     #region Public Fields
     [HideInInspector] public int registeredWave = -99;
+    [HideInInspector] public bool minEnemiesDead = false;
     [HideInInspector] public bool allEnemiesDead = false;
     #endregion
 
     #region Serialized Unity Fields
     public float spawnFrequency = 0.5f;
-    public int totalSpawnAmount = 2;
+    public int totalSpawnAmount = 1;
     public SpawnType spawnType;
-    #endregion
-
-    #region Unity Lifecycle
-
-    private void Awake()
-    {
-        rend = GetComponent<Renderer>();
-    }
-
-    private void OnEnable()
-    {
-        if(EventSystem.Instance)
-        {
-            EventSystem.Instance.RegisterEvent(Strings.Events.PLE_TEST_END, Reset);
-        }
-       
-    }
-
-    private void OnDisable()
-    {
-        if(EventSystem.Instance)
-        {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.PLE_TEST_END, Reset);
+    public int minSpawns;
+    public int MinSpawns {
+        get { return minSpawns; }
+        set {
+            FindObjectsOfType<PLESpawn>().ToList().FindAll(spawn => spawn.spawnType == this.spawnType).ForEach(spawn => spawn.minSpawns = value);
         }
     }
-
-    private void Start()
-    {
-        Reset(null);
+    public string DisplayName { get { return spawnType.DisplayName(); } }
+    public int MaxPerWave { get { return spawnType.MaxPerWave(); } }
+    #endregion
+    protected override string ColorTint { get { return "_Color"; } }
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+            { Strings.Events.PLE_TEST_END, ResetSpawnValues},
+        };
+        }
     }
-
     #endregion
 
+    #region Unity Lifecycle    
+    #endregion
     #region Public Interface
+    public bool MinEnemiesDead { get { return minEnemiesDead || spawnType == SpawnType.Keira; } }
+    public bool AllEnemiesDead { get { return allEnemiesDead || spawnType == SpawnType.Keira; } }
+    public void SetOnCriticalEnemiesDead(Action onCriticalEnemiesDead) {
+        this.onCriticalEnemiesDead = onCriticalEnemiesDead;
+    }
 
     public void StartSpawning()
     {
-        StartCoroutine(SpawnEnemies());
+        minEnemiesDead = false;
+        allEnemiesDead = false;
+        EnableAllMeshes(false);
+        currentSpawnAmount = totalSpawnAmount;
+
+        if (spawnType != SpawnType.Keira) {
+            StartCoroutine(SpawnEnemies());
+        }
+        else {
+            PlayerSpawner spawner = gameObject.GetComponent<PlayerSpawner>();
+            if (spawner==null) {
+                gameObject.AddComponent<PlayerSpawner>();
+            }
+            gameObject.SetActive(true);
+        }
     }
 
     #endregion
@@ -72,22 +86,13 @@ public class PLESpawn : PLEItem {
     {
         if (!allEnemiesDead)
         {
-            currentSpawnAmount--;
-
-            if (currentSpawnAmount <= 0)
-            {
-                //report that enemies are all dead to wave system
-                allEnemiesDead = true;
-                Debug.Log("All enemies for Spawner: " + gameObject.name + " of type : " + spawnType + " are dead.");
-                //EventSystem.Instance.TriggerEvent(Strings.Events.REPORT_DEATH, registeredWave, spawnType);
-            }
+            OnEnemyDeath();
         }
     }
 
     private IEnumerator SpawnEnemies()
-    {
-        rend.enabled = false;
-        for(int i = 0; i < totalSpawnAmount; i++)
+    {        
+        for (int i = 0; i < totalSpawnAmount; i++)
         {
             GameObject newSpawnEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXEnemySpawn);
             if(newSpawnEffect)
@@ -95,7 +100,6 @@ public class PLESpawn : PLEItem {
                 newSpawnEffect.GetComponent<VFXOneOff>().Play(spawnFrequency);
                 newSpawnEffect.transform.position = transform.position;
             }
-
             SpawnEnemy();
 
             yield return new WaitForSeconds(spawnFrequency);
@@ -104,43 +108,71 @@ public class PLESpawn : PLEItem {
 
     private void SpawnEnemy()
     {
-        Vector3 spawnPos = new Vector3(0, transform.position.y + spawnHeightOffset, 0);
         GameObject newSpawnObj = ObjectPool.Instance.GetObject(spawnType.ToPoolObject());
-        spawnPos = transform.TransformPoint(spawnPos);
-        
+                
         if(newSpawnObj)
         {
-            newSpawnObj.transform.position = spawnPos;
+            newSpawnObj.transform.position = ActualSpawnPos;
             ISpawnable spawnable = newSpawnObj.GetComponentInChildren<ISpawnable>();
             if(!spawnable.HasWillBeenWritten())
             {
                 spawnable.RegisterDeathEvent(ReportDeath);
             }
-
-            //TODO: How to register enemies to let us know that they're dead
+            
             EnemyBase enemyBase = newSpawnObj.GetComponent<EnemyBase>();
 
             if(enemyBase)
             {
-                enemyBase.SpawnWithRagdoll(spawnPos);
+                enemyBase.SpawnWithRagdoll(ActualSpawnPos);
             }
-
-            currentSpawnAmount++;
 
             EventSystem.Instance.TriggerEvent(Strings.Events.ENEMY_SPAWNED, newSpawnObj);
 
         }
         else
         {
-            Debug.LogFormat("<color=#ffff00>" + "NOT ENOUGH SPAWN-OBJECT" + "</color>");
+            OnEnemyDeath();
+            Debug.LogFormat("<color=#ffff00>" + "NOT ENOUGH SPAWN-OBJECTS for: " + spawnType + "</color>");
         }
     }
-    private void Reset(object[] parameters)
+
+    private void OnEnemyDeath() {
+        currentSpawnAmount--;
+        if (currentSpawnAmount <= MinSpawns) {
+            minEnemiesDead = true;
+            if (currentSpawnAmount<=0) {
+                allEnemiesDead = true;
+            }
+
+            if (onCriticalEnemiesDead != null) {
+                onCriticalEnemiesDead();
+            }
+        }
+    }
+    
+    private void ResetSpawnValues(params object[] parameters)
     {
+        StopAllCoroutines();
+        minEnemiesDead = false;
+        allEnemiesDead = false;
         currentSpawnAmount = totalSpawnAmount;
-        rend.enabled = true;
+        Deselect();
+        EnableAllMeshes(true);
+        PlayerSpawner keiraSpawner = GetComponent<PlayerSpawner>();
+        if (keiraSpawner!=null) {
+            Destroy(keiraSpawner);
+        }
     }
 
+    void EnableAllMeshes(bool isEnabled) {
+        Renderers.ForEach(renderer => {
+            renderer.enabled = isEnabled;
+            SkinnedMeshRenderer meshRenderer = renderer as SkinnedMeshRenderer;
+            if (meshRenderer != null) {
+                meshRenderer.updateWhenOffscreen = isEnabled;
+            }
+        });
+    }
 
     #endregion
 

@@ -5,7 +5,7 @@ public class CreditsMenu : Menu
 {
     #region Public Fields
 
-    public override Button InitialSelection
+    public override Selectable InitialSelection
     {
         get
         {
@@ -15,10 +15,16 @@ public class CreditsMenu : Menu
 
     #endregion
 
-    #region Unity Serilization Fields
+    #region Private Fields
 
-    [SerializeField]
-    private Button returnButton;
+    bool inputGuard = false;
+
+    #endregion
+
+
+    #region Unity Serialized Fields
+
+    [SerializeField] private Button returnButton;
 
     #endregion
 
@@ -34,16 +40,28 @@ public class CreditsMenu : Menu
 
     #endregion
 
-    #region Protected Interface
+    #region Unity Lifecycle
 
-    protected override void DefaultShow(Transition transition, Effect[] effects)
+    private void Update()
     {
-        Fade(transition, effects);
+        if (allowInput && InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))
+        {
+            BackAction();
+        }
     }
 
-    protected override void DefaultHide(Transition transition, Effect[] effects)
+    #endregion
+
+    #region Protected Interface
+
+    protected override void ShowComplete()
     {
-        Fade(transition, effects);
+        base.ShowComplete();
+    }
+
+    protected override void HideStarted()
+    {
+        base.HideStarted();
     }
 
     #endregion

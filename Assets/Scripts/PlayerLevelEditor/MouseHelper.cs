@@ -9,6 +9,7 @@ public class MouseHelper : MonoBehaviour {
 
     public static GameObject currentHoveredObject;
     public static PLEBlockUnit currentBlockUnit;
+    public static PLEItem currentItem;
     public static PLESpawn currentSpawn;
     public static PLEProp currentProp;
     public static Vector3 currentMouseWorldPosition;
@@ -16,6 +17,7 @@ public class MouseHelper : MonoBehaviour {
     public static RaycastHit? raycastHitTile;
     public static bool HitItem { get; private set; }
     public static bool HitTile { get; private set; }
+    public static bool HitUI { get { return UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(); } }
     #endregion
 
     #region Private Fields
@@ -36,7 +38,7 @@ public class MouseHelper : MonoBehaviour {
     {
         Vector3 mousePos = Input.mousePosition.NoZ();
         r = Camera.main.ScreenPointToRay(mousePos);
-        bool hitUI = UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
+        bool hitUI = HitUI;
         RaycastItems(r, hitUI);
         RaycastGround(r, hitUI);
     }    
@@ -47,7 +49,7 @@ public class MouseHelper : MonoBehaviour {
         if (hitUI) {
             HitItem = false;
         }
-        System.Predicate<string> nameCheck = hitName=>!hitName.Contains(Strings.BLOCKINGOBJECT) && !hitName.Contains("Wall");
+        System.Predicate<string> nameCheck = hitName=>!hitName.Contains(Strings.BLOCKINGOBJECT) && !hitName.Contains("Wall") && !hitName.Contains(Strings.PREVIEW);
         raycastHit = HitItem ? GetClosestHit(hits, nameCheck) : null;
 
         
@@ -57,6 +59,7 @@ public class MouseHelper : MonoBehaviour {
             }
             currentMouseWorldPosition = raycastHit.Value.transform.position;
             currentHoveredObject = raycastHit.Value.transform.gameObject;
+            currentItem = currentHoveredObject.GetComponent<PLEItem>();
             currentProp = currentHoveredObject.GetComponent<PLEProp>();
             currentSpawn = currentHoveredObject.GetComponent<PLESpawn>();            
         }
@@ -64,6 +67,7 @@ public class MouseHelper : MonoBehaviour {
             currentHoveredObject = null;
             currentProp = null;
             currentSpawn = null;
+            currentItem = null;
         }
     }
 
@@ -73,7 +77,7 @@ public class MouseHelper : MonoBehaviour {
         if (hitUI) {
             HitTile = false;
         }
-        System.Predicate<string> nameCheck = hitName => hitName.Contains("RealBlock");
+        System.Predicate<string> nameCheck = hitName => hitName.Contains(Strings.REAL_BLOCK);
         raycastHitTile = HitTile ? GetClosestHit(hits, nameCheck) : null;
 
         if (HitTile) {

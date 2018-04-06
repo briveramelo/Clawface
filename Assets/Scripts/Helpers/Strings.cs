@@ -3,6 +3,13 @@
     public const string BLOCKINGOBJECT = "BLOCKING OBJECT";
     public const string ANIMATIONSTATE = "AnimationState";
     public const string FEETSTATE = "FeetState";
+    public const string RESPAWN_POINT = "RespawnPoint";
+    public const string CLONE = "(Clone)";
+    public const string PREVIEW = "Preview";
+    public const string GHOST_BLOCK = "GhostBlock";
+    public const string REAL_BLOCK = "RealBlock";
+    public const string LEADERBOARD_LOADING = "LOADING";
+    public const string LEADERBOARD_ERROR = "CANNOT REACH LEADERBOARD RIGHT NOW";
 
     public class Paths
     {
@@ -31,29 +38,49 @@
 
     public class Scenes
     {
-        public const string MainMenu = "Scenes/Build Scenes/MainMenu";
+        public class ScenePaths {
+            public const string ScenesDirectory = "Scenes/Build Scenes/";
 
-        //public const string Arena = "Scenes/Build Scenes/Gucci_V1.2";
-        public const string Arena = "Scenes/Build Scenes/80s shit";
+            public const string MainMenu = ScenesDirectory + SceneNames.MainMenu;
+            public const string Arena = ScenesDirectory + SceneNames.Arena;
+            public const string Editor = ScenesDirectory + SceneNames.Editor;
+            public const string PlayerLevels = ScenesDirectory + SceneNames.PlayerLevels;
+        }
 
-        public const string Editor = "Scenes/Build Scenes/Editor";
-    }
+        public class SceneNames {
+            public const string MainMenu = "MainMenu";
+            public const string Arena = "80s shit";
+            public const string Editor = "Editor";
+            public const string PlayerLevels = "PlayerLevels";
+            public const string Movie = "Movie";
+        }
+    }    
 
     public class Layers
     {
         public const string UI = "UI";
-        public const string GROUND = "Ground";
         public const string MODMAN = "ModMan";
-        public const string OBSTACLE = "Obstacle";
         public const string ENEMY = "Enemy";
+        public const string MINI_MAP = "MiniMap";
+        public const string GROUND = "Ground";
+        public const string BLOOD = "Blood";
+        public const string HOLOGRAM = "Hologram";
+        public const string GLOBE_TEXT = "Globe_Text";
+        public const string PLAYER_DETECTOR = "PlayerDetector";
+        public const string INVISIBLE_ENEMY_FENCE = "InvisibleEnemyFence";
+        public const string DICE_BLOCKS = "DiceBlocks";
+        public const string OUTLINE = "EnemyProjectile";
+        public const string OBSTACLE = "Obstacle";
         public const string ENEMY_BODY = "EnemyBody";
         public const string ENEMY_PROJECTILE = "EnemyProjectile";
+        public const string CLAW = "Claw";
+        public const string SPAWN = "Spawn";
     }
 
     public class TextStrings
     {
-        public const string GAME_OVER_TEXT = "Game Over";
-        public const string STAGE_OVER_TEXT = "Stage Over";
+        public const string GAME_OVER_TEXT = "GAME OVER";
+        public const string STAGE_OVER_TEXT = "STAGE OVER";
 
         public static readonly string[] FLAVOR_TEXT = 
         {
@@ -86,21 +113,26 @@
         public const string PAUSE = "PauseMenu";
         public const string TUTORIAL = "TutorialMenu";
         public const string STAGE_OVER = "StageOverMenu";
-        public const string CONTROLS = "Settings";
-        public const string LEVEL_SELECT = "LevelSelect";
+        public const string SETTINGS = "Settings";
+        public const string CONTROLS = "Controls";
         public const string WEAPON_SELECT = "WeaponSelect";
+        public const string LEADER_BOARDS = "LeaderBoards";
+        public const string CONFIRM = "ConfirmMenu";
 
         //levelEditor
-        public const string ADD_PROPS_PLE = "PropsMenu";
-        public const string ADD_SPAWNS_PLE = "SpawnMenu";
-        public const string SET_DYNLEVEL_PLE = "FloorMenu";
-        public const string MAIN_PLE_MENU = "MainPLEMenu";
-        public const string INIT_PLE_MENU = "InitPLEMenu";
-        public const string SAVE_PLE_MENU = "SaveMenu";
-        public const string WAVE_PLE_MENU = "WaveMenu";
-        public const string HELP_PLE_MENU = "HelpMenu";
-        public const string TEST_PLE_MENU = "TestMenu";
-        public const string LEVELSELECT_PLE_MENU = "PLELevelSelectMenu";
+        public class LevelEditor {
+            public const string PROPS_PLE_MENU = "PropsMenu";
+            public const string SPAWNS_PLE_MENU = "SpawnMenu";
+            public const string FLOOR_PLE_MENU = "FloorMenu";
+            public const string MAIN_PLE_MENU = "MainPLEMenu";
+            public const string INIT_PLE_MENU = "InitPLEMenu";
+            public const string SAVE_PLE_MENU = "SaveMenu";
+            public const string WAVE_PLE_MENU = "WaveMenu";
+            public const string HELP_PLE_MENU = "HelpMenu";
+            public const string TEST_PLE_MENU = "TestMenu";
+            public const string LEVELSELECT_PLE_MENU = "PLELevelSelectMenu";
+            public const string EXIT_PLE_MENU = "ExitMenu";
+        }
     }
 
     public class Input
@@ -123,6 +155,10 @@
         public class UI
         {
             public const string NAVIGATION = "UINavigation";
+            public const string NAV_RIGHT = "Nav Right";
+            public const string NAV_LEFT = "Nav Left";
+            public const string NAV_UP = "Nav Up";
+            public const string NAV_DOWN = "Nav Down";
             public const string SUBMIT = "UISubmit";
             public const string CANCEL = "UICancel";
         }
@@ -130,6 +166,7 @@
 
     public class Events
     {
+        public const string MUSIC_INTENSITY_STARTED = "MUSIC_INTENSITY_STARTED";
         public const string FACE_OPEN = "FaceOpen";
         public const string CAPTURE_ENEMY = "CaptureEnemy";
         public const string ARM_ANIMATION_COMPLETE = "ArmAnimationComplete";
@@ -141,6 +178,7 @@
         public const string SKIN_ENEMY = "SkinEnemy";
         public const string DEATH_ENEMY = "DeathEnemy";
         public const string EAT_ENEMY = "EatEnemy";
+        public const string ENEMY_DEATH_BY_EATING = "ENEMY_DEATH_BY_EATING";
 
         public const string EARN_ACHIEVEMENT = "EarnAchievement";
         public const string PROGRESS_ACHIEVEMENT = "ProgressAchievement";
@@ -157,6 +195,7 @@
 
         public const string SCORE_UPDATED = "ScoreUpdated";
         public const string COMBO_UPDATED = "ComboUpdated";
+        public const string MULTIPLIER_UPDATED = "MultiplierUpdated";
         public const string COMBO_TIMER_UPDATED = "ComboTimerUpdated";
         public const string PLAYER_HEALTH_MODIFIED = "PlayerHealthModified";
 
@@ -171,22 +210,19 @@
 
         public const string PLAYER_DAMAGED = "PlayerDamaged";
         public const string PLAYER_KILLED = "PlayerKilled";
+        public const string PLAYER_BIRTHED = "PlayerBirthed";
 
         public const string SHOW_TUTORIAL_TEXT = "ShowTutorialText";
         public const string HIDE_TUTORIAL_TEXT = "HideTutorialText";
 
 
-        public const string PLE_TEST_WAVE_  = "PLE_TEST_WAVE_";
-        public const string PLE_TEST_WAVE_0 = "PLE_TEST_WAVE_0";
-        public const string PLE_TEST_WAVE_1 = "PLE_TEST_WAVE_1";
-        public const string PLE_TEST_WAVE_2 = "PLE_TEST_WAVE_2";
-        public const string PLE_CHANGEWAVE = "PLE_ChangeWave";
+        public const string PLE_ON_LEVEL_DATA_LOADED = "PLE_ON_LEVEL_DATA_LOADED";
+        public const string PLE_ON_LEVEL_READY = "PLE_ON_LEVEL_READY";
+        public const string PLE_CALL_WAVE = "CallNextWavePLE";
         public const string PLE_ADD_WAVE    = "PLE_ADD_WAVE";
         public const string PLE_TEST_END = "PleTestEnd";
-
         public const string PLE_DELETE_CURRENTWAVE = "PLE_DELETE_CURRENTWAVE";
-        public const string PLE_UPDATE_LEVELSTATE  = "PLE_UPDATE_LEVELSTATE";
-        public const string PLE_RESET_LEVELSTATE   = "PLE_RESET_LEVELSTATE";
+        public const string PLE_SYNC_LEVEL_UNIT_STATES  = "PLE_UPDATE_LEVELSTATE";
 
         public const string ENEMY_INVINCIBLE = "ENEMY_INVINCIBLE";
         public const string GAME_CAN_PAUSE = "GAME_CAN_PAUSE";
@@ -195,6 +231,8 @@
 
         public const string ACTIVATE_MOD = "ACTIVATE_MOD";
         public const string DEACTIVATE_MOD = "DEACTIVATE_MOD";
+
+        public const string SCENE_LOADED = "SCENE LOADED";        
     }
 
     public class Editor
@@ -213,7 +251,8 @@
         public const string ENV_OBJECTS_PATH = "PlayerLevelEditorObjects/EnvProps/";
         public const string SPAWN_OBJECTS_PATH = "PlayerLevelEditorObjects/SpawnProps/";
 
-        public const string IMAGE_PREVIEW_PATH = "PlayerLevelEditorObjects/png/";
+        public const string SPAWN_ICON_IMAGE_PREVIEW_PATH = "PlayerLevelEditorObjects/png/Spawn-images/";
+        public const string PROP_ICON_IMAGE_PREVIEW_PATH = "PlayerLevelEditorObjects/png/Prop-images/";
 
         public const string Tiles = "Tiles";
         public const string Props = "Props";
@@ -227,7 +266,8 @@
     public class AchievementNames {
         public const string Kill100 = "Blood Bath";
         public const string BeatLevel1 = "Conquest";
-        public const string Skin20Enemies = "Skinner";        
+        public const string Skin20Enemies = "Skinner";
+        public const string CLAWFACE = "CLAWFACE";
     }
 
     public class PlayerPrefStrings
@@ -239,5 +279,6 @@
         public const string MISSILE_GUN_ENABLED = "MissileGunEnabled";
         public const string BOOMERANG_ENABLED = "BoomerangEnabled";
         public const string LATEST_UNLOCKED_LEVEL = "LatestUnlockedLevel";
+        public const string TUTORIAL_ENCOUNTERED_IN_GAMEPLAY = "TutorialEncounteredInGameplay";
     }
 }

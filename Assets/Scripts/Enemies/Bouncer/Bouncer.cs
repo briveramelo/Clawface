@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using System;
+using ModMan;
 
 [System.Serializable]
 public class BouncerProperties : AIProperties
@@ -16,6 +17,7 @@ public class Bouncer : EnemyBase
     [SerializeField] private BouncerProperties properties;
     [SerializeField] private BulletHellPatternController bulletPatternController;
     [SerializeField] private HitTrigger hitTrigger;
+    [SerializeField] private SpriteRenderer shadowOutline;
     #endregion
 
     #region 3. Private fields
@@ -25,7 +27,7 @@ public class Bouncer : EnemyBase
     private int minShots;
     private float rotationSpeed;
     private bool rotate;
-
+    private bool isUp;
 
     //The AI States of the Zombie
     private BouncerChaseState chase;
@@ -40,8 +42,10 @@ public class Bouncer : EnemyBase
     #region 4. Unity Lifecycle
 
 
-    public override void Awake()
-    {
+    protected override void Awake()
+    {        
+
+		isUp = false;
         myStats = GetComponent<Stats>();
         SetAllStats();
         InitilizeStates();
@@ -61,10 +65,12 @@ public class Bouncer : EnemyBase
             fire.animatorSpeed = EnemyStatsManager.Instance.greenBouncerStats.animationShootSpeed;
         }
 
-            controller.Initialize(properties, velBody, animator, myStats, navAgent, navObstacle, bulletPatternController, aiStates);
+        controller.Initialize(properties, velBody, animator, myStats, navAgent, navObstacle, bulletPatternController, aiStates);
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
 
         controller.checksToUpdateState = new List<Func<bool>>() {
+            CheckDoneGettingUp,
+            CheckPlayerDead,
             CheckToAttack,
             CheckToFinishAttacking,
             CheckIfStunned
@@ -76,7 +82,32 @@ public class Bouncer : EnemyBase
 
     #endregion
 
-    #region 5. Public Methods   
+    #region 5. Public Methods  
+
+    bool CheckDoneGettingUp()
+    {
+        if (!isUp)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    bool CheckPlayerDead()
+    {
+        if (AIManager.Instance.GetPlayerDead())
+        {
+            if (myStats.health > myStats.skinnableHealth && !celebrate.isCelebrating())
+            {
+                chase.StopCoroutines();
+                controller.CurrentState = celebrate;
+                controller.UpdateState(EAIState.Celebrate);
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     bool CheckToAttack()
     {
@@ -98,7 +129,7 @@ public class Bouncer : EnemyBase
                 controller.DeActivateAI();
             }
 
-            if (fire.DoneFiring())
+            else if (fire.DoneFiring())
             {
                 controller.UpdateState(EAIState.Chase);
             }
@@ -123,11 +154,14 @@ public class Bouncer : EnemyBase
     public void DoneJumpStart()
     {
         chase.doneStartingJump = true;
+        shadowOutline.gameObject.SetActive(true);
     }
 
     public void DoneJumpLanding()
     {
+        SFXManager.Instance.Play(SFXType.BouncerLand, transform.position);
         chase.doneLandingJump = true;
+        shadowOutline.gameObject.SetActive(false);
     }
 
     public void ActivateHitTrigger()
@@ -145,14 +179,23 @@ public class Bouncer : EnemyBase
         chase.Damage(controller.AttackTarget.gameObject.GetComponent<IDamageable>());
     }
 
+    public override void OnDeath()
+    {
+        isUp = false;
+        base.OnDeath();
+    }
+
     public override void ResetForRebirth()
     {
         base.ResetForRebirth();
+        shadowOutline.gameObject.SetActive(false);
     }
 
     public void GetUpDone()
     {
-        getUp.Up();
+        isUp = true;
+        controller.CurrentState = chase;
+        controller.UpdateState(EAIState.Chase);
     }
 
     public void FireBullet()
@@ -171,13 +214,6 @@ public class Bouncer : EnemyBase
 
     public override void DoPlayerKilledState(object[] parameters)
     {
-        if (myStats.health > myStats.skinnableHealth)
-        {
-            chase.StopCoroutines();
-            animator.SetInteger("AnimationState", -1);
-            controller.CurrentState = celebrate;
-            controller.UpdateState(EAIState.Celebrate);
-        }
     }
 
     public override Vector3 ReCalculateTargetPosition()
@@ -192,7 +228,7 @@ public class Bouncer : EnemyBase
     private void InitilizeStates()
     {
         aiStates = new List<AIState>();
-        chase = new BouncerChaseState();
+        chase = new BouncerChaseState(shadowOutline);
         chase.stateName = "chase";
         fire = new BouncerFireState();
         fire.stateName = "fire";

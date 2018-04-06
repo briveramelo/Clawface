@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using MEC;
 
-public class SpawnManager : RoutineRunner
+public class SpawnManager : EventSubscriber
 {
     internal static bool spawnersLocked = false;
     
@@ -25,15 +25,20 @@ public class SpawnManager : RoutineRunner
     public List<SpawnerUnit> spawners = new List<SpawnerUnit>();
     public int lastWave = 0;
 
-    void OnDestroy() {        
-        if (EventSystem.Instance) {
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.WEAPONS_SELECT_FROM_STAGE_OVER, TerminateSpawnerAndEnemies);
-            EventSystem.Instance.UnRegisterEvent(Strings.Events.CALL_NEXT_WAVE, CallNextSpawner);
+    #region Event Subscriptions
+    protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
+    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        get {
+            return new Dictionary<string, FunctionPrototype>() {
+                { Strings.Events.WEAPONS_SELECT_FROM_STAGE_OVER, TerminateSpawnerAndEnemies },
+                { Strings.Events.CALL_NEXT_WAVE, CallNextSpawner},
+            };
         }
     }
+    #endregion
 
     void TerminateSpawnerAndEnemies(params object[] items) {
-        Timing.KillCoroutines(coroutineName);
+        Timing.KillCoroutines(CoroutineName);
         FindObjectsOfType<EnemyBase>().ToList().ForEach(enemy => { enemy.OnDeath(); });
         gameObject.SetActive(false);
         gameObject.SetActive(true);
@@ -44,10 +49,9 @@ public class SpawnManager : RoutineRunner
         Start();
     }
 
-    void Start()
-    {        
-        EventSystem.Instance.RegisterEvent(Strings.Events.WEAPONS_SELECT_FROM_STAGE_OVER, TerminateSpawnerAndEnemies);
-        EventSystem.Instance.RegisterEvent(Strings.Events.CALL_NEXT_WAVE, CallNextSpawner);
+    protected override void Start()
+    {
+        base.Start();
         if (spawners.Count == 0)
         {
             Debug.Log("SpawnManager is Empty");
@@ -63,7 +67,7 @@ public class SpawnManager : RoutineRunner
     {
         if (!started && !spawnersLocked)
         {
-            Timing.RunCoroutine(WaitAndSpawn(time), coroutineName);
+            Timing.RunCoroutine(WaitAndSpawn(time), CoroutineName);
             started = true;
         }
 
@@ -72,15 +76,20 @@ public class SpawnManager : RoutineRunner
         if(currentSpawner == spawners.Count && LevelClear == true)
         {
             LevelClear = false;
-            ScoreManager.Instance.UpdateHighScore(SceneManager.GetActiveScene().name, ScoreManager.Instance.GetScore());
+            // ScoreManager.Instance.UpdateHighScore(SceneManager.GetActiveScene().name, ScoreManager.Instance.GetScore());
             EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_COMPLETED, 
                 SceneManager.GetActiveScene().name, ScoreManager.Instance.GetScore(), ModManager.leftArmOnLoad.ToString(), ModManager.rightArmOnLoad.ToString() );
+
+            if (SceneTracker.IsCurrentScene80sShit)
+            {
+                AchievementManager.Instance.SetAchievement(Strings.AchievementNames.CLAWFACE);
+            }
         }
     }
 
     public void CallNextSpawner(params object[] parameters)
     {
-        Timing.RunCoroutine(WaitAndSpawn(time), coroutineName);
+        Timing.RunCoroutine(WaitAndSpawn(time), CoroutineName);
     } 
 
     IEnumerator<float> WaitAndSpawn(float waitTime)
@@ -105,7 +114,7 @@ public class SpawnManager : RoutineRunner
             waveNumber++;
             time = spawners[currentSpawner].Time;
             spawner = spawners[currentSpawner++].Prefab.GetComponent<Spawner>();
-            AnalyticsManager.Instance.SetCurrentWave(currentSpawner);
+            AnalyticsManager.Instance.IncrementWave();
             yield return Timing.WaitForSeconds(waitTime);
             spawner.Activate();
         }

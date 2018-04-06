@@ -51,7 +51,8 @@ AudioSource:
   m_GameObject: {fileID: 1629326788155226}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 243513465488017574, guid: 7912cd0fac86ed741b76e37da7a81fd1,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -139,7 +140,7 @@ MonoBehaviour:
   - {fileID: 114397803928807148}
   loop: 0
   playOnStart: 0
-  spatialBlend: 0
+  spatialBlend: 1
   maxDistance: 500
   changeVolumeEachLoop: 0
   uniformVolume: 1

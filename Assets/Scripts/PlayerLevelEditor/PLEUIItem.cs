@@ -1,17 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class PLEUIItem : ClickableBase, IUIGroupable {
 
-    public GameObject registeredItem;
+    [SerializeField] public Image imagePreview;
+    [HideInInspector] public PLEItem pleItem;
+    [HideInInspector] public GameObject registeredItem;
+    [HideInInspector] public bool isInteractable=true;
     private ScrollGroup scrollGroup;
     private ColorChangingUI colorChangingUI;
-    int itemIndex;
+    public int ItemIndex { get; private set; }    
 
     public override void OnPointerDown(PointerEventData eventData) {
-        scrollGroup.SelectItem(itemIndex);
+        if (isInteractable) {
+            scrollGroup.SelectUIItem(ItemIndex);
+        }
     }
 
     public override void OnPointerEnter(PointerEventData eventData) {
@@ -22,14 +28,27 @@ public class PLEUIItem : ClickableBase, IUIGroupable {
         
     }
 
-    public void InitializeItem(int itemIndex, ScrollGroup scrollGroup) {
-        this.itemIndex = itemIndex;
+    public void InitializeItem(int itemIndex, ScrollGroup scrollGroup, GameObject registeredItem) {
+        isInteractable = true;
+        this.ItemIndex = itemIndex;
         this.scrollGroup = scrollGroup;
         colorChangingUI = GetComponent<ColorChangingUI>();
         colorChangingUI.SetUIIndex(itemIndex);
+        this.registeredItem = registeredItem;
+        this.pleItem = registeredItem.GetComponent<PLEItem>();
+        this.imagePreview.sprite = pleItem.iconPreview;
     }
+
+    public void ToggleInteractable(bool isInteractable) {
+        this.isInteractable = isInteractable;
+        colorChangingUI.ToggleInteractable(isInteractable);
+        //other visual indication..?
+    }
+
     public void OnGroupSelectChanged(int itemIndex) {
-        colorChangingUI.OnGroupSelectChanged(itemIndex);
+        if (ItemIndex!=itemIndex || isInteractable) {
+            colorChangingUI.OnGroupSelectChanged(itemIndex);
+        }
     }
 
 }

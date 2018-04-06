@@ -28,13 +28,14 @@ public class Zombie : EnemyBase
     private float currentHitReactionLayerWeight;
     private float hitReactionLayerDecrementSpeed = 1.5f;
     private float closeEnoughToAttackDistance;
-
+    private bool isUp;
     #endregion
 
     #region 3. Unity Lifecycle
 
-    public override void Awake()
+    protected override void Awake()
     {
+        isUp = false;
         myStats = GetComponent<Stats>();
         SetAllStats();
         InitilizeStates();
@@ -42,6 +43,8 @@ public class Zombie : EnemyBase
         controller.Initialize(properties,velBody, animator, myStats, navAgent, navObstacle,aiStates);
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
         controller.checksToUpdateState = new List<Func<bool>>() {
+            CheckDoneGettingUp,
+            CheckPlayerDead,
             CheckToAttack,
             CheckToFinishAttacking,
             CheckIfStunned
@@ -54,6 +57,30 @@ public class Zombie : EnemyBase
     #region 4. Public Methods   
 
     //State conditions
+    bool CheckDoneGettingUp()
+    {
+        if (!isUp)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    bool CheckPlayerDead()
+    {
+        if (AIManager.Instance.GetPlayerDead())
+        {
+            if (myStats.health > myStats.skinnableHealth && !celebrate.isCelebrating())
+            {
+                controller.CurrentState = celebrate;
+                controller.UpdateState(EAIState.Celebrate);
+                return true;
+            }
+        }
+        return false;
+    }
+      
+
     bool CheckToAttack()
     {
         if (controller.CurrentState == chase && controller.DistanceFromTarget < closeEnoughToAttackDistance)
@@ -72,14 +99,18 @@ public class Zombie : EnemyBase
 
             if (shouldChase)
             {
+                controller.CurrentState = chase;
                 controller.UpdateState(EAIState.Chase);
+                return true;
             }
             else
             {
                 animator.SetTrigger("Attack");
+                controller.CurrentState = attack;
                 controller.UpdateState(EAIState.Attack);
+                return true;
             }
-            return true;
+            
         }
         return false;
     }
@@ -124,11 +155,14 @@ public class Zombie : EnemyBase
 
     public void GetUpDone()
     {
-        getUp.Up();
+        isUp = true;
+        controller.CurrentState = chase;
+        controller.UpdateState(EAIState.Chase);
     }
 
     public override void OnDeath()
     {
+        isUp = false;
         base.OnDeath();
     }
 
@@ -139,13 +173,7 @@ public class Zombie : EnemyBase
 
     public override void DoPlayerKilledState(object[] parameters)
     {
-        if (myStats.health > myStats.skinnableHealth)
-        {
-            animator.SetTrigger("DoVictoryDance");
-            controller.CurrentState = celebrate;
-            controller.UpdateState(EAIState.Celebrate);
-            animator.SetInteger("AnimationState", -1);
-        }
+
     }
 
     public override Vector3 ReCalculateTargetPosition()
@@ -173,7 +201,7 @@ public class Zombie : EnemyBase
             }
             currentHitReactionLayerWeight = 1.0f;
             animator.SetLayerWeight(1, currentHitReactionLayerWeight);
-            Timing.RunCoroutine(HitReactionLerp(), coroutineName);
+            StartCoroutine(HitReactionLerp());
         }
         base.DoHitReaction(damager);
     }

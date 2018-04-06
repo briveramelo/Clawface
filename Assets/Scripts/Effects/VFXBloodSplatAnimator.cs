@@ -49,7 +49,7 @@ public class VFXBloodSplatAnimator : RoutineRunner {
         MyMaterial.SetFloat("_Cutoff", startMaskClipVal);
         MyMaterial.SetFloat("_Opacity", 1f);
 
-        Timing.RunCoroutine(PlayAnimation(), coroutineName);
+        Timing.RunCoroutine(PlayAnimation(), CoroutineName);
     }
 
     IEnumerator<float> PlayAnimation() {
@@ -57,12 +57,12 @@ public class VFXBloodSplatAnimator : RoutineRunner {
             MyMaterial.SetFloat("_fbcurrenttileindex6", i);
             yield return Timing.WaitForSeconds(FrameLength);            
         }
-        opacityAnim.Animate(coroutineName);
-        clipAnim.Animate(coroutineName);
+        opacityAnim.Animate(CoroutineName);
+        clipAnim.Animate(CoroutineName);
     }
 
     void DeActivate() {
-        Timing.RunCoroutine(DelayAction(()=> gameObject.SetActive(false)), coroutineName);
+        Timing.RunCoroutine(DelayAction(()=> gameObject.SetActive(false)), CoroutineName);
     }
 
     void FadeOpacity(float val) {

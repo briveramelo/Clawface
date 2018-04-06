@@ -5,8 +5,10 @@ using MEC;
 
 public class KamikazePulserAttackState : AIState {
 
+    public float waitTimeAfterAttack;
     private PulseGenerator currentPulseGenerator;
     private bool attackDone = false;
+    private GameObject pulseGenerator;
 
     public override void OnEnter()
     {
@@ -37,16 +39,19 @@ public class KamikazePulserAttackState : AIState {
         //Make sure the kamikaze is not stunned
         if (myStats.health <= myStats.skinnableHealth)
         {
+            StopPulse();
             controller.UpdateState(EAIState.Stun);
             controller.DeActivateAI();
         }
 
-        GameObject pulseGenerator = ObjectPool.Instance.GetObject(PoolObjectType.KamikazePulseGenerator);
+        pulseGenerator = ObjectPool.Instance.GetObject(PoolObjectType.KamikazePulseGenerator);
         if (pulseGenerator) {
             pulseGenerator.transform.position = controller.transform.position;
             currentPulseGenerator = pulseGenerator.GetComponent<PulseGenerator>();
             currentPulseGenerator.SetPulseGeneratorStats(properties.maxPulses,properties.pulseRate,properties.scaleRate,properties.maxScale,myStats.attack);
         }
+
+        SFXManager.Instance.Play(SFXType.KamikazePulse, velBody.transform.position);
     }
 
     private void CheckPulseDone()
@@ -61,10 +66,15 @@ public class KamikazePulserAttackState : AIState {
         if (currentPulseGenerator.gameObject != null && currentPulseGenerator.DonePulsing())
         {
             currentPulseGenerator.gameObject.SetActive(false);
-            attackDone = true;
+            Timing.RunCoroutine(WaitToMove(), CoroutineName);
         }
+    }
 
-        
+    IEnumerator<float> WaitToMove()
+    {
+        yield return Timing.WaitForSeconds(waitTimeAfterAttack);
+        attackDone = true;
+        yield return 1.0f;
     }
 
     public bool DoneAttacking()
@@ -72,5 +82,10 @@ public class KamikazePulserAttackState : AIState {
         return attackDone;
     }
 
+    public void StopPulse()
+    {
+        if(pulseGenerator)
+            pulseGenerator.SetActive(false);
+    }
 
 }

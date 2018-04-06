@@ -38,12 +38,41 @@ public enum SFXType {
     AnnounceLevelStart,
     AnnounceTitle,
     MortarShoot,
-    MortarExplosion
+    MortarExplosion,
+    LandmarkBlast,
+    GuardAttack,
+    ZombieAttack,
+    BouncerAttack,
+    KamikazeAttack,
+    KamikazePulse,
+    LandmarkBlastShort,
+    PLEPlaceObject,
+    PLEHoverUI,
+    PLEClickUI,
+    BoomerangWallImpact,
+    BouncerLand,
+    BouncerVocalize,
+    EnemyFootstep,
+    KamikazeFootstep,
+    ZombieVocalize,
+    None,
+    AcidZombieVocalize,
+    TileLift,
+    Score,
+    KamikazeVocalize,
+    KamikazeWarn,
+    GuardVocalize,
+    GuardShotgunAttack,
+    GuardPrepare
 }
 
 public enum MusicType
 {
-    MainMenu_Track
+    MainMenu_Intro,
+    MainMenu_Loop,
+    Hathos_Lo,
+    Hathos_Med,
+    Hathos_Hi
 }
 
 public enum DamagerType {
@@ -118,6 +147,7 @@ public enum PoolObjectType {
     KamikazeExplosionSphere = 48,
     KamikazePulseGenerator = 54,
     AcidTrigger = 59,
+    AcidTrail = 72,
 
     //VFX
     VFXBlasterImpactEffect = 3,
@@ -149,6 +179,7 @@ public enum PoolObjectType {
     VFXBoomerangProjectileDie=68,
     VFXBloodSpurt=69,
     VFXKamikazePulse=70,
+    VFXPLEPlaceObject=71,
 
     //BulletTypes
     TurretBullet = 28,
@@ -299,4 +330,58 @@ public enum SpawnType {
 public enum ActionType
 {
     Skin=0
+}
+
+public enum EditorMenu
+{
+    MAIN_EDITOR_MENU = 0,
+    FLOOR_MENU = 1,
+    PROPS_MENU = 2,
+    SPAWN_MENU = 3,
+    SAVE_MENU = 4,
+    HELP_MENU = 5
+
+}
+
+public enum FireMode
+{
+    AIM_TO_SHOOT = 0,
+    AUTOFIRE,
+    MANUAL,
+    SINGLE_TRIGGER,
+    COUNT
+}
+
+public enum MouseAimMode
+{
+    AUTOMATIC,
+    ALWAYS_ON,
+    ALWAYS_OFF,
+    COUNT
+}
+
+public enum Difficulty
+{
+    EASY,
+    NORMAL,
+    HARD,
+    VERY_EASY,
+    INSANE,
+    COUNT
+}
+
+public enum PLEMenuType
+{
+    INIT,
+    MAIN,
+    PROPS,
+    FLOOR,
+    SPAWN,
+    SAVE,
+    HELP,
+    WAVE,
+    TEST,
+    LEVELSELECT,
+    EXIT,
+    NONE
 }

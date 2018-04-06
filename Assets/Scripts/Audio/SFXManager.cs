@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SFXManager : Singleton<SFXManager>
 {
@@ -8,19 +9,24 @@ public class SFXManager : Singleton<SFXManager>
     private Dictionary<SFXType, List<SoundEffect>> sfxDictionary;
 
     #region SFX Object
-    [SerializeField]
-    private List<SFXUnit> SFXList;
+    [SerializeField] private List<SFXUnit> SFXList;
+    [SerializeField] private AudioMixer sfxMixer;
     #endregion
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         sfxDictionary = new Dictionary<SFXType, List<SoundEffect>>();
         foreach (SFXUnit unit in SFXList)
         {
+
             sfxDictionary.Add(unit.type, InitList(unit.audioClipObject));
         }
     }
 
+    public void Play(SFXType i_Type) {
+        Play(i_Type, Vector3.zero);
+    }
     public void Play(SFXType i_Type, Vector3 position)
     {
         if (sfxDictionary.ContainsKey(i_Type))
@@ -84,10 +90,14 @@ public class SFXManager : Singleton<SFXManager>
                 }
             }
         }
-//       string message="No SFX Found for " + i_Type + ". Please add.";
-//       Debug.LogFormat("<color=#0000FF>" + message + "</color>");
     }
+
     
+    public void SetSFXAudioLevel(float i_newLevel)
+    {
+        i_newLevel = Mathf.Clamp(i_newLevel, 0.0f, 1.0f);
+        sfxMixer.SetFloat("Volume", LinearToDecibel(i_newLevel));
+    }
 
     private List<SoundEffect> InitList(GameObject i_SFX)
     {
@@ -96,15 +106,30 @@ public class SFXManager : Singleton<SFXManager>
 
         for(int i = 0; i < numSFX; i++)
         {
-            List.Add(new SoundEffect(Instantiate(i_SFX), transform));
+            List.Add(new SoundEffect(Instantiate(i_SFX), transform, sfxMixer));
         }
 
         return List;
     }
 
+    // Sourced from: https://answers.unity.com/questions/283192/
+    private float LinearToDecibel(float linear)
+    {
+        float dB;
+        if (linear != 0)
+        {
+            dB = 40F * Mathf.Log10(linear);
+        }
+        else
+        {
+            dB = -80F;
+        }
+        return dB;
+    }
+
     private SoundEffect CreateNewSFX(SFXType i_Type, List<SoundEffect> List)
     {
-        SoundEffect newSFX = new SoundEffect(Instantiate(List[0].GetObject()), transform);
+        SoundEffect newSFX = new SoundEffect(Instantiate(List[0].GetObject()), transform, sfxMixer);
         List.Add(newSFX);
         newSFX.Available = false;
         StartCoroutine(WaitForReturnList(newSFX));

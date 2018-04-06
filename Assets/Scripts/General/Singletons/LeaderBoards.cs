@@ -3,58 +3,69 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(AllTimeLeaderBoard), typeof(WeeklyLeaderBoard), typeof(DailyLeaderBoard))]
+[RequireComponent(typeof(AllTimeLeaderBoard))]
 public class LeaderBoards : Singleton<LeaderBoards> {
 
-    public enum LeaderBoardType
+    public enum SelectionType
     {
-        ALL_TIME,
-        WEEKLY,
-        DAILY
+        GLOBAL,
+        FRIENDS,
+        AROUND_USER
     }
 
     #region Private Variables
     private AllTimeLeaderBoard allTimeLeaderBoard;
-    private WeeklyLeaderBoard weeklyLeaderBoard;
-    private DailyLeaderBoard dailyLeaderBoard;
     #endregion
 
     #region Unity Lifecycle
     // Use this for initialization
-    void Start () {
+    protected override void Start () {
+        base.Start();
         allTimeLeaderBoard = GetComponent<AllTimeLeaderBoard>();
-        weeklyLeaderBoard = GetComponent<WeeklyLeaderBoard>();
-        dailyLeaderBoard = GetComponent<DailyLeaderBoard>();
     }
     #endregion
 
     #region Public Methods
-    public bool GetLeaderBoardData(LeaderBoardType type, GenericSteamLeaderBoard.ResultsCallBack callBackFunction, int numberOfEntries)
+    public bool GetLeaderBoardData(string levelName, GenericSteamLeaderBoard.ResultsCallBack callBackFunction, int numberOfEntries, SelectionType selectionType = SelectionType.GLOBAL)
     {
         bool result = false;
-        switch (type)
+        Steamworks.ELeaderboardDataRequest requestType;
+
+        int startRange = 1;
+        int endRange = numberOfEntries;
+
+        switch (selectionType)
         {
-            case LeaderBoardType.ALL_TIME:
-                result = allTimeLeaderBoard.FetchLeaderBoardData(callBackFunction, numberOfEntries);
+            case SelectionType.FRIENDS:
+                requestType = Steamworks.ELeaderboardDataRequest.k_ELeaderboardDataRequestFriends;
                 break;
-            case LeaderBoardType.WEEKLY:
-                result = weeklyLeaderBoard.FetchLeaderBoardData(callBackFunction, numberOfEntries);
+            case SelectionType.AROUND_USER:
+                requestType = Steamworks.ELeaderboardDataRequest.k_ELeaderboardDataRequestGlobalAroundUser;
+                startRange = -5;
+                endRange = numberOfEntries - 5;
+                if (endRange < 0)
+                {
+                    endRange = 1;
+                }
                 break;
-            case LeaderBoardType.DAILY:
-                result = dailyLeaderBoard.FetchLeaderBoardData(callBackFunction, numberOfEntries);
-                break;
+            case SelectionType.GLOBAL:
             default:
+                requestType = Steamworks.ELeaderboardDataRequest.k_ELeaderboardDataRequestGlobal;
                 break;
         }
+
+        result = allTimeLeaderBoard.FetchLeaderBoardData(levelName, callBackFunction, startRange, endRange, requestType);
         return result;
     }
 
-    public bool UpdateScore(int score)
+    public bool UpdateScore(int score, string levelName)
     {
         bool result = false;
-        result = allTimeLeaderBoard.UpdateLeaderBoard(score);
-        result = result && weeklyLeaderBoard.UpdateLeaderBoard(score);
-        result = result && dailyLeaderBoard.UpdateLeaderBoard(score);
+        string betaBranchName;
+        if (SteamManager.Initialized && !Steamworks.SteamApps.GetCurrentBetaName(out betaBranchName, 128))
+        {
+            result = allTimeLeaderBoard.UpdateLeaderBoard(score, levelName);
+        }
         return result;
     }
     #endregion

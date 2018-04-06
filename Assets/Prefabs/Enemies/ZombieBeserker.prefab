@@ -83,6 +83,7 @@ GameObject:
   - component: {fileID: 4316724456395604}
   - component: {fileID: 54849647069959554}
   - component: {fileID: 65821349640591210}
+  - component: {fileID: 114717426613459286}
   m_Layer: 20
   m_Name: Enemy_1_Hips
   m_TagString: Untagged
@@ -2167,6 +2168,10 @@ MonoBehaviour:
   pushDirection: 2
   hips: {fileID: 1073058422366622}
   enemyType: 8
+  skeletonRoot: {fileID: 1941545373368844}
+  vocalizeSound: 37
+  vocalizeInterval: {x: 5, y: 10}
+  footstepSound: 35
   properties:
     runMultiplier: 0
     hitRate: 0
@@ -2236,6 +2241,17 @@ MonoBehaviour:
   updateTime: 0
   colorName: _ASEOutlineColor
   materialIndex: 0
+--- !u!114 &114717426613459286
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1073058422366622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 348b0120920885b4195bf71cb50e01dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114718370040682812
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2251,6 +2267,7 @@ MonoBehaviour:
   zombieBeserkerParent: {fileID: 114526479287558800}
   zombieAciderParent: {fileID: 0}
   childCollider: {fileID: 136605771835953142}
+  swingSound: 24
 --- !u!114 &114814501131977724
 MonoBehaviour:
   m_ObjectHideFlags: 1

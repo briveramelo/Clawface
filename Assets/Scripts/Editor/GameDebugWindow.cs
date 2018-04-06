@@ -44,5 +44,10 @@ public class GameDebugWindow : EditorWindow {
         {
             EditorSceneManager.OpenScene("Assets/Scenes/Build Scenes/80s shit.unity");
         }
+
+        if (GUILayout.Button("Load Editor"))
+        {
+            EditorSceneManager.OpenScene("Assets/Scenes/Build Scenes/Editor.unity");
+        }
     }
 }

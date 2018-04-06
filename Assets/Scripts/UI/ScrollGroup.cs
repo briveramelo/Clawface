@@ -2,72 +2,105 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
+using ModMan;
+public abstract class ScrollGroup : RoutineRunner {
 
-public abstract class ScrollGroup : MonoBehaviour {
-
+    [SerializeField] protected PlacementMenu placementMenu;
     [SerializeField] protected GameObject iconTemplate;
     [SerializeField] protected GameObject groupContent;
+    [SerializeField] protected Scrollbar scrollbar;
+    [SerializeField] protected List<GameObject> itemPrefabs;
+    [SerializeField] DiffAnim scrollAnim;
+    [SerializeField] protected float scrollMultiplier;
 
     protected abstract string ResourcesPath { get; }
     protected List<PLEUIItem> pleUIItems = new List<PLEUIItem>();
+    protected List<PLEItem> pleItems = new List<PLEItem>();
+    protected bool hasInitialized = false;
+    public int LastSelectedIndex { get; private set; }
+    private string ScrollCoroutineName{get{ return CoroutineName + "Scroll"; } }
 
     #region Unity Lifecycle
-    private void Start() {
-        InitializeUI();
+    private void Start() {        
+        TryInitialize();
     }
     #endregion
 
 
     #region Public Interface
-    public PLEUIItem GetFirstUIItem() {
-        return pleUIItems[0];
+    public PLEUIItem GetLastUIItem() {
+        TryInitialize();
+        return pleUIItems[LastSelectedIndex];
     }
-    public void SelectItem(int itemIndex) {
+    public virtual PLEUIItem GetUIItem(int index) {
+        TryInitialize();
+        return pleUIItems[index];
+    }
+    public virtual PLEUIItem TryGetFirstAvailableUIItem() {
+        TryInitialize();
+        return pleUIItems.Find(item => item.isInteractable);
+    }
+    public virtual void SelectUIItem(int itemIndex, bool playSound=true) {
+        if (playSound) {
+            SFXManager.Instance.Play(SFXType.UI_Click);
+        }
+        LastSelectedIndex = itemIndex;
         pleUIItems.ForEach(item => { item.OnGroupSelectChanged(itemIndex); });
+        placementMenu.PostSelectUIItem(pleUIItems[itemIndex]);
+    }
+    public virtual PLEUIItem SelectLastSelectedUIItem() {
+        pleUIItems.ForEach(item => { item.OnGroupSelectChanged(LastSelectedIndex); });
+        PLEUIItem lastSelectedItem = pleUIItems[LastSelectedIndex];
+        placementMenu.PostSelectUIItem(lastSelectedItem);
+        return lastSelectedItem;
+    }
+    public virtual void DeselectAllUIItems() {
+        pleUIItems.ForEach(item => { item.OnGroupSelectChanged(-1); });
+    }
+    public virtual void MoveScrollbar(bool isRight) {
+        SFXManager.Instance.Play(SFXType.UI_Click);
+        float unitTileSize = 1f / (pleUIItems.Count-1);        
+        float amountToMove = unitTileSize * (isRight.ToInt()) * scrollMultiplier;
+        float targetAmount = scrollbar.value + amountToMove;
+
+        MEC.Timing.KillCoroutines(ScrollCoroutineName);
+        scrollAnim.startValue = scrollbar.value;
+        scrollAnim.diff = targetAmount - scrollAnim.startValue;
+        scrollAnim.Animate(ScrollCoroutineName);
     }
     #endregion
 
     #region Protected Interface
     protected virtual void InitializeUI() {
-        GameObject[] gameObjects = Resources.LoadAll<GameObject>(ResourcesPath) as GameObject[];
-    #if !UNITY_EDITOR
-        Texture2D[] objectTextures;
-        objectTextures = Resources.LoadAll<Texture2D>(Strings.Editor.IMAGE_PREVIEW_PATH) as Texture2D[];
-    #endif
+        scrollAnim.OnUpdate = (val) => { scrollbar.value = val; };        
+        itemPrefabs.OrderBy(go => go.name).ToList();
 
-        for (int i = 0; i < gameObjects.Length; i++) {
-            GameObject go = gameObjects[i];
-
-            GameObject toAdd = GameObject.Instantiate(iconTemplate);
-            PLEUIItem spawnToSet = toAdd.GetComponent<PLEUIItem>();
-            pleUIItems.Add(spawnToSet);
-            spawnToSet.InitializeItem(i, this);            
-            spawnToSet.registeredItem = go;
+        for (int i = 0; i < itemPrefabs.Count; i++) {
+            GameObject itemPrefab = itemPrefabs[i];
+            GameObject toAdd = Instantiate(iconTemplate);
+            PLEItem pleItem = itemPrefab.GetComponent<PLEItem>();
+            pleItems.Add(pleItem);
+            PLEUIItem pleUIItem = toAdd.GetComponent<PLEUIItem>();
+            pleUIItems.Add(pleUIItem);
+            pleUIItem.InitializeItem(i, this, itemPrefab);
 
             toAdd.SetActive(true);
-            toAdd.name = go.name;
-
-        #if UNITY_EDITOR
-            Texture2D icon = UnityEditor.AssetPreview.GetAssetPreview(go);
-        #else
-            Texture2D icon = objectTextures[i];
-        #endif
-            if (!icon) {
-                Debug.LogWarning("No icon image for prop: " + go.name);
-                icon = Texture2D.whiteTexture;
-            }
-            else {
-                Sprite newSprite = Sprite.Create(icon, new Rect(0, 0, icon.width, icon.height), new Vector2(0.5f, 0.5f));
-                toAdd.GetComponent<Image>().sprite = newSprite;
-            }
+            toAdd.name = itemPrefab.name;
 
             toAdd.transform.SetParent(groupContent.transform);
             RectTransform myRec = toAdd.GetComponent<RectTransform>();
-            myRec.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-
+            myRec.localScale = Vector3.one;
         }
 
-        SelectItem(0);
+        SelectUIItem(0, false);
     }
     #endregion
+
+    protected void TryInitialize() {
+        if (!hasInitialized) {
+            InitializeUI();
+            hasInitialized = true;
+        }
+    }
 }

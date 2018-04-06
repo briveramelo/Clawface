@@ -7,24 +7,20 @@ using System;
 public abstract class GenericSteamLeaderBoard : MonoBehaviour {
     
     #region Private Variables
-    //We store the actual score value in the details array
+    //Size of the details array
     protected const int MAX_DETAILS = 1;    
-    protected readonly DateTime epochStart = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-    public delegate void ResultsCallBack(List<LeaderBoardVars> results);
+    protected readonly DateTime epochStart = new DateTime(2018, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+    public delegate void ResultsCallBack(List<LeaderBoardVars> results, bool retry);
+    public delegate void UpdateCallBack(bool retry);
     private CallResult<LeaderboardFindResult_t> leaderBoardFindResult;
     private CallResult<LeaderboardScoresDownloaded_t> leaderBoardScoresDownloaded;
     private ResultsCallBack callbackAction;
-    private SteamLeaderboard_t leaderBoard;
+    private Dictionary<string, SteamLeaderboard_t> leaderBoards;
+    private int currentScore;
+    private byte actionType;
     #endregion
 
-    #region Public Fields
-    private bool IsReady
-    {
-        get
-        {
-            return leaderBoard.m_SteamLeaderboard != 0;
-        }
-    }
+    #region Public Fields    
     #endregion
 
     #region Unity Lifecycle
@@ -32,52 +28,87 @@ public abstract class GenericSteamLeaderBoard : MonoBehaviour {
     {
         leaderBoardFindResult = CallResult<LeaderboardFindResult_t>.Create(OnLeaderBoardFindResult);
         leaderBoardScoresDownloaded = CallResult<LeaderboardScoresDownloaded_t>.Create(OnLeaderBoardScoresDownloaded);
-        leaderBoard.m_SteamLeaderboard = 0;
+        leaderBoards = new Dictionary<string, SteamLeaderboard_t>();
     }
     #endregion
 
     #region Public Methods
-    public bool FetchLeaderBoardData(ResultsCallBack callbackAction, int numberOfEntries)
+    public bool FetchLeaderBoardData(string leaderBoardName, ResultsCallBack callbackAction, int startRange, int endRange, ELeaderboardDataRequest requestType)
     {
         bool result = false;
-        if (SteamManager.Initialized && IsReady)
-        {
-            SteamAPICall_t apiCall = SteamUserStats.DownloadLeaderboardEntries(leaderBoard, ELeaderboardDataRequest.k_ELeaderboardDataRequestGlobal, 1, numberOfEntries);
-            if (leaderBoardScoresDownloaded.IsActive())
+        this.callbackAction = callbackAction;
+        SteamLeaderboard_t leaderBoard;
+        if (SteamManager.Initialized)
+        {  
+            if (leaderBoards.TryGetValue(leaderBoardName, out leaderBoard))
             {
-                leaderBoardScoresDownloaded.Cancel();
-                leaderBoardScoresDownloaded.Dispose();
+                SteamAPICall_t apiCall = SteamUserStats.DownloadLeaderboardEntries(leaderBoard, requestType, startRange, endRange);
+                if (leaderBoardScoresDownloaded.IsActive())
+                {
+                    leaderBoardScoresDownloaded.Cancel();
+                    leaderBoardScoresDownloaded.Dispose();
+                }
+                leaderBoardScoresDownloaded.Set(apiCall);
+                result = true;
             }
-            leaderBoardScoresDownloaded.Set(apiCall);
-            this.callbackAction = callbackAction;
-            result = true;
+            else
+            {
+                //Get or create the leader board
+                actionType = 1;
+                result = FindOrCreateLeaderboard(leaderBoardName);
+            }
         }
         return result;
     }
 
-    public bool UpdateLeaderBoard(int score)
+    public bool UpdateLeaderBoard(int score, string leaderBoardName)
     {
         bool result = false;
-        if (SteamManager.Initialized && IsReady)
-        {
-            int[] details;
-            score = GetScoreAndDetails(score, out details);
-            SteamUserStats.UploadLeaderboardScore(leaderBoard, ELeaderboardUploadScoreMethod.k_ELeaderboardUploadScoreMethodKeepBest, score, details, MAX_DETAILS);
-            result = true;
+        SteamLeaderboard_t leaderBoard;
+        if (SteamManager.Initialized)
+        {            
+            if (leaderBoards.TryGetValue(leaderBoardName, out leaderBoard))
+            {
+
+                int[] details;
+                score = GetScoreAndDetails(score, out details);
+                SteamUserStats.UploadLeaderboardScore(leaderBoard, ELeaderboardUploadScoreMethod.k_ELeaderboardUploadScoreMethodKeepBest, score, details, MAX_DETAILS);
+                result = true;
+                //Reset action type
+                actionType = 0;
+            }
+            else
+            {
+                //Get or create the leader board if not already called (checking action type to avoid infinite loops)
+                if (actionType != 2)
+                {
+                    actionType = 2;
+                    currentScore = score;
+                    result = FindOrCreateLeaderboard(leaderBoardName);
+                }
+            }
         }
         return result;
     }   
     #endregion
 
     #region Private Methods
-    protected void Initialize(string leaderBoardName)
+    protected bool FindOrCreateLeaderboard(string leaderBoardName)
     {
+        bool result = false;
         if (SteamManager.Initialized)
         {
             //Get leader board id
             SteamAPICall_t apiCall = SteamUserStats.FindOrCreateLeaderboard(leaderBoardName, ELeaderboardSortMethod.k_ELeaderboardSortMethodDescending, ELeaderboardDisplayType.k_ELeaderboardDisplayTypeNumeric);
+            if (leaderBoardFindResult.IsActive())
+            {
+                leaderBoardFindResult.Cancel();
+                leaderBoardFindResult.Dispose();
+            }
             leaderBoardFindResult.Set(apiCall);
+            result = true;
         }
+        return result;
     }
 
     private void OnLeaderBoardFindResult(LeaderboardFindResult_t param, bool bIOFailure)
@@ -88,7 +119,17 @@ public abstract class GenericSteamLeaderBoard : MonoBehaviour {
         }
         else
         {
-            leaderBoard = param.m_hSteamLeaderboard;                        
+            SteamLeaderboard_t leaderBoard = param.m_hSteamLeaderboard;
+            string leaderBoardName = SteamUserStats.GetLeaderboardName(leaderBoard);
+            leaderBoards.Add(leaderBoardName, leaderBoard);
+            if (actionType == 1)
+            {                
+                callbackAction(new List<LeaderBoardVars>(), true);
+            }
+            else if(actionType == 2)
+            {
+                UpdateLeaderBoard(currentScore, leaderBoardName);
+            }
         }
     }
 
@@ -115,7 +156,7 @@ public abstract class GenericSteamLeaderBoard : MonoBehaviour {
             }
             results = SortEntries(results);            
         }
-        callbackAction(results);
+        callbackAction(results, false);
     }
 
     protected long GetSecondsSinceEpoch()
@@ -138,6 +179,7 @@ public abstract class GenericSteamLeaderBoard : MonoBehaviour {
     {
         public string userID;
         public int score;
+        public int rank;
         public int otherInfo; //Use for sorting (if required)
     }
     #endregion

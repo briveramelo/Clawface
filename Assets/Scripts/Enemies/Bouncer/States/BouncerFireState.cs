@@ -10,15 +10,23 @@ public class BouncerFireState : AIState {
     public int maxShots;
     public float animatorSpeed;
 
-    private Vector3 initialPosition;
+    private Vector3 freezePosition;
     private float rotation;
     private float oldAnimatorSpeed;
+    private float tolerance = 0.001f;
+    private bool lerping = true;
+
+    //Smooth Lerping
+    float lerpTime = 1.0f;
+    float currentLerpTime;
 
     public override void OnEnter()
     {
         shotCount = 0;
+        navAgent.updatePosition = true;
+        lerping = true;
+        Timing.RunCoroutine(LerpToNextPosition(controller.transform.position, navAgent.nextPosition, myStats.moveSpeed * 3.5f),CoroutineName);
         maxShots = Random.Range(properties.minShots, properties.maxShots);
-        initialPosition = controller.transform.position;
         rotation = controller.transform.eulerAngles.y;
         oldAnimatorSpeed = animator.speed;
         animator.speed = animatorSpeed;
@@ -31,8 +39,9 @@ public class BouncerFireState : AIState {
         {
             DoRotationPattern();
         }
-
-        FreezePosition();
+       
+        if(!lerping)
+            FreezePosition();
     }
     public override void OnExit()
     {
@@ -47,19 +56,52 @@ public class BouncerFireState : AIState {
 
     private void FreezePosition()
     {
-        controller.transform.position = initialPosition;
+        controller.transform.position = freezePosition;
     }
 
-    void DoRotationPattern()
+    private void DoRotationPattern()
     {
         rotation += Time.deltaTime * properties.rotationSpeed;
         controller.transform.eulerAngles = new Vector3(0.0f,rotation,0.0f);
-       
+    }
+
+    private IEnumerator<float> LerpToNextPosition(Vector3 initialPosition, Vector3 targetPosition, float lerpSpeed)
+    {
+        float interpolation = 0.0f;
+        currentLerpTime = 0.0f;
+
+        while (interpolation < 1.0f)
+        {
+            currentLerpTime += Time.deltaTime * lerpSpeed;
+            if (currentLerpTime > lerpTime)
+            {
+                currentLerpTime = lerpTime;
+            }
+            interpolation = currentLerpTime / lerpTime;
+
+            controller.transform.position = Vector3.Lerp(initialPosition, targetPosition, interpolation);
+
+            if (Vector3.Distance(controller.transform.position, targetPosition) < tolerance)
+            {
+                controller.transform.position = targetPosition;
+                break;
+            }
+
+            yield return 0.0f;
+        }
+        controller.transform.position = targetPosition;
+        interpolation = 1.0f;
+
+        freezePosition = controller.transform.position;
+        lerping = false;
+
     }
 
     public void FireBullet()
     {
         bulletPatternController.FireBullet();
     }
+
+
 
 }

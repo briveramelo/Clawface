@@ -2,111 +2,167 @@
 
 using System.Collections.Generic;
 using UnityEngine;
-using PlayerLevelEditor;
+using PLE;
 using ModMan;
 using UnityEngine.UI;
 using System.Linq;
 
-public abstract class PlacementMenu : Menu {
+public abstract class PlacementMenu : PLEMenu {
 
     public PlacementMenu(string menuName) : base(menuName) { }
 
-    public override Button InitialSelection { get { return initiallySelected; } }
-
-    [SerializeField] protected LevelEditor editorInstance;
-    [SerializeField] protected Button initiallySelected;
     [SerializeField] protected Transform createdItemsParent;
     [SerializeField] protected ScrollGroup scrollGroup;
+    [SerializeField] protected Image selectedPreviewImage;
+    [SerializeField] protected Color highlightColor, hoverColor;
 
-    protected bool inputGuard = false;
-    protected GameObject selectedItem = null;
+    protected PLEItem lastHoveredItem;
+    protected PLEItem selectedPLEItem;
+    protected GameObject selectedItemPrefab = null;
     protected GameObject previewItem = null;
     protected List<string> itemNames = new List<string>();
+    public IPLESelectable SelectedItem { get { return selectedPLEItem ?? null; } }
 
     #region Boolean Helpers
-    protected virtual bool SelectUI { get { return Input.GetMouseButtonDown(MouseButtons.LEFT); } }
-    protected virtual bool SelectItem { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && MouseHelper.HitItem; } }
-    protected virtual bool DeSelectItem { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT); } }
-    protected bool RightClick { get { return Input.GetMouseButtonDown(MouseButtons.RIGHT); } }
-    protected bool Place { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedItem != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied() && MouseHelper.currentBlockUnit.IsFlatAtWave(WaveSystem.currentWave); } }
-    protected bool UpdatePreview { get { return previewItem != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied() && MouseHelper.currentBlockUnit.IsFlatAtWave(WaveSystem.currentWave); } }
-    protected bool CanDeletedHoveredItem { get { return MouseHelper.currentHoveredObject && itemNames.Contains(MouseHelper.currentHoveredObject.name); } }
+    protected virtual bool SelectUI { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt); } }
+    protected virtual bool SelectItem { get { return (Input.GetMouseButtonDown(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt)) && MouseHelper.currentItem != null && MouseHelper.currentBlockUnit != null; } }
+    protected virtual bool DeSelectItem { get { return ((Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT)) && !Input.GetKey(KeyCode.LeftAlt)) && !MouseHelper.HitUI; } }
+    protected virtual bool Place { get { return Input.GetMouseButtonDown(MouseButtons.LEFT) && selectedItemPrefab != null && MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied && MouseHelper.currentBlockUnit.IsFlatAtWave(PLESpawnManager.Instance.CurrentWaveIndex); } }
+    protected virtual bool IsCurrentTileAvailable { get { return MouseHelper.currentBlockUnit != null && !MouseHelper.currentBlockUnit.IsOccupied && MouseHelper.currentBlockUnit.IsFlatAtWave(PLESpawnManager.Instance.CurrentWaveIndex); } }
+    protected virtual bool UpdatePreview { get { return previewItem != null && IsCurrentTileAvailable; } }
+    protected virtual bool UpdateGameItem { get { return selectedPLEItem != null && (Input.GetMouseButton(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt) ) && IsCurrentTileAvailable; } }
+    protected virtual bool ReplaceGameItem { get { return selectedPLEItem != null && (Input.GetMouseButtonUp(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftAlt)) && IsCurrentTileAvailable; } }
+    protected virtual bool DeleteInputDown { get { return (Input.GetMouseButtonDown(MouseButtons.RIGHT) || Input.GetKeyDown(KeyCode.Delete) || Input.GetKeyDown(KeyCode.Backspace)); } }
+    protected virtual bool CanDeleteHoveredItem { get { return DeleteInputDown && MouseHelper.currentHoveredObject!=null && itemNames.Contains(MouseHelper.currentHoveredObject.name); } }
+    protected virtual bool CanDeleteSelectedItem { get { return DeleteInputDown && selectedPLEItem != null; } }
     #endregion
 
     #region Unity Lifecycle
-    protected virtual void Update() {
-        if (inputGuard) {
-            if (SelectUI) {
-                SelectUIItem();
-            }
-            else if (Place) {
+    protected override void Update() {
+        base.Update();
+        if (allowInput) {
+            if (Place) {
                 PlaceItem();
             }
             else if (SelectItem) {
-                SelectGameItem();
+                SelectGameItem(MouseHelper.currentItem, true);
             }
-            else if (RightClick) {
+            else if (DeSelectItem) {
                 bool deletedPreviewItem = DeselectUIItem();
                 DeselectItem();
-                if (!deletedPreviewItem && CanDeletedHoveredItem) {
+                if (!deletedPreviewItem && CanDeleteHoveredItem) {
                     DeleteHoveredItem();
                 }
+            }
+            else if (CanDeleteSelectedItem) {
+                DeleteItem(selectedPLEItem.gameObject);
+                DeselectUIItem();
+                DeselectItem();
             }
             else if (UpdatePreview) {
                 UpdatePreviewPosition();
             }
-
-            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.UP)) {
-                BackAction();
+            else if (UpdateGameItem) {
+                UpdateSelectedPLEItemPosition();
             }
+            else if (ReplaceGameItem) {
+                RePlaceGameItem();
+            }
+
+            CheckToHightlight();
         }
     }
     #endregion
 
     #region Protected Interface
-    protected virtual void SelectUIItem() {
-        PLEUIItem currentUIItem = ScrollGroupHelper.currentUIItem;
-
-        if (currentUIItem) {
-            OnSelectUIItem(currentUIItem);
+    protected virtual void RePlaceGameItem() {
+        MouseHelper.currentBlockUnit.AddSpawn(selectedPLEItem.gameObject);
+        selectedPLEItem.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
+        selectedPLEItem.tile = levelEditor.gridController.GetTileAtPoint(MouseHelper.currentBlockUnit.transform.position);
+        //SelectGameItem(selectedPLEItem);
+    }
+    protected virtual void CheckToHightlight() {
+        if (previewItem==null && !(selectedPLEItem != null && Input.GetMouseButton(MouseButtons.LEFT))) {
+            PLEItem currentItem = MouseHelper.currentItem;
+            if (lastHoveredItem != null && (lastHoveredItem != currentItem || currentItem == null)) {
+                lastHoveredItem.TryUnHighlight();
+            }
+            if (currentItem != null) {
+                currentItem.TryHighlight(hoverColor);
+            }
+            lastHoveredItem = currentItem;
         }
     }
-    protected virtual void OnSelectUIItem(PLEUIItem item) {
-        selectedItem = item.registeredItem;
-        TryDestroyPreview();
-        previewItem = Instantiate(selectedItem);
+    public virtual void PostSelectUIItem(PLEUIItem item) {
+        if (allowInput) {
+            if (item.isInteractable) {
+                DeselectItem();
+                selectedItemPrefab = item.registeredItem;
+                TryDestroyPreview();
+                previewItem = Instantiate(selectedItemPrefab);
+                previewItem.name = previewItem.name.TryCleanName(Strings.CLONE);
+                previewItem.name += Strings.PREVIEW;
+                previewItem.GetComponent<PLEItem>().TryHighlight(highlightColor);
+                PostSelectUIItemMenuSpecific(previewItem);
+            }
+            else {
+                scrollGroup.DeselectAllUIItems();
+            }
+        }
     }
-    protected abstract void DeselectItem();
+    protected virtual void PostSelectUIItemMenuSpecific(GameObject newItem) { }
+    protected virtual void DeselectItem() {
+        if (selectedPLEItem != null) {
+            selectedPLEItem.Deselect();
+            selectedPLEItem = null;
+        }
+        SetMenuButtonInteractabilityByState();
+    }
 
-    protected virtual void SelectGameItem() {
-        DeselectAll();
+    protected virtual void SelectGameItem(PLEItem selectedItem, bool isPickingUp=false) {
+        DeselectUIItem();
+        DeselectAllGameItems();
+        selectedItem.Select(highlightColor);
+        selectedPLEItem = selectedItem;
+        if (isPickingUp) {
+            selectedItem.tile.blockUnit.RemoveSpawn(selectedItem.gameObject);
+        }
     }
-    protected virtual void DeselectAll() {
+    protected virtual void DeselectAllGameItems() {
         List<PLEItem> items = createdItemsParent.GetComponentsInChildren<PLEItem>().ToList();
         items.ForEach(item => { item.Deselect(); });
+        selectedPLEItem = null;
     }
 
     protected virtual void PlaceItem() {
-        GameObject newItem = Instantiate(selectedItem, createdItemsParent);
+        GameObject newItem = Instantiate(selectedItemPrefab, createdItemsParent);        
         newItem.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
-        newItem.name = selectedItem.name.TryCleanClone();
+        newItem.GetComponent<PLEItem>().tile = levelEditor.gridController.GetTileAtPoint(MouseHelper.currentBlockUnit.transform.position);
+        newItem.name = selectedItemPrefab.name.TryCleanName(Strings.CLONE);
         itemNames.Add(newItem.name);
         PostPlaceItem(newItem);
     }
     protected virtual void PostPlaceItem(GameObject newItem) { }
-    protected bool DeselectUIItem() {
-        selectedItem = null;
+
+    protected virtual bool DeselectUIItem() {
+        scrollGroup.DeselectAllUIItems();
+        selectedItemPrefab = null;
         return TryDestroyPreview();
     }
 
     protected virtual void UpdatePreviewPosition() {
         previewItem.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
     }
+    protected virtual void UpdateSelectedPLEItemPosition() {
+        selectedPLEItem.transform.position = MouseHelper.currentBlockUnit.spawnTrans.position;
+    }
 
     protected virtual void DeleteHoveredItem() {
-        MouseHelper.currentBlockUnit.SetOccupation(false);
-        itemNames.Remove(MouseHelper.currentHoveredObject.name);
-        Helpers.DestroyProper(MouseHelper.currentHoveredObject);
+        DeleteItem(MouseHelper.currentHoveredObject);
+    }
+    protected virtual void DeleteItem(GameObject item) {
+        itemNames.Remove(item.name);
+        Helpers.DestroyProper(item);
     }
 
     public void ResetMenu(List<string> loadedItemNames) {
@@ -126,37 +182,28 @@ public abstract class PlacementMenu : Menu {
 
     protected override void ShowStarted() {
         base.ShowStarted();
-        OnSelectUIItem(scrollGroup.GetFirstUIItem());
+        allowInput = true;
     }
     protected override void ShowComplete() {
         base.ShowComplete();
-        inputGuard = true;
     }
 
     protected override void HideStarted() {
         base.HideStarted();
-        inputGuard = false;
-        DeselectAll();
+        DeselectAllGameItems();
         TryDestroyPreview();
     }
 
-    protected override void DefaultShow(Transition transition, Effect[] effects) {
-        Fade(transition, effects);
+    public virtual void TrySelectFirstAvailable() {        
+        PLEUIItem firstAvailable = scrollGroup.TryGetFirstAvailableUIItem();
+        if (firstAvailable) {
+            selectedPreviewImage.sprite = firstAvailable.imagePreview.sprite;
+            scrollGroup.SelectUIItem(firstAvailable.ItemIndex, false);
+        }
     }
-
-    protected override void DefaultHide(Transition transition, Effect[] effects) {
-        Fade(transition, effects);
-    }
-
     #endregion
 
     #region Private Interface
-
-    protected void BackAction() {
-        MainPLEMenu menu = editorInstance.GetMenu(PLEMenu.MAIN) as MainPLEMenu;
-
-        MenuManager.Instance.DoTransition(menu, Menu.Transition.SHOW, new Menu.Effect[] { Menu.Effect.EXCLUSIVE });
-    }
 
     #endregion
 }

@@ -213,7 +213,7 @@ MonoBehaviour:
   damage: 0
   pickupCollider: {fileID: 65209099370088602}
   energySettings:
-    timeToCoolDown: 0.45
+    timeToCoolDown: 0.5
     isCoolingDown: 0
     isActive: 0
     cooldownTimer: 0
@@ -221,10 +221,10 @@ MonoBehaviour:
   muzzleTransform: {fileID: 4564136626918456}
   projectileProperties:
     projectileSpeed: 35
-    projectileHitDamage: 1.3
+    projectileHitDamage: 1.28
     homingAngle: 360
-    homingRadius: 6
-    maxChainableEnemies: 5
+    homingRadius: 4.5
+    maxChainableEnemies: 4
     maxDistance: 20
     maxDistancePerSubChain: 20
     lightningSFX: 2

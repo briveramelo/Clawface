@@ -16,11 +16,21 @@ public class Splattable : MonoBehaviour
     {
         get
         {
-            return paintMask;
+            return splatter.PaintMask;
         }
         set
         {
-            paintMask = value;
+            splatter.PaintMask = value;
+            paintMask = value; // keep UI updated
+        }
+    }
+    public Texture2D RenderMask {
+        get {
+            return renderMask;
+        }
+        set {
+            renderMask = value;
+            UpdatePropertyBlock();
         }
     }
 
@@ -32,33 +42,20 @@ public class Splattable : MonoBehaviour
     [SerializeField] private Texture2D paintMask = null;
     [SerializeField] private Texture2D renderMask = null;
 
-	[Header ("Render Texture Configuration")]
-	[SerializeField] private int renderTextureWidth = 512;
-	[SerializeField] private int renderTextureHeight = 512;
-
-    [Header ("Splat Rendering Configuration (You probably shouldn't edit these!)")]
-    [Tooltip ("This SHOULD BE SET TO SOMETHING.")]
-    [SerializeField] private Shader renderSplat = null;
-    [SerializeField] private int numSplatsToRender = 10;
-    [SerializeField] private Vector2 frameDim = new Vector2(256, 256);
-
     #endregion
 
     #region Private fields
 
-    private RenderTexture splatMap;
-	private Material paintingMaterial;
-	private Renderer myRenderer;
+    private new Renderer renderer;
 	private MaterialPropertyBlock propBlock;
 
     /// <summary>
     /// This queue will contain splats that need to be rendered to the
     /// splattable.
     /// </summary>
-    private Queue<QueuedSplat> splatsToRender;
+    private Queue<Splatter.QueuedSplat> splatsToRender;
 
-    private Texture2DArray masks;
-    private Texture2DArray normals;
+    private Splatter splatter;
 
 	#endregion
 
@@ -66,30 +63,22 @@ public class Splattable : MonoBehaviour
 
 	private void Awake ()
 	{
-        // Assertions
-		Assert.IsNotNull (renderSplat);
-        paintMask = paintMask != null ? paintMask : Texture2D.whiteTexture;
-        renderMask = renderMask != null ? renderMask : Texture2D.whiteTexture;
+        if(GoreManager.Instance.GoreEnabled)
+        {
+            // Set up Splatting
+            paintMask = paintMask != null ? paintMask : Texture2D.whiteTexture;
+            renderMask = renderMask != null ? renderMask : Texture2D.whiteTexture;
+            renderer = GetComponent<Renderer>(); // this must be done BEFORE the splatter is created
+            splatter = CreateSplatter(); // this must be done BEFORE the property block is updated
+            PaintMask = paintMask;
+            splatsToRender = new Queue<Splatter.QueuedSplat>();
 
-        // Set Up Render Data
-		splatMap = new RenderTexture (renderTextureWidth, renderTextureHeight, 0, RenderTextureFormat.ARGB32);
-		splatMap.Create ();
-		paintingMaterial = new Material (renderSplat);
-        Vector4[] empty = new Vector4[numSplatsToRender];
-        paintingMaterial.SetVectorArray("_Anchors", empty);
-        paintingMaterial.SetVectorArray("_Rotations", empty);
-        paintingMaterial.SetVectorArray("_Positions", empty);
-
-		propBlock = new MaterialPropertyBlock ();
-		myRenderer = GetComponent<Renderer> ();
-
-		myRenderer.GetPropertyBlock (propBlock);
-		propBlock.SetTexture ("_SplatMap", splatMap);
-        propBlock.SetTexture ("_RenderMask", renderMask);
-		myRenderer.SetPropertyBlock (propBlock);
-
-        // Set Up Queuing System
-        splatsToRender = new Queue<QueuedSplat>();
+            // Set Up Property Block
+            UpdatePropertyBlock();
+        } else
+        {
+            enabled = false; // just turn self off.
+        }
 	}
 
     private void Update ()
@@ -99,10 +88,21 @@ public class Splattable : MonoBehaviour
         // rendering.
         if (splatsToRender.Count > 0)
         {
-            CommandBuffer buffer = CreateCommandBuffer();
-            GoreManager.Instance.AddBloodBuffer(buffer);
+            List<Splatter.QueuedSplat> renderedSplats;
+            CommandBuffer buffer = splatter.TryRenderSplats(splatsToRender, out renderedSplats);
+            if (renderedSplats.Count > 0)
+            {
+                GoreManager.Instance.AddBloodBuffer(buffer);
+                foreach (Splatter.QueuedSplat splat in renderedSplats)
+                {
+                    if (splat.splatData.HasMoreFrames(splat.frame + 1))
+                    {
+                        StartCoroutine(DelayFrame(splat));
+                    }
+                }
+            }
         }
-    } 
+    }
 
     #endregion
 
@@ -114,95 +114,34 @@ public class Splattable : MonoBehaviour
     /// <param name="splatData">The SplatSO describing the splat.</param>
     /// <param name="worldPos">The world position to anchor the splat at.</param>
     /// <param name="projectileDir">The direction to splat in.</param>
-    public void QueueNewSplat (SplatSO splatData, Vector3 worldPos, Vector2 projectileDir)
-	{
-        QueuedSplat splat = new QueuedSplat();
+    public void QueueNewSplat(SplatSO splatData, Vector3 worldPos, Vector2 projectileDir)
+    {
+        Splatter.QueuedSplat splat = new Splatter.QueuedSplat();
         splat.splatData = splatData;
         splat.frame = 0;
         splat.worldPos = worldPos;
         splat.projectileDir = projectileDir;
 
         splatsToRender.Enqueue(splat);
-	}
-
-    #endregion
-
-    #region Interface (Private)
-
-    /// <summary>
-    /// Creates a CommandBuffer and primes the material to do rendering.
-    /// This should ONLY be called ONCE per FRAME.
-    /// </summary>
-    /// <returns>A command buffer that will render splats.</returns>
-    private CommandBuffer CreateCommandBuffer()
-    {
-        List<Texture2D> masks = new List<Texture2D>();
-        List<Texture2D> normals = new List<Texture2D>();
-        List<Vector4> anchors = new List<Vector4>(); // must be vec4 in order to set array
-        List<Vector4> rotations = new List<Vector4>(); // must be vec4 in order to set array
-        List<Vector4> positions = new List<Vector4>(); // must be vec4 in order to set array
-        int count = 0;
-
-        while (splatsToRender.Count > 0 && count < numSplatsToRender)
-        {
-            // Queue Up Data
-            QueuedSplat splat = splatsToRender.Dequeue();
-            SplatSO data = splat.splatData;
-            SplatSO.Frame frame = data.Frames[splat.frame];
-            masks.Add(frame.mask);
-            normals.Add(frame.normal);
-            anchors.Add(data.Anchor);
-            rotations.Add(data.CalculateRotation(splat.projectileDir));
-            positions.Add(splat.worldPos);
-            count++;
-
-            // Check to see if this splat will have more frames
-            // and queue it up with a "delay".
-            if (data.HasMoreFrames(splat.frame + 1))
-            {
-                splat.frame++;
-                StartCoroutine(DelayFrame(splat));
-            }
-        }
-
-        // Set Shader Variables
-        // TODO if possible: Convert renderMaterial to a common material and make these [PerRendererData]
-        paintingMaterial.SetTexture("_Previous", splatMap);
-        paintingMaterial.SetTexture("_PaintMask", paintMask);
-        paintingMaterial.SetTexture("_Masks", CreateTextureArray(masks, ref this.masks));
-        paintingMaterial.SetTexture("_Normals", CreateTextureArray(normals, ref this.normals));
-        paintingMaterial.SetVectorArray("_Anchors", anchors);
-        paintingMaterial.SetVectorArray("_Rotations", rotations);
-        paintingMaterial.SetVectorArray("_Positions", positions);
-        paintingMaterial.SetInt("_Count", count);
-
-        // Set Up Command Buffer
-        CommandBuffer splatBuffer = new CommandBuffer ();
-        splatBuffer.GetTemporaryRT(Shader.PropertyToID("_TEMPORARY"), renderTextureWidth, renderTextureHeight);
-        splatBuffer.SetRenderTarget(Shader.PropertyToID("_TEMPORARY"));
-        splatBuffer.DrawRenderer(myRenderer, paintingMaterial);
-        splatBuffer.Blit(Shader.PropertyToID("_TEMPORARY"), splatMap);
-        return splatBuffer;
     }
 
-    /// <summary>
-    /// Creates a Texture2DArray from a list of 2D textures.
-    /// </summary>
-    /// <param name="textures">The List of Texture2D objects to pack in an array.</param>
-    /// <returns>A Texture2DArray containing the textures in the argument list.</returns>
-    private Texture2DArray CreateTextureArray(List<Texture2D> textures, ref Texture2DArray array)
-    {
-        if (array == null)
-        {
-            array = new Texture2DArray(Mathf.FloorToInt(frameDim.x), Mathf.FloorToInt(frameDim.y),
-                numSplatsToRender, textures[0].format, true);
-        }
+    #endregion
+    
+    #region Private Interface
 
-        for (int index = 0; index < textures.Count; index++)
+    /// <summary>
+    /// "Creates" a splatter for our use.
+    /// </summary>
+    /// <returns>A splatter for splatting le blood.</returns>
+    private Splatter CreateSplatter()
+    {
+        if (SystemInfo.supports2DArrayTextures && SystemInfo.graphicsShaderLevel >= 35)
         {
-            Graphics.CopyTexture(textures[index], 0, array, index);
+            return new AdvancedSplatter(renderer);
+        } else
+        {
+            return new SimpleSplatter(renderer);
         }
-        return array;
     }
 
     /// <summary>
@@ -210,47 +149,23 @@ public class Splattable : MonoBehaviour
     /// </summary>
     /// <param name="toQueue">The splat to delay adding back.</param>
     /// <returns>A Coroutine enumerator.</returns>
-    private IEnumerator DelayFrame(QueuedSplat toQueue)
+    private IEnumerator DelayFrame(Splatter.QueuedSplat toQueue)
     {
         yield return new WaitForSeconds(1F / toQueue.splatData.FPS);
+        toQueue.frame++; // increment frame
         splatsToRender.Enqueue(toQueue);
     }
 
-    #endregion
+    private void UpdatePropertyBlock() {
+        if (propBlock == null)
+        {
+            propBlock = new MaterialPropertyBlock();
+        }
 
-    #region Types (Private)
-
-    /// <summary>
-    /// This struct is used to track data being rendered by the Splattable.
-    /// We have to queue this data up and render it in batches since there
-    /// could potentially be multiple sets of data being rendered to same tile
-    /// every frame.
-    /// </summary>
-    private struct QueuedSplat
-    {
-        #region Fields (Public)
-
-        /// <summary>
-        /// The data defining the splat to render.
-        /// </summary>
-        public SplatSO splatData;
-
-        /// <summary>
-        /// The frame to render.
-        /// </summary>
-        public int frame;
-
-        /// <summary>
-        /// The position to render the splat at.
-        /// </summary>
-        public Vector3 worldPos;
-
-        /// <summary>
-        /// The direction (normalized velocity) of the projectile that caused this splat.
-        /// </summary>
-        public Vector2 projectileDir;
-
-        #endregion
+        renderer.GetPropertyBlock(propBlock);
+        propBlock.SetTexture("_SplatMap", splatter.SplatMap);
+        propBlock.SetTexture("_RenderMask", renderMask);
+        renderer.SetPropertyBlock(propBlock);
     }
 
     #endregion
