@@ -161,6 +161,8 @@
             public const string NAV_DOWN = "Nav Down";
             public const string SUBMIT = "UISubmit";
             public const string CANCEL = "UICancel";
+            public const string TAB_LEFT = "TabLeft";
+            public const string TAB_RIGHT = "TabRight";
         }
     }
 

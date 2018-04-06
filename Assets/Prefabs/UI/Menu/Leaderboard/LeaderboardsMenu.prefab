@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 222914405590300906}
   - component: {fileID: 114910075655044012}
   - component: {fileID: 114319484108983940}
+  - component: {fileID: 114615534001944394}
   m_Layer: 0
   m_Name: Back
   m_TagString: Untagged
@@ -738,8 +739,8 @@ MonoBehaviour:
   colorOff: {r: 0.96862745, g: 0.9764706, b: 0.4627451, a: 1}
   colorOn: {r: 0.90588236, g: 0, b: 0.8039216, a: 1}
   colorDisabled: {r: 0.1, g: 0.1, b: 0.1, a: 1}
-  spriteOff: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
-  spriteOn: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
+  spriteOff: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
+  spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
   selectable: {fileID: 114983724765704698}
   image: {fileID: 114238618387102404}
   text: {fileID: 114272609280410804}
@@ -888,6 +889,7 @@ MonoBehaviour:
   friendButton: {fileID: 114842832773371280}
   aroundUserButton: {fileID: 114045332248910020}
   verticalScrollbar: {fileID: 114776734281160180}
+  selectorToggleGroup: {fileID: 114331696003980156}
   joystickMaxScrollSpeed: 0.3
   mouseMaxScrollSpeed: 1.1
 --- !u!114 &114273684272352192
@@ -1253,6 +1255,28 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &114615534001944394
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1094320166596968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2be5fcf4accb94998ef33d08856341, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorOff: {r: 0.96862745, g: 0.9764706, b: 0.4627451, a: 1}
+  colorOn: {r: 0.90588236, g: 0, b: 0.8039216, a: 1}
+  colorDisabled: {r: 0.1, g: 0.1, b: 0.1, a: 1}
+  spriteOff: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
+  spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
+  selectable: {fileID: 114319484108983940}
+  image: {fileID: 114910075655044012}
+  text: {fileID: 114936813800727912}
+  overrideDisabledColor: 0
+  alwaysUpdate: 0
+  selectorToggleGroup: {fileID: 0}
 --- !u!114 &114622638572185560
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1615,8 +1639,8 @@ MonoBehaviour:
   colorOff: {r: 0.96862745, g: 0.9764706, b: 0.4627451, a: 1}
   colorOn: {r: 0.90588236, g: 0, b: 0.8039216, a: 1}
   colorDisabled: {r: 0.1, g: 0.1, b: 0.1, a: 1}
-  spriteOff: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
-  spriteOn: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
+  spriteOff: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
+  spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
   selectable: {fileID: 114045332248910020}
   image: {fileID: 114152235311074118}
   text: {fileID: 114314032648523222}
@@ -1664,8 +1688,8 @@ MonoBehaviour:
   colorOff: {r: 0.96862745, g: 0.9764706, b: 0.4627451, a: 1}
   colorOn: {r: 0.90588236, g: 0, b: 0.8039216, a: 1}
   colorDisabled: {r: 0.1, g: 0.1, b: 0.1, a: 1}
-  spriteOff: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
-  spriteOn: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
+  spriteOff: {fileID: 21300000, guid: 040c162357fd5574ab6e2bbface697db, type: 3}
+  spriteOn: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a, type: 3}
   selectable: {fileID: 114842832773371280}
   image: {fileID: 114170081596255414}
   text: {fileID: 114317353309106200}

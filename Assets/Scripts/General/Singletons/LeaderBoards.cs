@@ -8,7 +8,7 @@ public class LeaderBoards : Singleton<LeaderBoards> {
 
     public enum SelectionType
     {
-        GLOBAL,
+        GLOBAL=0,
         FRIENDS,
         AROUND_USER
     }

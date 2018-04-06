@@ -30,7 +30,9 @@ public class LeaderboardsMenu : Menu
 
     [SerializeField]
     private Scrollbar verticalScrollbar;
-
+    [SerializeField]
+    private SelectorToggleGroup selectorToggleGroup;
+    
     [SerializeField] private float joystickMaxScrollSpeed, mouseMaxScrollSpeed;
     #endregion
 
@@ -38,6 +40,12 @@ public class LeaderboardsMenu : Menu
     private List<LeaderboardEntry> leaderBoardEntries=new List<LeaderboardEntry>();    
     private string currentLevelName;
     private LeaderBoards.SelectionType currentSelectionType;
+
+    private int selectedFilterToggle;
+    private int SelectedFilterToggle {
+        get { return Mathf.Clamp(selectedFilterToggle, 0, selectorToggleGroup.SelectorTogglesCount); }
+        set { selectedFilterToggle = (int)Mathf.Repeat(value, selectorToggleGroup.SelectorTogglesCount); }
+    }
     #endregion
 
     #region public fields
@@ -58,23 +66,48 @@ public class LeaderboardsMenu : Menu
             {
                 OnPressBack();
             }
-            const float lookThreshold = 0.3f;
-            const float scrollThreshold = 0.1f;
-            float joystickY = Mathf.Clamp(InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK).y, -1f, 1f);
-            float mouseDeltaY = Mathf.Clamp(Input.mouseScrollDelta.y, -1f, 1f);
 
-            if (Mathf.Abs(joystickY)>lookThreshold) {
-                float extraMultiplier = Mathf.Abs(InputManager.Instance.QueryAxes(Strings.Input.UI.NAVIGATION).y) > lookThreshold ? 2f : 1f;
-                MoveScrollBar(joystickMaxScrollSpeed * joystickY * extraMultiplier);
-            }
-            else if (Mathf.Abs(mouseDeltaY) > scrollThreshold) {
-                MoveScrollBar(mouseMaxScrollSpeed * mouseDeltaY);
-            }
+            CheckToMoveFilter();
+            CheckToMoveScrollbar();
+        }
+    }
+
+    void CheckToMoveScrollbar() {
+        const float lookThreshold = 0.3f;
+        const float scrollThreshold = 0.1f;
+        float joystickY = Mathf.Clamp(InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK).y, -1f, 1f);
+        float mouseDeltaY = Mathf.Clamp(Input.mouseScrollDelta.y, -1f, 1f);
+
+        if (Mathf.Abs(joystickY) > lookThreshold) {
+            float extraMultiplier = Mathf.Abs(InputManager.Instance.QueryAxes(Strings.Input.UI.NAVIGATION).y) > lookThreshold ? 2f : 1f;
+            MoveScrollBar(joystickMaxScrollSpeed * joystickY * extraMultiplier);
+        }
+        else if (Mathf.Abs(mouseDeltaY) > scrollThreshold) {
+            MoveScrollBar(mouseMaxScrollSpeed * mouseDeltaY);
         }
     }
     void MoveScrollBar(float speed) {
         verticalScrollbar.value += speed * Time.deltaTime;
     }
+
+    private void CheckToMoveFilter() {
+        //TODO set this up work with Strings.Input.UI
+        //Strings.Input.UI.TAB_LEFT
+        //Strings.Input.UI.TAB_RIGHT
+        bool leftButtonPressed = InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_LEFT, ButtonMode.DOWN);
+        bool rightBumperPressed = InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_RIGHT, ButtonMode.DOWN);
+        bool mouseClicked = Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT) || Input.GetMouseButtonDown(MouseButtons.MIDDLE);
+        if (!mouseClicked && (leftButtonPressed || rightBumperPressed)) {
+            if (leftButtonPressed) {
+                SelectedFilterToggle--;
+            }
+            else {
+                SelectedFilterToggle++;
+            }
+            GetSelectedLeaderboardEntries();
+        }
+    }
+
     #endregion
 
     #region Public methods
@@ -89,6 +122,15 @@ public class LeaderboardsMenu : Menu
         leaderBoardEntries.Clear();
         StopAllCoroutines();
         MenuManager.Instance.DoTransition(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+    }
+
+    private void GetSelectedLeaderboardEntries() {
+        SFXManager.Instance.Play(SFXType.UI_Click);
+        switch ((LeaderBoards.SelectionType)SelectedFilterToggle) {
+            case LeaderBoards.SelectionType.GLOBAL:  GetGlobalLeaderboardEntries(); break;
+            case LeaderBoards.SelectionType.FRIENDS: GetFriendsLeaderboardEntries(); break;
+            case LeaderBoards.SelectionType.AROUND_USER: GetAroundUserLeaderboardEntries(); break;
+        }
     }
 
     public void GetGlobalLeaderboardEntries()
@@ -122,6 +164,7 @@ public class LeaderboardsMenu : Menu
     protected override void ShowStarted()
     {
         base.ShowStarted();
+        selectorToggleGroup.HandleGroupSelection(0);
         GetLeaderboardEntries(LeaderBoards.SelectionType.GLOBAL);
     }
 
