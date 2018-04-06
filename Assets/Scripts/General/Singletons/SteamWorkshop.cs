@@ -109,7 +109,7 @@ public class SteamWorkshop : Singleton<SteamWorkshop> {
 
     private void OnSubmitItemUpdateResult(SubmitItemUpdateResult_t param, bool bIOFailure)
     {
-        if (!bIOFailure && param.m_eResult != 0)
+        if (!bIOFailure && param.m_eResult == EResult.k_EResultOK)
         {
             submitItemCallBack(true);
         }

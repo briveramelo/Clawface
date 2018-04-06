@@ -79,13 +79,13 @@ public class DataPersister : Singleton<DataPersister> {
 
     public void SaveSnapshotToFile(byte[] i_imgData)
     {
-        currentImagePath = currentLevelDataFolder +"/" + WorkingLevelData.name + ".jpg";
+        currentImagePath = currentLevelDataFolder + WorkingLevelData.name + ".png";
         File.WriteAllBytes(currentImagePath, i_imgData);
     }
 
     public void TrySaveLevelDataFile(LevelData i_Data)
     {
-        string levelDirectory = SavesPathDirectory + "/" + i_Data.name;
+        string levelDirectory = SavesPathDirectory + "/" + i_Data.name + "/";
         currentLevelDataFolder = levelDirectory;
         WorkingLevelData = i_Data;
         if(!Directory.Exists(levelDirectory))
