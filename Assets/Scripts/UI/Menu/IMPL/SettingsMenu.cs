@@ -88,6 +88,7 @@ public class SettingsMenu : Menu {
     [SerializeField]
     private Toggle tutorial = null;
 
+    [SerializeField] SelectorToggleGroup selectorToggleGroup;
     #endregion
 
     #region Fields (Internal)
@@ -178,6 +179,7 @@ public class SettingsMenu : Menu {
     protected override void ShowStarted()
     {
         base.ShowStarted();
+        selectorToggleGroup.HandleGroupSelection(0);
         TransferSettingsFromManager();
         StartCoroutine(RotateCamera(offRotation, onRotation));
     }
