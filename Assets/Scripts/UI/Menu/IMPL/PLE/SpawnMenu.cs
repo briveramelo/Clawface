@@ -16,7 +16,7 @@ public class SpawnMenu : PlacementMenu {
     private PLESpawn SelectedSpawn { get { return selectedPLEItem as PLESpawn; } }
     private static LevelData WorkingLevelData { get { return DataPersister.ActiveDataSave.workingLevelData; } }
     private PLESpawnManager SpawnManager { get { return PLESpawnManager.Instance; } }
-    private int NumberSpawnsInWave { get { return WorkingLevelData.NumSpawns(SelectedSpawn.spawnType, SpawnManager.CurrentWaveIndex); } }
+    private int NumberSpawnsInCurrentWave { get { return WorkingLevelData.NumSpawns(SelectedSpawn.spawnType, SpawnManager.CurrentWaveIndex); } }
     
     
     private int MaxSpawnsAllowedInWave { get { return SpawnManager.GetMaxSpawnsAllowedInCurrentWave(SelectedSpawn); } }
@@ -89,7 +89,7 @@ public class SpawnMenu : PlacementMenu {
         int newSpawnAmount = Mathf.Clamp(SelectedSpawn.totalSpawnAmount - 1, minSpawns, MaxSpawnsAllowedInWave);
         ChangeSpawnAmountsInternally(newSpawnAmount, GetRequiredKillCountInCurrentWave(SelectedSpawn));
 
-        int numSpawnsInWave = NumberSpawnsInWave;
+        int numSpawnsInWave = NumberSpawnsInCurrentWave;
         if (SelectedSpawn.MinSpawns > numSpawnsInWave) {
             ChangeSpawnAmountsInternally(SelectedSpawn.totalSpawnAmount, GetRequiredKillCountInCurrentWave(SelectedSpawn), false);
         }
@@ -102,7 +102,10 @@ public class SpawnMenu : PlacementMenu {
                 SFXManager.Instance.Play(SFXType.UI_Click);
             }
             if (System.Int32.TryParse(spawnCountAmountField.text, out spawnCount)) {
-                spawnCount = Mathf.Clamp(spawnCount, minSpawns, MaxSpawnsAllowedInWave);
+                int maxAllowed = MaxSpawnsAllowedInWave;
+                int numberOfOtherSpawnsOfThisType = NumberSpawnsInCurrentWave - SelectedSpawn.totalSpawnAmount;
+                int maxAllowedForThisSpawn = maxAllowed - numberOfOtherSpawnsOfThisType;
+                spawnCount = Mathf.Clamp(spawnCount, minSpawns, maxAllowedForThisSpawn);
                 SelectedSpawn.totalSpawnAmount = spawnCount;
             }
             if (System.Int32.TryParse(requiredKillCountAmountField.text, out requiredKillCount)) {
@@ -121,7 +124,7 @@ public class SpawnMenu : PlacementMenu {
         allSelectables.ForEach(selectable => { selectable.interactable = isItemSelectedAndNotKeira; });
 
         decreaseSpawnCountButton.interactable = isItemSelectedAndNotKeira && SelectedSpawn.totalSpawnAmount > minSpawns;
-        increaseSpawnCountButton.interactable = isItemSelectedAndNotKeira && NumberSpawnsInWave < MaxSpawnsAllowedInWave;
+        increaseSpawnCountButton.interactable = isItemSelectedAndNotKeira && NumberSpawnsInCurrentWave < MaxSpawnsAllowedInWave;
 
         decreaseRequiredKillCountButton.interactable = isItemSelectedAndNotKeira && GetRequiredKillCountInCurrentWave(SelectedSpawn) > 0 ;
         increaseRequiredKillCountButton.interactable = isItemSelectedAndNotKeira && GetRequiredKillCountInCurrentWave(SelectedSpawn) < GetMaxMinSpawnsAllowedInCurrentWave(SelectedSpawn);
