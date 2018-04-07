@@ -20,10 +20,6 @@ public class DataPersister : Singleton<DataPersister> {
     #region Private Fields
     private string DataSaveFilePath { get { return SavesPathDirectory + "/savefile.dat"; } }
 
-    //private LevelData WorkingLevelData;
-    //TODO: No, delete these
-    private string currentLevelDataFolder;
-    private string currentImagePath;
     #endregion
 
     #region Event Subscriptions (Protected)
