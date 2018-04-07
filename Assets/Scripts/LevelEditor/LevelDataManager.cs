@@ -6,7 +6,6 @@ using ModMan;
 using System.Linq;
 using UnityEngine.UI;
 using PLE;
-using Steamworks;
 using System;
 
 public class LevelDataManager : MonoBehaviour {
@@ -38,8 +37,9 @@ public class LevelDataManager : MonoBehaviour {
     private int spawnLayerMask;
     private DataPersister dataPersister { get { return DataPersister.Instance; } }
 
-    private string workingLevelDataFolderPath;
-    private string workingLevelDataImagePath;
+    private byte[] currentImageData;
+
+    private delegate void SaveDataCallback();
     #endregion
 
     #region Unity Lifecycle
@@ -207,15 +207,31 @@ public class LevelDataManager : MonoBehaviour {
     }
 
     public void SaveLevel() {
-        SaveSingleLevelData();
         SyncWorkingTileData();
         SyncWorkingPropData();
         SyncWorkingSpawnData();
         SyncWorkingLevelText();
         SyncWorkingWaveState();
-        StartCoroutine(TakePictureAndSave());
+        StartCoroutine(TakePicture(SaveAllLevelData));
+        StartCoroutine(TakePicture(SaveSingleLevel));
     }
 
+    private void SaveSingleLevel()
+    {
+        string levelDirectory = DataPersister.SavesPathDirectory + "/" + WorkingLevelData.name + "/";
+        string levelImagePath = levelDirectory + WorkingLevelData.name + ".png";
+
+        dataPersister.TrySaveLevelDataFile(levelDirectory, WorkingLevelData);
+        dataPersister.SaveSnapshotToFile(levelImagePath, currentImageData);
+
+        SteamAdapter.GenerateFileIDAndUpload(levelDirectory, levelImagePath, WorkingLevelData);
+
+    }
+
+    private void SaveAllLevelData()
+    {
+        dataPersister.TrySaveWorkingLevel();
+    }
 
     private void SyncWorkingTileData() {
         WorkingTileData.Clear();
@@ -288,7 +304,8 @@ public class LevelDataManager : MonoBehaviour {
         WorkingLevelData.isInfinite = PLESpawnManager.Instance.InfiniteWavesEnabled;
     }
 
-    IEnumerator TakePictureAndSave() {
+    IEnumerator TakePicture(SaveDataCallback i_save)
+    {
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
         levelEditor.gridController.SetGridVisiblity(false);
@@ -296,23 +313,23 @@ public class LevelDataManager : MonoBehaviour {
         mainPLEMenu.GetMenu(PLEMenuType.FLOOR).CanvasGroup.alpha = 0f;
         yield return new WaitForEndOfFrame();
         SavePicture();
-        dataPersister.TrySaveWorkingLevel();
         yield return new WaitForEndOfFrame();
         mainPLEMenu.CanvasGroup.alpha = 1f;
         mainPLEMenu.GetMenu(PLEMenuType.FLOOR).CanvasGroup.alpha = 1f;
         mainPLEMenu.SelectMenuItem(PLEMenuType.FLOOR);
         levelEditor.gridController.SetGridVisiblity(true);
+        i_save();
     }
 
-    private byte[] SavePicture() {
+
+    private void SavePicture() {
         Texture2D snapshot = new Texture2D((int)Camera.main.pixelRect.width, (int)Camera.main.pixelRect.height);
         Rect snapRect = Camera.main.pixelRect;
         snapshot.ReadPixels(snapRect, 0, 0);
         TextureScale.Bilinear(snapshot, (int)LevelData.fixedSize.x, (int)LevelData.fixedSize.y);
         snapshot.Apply();
-        byte[] imageBytes = snapshot.EncodeToPNG();
-        WorkingLevelData.SetPicture(imageBytes);
-        return imageBytes;
+        currentImageData = snapshot.EncodeToPNG();
+        WorkingLevelData.SetPicture(currentImageData);
     }
 
     private string GetWaveName(int i) { return Strings.Editor.Wave + i; }
@@ -326,23 +343,6 @@ public class LevelDataManager : MonoBehaviour {
             mainPLEMenu.SetMenuButtonInteractabilityByState();
         }
     }
-    #endregion
-
-    #region Steam Implementations
-    public void SaveSingleLevelData()
-    {
-        //create directory
-        //save picture to directory
-        string levelDirectory = DataPersister.SavesPathDirectory + "/" + WorkingLevelData.name + "/";
-        string levelImagePath = levelDirectory + WorkingLevelData.name + ".png";
-        byte[] levelImageData = SavePicture();
-
-        int x = 3;
-        //dataPersister.TrySaveLevelDataFile(levelDirectory, WorkingLevelData);
-        //dataPersister.SaveSnapshotToFile(levelImagePath, levelImageData);
-
-    }
-
     #endregion
 
 

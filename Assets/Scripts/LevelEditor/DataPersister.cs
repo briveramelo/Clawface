@@ -20,7 +20,7 @@ public class DataPersister : Singleton<DataPersister> {
     #region Private Fields
     private string DataSaveFilePath { get { return SavesPathDirectory + "/savefile.dat"; } }
 
-    private LevelData WorkingLevelData;
+    //private LevelData WorkingLevelData;
     //TODO: No, delete these
     private string currentLevelDataFolder;
     private string currentImagePath;
@@ -88,7 +88,6 @@ public class DataPersister : Singleton<DataPersister> {
 
     public void SaveSnapshotToFile(string i_fileName, byte[] i_imgData)
     {
-        //currentImagePath = currentLevelDataFolder + WorkingLevelData.name + ".png";
         File.WriteAllBytes(i_fileName, i_imgData);
     }
 
@@ -102,47 +101,10 @@ public class DataPersister : Singleton<DataPersister> {
         SaveLevelDataFile(completeFilePath, i_Data);
     }
 
-    public bool TrySendToSteam(LevelData i_Data)
-    {
-        WorkingLevelData = i_Data;
-        GenerateSteamFileID();
-        return true;
-    }
 
-    private void OnItemSubmitted(bool result)
-    {
-        if(result == true)
-        {
-            print("Item Submitted");
-        }
-
-    }
     #endregion
 
     #region Private Interface
-    private void GenerateSteamFileID()
-    {
-        SteamWorkshop.Instance.CreateNewItem(OnCreateItem);
-    }
-
-    private void OnCreateItem(PublishedFileId_t fileId)
-    {
-        if (fileId.m_PublishedFileId != 0)
-        {
-            //success
-            WorkingLevelData.fileID = fileId;
-           SteamWorkshop.Instance.UpdateItem(
-           WorkingLevelData.FileID,
-           WorkingLevelData.name,
-           WorkingLevelData.description,
-           currentLevelDataFolder,
-           currentImagePath,
-           "sup",
-           OnItemSubmitted
-           );
-
-        }
-    }
 
     void SaveDataFile() {
         BinaryFormatter bf = new BinaryFormatter();
@@ -375,7 +337,6 @@ public class LevelData {
     public int WaveCount { get { return waveData.Count; } }
     public int TileCount { get { return tileData.Count; } }
     public int PropCount { get { return propData.Count; } }
-    public PublishedFileId_t FileID { get { return fileID; } }
 
 
     public void SaveTimestamp() {
