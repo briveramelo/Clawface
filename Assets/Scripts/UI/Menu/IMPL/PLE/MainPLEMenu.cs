@@ -18,16 +18,18 @@ public class MainPLEMenu : PLEMenu {
     [SerializeField] private TestMenu testEditorMenu;
     [SerializeField] private SaveMenu saveEditorMenu;
     [SerializeField] private PLELevelSelectMenu levelSelectEditorMenu;
+    [SerializeField] private SteamMenu steamMenu;
     [SerializeField] private HelpMenu helpEditorMenu;
     [SerializeField] private ExitMenu exitMenu;
 
     [Header("Other things")]
     [SerializeField] private Selectable firstSelectable;
-    [SerializeField] private Selectable floorItem, propsItem, spawnsItem, waveItem, testItem, saveItem, loadItem, helpItem, exitItem;
+    [SerializeField] private Selectable floorItem, propsItem, spawnsItem, waveItem, testItem, saveItem, loadItem, steamItem, helpItem, exitItem;
     [SerializeField] private RefsToggle helpSideBarToggler;
     #endregion
 
     #region Private Fields
+    LevelData WorkingLevelData { get { return DataPersister.ActiveDataSave.workingLevelData; } }
     private List<PLEMenu> pleMenus = new List<PLEMenu>();
     private List<MenuSelectable> menuToggles = new List<MenuSelectable>();
     private PLEMenuType currentDisplayedMenu;
@@ -58,6 +60,7 @@ public class MainPLEMenu : PLEMenu {
             testEditorMenu,
             saveEditorMenu,
             levelSelectEditorMenu,
+            steamMenu,
             helpEditorMenu,
             exitMenu
         };
@@ -109,6 +112,11 @@ public class MainPLEMenu : PLEMenu {
     /// All Menus Update, including the main menu
     /// </summary>
     public override void SetMenuButtonInteractabilityByState() {
+        if (steamMenu.IsWaitingForConfirmation) {
+            TurnOffAllMenuInteractables();
+            return;
+        }
+
         bool anyTilesOn = levelEditor.gridController.AnyTilesActive();
         ToggleMenuInteractable(anyTilesOn, PLEMenuType.PROPS, PLEMenuType.SPAWN, PLEMenuType.WAVE);
 
@@ -124,6 +132,9 @@ public class MainPLEMenu : PLEMenu {
         List<LevelData> levelDatas = DataPersister.ActiveDataSave.levelDatas;
         bool atLeastOneLevelExists = levelDatas.Count > 0 && !levelDatas[0].IsEmpty;
         ToggleMenuInteractable(atLeastOneLevelExists, PLEMenuType.LEVELSELECT);
+
+        bool activeLevelDataHasBeenSaved = !WorkingLevelData.IsEmpty;
+        ToggleMenuInteractable(activeLevelDataHasBeenSaved, PLEMenuType.STEAM);
 
         waveEditorMenu.UpdateWaveText();
         pleMenus.ForEach(menu => {
@@ -201,6 +212,10 @@ public class MainPLEMenu : PLEMenu {
         SelectMenuItem(PLEMenuType.TEST);
     }
 
+    public void OpenSteamAction() {
+        SelectMenuItem(PLEMenuType.STEAM);
+    }
+
     public void OpenHelpAction() {
         SelectMenuItem(PLEMenuType.HELP);
     }
@@ -237,6 +252,7 @@ public class MainPLEMenu : PLEMenu {
             case PLEMenuType.HELP: return helpEditorMenu;
             case PLEMenuType.SAVE: return saveEditorMenu;
             case PLEMenuType.TEST: return testEditorMenu;
+            case PLEMenuType.STEAM: return steamMenu;
             case PLEMenuType.LEVELSELECT: return levelSelectEditorMenu;
             case PLEMenuType.EXIT: return exitMenu;
             default: return null;
@@ -269,6 +285,7 @@ public class MainPLEMenu : PLEMenu {
         menuToggles.Add(new MenuSelectable(PLEMenuType.WAVE, waveItem));
         menuToggles.Add(new MenuSelectable(PLEMenuType.TEST, testItem));
         menuToggles.Add(new MenuSelectable(PLEMenuType.SAVE, saveItem));
+        menuToggles.Add(new MenuSelectable(PLEMenuType.STEAM, steamItem));
         menuToggles.Add(new MenuSelectable(PLEMenuType.LEVELSELECT, loadItem));
         menuToggles.Add(new MenuSelectable(PLEMenuType.HELP, helpItem));
         menuToggles.Add(new MenuSelectable(PLEMenuType.EXIT, exitItem));
@@ -303,6 +320,10 @@ public class MainPLEMenu : PLEMenu {
             helpSideBarToggler.LockPane(hideSideBar);
         }
         SetMenuButtonInteractabilityByState();
+    }
+
+    private void TurnOffAllMenuInteractables() {
+        menuToggles.ForEach(item => { item.selectable.interactable = false; });
     }
 
     private void ToggleMenuInteractable(bool isInteractable, params PLEMenuType[] menus) {

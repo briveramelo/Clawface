@@ -382,6 +382,7 @@ public enum PLEMenuType
     WAVE,
     TEST,
     LEVELSELECT,
+    STEAM,
     EXIT,
     NONE
 }
