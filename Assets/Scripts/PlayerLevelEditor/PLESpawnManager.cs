@@ -201,7 +201,8 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
         if (previousWaveIndex >= 0) {
             previousWaveMinSpawnCount = WorkingLevelData.MinNumSpawns(spawn.spawnType, previousWaveIndex);
         }
-        return spawn.MaxPerWave - previousWaveMinSpawnCount;
+        int max = spawn.MaxPerWave - previousWaveMinSpawnCount;
+        return Mathf.Clamp(max, 0, spawn.MaxPerWave);
     }
     public int GetNumberSpawnsInNextWave(PLESpawn spawn) {
         int numSpawnsInNextWave = 0;

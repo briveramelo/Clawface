@@ -158,11 +158,13 @@ public class ZombieAcider : EnemyBase
     public override void OnDeath()
     {
         isUp = false;
+        chase.ResetAcidObject();
         base.OnDeath();
     }
 
     public override void ResetForRebirth()
     {
+        
         base.ResetForRebirth();
     }
 

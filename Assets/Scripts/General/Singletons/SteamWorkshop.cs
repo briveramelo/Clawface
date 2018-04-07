@@ -90,6 +90,27 @@ public class SteamWorkshop : Singleton<SteamWorkshop> {
     {
         EItemUpdateStatus status = SteamUGC.GetItemUpdateProgress(updateHandle, out bytesProcessed, out bytesTotal);
     }
+
+    public void GetSubscribedItems(out PublishedFileId_t[] subscribedItems, out uint numberOfSubscribedItems)
+    {
+        numberOfSubscribedItems = SteamUGC.GetNumSubscribedItems();
+        subscribedItems = new PublishedFileId_t[numberOfSubscribedItems];
+        SteamUGC.GetSubscribedItems(subscribedItems, numberOfSubscribedItems);
+    }
+
+    //If string returned is null, it means that the folder does not exist
+    public string GetDirectoryForSubscription(PublishedFileId_t itemId)
+    {
+        ulong sizeOnDisk;
+        string folder;
+        uint folderSize = 0;
+        uint timeStamp;        
+        if(!SteamUGC.GetItemInstallInfo(itemId, out sizeOnDisk, out folder, folderSize, out timeStamp))
+        {
+            folder = null;
+        }
+        return folder;
+    }
     #endregion
 
     #region private methods

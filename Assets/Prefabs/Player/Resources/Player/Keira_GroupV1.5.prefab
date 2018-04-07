@@ -2885,7 +2885,6 @@ MonoBehaviour:
   keiraMesh: {fileID: 4806380322644202}
   moveState: {fileID: 114776189445566068}
   playerRigidbody: {fileID: 54953484378717752}
-  playerFace: {fileID: 114929162397462484}
 --- !u!114 &114081852227380934
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3233,6 +3232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateVariables:
+    playerCanMove: 0
     stateFinished: 0
     acceleration: 50
     manualDrag: 30
@@ -3411,7 +3411,11 @@ MonoBehaviour:
     damageRatio: 0.6
   stats: {fileID: 114482720515291186}
   playerTakesSetDamage: 1
-  setDamageToTake: 3
+  veryEasyDamageToTake: 0.5
+  easyDamageToTake: 1
+  normalDamageToTake: 3
+  hardDamageToTake: 4.5
+  veryHardDamageToTake: 9
   dashState: {fileID: 114132200228300390}
   invincibleTime: 0.4
 --- !u!114 &114440139089632224

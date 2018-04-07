@@ -12,6 +12,7 @@ public class MallCopStunState : AIState {
     }
     public override void Update()
     {
+        animator.SetInteger(Strings.ANIMATIONSTATE, (int)AnimationStates.Stunned);
     }
     public override void OnExit()
     {

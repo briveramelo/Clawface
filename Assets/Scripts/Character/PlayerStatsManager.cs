@@ -28,7 +28,19 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     private bool playerTakesSetDamage;
 
     [SerializeField]
-    private float setDamageToTake;
+    private float veryEasyDamageToTake;
+
+    [SerializeField]
+    private float easyDamageToTake;
+
+    [SerializeField]
+    private float normalDamageToTake;
+
+    [SerializeField]
+    private float hardDamageToTake;
+
+    [SerializeField]
+    private float veryHardDamageToTake;
 
     [SerializeField]
     private DashState dashState;
@@ -97,17 +109,24 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
 
             float healthFraction = stats.GetHealthFraction();
 
-            float damageToTake = setDamageToTake;
+            float damageToTake;
             switch (SettingsManager.Instance.Difficulty)
             {
+                case Difficulty.VERY_EASY:
+                    damageToTake = veryEasyDamageToTake;
+                    break;
                 case Difficulty.EASY:
-                    damageToTake *= 1.0f/6.0f;
+                    damageToTake = easyDamageToTake;
                     break;
                 case Difficulty.HARD:
-                    damageToTake *= 3f;
+                    damageToTake = hardDamageToTake;
+                    break;
+                case Difficulty.INSANE:
+                    damageToTake = veryHardDamageToTake;
                     break;
                 case Difficulty.NORMAL:
                 default:
+                    damageToTake = normalDamageToTake;
                     break;
             }
 
