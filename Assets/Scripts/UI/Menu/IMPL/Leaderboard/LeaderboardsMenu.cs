@@ -7,33 +7,16 @@ using ModMan;
 public class LeaderboardsMenu : Menu
 {
     #region Serialized fields
-    [SerializeField]
-    private GameObject leaderBoardEntryPrefab;
+    [SerializeField] private GameObject leaderBoardEntryPrefab, loadingObject;
+    [SerializeField] private Transform entriesHolder;    
 
-    [SerializeField]
-    private Transform entriesHolder;
+    [SerializeField] private Button globalButton, friendButton, aroundUserButton;
+    [SerializeField] private Scrollbar verticalScrollbar;
 
-    [SerializeField]
-    private GameObject loadingObject;
-
-    [SerializeField]
-    private int maxEntries = 100;
-
-    [SerializeField]
-    private Button globalButton;
-
-    [SerializeField]
-    private Button friendButton;
-
-    [SerializeField]
-    private Button aroundUserButton;
-
-    [SerializeField]
-    private Scrollbar verticalScrollbar;
-    [SerializeField]
-    private SelectorToggleGroup selectorToggleGroup;
+    [SerializeField] private SelectorToggleGroup selectorToggleGroup;
 
     [SerializeField] private Color playerColor, standardColor;
+    [SerializeField] private int maxEntries = 100;
     [SerializeField] private float joystickMaxScrollSpeed, mouseMaxScrollSpeed;
     #endregion
 
@@ -41,12 +24,22 @@ public class LeaderboardsMenu : Menu
     private List<LeaderboardEntry> leaderBoardEntries=new List<LeaderboardEntry>();    
     private string currentLevelName;
     private LeaderBoards.SelectionType currentSelectionType;
-
-    private int selectedFilterToggle;
-    private int SelectedFilterToggle {
-        get { return Mathf.Clamp(selectedFilterToggle, 0, selectorToggleGroup.SelectorTogglesCount); }
-        set { selectedFilterToggle = (int)Mathf.Repeat(value, selectorToggleGroup.SelectorTogglesCount); }
+    private bool IsWaitingForEntries {
+        get {
+            return isWaitingForEntries;
+        }
+        set {
+            ToggleFilterSelectability(!value, currentSelectionType);
+            isWaitingForEntries = value;
+        }
     }
+    private bool isWaitingForEntries;
+
+    private int SelectedFilterToggle {
+        get { return Mathf.Clamp((int)currentSelectionType, 0, selectorToggleGroup.SelectorTogglesCount); }
+        set { currentSelectionType = (LeaderBoards.SelectionType)Mathf.Repeat(value, selectorToggleGroup.SelectorTogglesCount); }
+    }
+    private Dictionary<LeaderBoards.SelectionType, Selectable> buttons = new Dictionary<LeaderBoards.SelectionType, Selectable>();
     #endregion
 
     #region public fields
@@ -60,6 +53,15 @@ public class LeaderboardsMenu : Menu
     #endregion
 
     #region unity lifecycle
+    protected override void Awake() {
+        base.Awake();
+        buttons = new Dictionary<LeaderBoards.SelectionType, Selectable>() {
+            {LeaderBoards.SelectionType.GLOBAL, globalButton },
+            {LeaderBoards.SelectionType.FRIENDS, friendButton},
+            {LeaderBoards.SelectionType.AROUND_USER, aroundUserButton},
+        };
+    }
+
     private void Update()
     {
         if (allowInput) {
@@ -90,6 +92,13 @@ public class LeaderboardsMenu : Menu
     void MoveScrollBar(float speed) {
         verticalScrollbar.value += speed * Time.deltaTime;
     }
+    void ToggleFilterSelectability(bool enabled, LeaderBoards.SelectionType selectedType) {
+        buttons.ForEach((type, button) => {
+            if ((selectedType != type && !enabled) || enabled) {
+                button.interactable = enabled;
+            }
+        });
+    }    
 
     private void CheckToMoveFilter() {
         //TODO set this up work with Strings.Input.UI
@@ -155,43 +164,39 @@ public class LeaderboardsMenu : Menu
 
     #region protected methods    
     public override MenuType ThisMenuType { get { return MenuType.Leaderboards; } }
-    protected override void ShowComplete() {
-        base.ShowComplete();        
-    }
-    protected override void HideComplete() {
-        base.HideComplete();
-    }
 
     protected override void ShowStarted()
     {
         base.ShowStarted();
         selectorToggleGroup.HandleGroupSelection(0);
-        GetLeaderboardEntries(LeaderBoards.SelectionType.GLOBAL);
+        if (MenuManager.Instance.MouseMode) {
+            GetLeaderboardEntries(LeaderBoards.SelectionType.GLOBAL);
+        }
     }
 
-    protected override void HideStarted()
-    {
-        base.HideStarted();        
-    }
     #endregion
 
     #region private methods
     private void GetLeaderboardEntries(LeaderBoards.SelectionType selectionType)
     {
+        currentSelectionType = selectionType;
         foreach (LeaderboardEntry entry in leaderBoardEntries)
         {
             entry.IsVisible(false);
-        }       
-
-        bool result = LeaderBoards.Instance.GetLeaderBoardData(currentLevelName, OnLeaderBoardEntriesReturned, maxEntries, selectionType);
+        }
+        if (!IsWaitingForEntries) {
+            IsWaitingForEntries = true;
+            bool result = LeaderBoards.Instance.GetLeaderBoardData(currentLevelName, OnLeaderBoardEntriesReturned, maxEntries, selectionType);
         
-        loadingObject.GetComponent<LoadingText>().SetError(result);
-        loadingObject.SetActive(true);
-        verticalScrollbar.value = 1f;
+            loadingObject.GetComponent<LoadingText>().SetError(result);
+            loadingObject.SetActive(true);
+            verticalScrollbar.value = 1f;
+        }
     }
 
     private void OnLeaderBoardEntriesReturned(List<GenericSteamLeaderBoard.LeaderBoardVars> results, bool retry)
     {
+        IsWaitingForEntries = false;
         if (!retry)
         {
             int numberOfReusableEntries = leaderBoardEntries.Count;
