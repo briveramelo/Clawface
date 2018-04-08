@@ -7,12 +7,13 @@ using UnityEditor;
 public class FontSizerEditor : Editor {
 
     private void OnEnable() {
-        (target as FontSizer).TrySetTextFromTextComponent();
         (target as FontSizer).Apply();
     }
 
     public override void OnInspectorGUI() {
+        serializedObject.Update();
         base.OnInspectorGUI();
         (target as FontSizer).Apply();
+        serializedObject.ApplyModifiedProperties();
     }
 }

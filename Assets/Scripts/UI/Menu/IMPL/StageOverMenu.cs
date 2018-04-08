@@ -29,14 +29,7 @@ public class StageOverMenu : Menu
     [SerializeField]
     private Button initialButton;
 
-    [SerializeField]
-    private Text score;
-
-    [SerializeField]
-    private Text combo;
-
-    [SerializeField]
-    private Text title;    
+    [SerializeField] private Text score, combo, title, bonus, difficulty;    
 
     [SerializeField]
     private float popUpDelay = 2.0f;
@@ -125,22 +118,6 @@ public class StageOverMenu : Menu
         MenuManager.Instance.DoTransition(weaponMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
     }
 
-    public void NextLevelAction()
-    {
-        Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
-        LoadMenu loadMenu = (LoadMenu)menu;
-        loadMenu.SetNavigation(SceneTracker.CurrentSceneName);
-
-        PauseMenu pauseMenu = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
-        pauseMenu.CanPause = true;
-        //TODO: What is the "next" level, the next one in the build index? 
-
-        //EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_RESTARTED, SceneTracker.CurrentSceneName, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
-
-
-        MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
-    }
-
     public void KillAllTransitions() {
         StopAllCoroutines();
     }
@@ -148,6 +125,7 @@ public class StageOverMenu : Menu
     #endregion
 
     #region Protected Interface
+    public override MenuType ThisMenuType { get { return MenuType.StageOver; } }
 
     protected override void ShowStarted()
     {
@@ -176,38 +154,27 @@ public class StageOverMenu : Menu
     {
         score.text = ScoreManager.Instance.GetScore().ToCommaSeparated();
         combo.text = ScoreManager.Instance.GetHighestCombo().ToCommaSeparated();
+        bonus.text = ScoreManager.Instance.GetMaxComboScore().ToCommaSeparated();
+        difficulty.text = "x"+ScoreManager.Instance.GetDifficultyMultiplier().ToSimplestForm();
     }
 
-    IEnumerator DoLevelComplete(params object[] parameter)
+    private void LevelCompleteStart(params object[] parameter) {
+        StartCoroutine(DoLevelComplete(popUpDelay, Strings.TextStrings.STAGE_OVER_TEXT));
+    }
+
+    private void PlayerDeathStart(params object[] parameter) {
+        StartCoroutine(DoLevelComplete(popUpDelay, Strings.TextStrings.GAME_OVER_TEXT));
+    }
+
+    IEnumerator DoLevelComplete(float waitTime, string titleText)
     {
         PauseMenu m = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
         m.CanPause = false;
 
-        yield return new WaitForSeconds((float)parameter[0]);
+        yield return new WaitForSeconds(waitTime);
         
-        title.text = Strings.TextStrings.STAGE_OVER_TEXT;
+        title.text = titleText;
         MenuManager.Instance.DoTransition(this, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
-    }
-
-    private void LevelCompleteStart(params object[] parameter)
-    {
-        StartCoroutine(DoLevelComplete(popUpDelay));
-    }
-
-    IEnumerator DoPlayerDeath(params object[] parameter)
-    {
-        PauseMenu m = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
-        m.CanPause = false;
-
-        yield return new WaitForSeconds((float)parameter[0]);
-
-        title.text = Strings.TextStrings.GAME_OVER_TEXT;
-        MenuManager.Instance.DoTransition(this, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
-    }
-
-    private void PlayerDeathStart(params object[] parameter)
-    {
-        StartCoroutine(DoPlayerDeath(popUpDelay));
     }
 
     private void SetButtonStates()

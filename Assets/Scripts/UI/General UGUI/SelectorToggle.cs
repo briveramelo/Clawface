@@ -95,6 +95,9 @@ public class SelectorToggle : MonoBehaviour {
 
     private void OnDisable() {
         hovered = false;
+        if (!CanStayOn) {
+            selected = false;
+        }
         UpdateDisplay();
     }
 

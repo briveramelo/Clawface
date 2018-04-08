@@ -115,7 +115,7 @@ public class WeaponSelectMenu : Menu
     #endregion
 
     #region Interface (Menu)
-
+    public override MenuType ThisMenuType { get { return MenuType.WeaponSelect; } }
     protected override void Fade(Transition transition, Effect[] effects)
     {
         fader.DoShow(fadeDuration, () =>

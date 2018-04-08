@@ -210,6 +210,7 @@ public class SettingsMenu : Menu {
     #endregion
 
     #region Interface (Protected)
+    public override MenuType ThisMenuType { get { return MenuType.Settings; } }
     protected override void ShowStarted()
     {
         base.ShowStarted();

@@ -126,6 +126,7 @@ public class PLELevelSelectMenu : PLEMenu {
     #endregion
 
     #region Public Interface
+    public override MenuType ThisMenuType { get { return MenuType.LevelSelect; } }
     public void ChangeFilters(int newFilterType) {
         SFXManager.Instance.Play(SFXType.UI_Click);
         SelectedFilterToggle = newFilterType;

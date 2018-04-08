@@ -64,7 +64,7 @@ public class ControlMapperMenu : Menu
     #endregion
 
     #region Protected Interface
-
+    public override MenuType ThisMenuType { get { return MenuType.Controls; } }
 
     protected override void ShowComplete()
     {

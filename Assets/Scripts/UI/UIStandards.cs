@@ -12,7 +12,8 @@ public class UIStandards : MonoBehaviour {
     }
 
     public void ApplyFontSizes() {
-        FindObjectsOfType<FontSizer>().ToList().ForEach(sizer => {
+        FontAdapters = fontAdapters;
+        (FindObjectsOfTypeAll(typeof(FontSizer)) as FontSizer[]).ToList().ForEach(sizer => {
             sizer.Apply();
         });
     }

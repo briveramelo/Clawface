@@ -153,7 +153,7 @@ public class LeaderboardsMenu : Menu
     #endregion
 
     #region protected methods    
-
+    public override MenuType ThisMenuType { get { return MenuType.Leaderboards; } }
     protected override void ShowComplete() {
         base.ShowComplete();        
     }

@@ -184,8 +184,7 @@ namespace ModMan {
         }
     }
 
-    public static class FloatExtensions
-    {
+    public static class FloatExtensions {
         public const float minDB = -80f;
         public static float ToDecibel(this float linear) {
             float dB;
@@ -197,6 +196,12 @@ namespace ModMan {
             }
             return dB;
         }
+
+        public static string ToSimplestForm(this float val) {
+            bool hasDecimal = !val.AboutEqual(Mathf.Round(val));
+            string format = hasDecimal ? "{0:n1}" : "{0:n0}";
+            return string.Format(format, val);
+        }  
 
 
         public static bool AboutEqual(this float flo, float other, float tolerance = 0.1f)

@@ -6,16 +6,20 @@ using UnityEngine.UI;
 
 public class FontSizer : MonoBehaviour {
 
-    [SerializeField] private Text text;
-    [SerializeField] private TextStyle style;    
-
-    public void TrySetTextFromTextComponent() {
-        if (text==null) {
-            text = GetComponent<Text>();
+    private Text MyText {
+        get {
+            if(myText==null) {
+                myText = GetComponent<Text>();
+            }
+            return myText;
         }
     }
+
+    [SerializeField] private Text myText;
+    [SerializeField] private TextStyle style;    
+    
     public void Apply() {
-        text.fontSize = UIStandards.GetFontSize(style);
+        MyText.fontSize = UIStandards.GetFontSize(style);
     }
 }
 
@@ -27,10 +31,11 @@ public class FontAdapter{
 
 public enum TextStyle {
     Title,
-    MapTitle,
+    Subtitle,
     Button,
     Description,
     PopUp_Title,
+    PopUp_Subtitle,
     PopUp_Button,
     PopUp_Description
 }

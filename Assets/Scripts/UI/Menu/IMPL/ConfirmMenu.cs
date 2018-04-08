@@ -126,7 +126,7 @@ public class ConfirmMenu: Menu
     #endregion
 
     #region Protected Interface
-
+    public override MenuType ThisMenuType { get { return MenuType.Confirm; } }
     protected override void ShowComplete()
     {
         base.ShowComplete();
