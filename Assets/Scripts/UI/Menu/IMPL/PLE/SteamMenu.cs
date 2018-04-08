@@ -15,7 +15,7 @@ public class SteamMenu : PLEMenu {
     #region Unity Serialized Fields
     [SerializeField] private GameObject baseMenu, uploadMenu, downloadMenu, uploadSuccessMenu;
     [SerializeField] private Text nameText, descriptionText, uploadingWaitingText;
-    [SerializeField] private Selectable uploadSuccessMenuBackButton;
+    [SerializeField] private Selectable uploadSuccessMenuBackButton, uploadButton;
     [SerializeField] private Image levelImage;
     [SerializeField] private string successMessage, failureMessage, uploadingWaitingString;
     #endregion
@@ -88,7 +88,8 @@ public class SteamMenu : PLEMenu {
     }
 
     public override void SetMenuButtonInteractabilityByState() {
-        
+        bool activeLevelDataHasBeenSaved = !WorkingLevelData.IsEmpty;
+        uploadButton.interactable = activeLevelDataHasBeenSaved;
     }
 
     protected override void ShowStarted() {

@@ -113,9 +113,10 @@ public class MainPLEMenu : PLEMenu {
     /// </summary>
     public override void SetMenuButtonInteractabilityByState() {
         if (steamMenu.IsWaitingForConfirmation) {
-            TurnOffAllMenuInteractables();
+            ToggleAllMenuInteractables(false);
             return;
         }
+        ToggleAllMenuInteractables(true);
 
         bool anyTilesOn = levelEditor.gridController.AnyTilesActive();
         ToggleMenuInteractable(anyTilesOn, PLEMenuType.PROPS, PLEMenuType.SPAWN, PLEMenuType.WAVE);
@@ -132,9 +133,6 @@ public class MainPLEMenu : PLEMenu {
         List<LevelData> levelDatas = DataPersister.ActiveDataSave.levelDatas;
         bool atLeastOneLevelExists = levelDatas.Count > 0 && !levelDatas[0].IsEmpty;
         ToggleMenuInteractable(atLeastOneLevelExists, PLEMenuType.LEVELSELECT);
-
-        bool activeLevelDataHasBeenSaved = !WorkingLevelData.IsEmpty;
-        ToggleMenuInteractable(activeLevelDataHasBeenSaved, PLEMenuType.STEAM);
 
         waveEditorMenu.UpdateWaveText();
         pleMenus.ForEach(menu => {
@@ -322,8 +320,8 @@ public class MainPLEMenu : PLEMenu {
         SetMenuButtonInteractabilityByState();
     }
 
-    private void TurnOffAllMenuInteractables() {
-        menuToggles.ForEach(item => { item.selectable.interactable = false; });
+    private void ToggleAllMenuInteractables(bool interactable) {
+        menuToggles.ForEach(item => { item.selectable.interactable = interactable; });
     }
 
     private void ToggleMenuInteractable(bool isInteractable, params PLEMenuType[] menus) {
