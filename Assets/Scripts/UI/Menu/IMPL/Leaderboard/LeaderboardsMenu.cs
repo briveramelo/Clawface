@@ -32,7 +32,8 @@ public class LeaderboardsMenu : Menu
     private Scrollbar verticalScrollbar;
     [SerializeField]
     private SelectorToggleGroup selectorToggleGroup;
-    
+
+    [SerializeField] private Color playerColor, standardColor;
     [SerializeField] private float joystickMaxScrollSpeed, mouseMaxScrollSpeed;
     #endregion
 
@@ -202,17 +203,22 @@ public class LeaderboardsMenu : Menu
                 {
                     GameObject newObject = Instantiate(leaderBoardEntryPrefab);
                     newObject.transform.SetParent(entriesHolder);
+                    newObject.transform.localScale = Vector3.one;
                     leaderBoardEntries.Add(newObject.GetComponent<LeaderboardEntry>());
                 }
             }
 
             numberOfReusableEntries = leaderBoardEntries.Count;
             loadingObject.SetActive(false);
+            string playerName = Steamworks.SteamFriends.GetPersonaName();            
             for (int i = 0; i < numberOfResults; i++)
             {
                 GenericSteamLeaderBoard.LeaderBoardVars result = results[i];
-                leaderBoardEntries[i].SetData(string.Format("{0}{1}",result.rank.ToCommaSeparated(), "."), result.userID, result.score.ToCommaSeparated());
-                leaderBoardEntries[i].IsVisible(true);
+                LeaderboardEntry entry = leaderBoardEntries[i];
+                Color entryColor = result.userID == playerName ? playerColor : standardColor;
+                entry.SetTextColor(entryColor);
+                entry.SetData(string.Format("{0}{1}",result.rank.ToCommaSeparated(), "."), result.userID, result.score.ToCommaSeparated());
+                entry.IsVisible(true);
             }
 
             for (int i = numberOfResults; i < numberOfReusableEntries; i++)

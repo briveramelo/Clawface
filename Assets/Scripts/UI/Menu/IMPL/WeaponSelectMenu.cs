@@ -308,6 +308,7 @@ public class WeaponSelectMenu : Menu
         leftArm.GlowControl.SetState(WeaponSelectState.Highlighted);
         ChangeWeaponTextPanel(leftArm);
         leftArmAnimator.SetTrigger("DoUnlock");
+        CurrentEventSystem.SetSelectedGameObject(null);
     }
 
     private void HandleMovingWeaponLineup(WeaponLineup lineup, bool isLeft, bool isRight)

@@ -6,7 +6,7 @@ using ModMan;
 using PLE;
 using System.Linq;
 using System;
-
+using MEC;
 public class PLELevelSelectMenu : PLEMenu {
 
     public PLELevelSelectMenu() : base(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU) { }
@@ -84,6 +84,12 @@ public class PLELevelSelectMenu : PLEMenu {
 
 
     #region Unity Lifecyle
+
+    protected override void KillCoroutines() {
+        base.KillCoroutines();
+        Timing.KillCoroutines(ScrollCoroutineName);
+        Timing.KillCoroutines(PulseCoroutineName);
+    }
     protected override void Start() {
         base.Start();
 
@@ -176,13 +182,13 @@ public class PLELevelSelectMenu : PLEMenu {
         }
     }
 
-    public void SelectLevel(LevelUI levelUI) {
+    public void SelectLevel(LevelUI levelUI, bool selectSelectable = true) {
         SelectLevel(levelUI.LevelIndex);
     }
 
-    public void SelectLevel(int levelIndex) {
+    public void SelectLevel(int levelIndex, bool selectSelectable=true) {
         SFXManager.Instance.Play(SFXType.UI_Click);
-        MEC.Timing.KillCoroutines(PulseCoroutineName);
+        Timing.KillCoroutines(PulseCoroutineName);
         if (lastSelectedLevel!=null) {
             lastSelectedLevel.ScaleLevelUISize(1f);
         }
@@ -192,7 +198,10 @@ public class PLELevelSelectMenu : PLEMenu {
         selectLevelAnim.OnUpdate = SelectedLevelUI.ScaleLevelUISize;
         selectLevelAnim.Animate(PulseCoroutineName);
 
-        SelectedLevelUI.selectable.Select();
+        if (selectSelectable) {
+            SelectedLevelUI.selectable.Select();
+            CurrentEventSystem.SetSelectedGameObject(SelectedLevelUI.selectable.gameObject);
+        }
         lastSelectedLevel = SelectedLevelUI;
 
         LevelData selectedLevel = SelectedLevelUI.levelData;
@@ -205,7 +214,6 @@ public class PLELevelSelectMenu : PLEMenu {
         levelUIs.ForEach(levelUI => { levelUI.OnGroupSelectChanged(levelIndex); });
         selectedLevelFavoriteIcon.enabled = selectedLevel.isFavorite;
         SetButtonsInteractabilityAndNavigation();
-        CurrentEventSystem.SetSelectedGameObject(SelectedLevelUI.selectable.gameObject);
         AlignScrollbar();
     }
 
@@ -490,7 +498,7 @@ public class PLELevelSelectMenu : PLEMenu {
         float invertedPercentProgress = 1f * levelRow / totalRows;
         float targetProgress = 1f - invertedPercentProgress;
 
-        MEC.Timing.KillCoroutines(ScrollCoroutineName);
+        Timing.KillCoroutines(ScrollCoroutineName);
         scrollSlideAnim.startValue = levelScrollBar.value;
         scrollSlideAnim.diff = targetProgress - scrollSlideAnim.startValue;
         scrollSlideAnim.Animate(ScrollCoroutineName);
@@ -530,6 +538,10 @@ public class PLELevelSelectMenu : PLEMenu {
         gridLayoutGroup.enabled = false;
         yield return new WaitForEndOfFrame();
         gridLayoutGroup.enabled = true;
+        List<LevelUI> displayedLevels = DisplayedLevelUIs;
+        if (displayedLevels!=null && displayedLevels.Count>0) {
+            SelectLevel(displayedLevels[0].LevelIndex, false);
+        }
         SetButtonNavigation();
         AlignScrollbar();
     }

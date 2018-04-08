@@ -17,7 +17,7 @@ public class LevelUI : ClickableBase, IUIGroupable {
     public int LevelIndex { get; private set; }
     private const int imageWidth = 225;
     private const int imageHeight = 225;
-    private static readonly Vector2 imageDimensions = new Vector2(imageWidth, imageHeight);    
+    private static readonly Vector2 imageDimensions = new Vector2(imageWidth, imageHeight);
 
     public void Initialize(PLELevelSelectMenu menu, LevelData levelData, int levelIndex, bool isHathosLevel=false) {
         this.menu = menu;

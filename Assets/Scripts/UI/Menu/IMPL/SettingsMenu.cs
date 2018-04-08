@@ -215,6 +215,7 @@ public class SettingsMenu : Menu {
     {
         base.ShowStarted();
         selectorToggleGroup.HandleGroupSelection(0);
+        RewireForGraphics();
         TransferSettingsFromManager();
         StartCoroutine(RotateCamera(offRotation, onRotation));
     }
