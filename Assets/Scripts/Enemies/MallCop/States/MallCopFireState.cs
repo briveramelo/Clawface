@@ -83,6 +83,7 @@ public class MallCopFireState : AIState {
     private void FreezePosition()
     {        
         controller.transform.position = initialPosition;
+        navAgent.nextPosition = controller.transform.position;
     }
 
     public void ReadyToFireDone()

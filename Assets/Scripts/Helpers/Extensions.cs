@@ -47,7 +47,7 @@ namespace ModMan {
                 case SpawnType.ZombieBeserker: return 15;
                 case SpawnType.Bouncer: return 5;
                 case SpawnType.GreenBouncer: return 5;
-                case SpawnType.RedBouncer: return 5;
+                case SpawnType.RedBouncer: return 3;
                 case SpawnType.Kamikaze: return 25;
                 case SpawnType.KamikazeMommy: return 2;
                 case SpawnType.KamikazePulser: return 25;

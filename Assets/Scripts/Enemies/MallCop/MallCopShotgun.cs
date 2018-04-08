@@ -52,10 +52,11 @@ public class MallCopShotgun : EnemyBase
         damaged.Set(DamagedType.MallCop, bloodEmissionLocation);
 
         controller.checksToUpdateState = new List<Func<bool>>() {
+            CheckDoneGettingUp,
             CheckPlayerDead,
+            CheckIfStunned,
             CheckToFire,
-            CheckToFinishFiring,
-            CheckIfStunned
+            CheckToFinishFiring
         };
         currentToleranceTime = 0.0f;
         base.Awake();
@@ -64,6 +65,16 @@ public class MallCopShotgun : EnemyBase
     #endregion
 
     #region 4. Public Methods   
+    //State conditions
+    bool CheckDoneGettingUp()
+    {
+        if (!isUp)
+        {
+            return true;
+        }
+        return false;
+    }
+
 
     //State conditions
     bool CheckPlayerDead()
@@ -102,27 +113,15 @@ public class MallCopShotgun : EnemyBase
     {
         rayCastPosition = new Vector3(controller.transform.position.x, controller.transform.position.y + 1f, controller.transform.position.z);
 
-        if (myStats.health <= myStats.skinnableHealth || alreadyStunned)
+        if (controller.CurrentState == fire && fire.DoneFiring())
         {
-            controller.CurrentState = stun;
-            controller.UpdateState(EAIState.Stun);
-            controller.DeActivateAI();
-        }
-
-            if (controller.CurrentState == fire && fire.DoneFiring())
+            if (controller.DistanceFromTarget > closeEnoughToFireDistance)
+            {
+                ToleranceTimeToExit();
+            }
+            else if (controller.DistanceFromTarget < closeEnoughToFireDistance)
             {
 
-                if (controller.DistanceFromTarget > closeEnoughToFireDistance)
-                {
-                    ToleranceTimeToExit();
-                }
-                else if (controller.DistanceFromTarget < closeEnoughToFireDistance)
-                {
-                    ToleranceTimeToExit();
-                    currentToleranceTime = 0.0f;
-                }
-            else
-            {
                 Vector3 fwd = controller.DirectionToTarget;
                 rayCastPosition = new Vector3(controller.transform.position.x, controller.transform.position.y + 1f, controller.transform.position.z);
                 RaycastHit hit;
@@ -132,9 +131,14 @@ public class MallCopShotgun : EnemyBase
                     if (hit.transform.tag != Strings.Tags.PLAYER)
                     {
                         fire.StartEndFire();
+
+                    }
+                    else
+                    {
+                        currentToleranceTime = 0.0f;
+                        ToleranceTimeToExit();
                     }
                 }
-
             }
             return true;
         }
@@ -144,6 +148,7 @@ public class MallCopShotgun : EnemyBase
     {
         if (myStats.health <= myStats.skinnableHealth || alreadyStunned)
         {
+            fire.StopCoroutines();
             controller.CurrentState = stun;
             controller.UpdateState(EAIState.Stun);
             controller.DeActivateAI();
