@@ -213,7 +213,10 @@ public class LevelDataManager : MonoBehaviour {
         SyncWorkingLevelText();
         SyncWorkingWaveState();
         StartCoroutine(TakePicture(SaveAllLevelData));
-        StartCoroutine(TakePicture(SaveSingleLevel));
+        
+        //steam test
+        //StartCoroutine(TakePicture(SaveSingleLevel));
+        
     }
 
     private void SaveSingleLevel()
