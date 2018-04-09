@@ -178,7 +178,7 @@ public class ScoreManager : Singleton<ScoreManager> {
         int delta = Mathf.FloorToInt(points * GetCurrentMultiplier());
         score += delta;
         EventSystem.Instance.TriggerEvent(Strings.Events.SCORE_UPDATED,score,delta);    
-        SFXManager.Instance.Play(SFXType.Score, transform.position);    
+        SFXManager.Instance.Play(SFXType.Score, transform.position);
     }
 
     public void AddToScoreWithoutComboMultiplier(int points)
