@@ -19,6 +19,7 @@ public class MainMenu : Menu
     #region Public Interface
 
     public MainMenu() : base(Strings.MenuStrings.MAIN) {}
+    public override MenuType ThisMenuType { get { return MenuType.Main; } }
     protected override void ShowStarted() {
         base.ShowStarted();        
     }

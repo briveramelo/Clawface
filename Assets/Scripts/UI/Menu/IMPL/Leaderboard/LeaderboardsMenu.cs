@@ -7,30 +7,16 @@ using ModMan;
 public class LeaderboardsMenu : Menu
 {
     #region Serialized fields
-    [SerializeField]
-    private GameObject leaderBoardEntryPrefab;
+    [SerializeField] private GameObject leaderBoardEntryPrefab, loadingObject;
+    [SerializeField] private Transform entriesHolder;    
 
-    [SerializeField]
-    private Transform entriesHolder;
+    [SerializeField] private Button globalButton, friendButton, aroundUserButton;
+    [SerializeField] private Scrollbar verticalScrollbar;
 
-    [SerializeField]
-    private GameObject loadingObject;
+    [SerializeField] private SelectorToggleGroup selectorToggleGroup;
 
-    [SerializeField]
-    private int maxEntries = 100;
-
-    [SerializeField]
-    private Button globalButton;
-
-    [SerializeField]
-    private Button friendButton;
-
-    [SerializeField]
-    private Button aroundUserButton;
-
-    [SerializeField]
-    private Scrollbar verticalScrollbar;
-
+    [SerializeField] private Color playerColor, standardColor;
+    [SerializeField] private int maxEntries = 100;
     [SerializeField] private float joystickMaxScrollSpeed, mouseMaxScrollSpeed;
     #endregion
 
@@ -38,6 +24,22 @@ public class LeaderboardsMenu : Menu
     private List<LeaderboardEntry> leaderBoardEntries=new List<LeaderboardEntry>();    
     private string currentLevelName;
     private LeaderBoards.SelectionType currentSelectionType;
+    private bool IsWaitingForEntries {
+        get {
+            return isWaitingForEntries;
+        }
+        set {
+            ToggleFilterSelectability(!value, currentSelectionType);
+            isWaitingForEntries = value;
+        }
+    }
+    private bool isWaitingForEntries;
+
+    private int SelectedFilterToggle {
+        get { return Mathf.Clamp((int)currentSelectionType, 0, selectorToggleGroup.SelectorTogglesCount); }
+        set { currentSelectionType = (LeaderBoards.SelectionType)Mathf.Repeat(value, selectorToggleGroup.SelectorTogglesCount); }
+    }
+    private Dictionary<LeaderBoards.SelectionType, Selectable> buttons = new Dictionary<LeaderBoards.SelectionType, Selectable>();
     #endregion
 
     #region public fields
@@ -51,6 +53,15 @@ public class LeaderboardsMenu : Menu
     #endregion
 
     #region unity lifecycle
+    protected override void Awake() {
+        base.Awake();
+        buttons = new Dictionary<LeaderBoards.SelectionType, Selectable>() {
+            {LeaderBoards.SelectionType.GLOBAL, globalButton },
+            {LeaderBoards.SelectionType.FRIENDS, friendButton},
+            {LeaderBoards.SelectionType.AROUND_USER, aroundUserButton},
+        };
+    }
+
     private void Update()
     {
         if (allowInput) {
@@ -58,23 +69,55 @@ public class LeaderboardsMenu : Menu
             {
                 OnPressBack();
             }
-            const float lookThreshold = 0.3f;
-            const float scrollThreshold = 0.1f;
-            float joystickY = Mathf.Clamp(InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK).y, -1f, 1f);
-            float mouseDeltaY = Mathf.Clamp(Input.mouseScrollDelta.y, -1f, 1f);
 
-            if (Mathf.Abs(joystickY)>lookThreshold) {
-                float extraMultiplier = Mathf.Abs(InputManager.Instance.QueryAxes(Strings.Input.UI.NAVIGATION).y) > lookThreshold ? 2f : 1f;
-                MoveScrollBar(joystickMaxScrollSpeed * joystickY * extraMultiplier);
-            }
-            else if (Mathf.Abs(mouseDeltaY) > scrollThreshold) {
-                MoveScrollBar(mouseMaxScrollSpeed * mouseDeltaY);
-            }
+            CheckToMoveFilter();
+            CheckToMoveScrollbar();
+        }
+    }
+
+    void CheckToMoveScrollbar() {
+        const float lookThreshold = 0.3f;
+        const float scrollThreshold = 0.1f;
+        float joystickY = Mathf.Clamp(InputManager.Instance.QueryAxes(Strings.Input.Axes.LOOK).y, -1f, 1f);
+        float mouseDeltaY = Mathf.Clamp(Input.mouseScrollDelta.y, -1f, 1f);
+
+        if (Mathf.Abs(joystickY) > lookThreshold) {
+            float extraMultiplier = Mathf.Abs(InputManager.Instance.QueryAxes(Strings.Input.UI.NAVIGATION).y) > lookThreshold ? 2f : 1f;
+            MoveScrollBar(joystickMaxScrollSpeed * joystickY * extraMultiplier);
+        }
+        else if (Mathf.Abs(mouseDeltaY) > scrollThreshold) {
+            MoveScrollBar(mouseMaxScrollSpeed * mouseDeltaY);
         }
     }
     void MoveScrollBar(float speed) {
         verticalScrollbar.value += speed * Time.deltaTime;
     }
+    void ToggleFilterSelectability(bool enabled, LeaderBoards.SelectionType selectedType) {
+        buttons.ForEach((type, button) => {
+            if ((selectedType != type && !enabled) || enabled) {
+                button.interactable = enabled;
+            }
+        });
+    }    
+
+    private void CheckToMoveFilter() {
+        //TODO set this up work with Strings.Input.UI
+        //Strings.Input.UI.TAB_LEFT
+        //Strings.Input.UI.TAB_RIGHT
+        bool leftButtonPressed = InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_LEFT, ButtonMode.DOWN);
+        bool rightBumperPressed = InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_RIGHT, ButtonMode.DOWN);
+        bool mouseClicked = Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT) || Input.GetMouseButtonDown(MouseButtons.MIDDLE);
+        if (!mouseClicked && (leftButtonPressed || rightBumperPressed)) {
+            if (leftButtonPressed) {
+                SelectedFilterToggle--;
+            }
+            else {
+                SelectedFilterToggle++;
+            }
+            GetSelectedLeaderboardEntries();
+        }
+    }
+
     #endregion
 
     #region Public methods
@@ -89,6 +132,15 @@ public class LeaderboardsMenu : Menu
         leaderBoardEntries.Clear();
         StopAllCoroutines();
         MenuManager.Instance.DoTransition(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+    }
+
+    private void GetSelectedLeaderboardEntries() {
+        SFXManager.Instance.Play(SFXType.UI_Click);
+        switch ((LeaderBoards.SelectionType)SelectedFilterToggle) {
+            case LeaderBoards.SelectionType.GLOBAL:  GetGlobalLeaderboardEntries(); break;
+            case LeaderBoards.SelectionType.FRIENDS: GetFriendsLeaderboardEntries(); break;
+            case LeaderBoards.SelectionType.AROUND_USER: GetAroundUserLeaderboardEntries(); break;
+        }
     }
 
     public void GetGlobalLeaderboardEntries()
@@ -111,43 +163,40 @@ public class LeaderboardsMenu : Menu
     #endregion
 
     #region protected methods    
-
-    protected override void ShowComplete() {
-        base.ShowComplete();        
-    }
-    protected override void HideComplete() {
-        base.HideComplete();
-    }
+    public override MenuType ThisMenuType { get { return MenuType.Leaderboards; } }
 
     protected override void ShowStarted()
     {
         base.ShowStarted();
-        GetLeaderboardEntries(LeaderBoards.SelectionType.GLOBAL);
+        selectorToggleGroup.HandleGroupSelection(0);
+        if (MenuManager.Instance.MouseMode) {
+            GetLeaderboardEntries(LeaderBoards.SelectionType.GLOBAL);
+        }
     }
 
-    protected override void HideStarted()
-    {
-        base.HideStarted();        
-    }
     #endregion
 
     #region private methods
     private void GetLeaderboardEntries(LeaderBoards.SelectionType selectionType)
     {
+        currentSelectionType = selectionType;
         foreach (LeaderboardEntry entry in leaderBoardEntries)
         {
             entry.IsVisible(false);
-        }       
-
-        bool result = LeaderBoards.Instance.GetLeaderBoardData(currentLevelName, OnLeaderBoardEntriesReturned, maxEntries, selectionType);
+        }
+        if (!IsWaitingForEntries) {
+            IsWaitingForEntries = true;
+            bool result = LeaderBoards.Instance.GetLeaderBoardData(currentLevelName, OnLeaderBoardEntriesReturned, maxEntries, selectionType);
         
-        loadingObject.GetComponent<LoadingText>().SetError(result);
-        loadingObject.SetActive(true);
-        verticalScrollbar.value = 1f;
+            loadingObject.GetComponent<LoadingText>().SetError(result);
+            loadingObject.SetActive(true);
+            verticalScrollbar.value = 1f;
+        }
     }
 
     private void OnLeaderBoardEntriesReturned(List<GenericSteamLeaderBoard.LeaderBoardVars> results, bool retry)
     {
+        IsWaitingForEntries = false;
         if (!retry)
         {
             int numberOfReusableEntries = leaderBoardEntries.Count;
@@ -159,17 +208,22 @@ public class LeaderboardsMenu : Menu
                 {
                     GameObject newObject = Instantiate(leaderBoardEntryPrefab);
                     newObject.transform.SetParent(entriesHolder);
+                    newObject.transform.localScale = Vector3.one;
                     leaderBoardEntries.Add(newObject.GetComponent<LeaderboardEntry>());
                 }
             }
 
             numberOfReusableEntries = leaderBoardEntries.Count;
             loadingObject.SetActive(false);
+            string playerName = Steamworks.SteamFriends.GetPersonaName();            
             for (int i = 0; i < numberOfResults; i++)
             {
                 GenericSteamLeaderBoard.LeaderBoardVars result = results[i];
-                leaderBoardEntries[i].SetData(string.Format("{0}{1}",result.rank.ToCommaSeparated(), "."), result.userID, result.score.ToCommaSeparated());
-                leaderBoardEntries[i].IsVisible(true);
+                LeaderboardEntry entry = leaderBoardEntries[i];
+                Color entryColor = result.userID == playerName ? playerColor : standardColor;
+                entry.SetTextColor(entryColor);
+                entry.SetData(string.Format("{0}{1}",result.rank.ToCommaSeparated(), "."), result.userID, result.score.ToCommaSeparated());
+                entry.IsVisible(true);
             }
 
             for (int i = numberOfResults; i < numberOfReusableEntries; i++)

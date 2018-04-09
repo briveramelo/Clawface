@@ -53,7 +53,7 @@ public class CreditsMenu : Menu
     #endregion
 
     #region Protected Interface
-
+    public override MenuType ThisMenuType { get { return MenuType.Credits; } }
     protected override void ShowComplete()
     {
         base.ShowComplete();

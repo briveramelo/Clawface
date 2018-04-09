@@ -14,6 +14,7 @@ public abstract class PLEMenu : Menu {
     [SerializeField] protected List<Selectable> allSelectables;
 
     public override Selectable InitialSelection { get { return initiallySelected; } }
+    public override MenuType ThisMenuType { get { return MenuType.Other; } }
 
     protected virtual void Update() {
         if (allowInput) {

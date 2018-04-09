@@ -10,8 +10,7 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     #region Serialized
 
-    [SerializeField]
-    private bool useAlternateScoreMode;
+    [SerializeField] private bool useAlternateScoreMode;
 
     [SerializeField] private int score;
     [SerializeField] private int currentCombo;
@@ -21,36 +20,23 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     [SerializeField] private float maxTimeRemaining;
 
-    [SerializeField]
-    private float veryEasyModeMultiplier;
-
-    [SerializeField]
-    private float easyModeMultiplier;
-
-    [SerializeField]
-    private float normalModeMultiplier;
-
-    [SerializeField]
-    private float hardModeMultiplier;
-
-    [SerializeField]
-    private float veryHardModeMultiplier;
+    [SerializeField] private float veryEasyModeMultiplier;
+    [SerializeField] private float easyModeMultiplier;
+    [SerializeField] private float normalModeMultiplier;
+    [SerializeField] private float hardModeMultiplier;
+    [SerializeField] private float veryHardModeMultiplier;
 
     /// <summary>
     /// Multiplies your max combo by this value at the end of the stage and the current difficulty multiplier, and adds it to your score
     /// </summary>
     [Tooltip("Multiplies your max combo by this value and the current difficulty multiplier at the end of the stage and adds it to your score.")]
-    [SerializeField]
-    private float maxComboMultiplier;
+    [SerializeField] private float maxComboMultiplier;
 
     /// <summary>
     /// Hard combo cap. Combo cannot increase past this value.
     /// </summary>
     [Tooltip("Hard combo cap. Combo cannot increase past this value.")]
-    [SerializeField]
-    private int comboCap;
-
-    [SerializeField] private Dictionary<string, int> highScores;
+    [SerializeField] private int comboCap;
     #endregion
 
     #region Privates
@@ -82,8 +68,6 @@ public class ScoreManager : Singleton<ScoreManager> {
     #region Unity Lifecycle
     // Use this for initialization
     protected override void Start () {
-
-        highScores = new Dictionary<string, int>();
         OnLevelStart();
 
         base.Start();
@@ -91,7 +75,6 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     // Update is called once per frame
     void Update() {
-
         if (!useAlternateScoreMode)
         {
             if (currentCombo != 0)
@@ -195,7 +178,7 @@ public class ScoreManager : Singleton<ScoreManager> {
         int delta = Mathf.FloorToInt(points * GetCurrentMultiplier());
         score += delta;
         EventSystem.Instance.TriggerEvent(Strings.Events.SCORE_UPDATED,score,delta);    
-        SFXManager.Instance.Play(SFXType.Score, transform.position);    
+        SFXManager.Instance.Play(SFXType.Score, transform.position);
     }
 
     public void AddToScoreWithoutComboMultiplier(int points)
@@ -257,42 +240,11 @@ public class ScoreManager : Singleton<ScoreManager> {
     public float GetMaxTimeRemaining()
     {
         return maxTimeRemaining;
-    }
+    }    
 
-
-    public void UpdateHighScore(string level, int scoreToCheck)
-    {
-        if (!highScores.ContainsKey(level))
-        {
-            highScores.Add(level, scoreToCheck);
-        }
-        else
-        {
-            if (highScores[level] < scoreToCheck)
-            {
-                highScores[level] = scoreToCheck;
-            }
-        }
-
-        EventSystem.Instance.TriggerEvent(Strings.Events.SET_LEVEL_SCORE, level, highScores[level]);
-        SendScoresToLeaderboard();
-    }
-
-    public int GetHighScore(string level)
-    {
-        if (highScores.ContainsKey(level))
-        {
-            return highScores[level];
-        }
-        else
-        {
-            return 0;
-        }
-    }
-
-    public Dictionary<string, int> GetAllHighScores()
-    {
-        return highScores;
+    public int GetMaxComboScore() {
+        int result = Mathf.FloorToInt(highestCombo * maxComboMultiplier * GetDifficultyMultiplier());
+        return result;
     }
     #endregion
 
@@ -378,25 +330,19 @@ public class ScoreManager : Singleton<ScoreManager> {
         OnLevelStart();
     }
 
-    private void OnPlayerKilled(object[] parameters)
+    private void OnPlayerKilled(params object[] parameters)
     {
         AddToScoreWithoutComboMultiplier(GetMaxComboScore());
         updateScore = false;
-        UpdateHighScore(SceneTracker.CurrentSceneName, GetScore());
+        SendScoresToLeaderboard();
     }
 
-    private int GetMaxComboScore()
-    {
-        int result = Mathf.FloorToInt(highestCombo * maxComboMultiplier * GetDifficultyMultiplier());
-        return result;
-    }
-
-    private void OnLevelCompleted(object[] parameters)
+    private void OnLevelCompleted(params object[] parameters)
     {
         AddToScoreWithoutComboMultiplier(GetMaxComboScore());
         updateScore = false;
-        UpdateHighScore(SceneTracker.CurrentSceneName, GetScore());
-    }
+        SendScoresToLeaderboard();
+    }    
 
     private void SendScoresToLeaderboard()
     {

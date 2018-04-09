@@ -131,6 +131,7 @@
             public const string HELP_PLE_MENU = "HelpMenu";
             public const string TEST_PLE_MENU = "TestMenu";
             public const string LEVELSELECT_PLE_MENU = "PLELevelSelectMenu";
+            public const string STEAM_PLE_MENU = "PLESteamMenu";
             public const string EXIT_PLE_MENU = "ExitMenu";
         }
     }
@@ -161,6 +162,8 @@
             public const string NAV_DOWN = "Nav Down";
             public const string SUBMIT = "UISubmit";
             public const string CANCEL = "UICancel";
+            public const string TAB_LEFT = "TabLeft";
+            public const string TAB_RIGHT = "TabRight";
         }
     }
 

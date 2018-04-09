@@ -103,6 +103,7 @@ public class LoadMenu : Menu {
     #endregion
 
     #region Protected Interface
+    public override MenuType ThisMenuType { get { return MenuType.Load; } }
     protected override void ShowStarted() {
         base.ShowStarted();
         loadingImage.sprite = SceneTracker.IsTargetSceneEditor(TargetSceneName) ? levelEditorSprite : gameControllerSprite;

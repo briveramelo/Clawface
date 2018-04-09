@@ -11,9 +11,10 @@ public abstract class Menu : EventSubscriber {
 
     #region Properties
     private string menuName;
-    protected UnityEngine.EventSystems.EventSystem CurrentEventSystem {get{ return UnityEngine.EventSystems.EventSystem.current; } }
-    protected GameObject CurrentEventSystemGameObject { get { return CurrentEventSystem.currentSelectedGameObject; } }
-    protected GameObject lastSelectedGameObject;    
+    protected static UnityEngine.EventSystems.EventSystem CurrentEventSystem {get{ return UnityEngine.EventSystems.EventSystem.current; } }
+    protected static GameObject CurrentEventSystemGameObject { get { return CurrentEventSystem.currentSelectedGameObject; } }
+    protected static GameObject lastSelectedGameObject;    
+    public abstract MenuType ThisMenuType { get; }
 
     public string MenuName
     {
@@ -83,7 +84,9 @@ public abstract class Menu : EventSubscriber {
     }
 
     protected virtual void LateUpdate() {
-        lastSelectedGameObject = CurrentEventSystemGameObject;
+        if (Displayed) {
+            lastSelectedGameObject = CurrentEventSystemGameObject;
+        }
     }
     #endregion
 
@@ -257,6 +260,21 @@ public abstract class Menu : EventSubscriber {
     #endregion
 
     #region Types
+    public enum MenuType {
+        Main,
+        Credits,
+        Load,
+        Pause,
+        Tutorial,
+        StageOver,
+        Settings,
+        Controls,
+        WeaponSelect,
+        Leaderboards,
+        LevelSelect,
+        Confirm,
+        Other
+    }
     public enum DisplayState {
         SHOW_FINISHED,
         SHOW_TRANSITIONING,

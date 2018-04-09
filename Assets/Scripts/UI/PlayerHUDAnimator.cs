@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using ModMan;
 
 public class PlayerHUDAnimator : EventSubscriber {
     const float BOUNCE_THRESHOLD = 0.1f;
 
     #region Serialized Fields
-    [SerializeField] RectTransform multiplierTrans, combo, score, health;
-    [SerializeField] BounceSettings multiplierSettings, comboSettings, scoreSettings, healthSettings;
+    [Header("BOUNCES DIMINISH each bounce as Bounciness * Bounciness > 0.1f")]
+    [SerializeField] RectTransform multiplierTrans;
+    [SerializeField] RectTransform combo, score, health;
+    [SerializeField] BounceSettings multiplierSettings, comboSettings, negativeComboSettings, negativeMultiplierSettings, scoreSettings, healthSettings;
     [SerializeField] Color multiplierOriginalColor, comboOriginalColor, scoreOriginalColor, healthOriginalColor;
     [SerializeField] MaskableGraphic[] multiplierGraphics, comboGraphics, scoreGraphics, healthGraphics;
     #endregion
@@ -50,13 +53,18 @@ public class PlayerHUDAnimator : EventSubscriber {
     #region Private Interface
     void BounceMultiplier(params object[] parameters) {
         if (multiplierBounce != null) StopCoroutine(multiplierBounce);
-        multiplierBounce = StartCoroutine(DoBounce(multiplierTrans, multiplierSettings));
+        bool useNegative = ((float)(parameters[0])).AboutEqual(ScoreManager.Instance.GetDifficultyMultiplier());
+        BounceSettings settings = useNegative ? negativeMultiplierSettings : multiplierSettings;
+        //TODO add sound effect for negative effect SFXManager.Instance.Play(SFXType.Score, transform.position);
+        multiplierBounce = StartCoroutine(DoBounce(multiplierTrans, settings));
     }
 
     void BounceCombo(params object[] parameters)
     {
         if (comboBounce != null) StopCoroutine(comboBounce);
-        comboBounce = StartCoroutine(DoBounce(combo, comboSettings));
+        bool useNegative = (int)parameters[0] == 0;
+        BounceSettings settings = useNegative ? negativeComboSettings : comboSettings;
+        comboBounce = StartCoroutine(DoBounce(combo, settings));
     }
 
     void BounceScore(params object[] parameters)
@@ -115,7 +123,8 @@ public class PlayerHUDAnimator : EventSubscriber {
 
             if (scaleMultiplier == 1.0f)
             {
-                Color color = Color.Lerp (originalColor, settings.bounceColor, 1.0f - t);
+                float lerpProgress = settings.colorForward ? t : 1.0f-t;
+                Color color = Color.Lerp (originalColor, settings.bounceColor, lerpProgress);
                 foreach (MaskableGraphic graphic in graphics)
                 {
                     graphic.color = color;
@@ -165,6 +174,7 @@ public class PlayerHUDAnimator : EventSubscriber {
         public float rotationOffset;
         public float bounciness;
         public Color bounceColor;
+        public bool colorForward;
     }
     #endregion
 

@@ -497,7 +497,7 @@ GameObject:
   - component: {fileID: 212116210464035386}
   - component: {fileID: 114913891760791652}
   m_Layer: 9
-  m_Name: BouncerOutline
+  m_Name: LandingCircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1453,7 +1453,7 @@ GameObject:
   - component: {fileID: 114817159818173810}
   - component: {fileID: 114130934324087062}
   m_Layer: 9
-  m_Name: OutlineParent
+  m_Name: EdibleOutlineParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3943,7 +3943,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   palette: {fileID: 11400000, guid: b75be58f903358146b59385003d16afc, type: 2}
-  type: 0
+  type: 1
   updateTime: 0
 --- !u!114 &114948172669487280
 MonoBehaviour:
@@ -5435,7 +5435,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: ddb08c124bf1c07468e2946f9e613d58, type: 3}
-  m_Color: {r: 1, g: 0.5586207, b: 0, a: 0.24705882}
+  m_Color: {r: 1, g: 0.8482759, b: 0, a: 0.24705882}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
