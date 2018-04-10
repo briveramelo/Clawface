@@ -48,8 +48,7 @@ public class SpawnMenu : PlacementMenu {
         get {
             return new Dictionary<string, FunctionPrototype>() {
                 { Strings.Events.PLE_TEST_END, TryEnableKeira },
-                { Strings.Events.PLE_CALL_WAVE, DeselectOnWaveChange},
-                { Strings.Events.PLE_CALL_WAVE, SetRequiredKillsTo0},
+                { Strings.Events.PLE_CALL_WAVE, OnWaveChange},
             };
         }
     }
@@ -58,7 +57,12 @@ public class SpawnMenu : PlacementMenu {
     #region Unity Lifecycle    
     #endregion
 
-    void SetRequiredKillsTo0(params object[] parameters) {
+    private void OnWaveChange(params object[] parameters) {
+        DeselectOnWaveChange();
+        SetRequiredKillsTo0();
+    }
+
+    private void SetRequiredKillsTo0() {
         int waveIndex = PLESpawnManager.Instance.CurrentWaveIndex;
         if (waveIndex==PLESpawnManager.Instance.MaxWaveIndex && !PLESpawnManager.Instance.InfiniteWavesEnabled) {
             CurrentWavePLESpawns.ForEach(spawn => {
@@ -67,7 +71,7 @@ public class SpawnMenu : PlacementMenu {
         }
     }
 
-    void DeselectOnWaveChange(params object[] parameters) {
+    private void DeselectOnWaveChange() {
         if (!levelEditor.IsTesting) {
             DeselectAllGameItems();
             DeselectItem();
