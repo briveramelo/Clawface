@@ -16,12 +16,18 @@ public class Splattable : MonoBehaviour
     {
         get
         {
-            return splatter.PaintMask;
+            if (GoreManager.Instance.GoreEnabled) {
+                return splatter.PaintMask;
+            } else {
+                return null;
+            }
         }
         set
         {
-            splatter.PaintMask = value;
-            paintMask = value; // keep UI updated
+            if (GoreManager.Instance.GoreEnabled) {
+                splatter.PaintMask = value;
+                paintMask = value; // keep UI updated
+            }
         }
     }
     public Texture2D RenderMask {
@@ -56,30 +62,29 @@ public class Splattable : MonoBehaviour
     private Queue<Splatter.QueuedSplat> splatsToRender;
 
     private Splatter splatter;
-
 	#endregion
 
 	#region Unity Lifecycle
 
 	private void Awake ()
 	{
-        if(GoreManager.Instance.GoreEnabled)
+        renderMask = renderMask != null ? renderMask : Texture2D.whiteTexture;
+        renderer = GetComponent<Renderer>(); // this must be done BEFORE the splatter is created
+        if (GoreManager.Instance.GoreEnabled)
         {
             // Set up Splatting
             paintMask = paintMask != null ? paintMask : Texture2D.whiteTexture;
-            renderMask = renderMask != null ? renderMask : Texture2D.whiteTexture;
-            renderer = GetComponent<Renderer>(); // this must be done BEFORE the splatter is created
             splatter = CreateSplatter(); // this must be done BEFORE the property block is updated
             PaintMask = paintMask;
             splatsToRender = new Queue<Splatter.QueuedSplat>();
-
-            // Set Up Property Block
-            UpdatePropertyBlock();
         } else
         {
             enabled = false; // just turn self off.
         }
-	}
+
+        // Set Up Property Block
+        UpdatePropertyBlock();
+    }
 
     private void Update ()
     {
@@ -163,7 +168,11 @@ public class Splattable : MonoBehaviour
         }
 
         renderer.GetPropertyBlock(propBlock);
-        propBlock.SetTexture("_SplatMap", splatter.SplatMap);
+        if (GoreManager.Instance.GoreEnabled) {
+            propBlock.SetTexture("_SplatMap", splatter.SplatMap);
+        } else {
+            propBlock.SetTexture("_SplatMap", Texture2D.blackTexture);
+        }
         propBlock.SetTexture("_RenderMask", renderMask);
         renderer.SetPropertyBlock(propBlock);
     }
