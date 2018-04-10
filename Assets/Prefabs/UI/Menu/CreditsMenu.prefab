@@ -637,50 +637,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15aaed1c92969d04d9a401efd6d47f23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layout: {fileID: 114606551125192130}
+  freezeUpdates: 0
   bundles:
   - aspect: 0
-    cellSize: {x: 350, y: 40}
-    padding:
-      m_Left: 0
-      m_Right: 0
-      m_Top: 0
-      m_Bottom: 0
+    data:
+      cellSize: {x: 350, y: 40}
+      padding:
+        m_Left: 0
+        m_Right: 0
+        m_Top: 0
+        m_Bottom: 0
   - aspect: 1
-    cellSize: {x: 350, y: 37}
-    padding:
-      m_Left: 0
-      m_Right: 0
-      m_Top: 0
-      m_Bottom: 0
+    data:
+      cellSize: {x: 350, y: 37}
+      padding:
+        m_Left: 0
+        m_Right: 0
+        m_Top: 0
+        m_Bottom: 0
   - aspect: 2
-    cellSize: {x: 300, y: 40}
-    padding:
-      m_Left: 0
-      m_Right: 0
-      m_Top: 0
-      m_Bottom: 0
+    data:
+      cellSize: {x: 300, y: 40}
+      padding:
+        m_Left: 0
+        m_Right: 0
+        m_Top: 0
+        m_Bottom: 0
   - aspect: 3
-    cellSize: {x: 300, y: 40}
+    data:
+      cellSize: {x: 300, y: 40}
+      padding:
+        m_Left: -42
+        m_Right: 0
+        m_Top: -68
+        m_Bottom: 0
+  - aspect: 4
+    data:
+      cellSize: {x: 300, y: 40}
+      padding:
+        m_Left: 0
+        m_Right: 0
+        m_Top: 0
+        m_Bottom: 0
+  layout: {fileID: 114606551125192130}
+  defaultData:
+    cellSize: {x: 350, y: 30}
     padding:
       m_Left: 0
       m_Right: 0
       m_Top: 0
       m_Bottom: 0
-  - aspect: 4
-    cellSize: {x: 300, y: 40}
-    padding:
-      m_Left: -42
-      m_Right: 0
-      m_Top: -68
-      m_Bottom: 0
-  defaultCellSize: {x: 350, y: 30}
-  defaultPadding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  freezeUpdates: 0
 --- !u!114 &114381333466935534
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -964,9 +970,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: -42
+    m_Left: 0
     m_Right: 0
-    m_Top: -68
+    m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
   m_StartCorner: 0
