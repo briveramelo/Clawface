@@ -23,7 +23,7 @@ public class SpawnMenu : PlacementMenu {
     private int MaxMinSpawnsAllowedInCurrentWave { get { return SpawnManager.GetMaxMinSpawnsAllowedCurrentInWave(SelectedSpawn); } }
     private int GetMaxMinSpawnsAllowedInCurrentWave(PLESpawn spawn) { return SpawnManager.GetMaxMinSpawnsAllowedCurrentInWave(spawn); }
     private int GetRequiredKillCountInCurrentWave(PLESpawn spawn) { return SpawnManager.GetRequiredKillCountInCurrentWave(spawn); }
-    private int RemainingSpawnsInCurrentWave(PLESpawn spawn) { return SpawnManager.RemainingSpawnsInCurrentWave(spawn); }
+    private int RemainingSpawnsInCurrentWave(PLESpawn spawn) { return SpawnManager.RemainingSpawnsAllowedInCurrentWave(spawn); }
 
     private List<PLESpawn> CurrentWavePLESpawns { get { return WorkingLevelData.GetPLESpawnsFromWave(PLESpawnManager.Instance.CurrentWaveIndex); } }
 
@@ -49,6 +49,7 @@ public class SpawnMenu : PlacementMenu {
             return new Dictionary<string, FunctionPrototype>() {
                 { Strings.Events.PLE_TEST_END, TryEnableKeira },
                 { Strings.Events.PLE_CALL_WAVE, DeselectOnWaveChange},
+                { Strings.Events.PLE_CALL_WAVE, SetRequiredKillsTo0},
             };
         }
     }
@@ -56,6 +57,15 @@ public class SpawnMenu : PlacementMenu {
 
     #region Unity Lifecycle    
     #endregion
+
+    void SetRequiredKillsTo0(params object[] parameters) {
+        int waveIndex = PLESpawnManager.Instance.CurrentWaveIndex;
+        if (waveIndex==PLESpawnManager.Instance.MaxWaveIndex && !PLESpawnManager.Instance.InfiniteWavesEnabled) {
+            CurrentWavePLESpawns.ForEach(spawn => {
+                spawn.MinSpawns = 0;
+            });
+        }
+    }
 
     void DeselectOnWaveChange(params object[] parameters) {
         if (!levelEditor.IsTesting) {

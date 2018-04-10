@@ -130,11 +130,13 @@ public class PLEBlockUnit : EventSubscriber
             newState = levelStates[currentWaveIndex];
         }
         levelStates.Insert(currentWaveIndex, newState);
+        SyncTileStatesAndColors();
     }
 
     public void DeleteCurrentWave(params object[] parameters)
     {
         levelStates.RemoveAt(PLESpawnManager.Instance.CurrentWaveIndex);
+        SyncTileStatesAndColors();
     }
 
     public void SyncTileStatesAndColors(params object[] parameters)

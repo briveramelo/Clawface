@@ -220,7 +220,7 @@ public class LevelUnit : EventSubscriber, ILevelTilable {
     }
 
     public void TransitionToWave(params object[] parameters)
-    {
+    {        
         int currentWaveIndex = (int)parameters[0];
         TryTransitionToState(levelUnitStates[currentWaveIndex], true);
     }

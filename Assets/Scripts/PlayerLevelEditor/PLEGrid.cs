@@ -102,7 +102,9 @@ public class PLEGrid : EventSubscriber {
             HandleBlockSelectionInteractions(hit);
         }
         else if (Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT)) {
-            DeselectBlocks();
+            if (!MouseHelper.HitUI) {
+                DeselectBlocks();
+            }
         }
         if (!firstSelectedTileIsActive) {
             HandleGroupGhostSelectionPreview();
