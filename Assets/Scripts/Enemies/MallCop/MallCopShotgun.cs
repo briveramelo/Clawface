@@ -179,30 +179,41 @@ public class MallCopShotgun : EnemyBase
 
     public void ReadyToFire()
     {
-        fire.ReadyToFireDone();
+        if (controller.CurrentState != stun)
+            fire.ReadyToFireDone();
     }
 
     public void EndFireDone()
     {
-        fire.EndFireDone();
+        if (controller.CurrentState != stun)
+        {
+            fire.EndFireDone();
+        }
     }
 
     public void StartAiming()
     {
-        animator.SetLayerWeight(2, 1.0f);
+        if (controller.CurrentState != stun)
+            animator.SetLayerWeight(2, 1.0f);
     }
 
     public void StopAiming()
     {
-        fire.StopAiming();
-        animator.SetLayerWeight(2, 0.0f);
+        if (controller.CurrentState != stun)
+        { 
+            fire.StopAiming();
+            animator.SetLayerWeight(2, 0.0f);
+        }
     }
 
     public void GetUpDone()
     {
-        isUp = true;
-        controller.CurrentState = chase;
-        controller.UpdateState(EAIState.Chase);
+        if (controller.CurrentState != stun)
+        {
+            isUp = true;
+            controller.CurrentState = chase;
+            controller.UpdateState(EAIState.Chase);
+        }
     }
 
     public override void DoPlayerKilledState(object[] parameters)

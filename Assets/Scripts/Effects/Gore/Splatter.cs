@@ -90,6 +90,12 @@ public abstract class Splatter
         dims = GetRenderDims();
         splatMap = new RenderTexture(dims.Width, dims.Height, 0, RenderTextureFormat.ARGB32);
         splatMap.Create();
+
+        // Clear the RenderTexture.. just in case
+        RenderTexture old = RenderTexture.active;
+        RenderTexture.active = splatMap;
+        GL.Clear(true, true, new Color(0, 0, 0, 0));
+        RenderTexture.active = old;
     }
 
     #endregion

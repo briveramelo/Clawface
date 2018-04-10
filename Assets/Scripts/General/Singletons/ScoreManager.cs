@@ -102,6 +102,7 @@ public class ScoreManager : Singleton<ScoreManager> {
         if (currentCombo!=0) {
             currentCombo = 0;
             EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_UPDATED, 0);
+            SFXManager.Instance.Play(SFXType.ComboLost, transform.position);
         }
 
         // EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_TIMER_UPDATED, 0.0f);
