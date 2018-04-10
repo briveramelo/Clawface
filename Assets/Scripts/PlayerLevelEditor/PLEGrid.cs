@@ -106,6 +106,9 @@ public class PLEGrid : EventSubscriber {
                 DeselectBlocks();
             }
         }
+        if (Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT)) {
+            mainPLEMenu.SetMenuButtonInteractabilityByState();
+        }
         if (!firstSelectedTileIsActive) {
             HandleGroupGhostSelectionPreview();
         }
