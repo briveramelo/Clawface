@@ -73,6 +73,7 @@ public class DataPersister : Singleton<DataPersister> {
     {
         if(!DataSaveExists)
         {
+            //create a savefile.dat if one doesn't exist
             SaveDataFile();
         }
 

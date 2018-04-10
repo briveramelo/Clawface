@@ -103,7 +103,7 @@ public class SteamWorkshop : Singleton<SteamWorkshop> {
     {
         ulong sizeOnDisk;
         string folder;
-        uint folderSize = 1024; //path string size
+        uint folderSize = 0;
         uint timeStamp;        
         if(!SteamUGC.GetItemInstallInfo(itemId, out sizeOnDisk, out folder, folderSize, out timeStamp))
         {
@@ -130,7 +130,7 @@ public class SteamWorkshop : Singleton<SteamWorkshop> {
 
     private void OnSubmitItemUpdateResult(SubmitItemUpdateResult_t param, bool bIOFailure)
     {
-        if (!bIOFailure && param.m_eResult == EResult.k_EResultOK)
+        if (!bIOFailure && param.m_eResult != 0)
         {
             submitItemCallBack(true);
         }
