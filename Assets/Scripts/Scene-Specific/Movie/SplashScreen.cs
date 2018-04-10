@@ -60,7 +60,15 @@ public class SplashScreen : MonoBehaviour {
     #region Private Interface    
 
     private void LoadWorkshopLevels() {
-        steamLevelLoader.LoadSteamworkshopFiles();
+        try
+        {
+            steamLevelLoader.LoadSteamworkshopFiles();
+        }
+        catch
+        {
+            Debug.LogError("Must be launched from steam client to load Steam Workshop Files");
+        }
+        
     }
     #endregion
 }
