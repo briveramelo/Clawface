@@ -27,7 +27,7 @@ public class SplashScreen : MonoBehaviour {
     {
         menu = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
         menu.CanPause = false;
-        steamLevelLoader.LoadSteamworkshopFiles();
+        Invoke("LoadWorkshopLevels", .1f);
     }
 
     // Update is called once per frame
@@ -58,5 +58,9 @@ public class SplashScreen : MonoBehaviour {
     #endregion 
 
     #region Private Interface    
+
+    private void LoadWorkshopLevels() {
+        steamLevelLoader.LoadSteamworkshopFiles();
+    }
     #endregion
 }
