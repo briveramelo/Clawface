@@ -19,7 +19,7 @@ public class DataPersister : Singleton<DataPersister> {
 
     #region Private Fields
     private string DataSaveFilePath { get { return SavesPathDirectory + "/savefile.dat"; } }
-
+    private bool DataSaveExists { get { return File.Exists(DataSaveFilePath); } }
     #endregion
 
     #region Event Subscriptions (Protected)
@@ -68,38 +68,39 @@ public class DataPersister : Singleton<DataPersister> {
         dataSave = ActiveDataSave;
         if (true) { }
     }
+
     public void LoadLevelData(string i_levelDirectory)
     {
-        LevelData activeData = null;
+        if(!DataSaveExists)
+        {
+            SaveDataFile();
+        }
+
         if(Directory.Exists(i_levelDirectory))
         {
             string[] files = Directory.GetFiles(i_levelDirectory);
             foreach (string fileName in files)
             {
                 string extension = fileName.Substring(fileName.Length - 3);
+
+                if(extension.Equals("dat"))
+                {
+                    LevelData toAdd = SerializeToLevelData(fileName);
+                    if(toAdd != null)
+                    {
+                        AddToActiveData(toAdd);
+                    }
+                    else
+                    {
+                        Debug.LogError("Error adding LevelData to Active Data");
+                    }
+                }
                 
-            }
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream fs = File.Open(files[0], FileMode.Open);
-            try
-            {
-                activeData = new LevelData((LevelData)bf.Deserialize(fs));
-                fs.Close();
-            }
-            catch
-            {
-                fs.Close();
-                Debug.LogError("Error Loading level data at: " + i_levelDirectory);
             }
         }
         else
         {
             Debug.LogError("No such path at: " + i_levelDirectory);
-        }
-
-        if(activeData != null)
-        {
-            AddLevelDataToActiveDataSave(activeData);
         }
 
 
@@ -136,10 +137,28 @@ public class DataPersister : Singleton<DataPersister> {
     #endregion
 
     #region Private Interface
-
-    private void AddLevelDataToActiveDataSave(LevelData i_toAdd)
+    private LevelData SerializeToLevelData(string i_levelFilePath)
     {
-        ActiveDataSave.levelDatas.Add(i_toAdd);
+        LevelData result = null;
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream fs = File.Open(i_levelFilePath, FileMode.Open);
+        try
+        {
+            result = new LevelData((LevelData)bf.Deserialize(fs));
+            fs.Close();
+        }
+        catch
+        {
+            fs.Close();
+            Debug.LogError("Error Loading level data at: " + i_levelFilePath);
+        }
+
+        return result;
+    }
+
+    private void AddToActiveData(LevelData i_data)
+    {
+        ActiveDataSave.levelDatas.Add(i_data);
     }
 
     void SaveDataFile() {

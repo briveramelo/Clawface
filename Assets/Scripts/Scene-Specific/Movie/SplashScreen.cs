@@ -7,19 +7,22 @@ using System;
 
 public class SplashScreen : MonoBehaviour {
 
-    [SerializeField]
-    private VideoPlayer player;
+    #region Unity Serialized Fields
 
-    [SerializeField]
-    private string levelToLoad;
+    [SerializeField] private VideoPlayer player;
+    [SerializeField] private Animation blackScreen;
 
-    [SerializeField]
-    private Animation blackScreen;
+    #endregion
+
+    #region Private Fields
 
     private bool fadeTriggered;
     private bool levelsLoaded = false;
-
     private PauseMenu menu;
+
+    #endregion
+
+    #region Unity LifeCycle
 
     private void Start()
     {
@@ -37,19 +40,26 @@ public class SplashScreen : MonoBehaviour {
             blackScreen.Play();
         }
 
-        if (InputManager.Instance.AnyKey() && levelsLoaded)
+        //if level has loaded and player has hit a key, or if the levels have been loaded and the player is done playing
+        if (InputManager.Instance.AnyKey() && levelsLoaded || (levelsLoaded && !player.isPlaying))
         {
             LoadLevel();
         }
 	}
 
+    #endregion
+
+    #region Public Interface
+
     public void LoadLevel()
     {
         
         menu.CanPause = true;
-        SceneManager.LoadScene(levelToLoad);
+        SceneManager.LoadScene(Strings.Scenes.SceneNames.MainMenu);
         EventSystem.Instance.TriggerEvent(Strings.Events.SCENE_LOADED);
     }
+
+    #endregion 
 
     #region Private Interface
 
@@ -60,10 +70,7 @@ public class SplashScreen : MonoBehaviour {
 
     private void OnAllLevelsLoaded()
     {
-        print("all levels loaded");
         levelsLoaded = true;
     }
-
-
     #endregion
 }
