@@ -103,7 +103,7 @@ public class SteamWorkshop : Singleton<SteamWorkshop> {
     {
         ulong sizeOnDisk;
         string folder;
-        uint folderSize = 0;
+        uint folderSize = 1024; //path string size
         uint timeStamp;        
         if(!SteamUGC.GetItemInstallInfo(itemId, out sizeOnDisk, out folder, folderSize, out timeStamp))
         {

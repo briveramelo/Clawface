@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using PLE;
+using System;
+
 public enum SteamMenuSubMenu {
     BaseMenu,
     UploadMenu,
@@ -76,13 +79,14 @@ public class SteamMenu : PLEMenu {
 
     public void Upload() {
         //upload to steam with callback: OnGetUploadResult(bool success)
+        levelEditor.levelDataManager.SaveAndUploadSingleLevel(OnSubmitItemResult);
         IsWaitingForConfirmation = true;
         uploadingWaitingText.text = uploadingWaitingString;
         mainPLEMenu.SetMenuButtonInteractabilityByState();
         StartCoroutine(DelayUploadMessage());
         ShowMenuExclusively(uploadSuccessMenu);
     }
-
+    
     public void ShowSteamWorkshop() {
         //nothing happens
     }
@@ -115,7 +119,7 @@ public class SteamMenu : PLEMenu {
         });
     }
 
-    private void OnGetUploadResult(bool success) {
+    private void OnSubmitItemResult(bool success) {
         IsWaitingForConfirmation = false;
         wasUploadSuccessful = success;
     }

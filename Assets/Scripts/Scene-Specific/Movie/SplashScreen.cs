@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
 using UnityEngine.SceneManagement;
+using System;
 
-public class PlayOnVideoFinish : MonoBehaviour {
+public class SplashScreen : MonoBehaviour {
 
     [SerializeField]
     private VideoPlayer player;
@@ -16,6 +17,7 @@ public class PlayOnVideoFinish : MonoBehaviour {
     private Animation blackScreen;
 
     private bool fadeTriggered;
+    private bool levelsLoaded = false;
 
     private PauseMenu menu;
 
@@ -23,6 +25,8 @@ public class PlayOnVideoFinish : MonoBehaviour {
     {
         menu = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
         menu.CanPause = false;
+
+        LoadSteamworkshopFiles();
     }
 
     // Update is called once per frame
@@ -33,7 +37,7 @@ public class PlayOnVideoFinish : MonoBehaviour {
             blackScreen.Play();
         }
 
-        if (InputManager.Instance.AnyKey())
+        if (InputManager.Instance.AnyKey() && levelsLoaded)
         {
             LoadLevel();
         }
@@ -46,4 +50,20 @@ public class PlayOnVideoFinish : MonoBehaviour {
         SceneManager.LoadScene(levelToLoad);
         EventSystem.Instance.TriggerEvent(Strings.Events.SCENE_LOADED);
     }
+
+    #region Private Interface
+
+    private void LoadSteamworkshopFiles()
+    {
+        SteamAdapter.LoadSteamLevelData(OnAllLevelsLoaded);
+    }
+
+    private void OnAllLevelsLoaded()
+    {
+        print("all levels loaded");
+        levelsLoaded = true;
+    }
+
+
+    #endregion
 }

@@ -68,7 +68,42 @@ public class DataPersister : Singleton<DataPersister> {
         dataSave = ActiveDataSave;
         if (true) { }
     }
+    public void LoadLevelData(string i_levelDirectory)
+    {
+        LevelData activeData = null;
+        if(Directory.Exists(i_levelDirectory))
+        {
+            string[] files = Directory.GetFiles(i_levelDirectory);
+            foreach (string fileName in files)
+            {
+                string extension = fileName.Substring(fileName.Length - 3);
+                
+            }
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream fs = File.Open(files[0], FileMode.Open);
+            try
+            {
+                activeData = new LevelData((LevelData)bf.Deserialize(fs));
+                fs.Close();
+            }
+            catch
+            {
+                fs.Close();
+                Debug.LogError("Error Loading level data at: " + i_levelDirectory);
+            }
+        }
+        else
+        {
+            Debug.LogError("No such path at: " + i_levelDirectory);
+        }
 
+        if(activeData != null)
+        {
+            AddLevelDataToActiveDataSave(activeData);
+        }
+
+
+    }
     public void TryDeleteLevel(string uniqueName) {
         ActiveDataSave.TryDeleteLevel(uniqueName);
     }
@@ -101,6 +136,11 @@ public class DataPersister : Singleton<DataPersister> {
     #endregion
 
     #region Private Interface
+
+    private void AddLevelDataToActiveDataSave(LevelData i_toAdd)
+    {
+        ActiveDataSave.levelDatas.Add(i_toAdd);
+    }
 
     void SaveDataFile() {
         BinaryFormatter bf = new BinaryFormatter();

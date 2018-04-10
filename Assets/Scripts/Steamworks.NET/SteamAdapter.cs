@@ -4,30 +4,79 @@ using UnityEngine;
 using Steamworks;
 using System;
 
-public class SteamAdapter : MonoBehaviour {
+public class SteamAdapter : Singleton<SteamAdapter> {
 
     #region Private Fields
 
     private static LevelData workingLevelData = null;
     private static string currentWorkingLevelDataFolderPath;
     private static string currentWorkingLevelImagePath;
+    private static SteamWorkshop.SubmitItemCallBack onCurrentUpdateCallback;
 
     #endregion
 
-    public static void GenerateFileIDAndUpload(string i_dataPath, string i_imgPath, LevelData i_data)
+    #region Public Fields
+
+    public delegate void LevelsLoadedCallback();
+
+    #endregion
+
+
+    #region Public Interface
+
+    public static void GenerateFileIDAndUpload(string i_dataPath, string i_imgPath, LevelData i_data, SteamWorkshop.SubmitItemCallBack onUpdateComplete)
     {
         workingLevelData = i_data;
         currentWorkingLevelDataFolderPath = i_dataPath;
         currentWorkingLevelImagePath = i_imgPath;
+        onCurrentUpdateCallback = onUpdateComplete;
 
-        if(workingLevelData.fileID.m_PublishedFileId == 0)
+
+        //TODO Never update an existing file id, just upload a new one
+        // ONLY SHOULD UPLOAD FILES MADE BY THIS USER
+        if (workingLevelData.fileID.m_PublishedFileId == 0)
         {
-            SteamWorkshop.Instance.CreateNewItem(OnFileIDVerified);
+            SteamWorkshop.Instance.CreateNewItem(OnNewFileIDVerified);
+        }
+        else
+        {
+            SteamWorkshop.Instance.UpdateItem(workingLevelData.fileID,
+                workingLevelData.name,
+                workingLevelData.description,
+                i_dataPath,
+                i_imgPath,
+                "",
+                onCurrentUpdateCallback);
         }
 
     }
 
-    private static void OnFileIDVerified(PublishedFileId_t fileId)
+    public static void LoadSteamLevelData(LevelsLoadedCallback i_toCall)
+    {
+        PublishedFileId_t[] items;
+        uint numOfItems = 0;
+        SteamWorkshop.instance.GetSubscribedItems(out items, out numOfItems);
+        string path = "";
+        foreach(PublishedFileId_t itemID in items)
+        {
+            path = SteamWorkshop.Instance.GetDirectoryForSubscription(itemID);
+            if(path != null)
+            {
+                DataPersister.Instance.LoadLevelData(path);
+            }
+        }
+
+        i_toCall();
+
+
+    }
+
+    #endregion
+
+
+    #region Private Interface
+
+    private static void OnNewFileIDVerified(PublishedFileId_t fileId)
     {
         if(fileId.m_PublishedFileId != 0)
         {
@@ -37,12 +86,9 @@ public class SteamAdapter : MonoBehaviour {
             currentWorkingLevelDataFolderPath,
             currentWorkingLevelImagePath,
             "",
-            OnSubmitItem);
+            onCurrentUpdateCallback);
         }
     }
 
-    private static void OnSubmitItem(bool result)
-    {
-        print("Submit of " + workingLevelData.name + ".dat returned " + result);
-    }
+    #endregion
 }

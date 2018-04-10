@@ -213,13 +213,10 @@ public class LevelDataManager : MonoBehaviour {
         SyncWorkingLevelText();
         SyncWorkingWaveState();
         StartCoroutine(TakePicture(SaveAllLevelData));
-        
-        //steam test
-        //StartCoroutine(TakePicture(SaveSingleLevel));
-        
+                
     }
 
-    private void SaveSingleLevel()
+    public void SaveAndUploadSingleLevel(SteamWorkshop.SubmitItemCallBack onSubmit)
     {
         string levelDirectory = DataPersister.SavesPathDirectory + "/" + WorkingLevelData.name + "/";
         string levelImagePath = levelDirectory + WorkingLevelData.name + ".png";
@@ -227,7 +224,7 @@ public class LevelDataManager : MonoBehaviour {
         dataPersister.TrySaveLevelDataFile(levelDirectory, WorkingLevelData);
         dataPersister.SaveSnapshotToFile(levelImagePath, currentImageData);
 
-        SteamAdapter.GenerateFileIDAndUpload(levelDirectory, levelImagePath, WorkingLevelData);
+        SteamAdapter.GenerateFileIDAndUpload(levelDirectory, levelImagePath, WorkingLevelData, onSubmit);
 
     }
 
@@ -283,7 +280,7 @@ public class LevelDataManager : MonoBehaviour {
         }
     }
 
-    void AddSpawnData(Transform spawnUI, int waveIndex) {
+    private void AddSpawnData(Transform spawnUI, int waveIndex) {
         waveIndex = Mathf.Max(waveIndex, 0);
         PLESpawn spawn = spawnUI.GetComponent<PLESpawn>();
         int spawnType = (int)spawn.spawnType;
