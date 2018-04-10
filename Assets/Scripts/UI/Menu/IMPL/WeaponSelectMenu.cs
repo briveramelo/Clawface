@@ -366,7 +366,7 @@ public class WeaponSelectMenu : Menu
         leftArm.GlowControl.SetState(WeaponSelectState.Highlighted);
         rightArm.GlowControl.SetState(WeaponSelectState.Confirmed);
         playerFaceController.SetTemporaryEmotion(PlayerFaceController.Emotion.Happy, .4f);
-        SFXManager.Instance.Play(SFXType.LandmarkBlastShort, transform.position);
+        SFXManager.Instance.Play(SFXType.LandmarkBlastShort, Camera.main.transform.position);
     }
 
     private void LockInLeftAction()
@@ -378,7 +378,7 @@ public class WeaponSelectMenu : Menu
         leftArm.GlowControl.SetState(WeaponSelectState.Confirmed);        
         leftArmAnimator.SetTrigger("DoLock");
         playerFaceController.SetTemporaryEmotion(PlayerFaceController.Emotion.Happy, .4f);
-        SFXManager.Instance.Play(SFXType.LandmarkBlastShort, transform.position);
+        SFXManager.Instance.Play(SFXType.LandmarkBlastShort, Camera.main.transform.position);
 
         startButton.Select();
         CurrentEventSystem.SetSelectedGameObject(startButton.gameObject);

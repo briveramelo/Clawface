@@ -63,7 +63,8 @@ public enum SFXType {
     KamikazeWarn,
     GuardVocalize,
     GuardShotgunAttack,
-    GuardPrepare
+    GuardPrepare,
+    ComboLost,
 }
 
 public enum MusicType
