@@ -72,7 +72,9 @@ public enum MusicType
     MainMenu_Loop,
     Hathos_Lo,
     Hathos_Med,
-    Hathos_Hi
+    Hathos_Hi,
+    LevelEditor_Intro,
+    LevelEditor_Loop,
 }
 
 public enum DamagerType {

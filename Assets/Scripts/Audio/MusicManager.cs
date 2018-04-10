@@ -75,19 +75,25 @@ public class MusicManager : Singleton<MusicManager>
     private void PlayMusicInSceneContext(params object[] i_params)
     {
         if (SceneTracker.IsCurrentSceneMovie || SceneTracker.IsCurrentSceneMain || SceneTracker.IsCurrentSceneEditor) {
-            StartCoroutine(PlayMainMenuMusic());
+            AudioClip firstToPlay = musicDictionary[MusicType.MainMenu_Intro];
+            AudioClip toLoop = musicDictionary[MusicType.MainMenu_Loop];
+            StartCoroutine(PlayIntroToLoopMusic(firstToPlay, toLoop));
         }
-        else if(SceneTracker.IsCurrentScenePlayerLevels) {
+        else if (SceneTracker.IsCurrentScenePlayerLevels) {
             StopSources();
             PlayRandomGameTrack();
         }
         else if (SceneTracker.IsCurrentScene80sShit) {
             StopSources();
         }
+        //TODO uncomment when editor music is ready (AND GET RID OF THAT || check above) (AND ADD THE TRACK TO THE GAMETRACKS)
+        //else if (SceneTracker.IsCurrentSceneEditor) {
+        //    AudioClip firstToPlay = musicDictionary[MusicType.LevelEditor_Intro];
+        //    AudioClip toLoop = musicDictionary[MusicType.LevelEditor_Loop];
+        //    StartCoroutine(PlayIntroToLoopMusic(firstToPlay, toLoop));
+        //}
     }
-    private IEnumerator PlayMainMenuMusic() {
-        AudioClip firstToPlay = musicDictionary[MusicType.MainMenu_Intro];
-        AudioClip toLoop = musicDictionary[MusicType.MainMenu_Loop];
+    private IEnumerator PlayIntroToLoopMusic(AudioClip firstToPlay, AudioClip toLoop) {
         bool isAlreadyPlayingMenuMusic = ((oneShotMusicSource.clip == firstToPlay && oneShotMusicSource.isPlaying) || (loopMusicSource.clip == toLoop && loopMusicSource.isPlaying));
         if (!isAlreadyPlayingMenuMusic) {
             oneShotMusicSource.clip = firstToPlay;

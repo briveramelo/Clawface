@@ -177,10 +177,10 @@ public class LeaderboardsMenu : Menu
             entry.IsVisible(false);
         }
         if (!loadingText.IsWaitingForConfirmation) {
+            loadingObject.SetActive(true);
             loadingText.IsWaitingForConfirmation = true;
             bool result = LeaderBoards.Instance.GetLeaderBoardData(currentLevelName, OnLeaderBoardEntriesReturned, maxEntries, selectionType);
             loadingText.SetSuccess(result);
-            loadingObject.SetActive(true);
 
             verticalScrollbar.value = 1f;
         }

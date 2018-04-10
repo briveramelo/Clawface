@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class LoadingText : MonoBehaviour {
 
     [SerializeField] private Text loadingText;
+    [SerializeField] private DeltaTime loadingDeltaTime;
     [SerializeField] private string successMessage, failureMessage, waitingString;
     [SerializeField] private bool spaceEllipses;
     [SerializeField] private float maxWaitTime = 7f;
@@ -56,8 +57,9 @@ public class LoadingText : MonoBehaviour {
         float ellipsesTimer = 0f;
         int ellipsesIndex = 0;
         while (IsWaitingForConfirmation && timeWaited < maxWaitTime) {
-            timeWaited += Time.deltaTime;
-            ellipsesTimer += Time.deltaTime;
+            float deltaTime = Support.GetDeltaTime(loadingDeltaTime);
+            timeWaited += deltaTime;
+            ellipsesTimer += deltaTime;
             if (ellipsesTimer > ellipsesInterval) {
                 ellipsesTimer = 0f;
                 ellipsesIndex++;
