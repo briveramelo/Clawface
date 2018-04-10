@@ -11,13 +11,12 @@ public class SplashScreen : MonoBehaviour {
 
     [SerializeField] private VideoPlayer player;
     [SerializeField] private Animation blackScreen;
-
+    [SerializeField] private SteamLevelLoader steamLevelLoader;
     #endregion
 
     #region Private Fields
 
     private bool fadeTriggered;
-    private bool levelsLoaded = false;
     private PauseMenu menu;
 
     #endregion
@@ -28,7 +27,7 @@ public class SplashScreen : MonoBehaviour {
     {
         menu = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
         menu.CanPause = false;
-        Invoke("LoadSteamworkshopFiles", 0.1f);
+        steamLevelLoader.LoadSteamworkshopFiles();
     }
 
     // Update is called once per frame
@@ -38,9 +37,8 @@ public class SplashScreen : MonoBehaviour {
             fadeTriggered = true;
             blackScreen.Play();
         }
-
-        //if level has loaded and player has hit a key, or if the levels have been loaded and the player is done playing
-        if (InputManager.Instance.AnyKey() && levelsLoaded || (levelsLoaded && !player.isPlaying))
+        
+        if ((InputManager.Instance.AnyKey() || !player.isPlaying) && steamLevelLoader.IsLevelsLoaded)
         {
             LoadLevel();
         }
@@ -51,8 +49,7 @@ public class SplashScreen : MonoBehaviour {
     #region Public Interface
 
     public void LoadLevel()
-    {
-        
+    {        
         menu.CanPause = true;
         SceneManager.LoadScene(Strings.Scenes.SceneNames.MainMenu);
         EventSystem.Instance.TriggerEvent(Strings.Events.SCENE_LOADED);
@@ -60,16 +57,6 @@ public class SplashScreen : MonoBehaviour {
 
     #endregion 
 
-    #region Private Interface
-
-    private void LoadSteamworkshopFiles()
-    {
-        SteamAdapter.LoadSteamLevelData(OnAllLevelsLoaded);
-    }
-
-    private void OnAllLevelsLoaded()
-    {
-        levelsLoaded = true;
-    }
+    #region Private Interface    
     #endregion
 }

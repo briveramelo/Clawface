@@ -274,7 +274,8 @@ public class PLELevelSelectMenu : PLEMenu {
             MenuManager.Instance.DoTransition(confirmMenu, Transition.HIDE, new Effect[] { Effect.INSTANT });
             SelectInitialButton();
         };
-        confirmMenu.DefineActions("Are you sure?", onYesAction, onNoAction);
+        string confirmationMessage = SelectedLevelUI.levelData.isDownloaded ? "Unsubscribe from this Steam Workshop item to permanently remove. Are you sure?" : "This cannot be undone. Are you sure?";
+        confirmMenu.DefineActions(confirmationMessage, onYesAction, onNoAction);
 
         MenuManager.Instance.DoTransition(confirmMenu, Transition.SHOW, new Effect[] { Effect.INSTANT });
 

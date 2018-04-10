@@ -50,6 +50,7 @@ public class LoadMenu : Menu {
     #endregion
 
     #region Serialized Unity Fields
+    [SerializeField] private LoadingText loadingBarText;
     [SerializeField] private Scrollbar loadingBar;
     [SerializeField] private Text loadingText;
     [SerializeField] private Image loadingImage;
@@ -106,6 +107,7 @@ public class LoadMenu : Menu {
     public override MenuType ThisMenuType { get { return MenuType.Load; } }
     protected override void ShowStarted() {
         base.ShowStarted();
+        loadingBarText.IsWaitingForConfirmation = true;
         loadingImage.sprite = SceneTracker.IsTargetSceneEditor(TargetSceneName) ? levelEditorSprite : gameControllerSprite;
     }
     protected override void ShowComplete()
@@ -141,7 +143,7 @@ public class LoadMenu : Menu {
             loadingBar.size = Mathf.Lerp(0.0F, 1.0F, async.progress);
             yield return new WaitForEndOfFrame();
         }
-
+        loadingBarText.SetSuccess(true);
         // Prewarm shaders to prevent lag during level.
         Shader.WarmupAllShaders();
 

@@ -87,9 +87,18 @@ public class DataPersister : Singleton<DataPersister> {
                 if(extension.Equals("dat"))
                 {
                     LevelData toAdd = SerializeToLevelData(fileName);
-                    if(toAdd != null)
+                    Predicate<LevelData> levelMatch = levelData => levelData.UniqueSteamName == toAdd.UniqueSteamName;
+                    bool levelAlreadyExists = ActiveDataSave.levelDatas.Exists(levelMatch);
+                    if (toAdd != null)
                     {
-                        AddToActiveData(toAdd);
+                        toAdd.isDownloaded = true;
+                        if (!levelAlreadyExists) {
+                            ActiveDataSave.levelDatas.Add(toAdd);
+                        }
+                        else {
+                            int index = ActiveDataSave.levelDatas.FindIndex(levelMatch);
+                            ActiveDataSave.levelDatas[index] = new LevelData(toAdd);
+                        }
                     }
                     else
                     {
@@ -103,8 +112,6 @@ public class DataPersister : Singleton<DataPersister> {
         {
             Debug.LogError("No such path at: " + i_levelDirectory);
         }
-
-
     }
     public void TryDeleteLevel(string uniqueName) {
         ActiveDataSave.TryDeleteLevel(uniqueName);
@@ -140,7 +147,7 @@ public class DataPersister : Singleton<DataPersister> {
     #region Private Interface
     private LevelData SerializeToLevelData(string i_levelFilePath)
     {
-        LevelData result = null;
+        LevelData result = new LevelData();
         BinaryFormatter bf = new BinaryFormatter();
         FileStream fs = File.Open(i_levelFilePath, FileMode.Open);
         try
@@ -159,7 +166,7 @@ public class DataPersister : Singleton<DataPersister> {
 
     private void AddToActiveData(LevelData i_data)
     {
-        ActiveDataSave.levelDatas.Add(i_data);
+        
     }
 
     void SaveDataFile() {
@@ -173,7 +180,7 @@ public class DataPersister : Singleton<DataPersister> {
     {
         BinaryFormatter bf = new BinaryFormatter();
         FileStream fs = File.Create(i_filePath);
-        bf.Serialize(fs, i_Data);
+        bf.Serialize(fs, new LevelData(i_Data));
         fs.Close();
     }
 
@@ -238,7 +245,8 @@ public class DataSave {
             levelDatas.RemoveAt(levelIndex);
         }
     }
-    public void SaveWorkingLevelData() {        
+    public void SaveWorkingLevelData() {
+        workingLevelData.isMadeByThisUser = true;
         workingLevelData.SaveTimestamp();
         SelectedLevelData = new LevelData(workingLevelData);
     }
@@ -272,11 +280,11 @@ public class LevelData {
     public string name, description;
     public bool isFavorite = false;
     public bool isDownloaded = false;
-    public bool isMadeByThisUser = true;
+    public bool isMadeByThisUser;
     public bool isInfinite;
     public bool isHathosLevel;
-    public PublishedFileId_t fileID;
     [SerializeField] string dateString;
+    public PublishedFileId_t fileID;
     [HideInInspector] public byte[] imageData;
     public List<WaveData> waveData = new List<WaveData>();
     public List<TileData> tileData = new List<TileData>();

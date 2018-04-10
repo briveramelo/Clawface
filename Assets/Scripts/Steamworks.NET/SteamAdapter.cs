@@ -8,7 +8,7 @@ public class SteamAdapter : Singleton<SteamAdapter> {
 
     #region Private Fields
 
-    private static LevelData workingLevelData = null;
+    private static LevelData workingLevelDataCopy = null;
     private static string currentWorkingLevelDataFolderPath;
     private static string currentWorkingLevelImagePath;
     private static SteamWorkshop.SubmitItemCallBack onCurrentUpdateCallback;
@@ -24,25 +24,27 @@ public class SteamAdapter : Singleton<SteamAdapter> {
 
     #region Public Interface
 
-    public static void GenerateFileIDAndUpload(string i_dataPath, string i_imgPath, LevelData i_data, SteamWorkshop.SubmitItemCallBack onUpdateComplete)
+    public static void GenerateFileIDAndUpload(string i_dataPath, string i_imgPath, LevelData i_dataToCopy, SteamWorkshop.SubmitItemCallBack onUpdateComplete)
     {
-        workingLevelData = i_data;
         currentWorkingLevelDataFolderPath = i_dataPath;
         currentWorkingLevelImagePath = i_imgPath;
+        workingLevelDataCopy = new LevelData(i_dataToCopy) {
+            isMadeByThisUser = false
+        };
         onCurrentUpdateCallback = onUpdateComplete;
 
 
         //TODO Never update an existing file id, just upload a new one
         // ONLY SHOULD UPLOAD FILES MADE BY THIS USER
-        if (workingLevelData.fileID.m_PublishedFileId == 0)
+        if (workingLevelDataCopy.fileID.m_PublishedFileId == 0)
         {
             SteamWorkshop.Instance.CreateNewItem(OnNewFileIDVerified);
         }
         else
         {
-            SteamWorkshop.Instance.UpdateItem(workingLevelData.fileID,
-                workingLevelData.name,
-                workingLevelData.description,
+            SteamWorkshop.Instance.UpdateItem(workingLevelDataCopy.fileID,
+                workingLevelDataCopy.name,
+                workingLevelDataCopy.description,
                 i_dataPath,
                 i_imgPath,
                 "",
@@ -67,8 +69,6 @@ public class SteamAdapter : Singleton<SteamAdapter> {
         }
 
         i_toCall();
-
-
     }
 
     #endregion
@@ -81,8 +81,8 @@ public class SteamAdapter : Singleton<SteamAdapter> {
         if(fileId.m_PublishedFileId != 0)
         {
             SteamWorkshop.Instance.UpdateItem(fileId,
-            workingLevelData.name,
-            workingLevelData.description,
+            workingLevelDataCopy.name,
+            workingLevelDataCopy.description,
             currentWorkingLevelDataFolderPath,
             currentWorkingLevelImagePath,
             "",

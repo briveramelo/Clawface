@@ -7,6 +7,7 @@ using ModMan;
 public class LeaderboardsMenu : Menu
 {
     #region Serialized fields
+    [SerializeField] private LoadingText loadingText;
     [SerializeField] private GameObject leaderBoardEntryPrefab, loadingObject;
     [SerializeField] private Transform entriesHolder;    
 
@@ -24,16 +25,6 @@ public class LeaderboardsMenu : Menu
     private List<LeaderboardEntry> leaderBoardEntries=new List<LeaderboardEntry>();    
     private string currentLevelName;
     private LeaderBoards.SelectionType currentSelectionType;
-    private bool IsWaitingForEntries {
-        get {
-            return isWaitingForEntries;
-        }
-        set {
-            ToggleFilterSelectability(!value, currentSelectionType);
-            isWaitingForEntries = value;
-        }
-    }
-    private bool isWaitingForEntries;
 
     private int SelectedFilterToggle {
         get { return Mathf.Clamp((int)currentSelectionType, 0, selectorToggleGroup.SelectorTogglesCount); }
@@ -60,6 +51,7 @@ public class LeaderboardsMenu : Menu
             {LeaderBoards.SelectionType.FRIENDS, friendButton},
             {LeaderBoards.SelectionType.AROUND_USER, aroundUserButton},
         };
+        loadingText.SetOnToggleWaitingForConfirmation((value)=> { ToggleFilterSelectability(!value, currentSelectionType); });
     }
 
     private void Update()
@@ -184,19 +176,19 @@ public class LeaderboardsMenu : Menu
         {
             entry.IsVisible(false);
         }
-        if (!IsWaitingForEntries) {
-            IsWaitingForEntries = true;
+        if (!loadingText.IsWaitingForConfirmation) {
+            loadingText.IsWaitingForConfirmation = true;
             bool result = LeaderBoards.Instance.GetLeaderBoardData(currentLevelName, OnLeaderBoardEntriesReturned, maxEntries, selectionType);
-        
-            loadingObject.GetComponent<LoadingText>().SetError(result);
+            loadingText.SetSuccess(result);
             loadingObject.SetActive(true);
+
             verticalScrollbar.value = 1f;
         }
     }
 
     private void OnLeaderBoardEntriesReturned(List<GenericSteamLeaderBoard.LeaderBoardVars> results, bool retry)
     {
-        IsWaitingForEntries = false;
+        loadingText.IsWaitingForConfirmation = false;
         if (!retry)
         {
             int numberOfReusableEntries = leaderBoardEntries.Count;

@@ -914,11 +914,11 @@ MonoBehaviour:
   canvas: {fileID: 1904427950031010}
   canvasGroup: {fileID: 225082875425978950}
   faderDuration: 0
+  loadingText: {fileID: 114622638572185560}
   leaderBoardEntryPrefab: {fileID: 1573366416038306, guid: e4e66a25774596f49a0b70e6e65fdf8b,
     type: 2}
-  entriesHolder: {fileID: 224912474840111148}
   loadingObject: {fileID: 1343336614417598}
-  maxEntries: 100
+  entriesHolder: {fileID: 224912474840111148}
   globalButton: {fileID: 114983724765704698}
   friendButton: {fileID: 114842832773371280}
   aroundUserButton: {fileID: 114045332248910020}
@@ -926,6 +926,7 @@ MonoBehaviour:
   selectorToggleGroup: {fileID: 114331696003980156}
   playerColor: {r: 0.99607843, g: 0.24313726, b: 0.654902, a: 1}
   standardColor: {r: 1, g: 1, b: 0.39215687, a: 1}
+  maxEntries: 100
   joystickMaxScrollSpeed: 0.3
   mouseMaxScrollSpeed: 1.1
 --- !u!114 &114273684272352192
@@ -1415,6 +1416,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08fef49664e2aa64ba3c4a15b997d135, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  successMessage: 
+  failureMessage: CANNOT REACH LEADERBOARD RIGHT NOW
+  waitingString: LOADING
+  spaceEllipses: 1
+  maxWaitTime: 7
+  ellipsesInterval: 0.4
 --- !u!114 &114630208931671712
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1474,7 +1481,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Loading
+  m_Text: LOADING
 --- !u!114 &114716683439382804
 MonoBehaviour:
   m_ObjectHideFlags: 1

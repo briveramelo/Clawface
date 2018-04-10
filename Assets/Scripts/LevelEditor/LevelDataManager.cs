@@ -36,10 +36,6 @@ public class LevelDataManager : MonoBehaviour {
     #region Private Fields
     private int spawnLayerMask;
     private DataPersister dataPersister { get { return DataPersister.Instance; } }
-
-    private byte[] currentImageData;
-
-    private delegate void SaveDataCallback();
     #endregion
 
     #region Unity Lifecycle
@@ -201,36 +197,32 @@ public class LevelDataManager : MonoBehaviour {
     #endregion
 
     #region Save
+    public void SaveAndUploadSingleLevel(SteamWorkshop.SubmitItemCallBack onUploadComplete, Action onSaveComplete=null) {
+        Action<LevelData> uploadOnFinishSaving = (levelData) => {
+            if (onSaveComplete!=null) {
+                onSaveComplete();
+            }
+            string levelDirectory = DataPersister.SavesPathDirectory + "/" + levelData.name + "/";
+            string levelImagePath = levelDirectory + levelData.name + ".png";
+            dataPersister.TrySaveLevelDataFile(levelDirectory, levelData);
+            dataPersister.SaveSnapshotToFile(levelImagePath, levelData.imageData);
+            SteamAdapter.GenerateFileIDAndUpload(levelDirectory, levelImagePath, levelData, onUploadComplete);
+        };
+        SaveLevel(false, uploadOnFinishSaving);
+    }
+
     public void SaveNewLevel() {
         ActiveDataSave.AddAndSelectNewLevel();
         SaveLevel();
     }
 
-    public void SaveLevel() {
+    public void SaveLevel(bool isInternal=true, Action<LevelData> onFinishSavingLevel=null) {
         SyncWorkingTileData();
         SyncWorkingPropData();
         SyncWorkingSpawnData();
         SyncWorkingLevelText();
         SyncWorkingWaveState();
-        StartCoroutine(TakePicture(SaveAllLevelData));
-                
-    }
-
-    public void SaveAndUploadSingleLevel(SteamWorkshop.SubmitItemCallBack onSubmit)
-    {
-        string levelDirectory = DataPersister.SavesPathDirectory + "/" + WorkingLevelData.name + "/";
-        string levelImagePath = levelDirectory + WorkingLevelData.name + ".png";
-
-        dataPersister.TrySaveLevelDataFile(levelDirectory, WorkingLevelData);
-        dataPersister.SaveSnapshotToFile(levelImagePath, currentImageData);
-
-        SteamAdapter.GenerateFileIDAndUpload(levelDirectory, levelImagePath, WorkingLevelData, onSubmit);
-
-    }
-
-    private void SaveAllLevelData()
-    {
-        dataPersister.TrySaveWorkingLevel();
+        StartCoroutine(TakePicture(isInternal, onFinishSavingLevel));
     }
 
     private void SyncWorkingTileData() {
@@ -304,21 +296,31 @@ public class LevelDataManager : MonoBehaviour {
         WorkingLevelData.isInfinite = PLESpawnManager.Instance.InfiniteWavesEnabled;
     }
 
-    IEnumerator TakePicture(SaveDataCallback i_save)
+    IEnumerator TakePicture(bool isInternal, Action<LevelData> onFinishSaving=null)
     {
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
-        levelEditor.gridController.SetGridVisiblity(false);
-        mainPLEMenu.CanvasGroup.alpha = 0f;
-        mainPLEMenu.GetMenu(PLEMenuType.FLOOR).CanvasGroup.alpha = 0f;
+        levelEditor.gridController.SetGridVisiblity(false);        
+        SetMenusAlpha(0f, PLEMenuType.MAIN, PLEMenuType.FLOOR, PLEMenuType.STEAM);
         yield return new WaitForEndOfFrame();
         SavePicture();
+        dataPersister.TrySaveWorkingLevel();
+        if (onFinishSaving!=null) {
+            onFinishSaving(WorkingLevelData);
+        }
         yield return new WaitForEndOfFrame();
-        mainPLEMenu.CanvasGroup.alpha = 1f;
-        mainPLEMenu.GetMenu(PLEMenuType.FLOOR).CanvasGroup.alpha = 1f;
-        mainPLEMenu.SelectMenuItem(PLEMenuType.FLOOR);
-        levelEditor.gridController.SetGridVisiblity(true);
-        i_save();
+        SetMenusAlpha(1f, PLEMenuType.MAIN, PLEMenuType.FLOOR, PLEMenuType.STEAM);
+        if (isInternal) {
+            mainPLEMenu.SelectMenuItem(PLEMenuType.FLOOR);
+            levelEditor.gridController.SetGridVisiblity(true);
+        }
+        mainPLEMenu.SetMenuButtonInteractabilityByState();
+    }
+
+    private void SetMenusAlpha(float alpha, params PLEMenuType[] menuTypes) {
+        foreach (PLEMenuType menu in menuTypes) {
+            mainPLEMenu.GetMenu(menu).CanvasGroup.alpha = alpha;
+        }
     }
 
 
@@ -328,8 +330,7 @@ public class LevelDataManager : MonoBehaviour {
         snapshot.ReadPixels(snapRect, 0, 0);
         TextureScale.Bilinear(snapshot, (int)LevelData.fixedSize.x, (int)LevelData.fixedSize.y);
         snapshot.Apply();
-        currentImageData = snapshot.EncodeToPNG();
-        WorkingLevelData.SetPicture(currentImageData);
+        WorkingLevelData.SetPicture(snapshot.EncodeToPNG());
     }
 
     private string GetWaveName(int i) { return Strings.Editor.Wave + i; }

@@ -8,8 +8,6 @@
     public const string PREVIEW = "Preview";
     public const string GHOST_BLOCK = "GhostBlock";
     public const string REAL_BLOCK = "RealBlock";
-    public const string LEADERBOARD_LOADING = "LOADING";
-    public const string LEADERBOARD_ERROR = "CANNOT REACH LEADERBOARD RIGHT NOW";
 
     public class Paths
     {

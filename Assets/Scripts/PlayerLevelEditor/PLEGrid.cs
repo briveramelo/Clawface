@@ -101,6 +101,9 @@ public class PLEGrid : EventSubscriber {
             TryHoverTile();
             HandleBlockSelectionInteractions(hit);
         }
+        else if (Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT)) {
+            DeselectBlocks();
+        }
         if (!firstSelectedTileIsActive) {
             HandleGroupGhostSelectionPreview();
         }
@@ -404,7 +407,9 @@ public class PLEGrid : EventSubscriber {
                     GridTile selectedTile = gridTiles.Find(tile => tile.realTile == selectedObjects[j]);
                     lastSelectedGameObjects[i].Remove(selectedObjects[j]);
 
-                    SelectTile(selectedTile, selectedTile.CurrentTileStateColor, false);
+                    if (selectedTile!=null) {
+                        SelectTile(selectedTile, selectedTile.CurrentTileStateColor, false);
+                    }
                 }
             }
         }

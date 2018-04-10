@@ -13,17 +13,21 @@ public enum SteamMenuSubMenu {
 }
 public class SteamMenu : PLEMenu {
 
-    public SteamMenu() : base(Strings.MenuStrings.LevelEditor.STEAM_PLE_MENU) { }    
+    public SteamMenu() : base(Strings.MenuStrings.LevelEditor.STEAM_PLE_MENU) { }
 
     #region Unity Serialized Fields
-    [SerializeField] private GameObject baseMenu, uploadMenu, downloadMenu, uploadSuccessMenu;
+    [SerializeField] private SteamLevelLoader steamLevelLoader;
+    [SerializeField] private LoadingText uploadLoadingText, downloadLoadingText;
+    [SerializeField] private GameObject baseMenu, uploadMenu, downloadMenu, uploadSuccessMenu, downloadHelpTextParent, downloadLoadingTextParent;
     [SerializeField] private Text nameText, descriptionText, uploadingWaitingText;
-    [SerializeField] private Selectable uploadSuccessMenuBackButton, uploadButton;
+    [SerializeField] private Selectable waitingMenuBackButton, uploadButton;
     [SerializeField] private Image levelImage;
-    [SerializeField] private string successMessage, failureMessage, uploadingWaitingString;
+    [SerializeField] private string steamWorkshopUrl;
     #endregion
 
-    LevelData WorkingLevelData { get { return DataPersister.ActiveDataSave.workingLevelData; } }
+    #region Private Fields
+    private bool isWaitingForSave;
+    private LevelData WorkingLevelData { get { return DataPersister.ActiveDataSave.workingLevelData; } }
     private List<GameObject> menuObjects;
     private List<GameObject> MenuObjects {
         get {
@@ -35,17 +39,18 @@ public class SteamMenu : PLEMenu {
             return menuObjects;
         }
     }
-    private bool isWaitingForConfirmation;
-    public bool IsWaitingForConfirmation {
-        get {
-            return isWaitingForConfirmation;
-        }
-        private set {
-            isWaitingForConfirmation = value;
-            uploadSuccessMenuBackButton.interactable = !value;
-        }
+    #endregion
+
+    #region Unity LifeCycle
+    protected override void Awake() {
+        base.Awake();
+        Action<bool> onToggleWaiting = (value) => {
+            waitingMenuBackButton.interactable = !value;
+            mainPLEMenu.SetMenuButtonInteractabilityByState();
+        };
+        uploadLoadingText.SetOnToggleWaitingForConfirmation(onToggleWaiting);
+        downloadLoadingText.SetOnToggleWaitingForConfirmation(onToggleWaiting);
     }
-    private bool wasUploadSuccessful = false;
 
     protected override void Update() {
         if (allowInput && !IsWaitingForConfirmation) {
@@ -54,8 +59,10 @@ public class SteamMenu : PLEMenu {
             }
         }
     }
-
-    //for custom editor
+    #endregion
+    
+    #region Public Interface
+    public bool IsWaitingForConfirmation { get { return uploadLoadingText.IsWaitingForConfirmation || downloadLoadingText.IsWaitingForConfirmation || isWaitingForSave; } }
     public void ShowMenu(SteamMenuSubMenu subMenu) {
         GameObject selectedMenu= baseMenu;
         switch (subMenu) {
@@ -69,6 +76,7 @@ public class SteamMenu : PLEMenu {
 
     public void ShowDownloadMenu() {
         ShowMenuExclusively(downloadMenu);
+        SyncWorkshopData();
     }
     public void ShowUploadMenu() {
         ShowMenuExclusively(uploadMenu);
@@ -78,28 +86,37 @@ public class SteamMenu : PLEMenu {
     }
 
     public void Upload() {
-        //upload to steam with callback: OnGetUploadResult(bool success)
-        levelEditor.levelDataManager.SaveAndUploadSingleLevel(OnSubmitItemResult);
-        IsWaitingForConfirmation = true;
-        uploadingWaitingText.text = uploadingWaitingString;
+        isWaitingForSave = true;
         mainPLEMenu.SetMenuButtonInteractabilityByState();
-        StartCoroutine(DelayUploadMessage());
-        ShowMenuExclusively(uploadSuccessMenu);
+        levelEditor.levelDataManager.SaveAndUploadSingleLevel(OnGetUploadResult, OnSaveComplete);
     }
     
     public void ShowSteamWorkshop() {
-        //nothing happens
+        //TODO open webpage for steam workshop
+        //https://steamcommunity.com/workshop/browse/?appid=785130&browsesort=trend&section=readytouseitems
+        Application.OpenURL(steamWorkshopUrl);
+    }
+
+    public void SyncWorkshopData() {
+        downloadLoadingTextParent.SetActive(true);
+        downloadHelpTextParent.SetActive(false);
+        downloadLoadingText.IsWaitingForConfirmation = true;        
+        steamLevelLoader.LoadSteamworkshopFiles(OnSteamLevelsLoaded);
     }
 
     public override void SetMenuButtonInteractabilityByState() {
         bool activeLevelDataHasBeenSaved = !WorkingLevelData.IsEmpty;
         uploadButton.interactable = activeLevelDataHasBeenSaved;
     }
+    #endregion
 
+    #region Protected
     protected override void ShowStarted() {
         base.ShowStarted();
-        IsWaitingForConfirmation = false;
-        wasUploadSuccessful = false;
+        isWaitingForSave = false;
+        uploadLoadingText.SetSuccess(false);
+        downloadLoadingText.SetSuccess(false);
+
         ShowMenuExclusively(baseMenu);
         nameText.text = WorkingLevelData.name;
         descriptionText.text = WorkingLevelData.description;
@@ -108,8 +125,18 @@ public class SteamMenu : PLEMenu {
 
     protected override void HideStarted() {
         base.HideStarted();
-        IsWaitingForConfirmation = false;
-        wasUploadSuccessful = false;
+        isWaitingForSave = false;
+        uploadLoadingText.SetSuccess(false);
+        downloadLoadingText.SetSuccess(false);
+    }
+    #endregion
+
+    #region Private Interface
+    private void OnSteamLevelsLoaded() {
+        downloadLoadingText.IsWaitingForConfirmation = false;
+        downloadLoadingTextParent.SetActive(false);
+        downloadHelpTextParent.SetActive(true);
+        mainPLEMenu.SetMenuButtonInteractabilityByState();
     }
 
     private void ShowMenuExclusively(GameObject toShow) {
@@ -119,37 +146,14 @@ public class SteamMenu : PLEMenu {
         });
     }
 
-    private void OnSubmitItemResult(bool success) {
-        IsWaitingForConfirmation = false;
-        wasUploadSuccessful = success;
+    private void OnGetUploadResult(bool success) {
+        isWaitingForSave = false;
+        uploadLoadingText.SetSuccess(success);
     }
 
-    IEnumerator DelayUploadMessage() {
-        const float maxWaitTime = 7f;
-        const float ellipsesInterval = .4f;
-        float timeWaited = 0f;
-        float ellipsesTimer = 0f;
-        int ellipsesIndex = 0;
-        while (IsWaitingForConfirmation && timeWaited<maxWaitTime) {
-            timeWaited += Time.deltaTime;
-            ellipsesTimer += Time.deltaTime;
-            if (ellipsesTimer> ellipsesInterval) {
-                ellipsesTimer = 0f;
-                ellipsesIndex++;
-                UpdateEllipsesText(ellipsesIndex);
-            }
-            yield return null;
-        }
-        IsWaitingForConfirmation = false;
-        uploadingWaitingText.text = wasUploadSuccessful ? successMessage : failureMessage;
+    private void OnSaveComplete() {
+        ShowMenuExclusively(uploadSuccessMenu);
+        uploadLoadingText.IsWaitingForConfirmation = true;
     }
-
-    void UpdateEllipsesText(int index) {
-        int newIndex = index % 4;
-        string finalString = uploadingWaitingString;
-        for (int i = 0; i < newIndex; i++) {
-            finalString += ".";
-        }
-        uploadingWaitingText.text = finalString;
-    }
+    #endregion
 }
