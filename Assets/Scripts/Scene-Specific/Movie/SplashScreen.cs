@@ -18,7 +18,7 @@ public class SplashScreen : MonoBehaviour {
 
     private bool fadeTriggered;
     private PauseMenu menu;
-
+    private bool shouldAdvance = false;
     #endregion
 
     #region Unity LifeCycle
@@ -38,7 +38,7 @@ public class SplashScreen : MonoBehaviour {
             blackScreen.Play();
         }
         
-        if ((InputManager.Instance.AnyKey() || !player.isPlaying) && steamLevelLoader.IsLevelsLoaded)
+        if ((InputManager.Instance.AnyKey() || !player.isPlaying) && shouldAdvance)
         {
             LoadLevel();
         }
@@ -62,13 +62,18 @@ public class SplashScreen : MonoBehaviour {
     private void LoadWorkshopLevels() {
         try
         {
-            steamLevelLoader.LoadSteamworkshopFiles();
+            steamLevelLoader.LoadSteamworkshopFiles(OnFilesLoaded);
         }
         catch
         {
             Debug.LogError("Must be launched from steam client to load Steam Workshop Files");
+            OnFilesLoaded();
         }
-        
+    }
+
+    private void OnFilesLoaded()
+    {
+        shouldAdvance = true;
     }
     #endregion
 }
