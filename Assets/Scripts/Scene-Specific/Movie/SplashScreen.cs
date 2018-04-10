@@ -28,8 +28,7 @@ public class SplashScreen : MonoBehaviour {
     {
         menu = (PauseMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.PAUSE);
         menu.CanPause = false;
-
-        LoadSteamworkshopFiles();
+        Invoke("LoadSteamworkshopFiles", 0.1f);
     }
 
     // Update is called once per frame
