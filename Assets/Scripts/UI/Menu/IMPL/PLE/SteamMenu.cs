@@ -92,8 +92,6 @@ public class SteamMenu : PLEMenu {
     }
     
     public void ShowSteamWorkshop() {
-        //TODO open webpage for steam workshop
-        //https://steamcommunity.com/workshop/browse/?appid=785130&browsesort=trend&section=readytouseitems
         Application.OpenURL(steamWorkshopUrl);
     }
 
