@@ -115,7 +115,7 @@ public class WeaponSelectMenu : Menu
     #endregion
 
     #region Interface (Menu)
-
+    public override MenuType ThisMenuType { get { return MenuType.WeaponSelect; } }
     protected override void Fade(Transition transition, Effect[] effects)
     {
         fader.DoShow(fadeDuration, () =>
@@ -308,6 +308,7 @@ public class WeaponSelectMenu : Menu
         leftArm.GlowControl.SetState(WeaponSelectState.Highlighted);
         ChangeWeaponTextPanel(leftArm);
         leftArmAnimator.SetTrigger("DoUnlock");
+        CurrentEventSystem.SetSelectedGameObject(null);
     }
 
     private void HandleMovingWeaponLineup(WeaponLineup lineup, bool isLeft, bool isRight)

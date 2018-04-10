@@ -5,51 +5,80 @@ using UnityEngine.UI;
 
 public class LoadingText : MonoBehaviour {
 
-    private Text loadingText;
-    private int loadingCount;
-    private float time;
-    private bool isError;
+    [SerializeField] private Text loadingText;
+    [SerializeField] private DeltaTime loadingDeltaTime;
+    [SerializeField] private string successMessage, failureMessage, waitingString;
+    [SerializeField] private bool spaceEllipses;
+    [SerializeField] private float maxWaitTime = 7f;
+    [SerializeField] private float ellipsesInterval = .4f;
 
-    // Use this for initialization
-    private void Awake()
-    {
-        loadingText = GetComponent<Text>();
-        loadingText.text = Strings.LEADERBOARD_LOADING;
-    }
-
-    private void OnEnable()
-    {
-        loadingCount = 0;
-        time = 0.0f;
-        isError = false;
-    }
-
-    // Update is called once per frame
-    void Update () {
-        if (isError)
-        {
-            loadingText.text = Strings.LEADERBOARD_ERROR;
+    private System.Action<bool> onToggleWaitingForConfirmation; 
+    private bool isWaitingForConfirmation;
+    private bool wasSuccessful = false;
+    #region Public interface
+    public bool IsWaitingForConfirmation {
+        get {
+            return isWaitingForConfirmation;
         }
-        else
-        {
-            time += Time.deltaTime;
-            if (time > 1.0f)
-            {
-                time = 0.0f;
-                loadingCount++;
-                loadingCount %= 4;
-                string finalString = Strings.LEADERBOARD_LOADING;
-                for (int i = 0; i < loadingCount; i++)
-                {
-                    finalString += ".";
-                }
-                loadingText.text = finalString;
+        set {
+            isWaitingForConfirmation = value;
+            if (value) {
+                AnimateLoadingText();
+            }
+            if (onToggleWaitingForConfirmation!=null) {
+                onToggleWaitingForConfirmation(value);
             }
         }
     }
 
-    public void SetError(bool result)
-    {
-        isError = !result;
+    public void SetOnToggleWaitingForConfirmation(System.Action<bool> onToggleWaitingForConfirmation=null) {
+        this.onToggleWaitingForConfirmation = onToggleWaitingForConfirmation;
     }
+
+    /// <summary>
+    /// Also Sets "IsWaitingForConfirmation" to 'false'
+    /// </summary>
+    /// <param name="result"></param>
+    public void SetSuccess(bool result) {
+        IsWaitingForConfirmation = false;
+        wasSuccessful = result;
+    }
+    #endregion
+
+    #region Private Interface
+    private void AnimateLoadingText() {
+        StopAllCoroutines();
+        StartCoroutine(DelayUploadMessage());
+    }
+
+    private IEnumerator DelayUploadMessage() {
+        loadingText.text = waitingString;        
+        float timeWaited = 0f;
+        float ellipsesTimer = 0f;
+        int ellipsesIndex = 0;
+        while (IsWaitingForConfirmation && timeWaited < maxWaitTime) {
+            float deltaTime = Support.GetDeltaTime(loadingDeltaTime);
+            timeWaited += deltaTime;
+            ellipsesTimer += deltaTime;
+            if (ellipsesTimer > ellipsesInterval) {
+                ellipsesTimer = 0f;
+                ellipsesIndex++;
+                UpdateEllipsesText(ellipsesIndex);
+            }
+            yield return null;
+        }
+        IsWaitingForConfirmation = false;
+        loadingText.text = wasSuccessful ? successMessage : failureMessage;
+    }
+
+    private void UpdateEllipsesText(int index) {
+        int newIndex = index % 4;
+        string finalString = waitingString;
+        string periodString = spaceEllipses ? ". " : ".";
+        for (int i = 0; i < newIndex; i++) {
+            finalString += periodString;
+        }
+        loadingText.text = finalString;
+    }    
+    #endregion
 }

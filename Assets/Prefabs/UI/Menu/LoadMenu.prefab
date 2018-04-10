@@ -71,6 +71,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4953256469455448}
   - component: {fileID: 114317228408207874}
+  - component: {fileID: 114919300280239016}
   m_Layer: 0
   m_Name: LoadMenu
   m_TagString: Untagged
@@ -218,7 +219,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 1402534196062726}
   canvasGroup: {fileID: 225205027576500606}
-  faderDuration: 0.25
+  faderDuration: 0
+  loadingBarText: {fileID: 114919300280239016}
   loadingBar: {fileID: 114506131717339034}
   loadingText: {fileID: 114534170786470390}
   loadingImage: {fileID: 114421711328974382}
@@ -373,7 +375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.10980392, g: 0.07058824, b: 0.101960786, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -388,6 +390,25 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114919300280239016
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1364298826775566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08fef49664e2aa64ba3c4a15b997d135, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingText: {fileID: 114534170786470390}
+  loadingDeltaTime: 0
+  successMessage: P R E S S   T O   E X E C U T E
+  failureMessage: 
+  waitingString: 'L O A D I N G '
+  spaceEllipses: 1
+  maxWaitTime: 100000000
+  ellipsesInterval: 0.4
 --- !u!114 &114968438370435176
 MonoBehaviour:
   m_ObjectHideFlags: 1

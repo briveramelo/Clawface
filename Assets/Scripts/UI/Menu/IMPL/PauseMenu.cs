@@ -38,9 +38,9 @@ public class PauseMenu : Menu {
     #endregion
 
     #region Private Fields
-    public bool IsPaused{ get { return paused; } }
-	private bool paused = false;
-	private bool canPause = true;
+    public bool IsPaused { get { return paused; } }
+    private bool paused = false;
+    private bool canPause = true;
     // used to indicate the game is in a level and "can pause"
 
     #endregion
@@ -58,88 +58,78 @@ public class PauseMenu : Menu {
 
     #region Unity Lifecycle Methods
 
-    void Update ()
-	{
-		if (canPause && (InputManager.Instance.QueryAction (Strings.Input.Actions.PAUSE, ButtonMode.DOWN) || InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))) {
-			if (!paused && !Displayed) {
+    void Update() {
+        if (canPause && (InputManager.Instance.QueryAction(Strings.Input.Actions.PAUSE, ButtonMode.DOWN) || InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN))) {
+            if (!paused && !Displayed) {
                 paused = true;
-				MenuManager.Instance.DoTransition (this, Transition.TOGGLE, new Effect[] { });
-			} else if (Displayed) {
-				MenuManager.Instance.ClearMenus ();
-			}
-		}
-	}
+                MenuManager.Instance.DoTransition(this, Transition.TOGGLE, new Effect[] { });
+            } else if (Displayed) {
+                MenuManager.Instance.ClearMenus();
+            }
+        }
+    }
 
-	#endregion
+    #endregion
 
-	#region Public Interface
+    #region Public Interface
 
-	public PauseMenu () : base (Strings.MenuStrings.PAUSE)
-	{
-	}
+    public PauseMenu() : base(Strings.MenuStrings.PAUSE) {
+    }
 
-	public void restartAction ()
-	{
-        Action callRestartEventAction = () =>
-        {
+    public void restartAction() {
+        Action callRestartEventAction = () => {
             EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_RESTARTED, SceneTracker.CurrentSceneName, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
         };
-        Menu menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.LOAD);
-		LoadMenu loadMenu = (LoadMenu)menu;
-		loadMenu.SetNavigation(SceneTracker.CurrentSceneName, callRestartEventAction);
+        Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
+        LoadMenu loadMenu = (LoadMenu)menu;
+        loadMenu.SetNavigation(SceneTracker.CurrentSceneName, callRestartEventAction);
         ObjectPool.Instance.ResetPools();
 
-        MenuManager.Instance.DoTransition (loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
-	}
+        MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+    }
 
-	public void quitAction ()
-	{
-		canPause = false;
-		Menu menu = MenuManager.Instance.GetMenuByName (Strings.MenuStrings.LOAD);
+    public void quitAction() {
+        canPause = false;
+        Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
         EventSystem.Instance.TriggerEvent(Strings.Events.LEVEL_QUIT, SceneManager.GetActiveScene().name, AnalyticsManager.Instance.GetCurrentWave(), ScoreManager.Instance.GetScore());
         LoadMenu loadMenu = (LoadMenu)menu;
-		loadMenu.SetNavigation(Strings.Scenes.ScenePaths.MainMenu);
+        loadMenu.SetNavigation(Strings.Scenes.ScenePaths.MainMenu);
         ObjectPool.Instance.ResetPools();
-        MenuManager.Instance.DoTransition (loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
-	}
+        MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+    }
 
-    public void ResumeAction()
-    {
+    public void ResumeAction() {
         MenuManager.Instance.ClearMenus();
     }
 
-    public void WeaponSelectAction()
-    {
+    public void WeaponSelectAction() {
         ConfirmMenu confirmMenu = (ConfirmMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONFIRM);
 
-        Action onYesAction = () =>
-        {
+        Action onYesAction = () => {
             string currentScene = SceneTracker.CurrentSceneName;
 
-            Action loadWeaponSelectAction = () =>
-            {                
+            Action loadWeaponSelectAction = () => {
                 WeaponSelectMenu weaponMenu = (WeaponSelectMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.WEAPON_SELECT);
                 weaponMenu.DefineNavigation(Strings.MenuStrings.MAIN, Strings.MenuStrings.LOAD);
                 LoadMenu lm = (LoadMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
                 lm.SetNavigation(currentScene);
-                
+
                 MenuManager.Instance.DoTransition(weaponMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
             };
 
             MenuManager.Instance.DoTransition(confirmMenu, Transition.HIDE, new Effect[] { });
             LoadMenu loadMenu = (LoadMenu)MenuManager.Instance.GetMenuByName(Strings.MenuStrings.LOAD);
-            loadMenu.SetNavigation(Strings.Scenes.ScenePaths.MainMenu,loadWeaponSelectAction);
+            loadMenu.SetNavigation(Strings.Scenes.ScenePaths.MainMenu, loadWeaponSelectAction);
 
             MenuManager.Instance.DoTransition(loadMenu, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
         };
 
-        Action onNoAction = () =>
-        {
+        Action onNoAction = () => {
             MenuManager.Instance.DoTransition(confirmMenu, Transition.HIDE, new Effect[] { Effect.INSTANT });
             SelectInitialButton();
         };
 
-        confirmMenu.DefineActions("This will end your current game. Are you sure?",onYesAction,onNoAction);
+        confirmMenu.DefineActions("This will end your current game. Are you sure?", onYesAction, onNoAction);
 
         MenuManager.Instance.DoTransition(confirmMenu, Transition.SHOW, new Effect[] { Effect.INSTANT });
     }
@@ -147,6 +137,7 @@ public class PauseMenu : Menu {
     #endregion
 
     #region Protected Interface
+    public override MenuType ThisMenuType { get { return MenuType.Pause; } }
 
 	protected override void ShowStarted ()
 	{

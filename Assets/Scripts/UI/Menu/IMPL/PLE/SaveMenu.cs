@@ -28,7 +28,7 @@ public class SaveMenu : PLEMenu {
     private bool MoveBack { get { return Input.GetKeyDown(KeyCode.Tab) && Input.GetKey(KeyCode.LeftShift); } }
     #endregion
 
-    #region Unity Lifecycle    
+    #region Unity Lifecycle      
     protected override void Update() {
         base.Update();
         if (allowInput && Displayed) {

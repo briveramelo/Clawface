@@ -53,6 +53,8 @@ public class SelectorToggle : MonoBehaviour {
     #endregion
 
     #region Interface (Unity Lifecycle)
+    
+
 
     private void Awake()
     {
@@ -93,6 +95,10 @@ public class SelectorToggle : MonoBehaviour {
 
     private void OnDisable() {
         hovered = false;
+        if (!CanStayOn) {
+            selected = false;
+        }
+        UpdateDisplay();
     }
 
     private void Start()

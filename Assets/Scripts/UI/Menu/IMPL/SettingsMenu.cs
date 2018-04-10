@@ -88,6 +88,7 @@ public class SettingsMenu : Menu {
     [SerializeField]
     private Toggle tutorial = null;
 
+    [SerializeField] SelectorToggleGroup selectorToggleGroup;
     #endregion
 
     #region Fields (Internal)
@@ -97,6 +98,11 @@ public class SettingsMenu : Menu {
     #endregion
 
     #region Fields (Private)
+    private int selectedFilterToggle;
+    private int SelectedFilterToggle {
+        get { return Mathf.Clamp(selectedFilterToggle, 0, selectorToggleGroup.SelectorTogglesCount); }
+        set { selectedFilterToggle = (int)Mathf.Repeat(value, selectorToggleGroup.SelectorTogglesCount); }
+    }
     #endregion
 
     #region Constructors (Public)
@@ -111,6 +117,35 @@ public class SettingsMenu : Menu {
             if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN)) {
                 ButtonBack();
             }
+            CheckToMoveFilter();
+        }
+    }
+
+    private void CheckToMoveFilter() {
+        //TODO set this up work with Strings.Input.UI
+        //Strings.Input.UI.TAB_LEFT
+        //Strings.Input.UI.TAB_RIGHT
+        bool leftButtonPressed = InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_LEFT, ButtonMode.DOWN);
+        bool rightBumperPressed = InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_RIGHT, ButtonMode.DOWN);
+        bool mouseClicked = Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT) || Input.GetMouseButtonDown(MouseButtons.MIDDLE);
+        if (!mouseClicked && (leftButtonPressed || rightBumperPressed)) {
+            if (leftButtonPressed) {
+                SelectedFilterToggle--;
+            }
+            else {
+                SelectedFilterToggle++;
+            }
+            CurrentEventSystem.SetSelectedGameObject(RewireSubMenu().gameObject);            
+        }
+    }
+
+    private Selectable RewireSubMenu() {        
+        switch ((SettingsMenuSubType)SelectedFilterToggle) {
+            default:
+            case SettingsMenuSubType.Graphics: graphics.onClick.Invoke(); return graphics;
+            case SettingsMenuSubType.Audio: audio.onClick.Invoke(); return audio;
+            case SettingsMenuSubType.Controls: controls.onClick.Invoke(); return controls;
+            case SettingsMenuSubType.Gameplay: other.onClick.Invoke(); return other;
         }
     }
     #endregion
@@ -175,9 +210,12 @@ public class SettingsMenu : Menu {
     #endregion
 
     #region Interface (Protected)
+    public override MenuType ThisMenuType { get { return MenuType.Settings; } }
     protected override void ShowStarted()
     {
         base.ShowStarted();
+        selectorToggleGroup.HandleGroupSelection(0);
+        RewireForGraphics();
         TransferSettingsFromManager();
         StartCoroutine(RotateCamera(offRotation, onRotation));
     }
@@ -295,4 +333,11 @@ public class SettingsMenu : Menu {
     }
 
     #endregion
+}
+
+public enum SettingsMenuSubType {
+    Graphics=0,
+    Audio,
+    Controls,
+    Gameplay,
 }

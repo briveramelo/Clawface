@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 224893045259387072}
   - component: {fileID: 222213876097803548}
   - component: {fileID: 114344671044808096}
+  - component: {fileID: 114446291041194700}
   m_Layer: 0
   m_Name: Text
   m_TagString: Untagged
@@ -118,6 +119,7 @@ GameObject:
   - component: {fileID: 224672579112003274}
   - component: {fileID: 222974925164211478}
   - component: {fileID: 114676805766822834}
+  - component: {fileID: 114452860650660976}
   m_Layer: 0
   m_Name: Text
   m_TagString: Untagged
@@ -152,6 +154,7 @@ GameObject:
   - component: {fileID: 224731359042327954}
   - component: {fileID: 222161134339715028}
   - component: {fileID: 114964102880026074}
+  - component: {fileID: 114965722984370152}
   m_Layer: 0
   m_Name: Text
   m_TagString: Untagged
@@ -207,6 +210,7 @@ GameObject:
   - component: {fileID: 224548898984019876}
   - component: {fileID: 222333707360391328}
   - component: {fileID: 114430617954526266}
+  - component: {fileID: 114329734716615444}
   m_Layer: 0
   m_Name: Text
   m_TagString: Untagged
@@ -276,7 +280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 114419440754143842}
     m_SelectOnDown: {fileID: 114801775362846806}
     m_SelectOnLeft: {fileID: 0}
@@ -456,6 +460,19 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &114329734716615444
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1587698987299916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cb92177bc5136b4fa8b88a28ba0c119, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myText: {fileID: 114430617954526266}
+  style: 6
 --- !u!114 &114344671044808096
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -477,7 +494,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: c85ec03468d98fe42a27841be144f680, type: 3}
-    m_FontSize: 30
+    m_FontSize: 25
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -542,7 +559,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 114714374685131552}
     m_SelectOnDown: {fileID: 114086849254144746}
     m_SelectOnLeft: {fileID: 0}
@@ -642,7 +659,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: c85ec03468d98fe42a27841be144f680, type: 3}
-    m_FontSize: 30
+    m_FontSize: 25
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -684,6 +701,32 @@ MonoBehaviour:
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
+--- !u!114 &114446291041194700
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1371175475333700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cb92177bc5136b4fa8b88a28ba0c119, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myText: {fileID: 114344671044808096}
+  style: 6
+--- !u!114 &114452860650660976
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1380909011175572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cb92177bc5136b4fa8b88a28ba0c119, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myText: {fileID: 114676805766822834}
+  style: 6
 --- !u!114 &114471908330857720
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -776,7 +819,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: c85ec03468d98fe42a27841be144f680, type: 3}
-    m_FontSize: 30
+    m_FontSize: 25
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -827,8 +870,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 114801775362846806}
     m_SelectOnDown: {fileID: 114419440754143842}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
@@ -891,9 +934,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 114419440754143842}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnDown: {fileID: 114714374685131552}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 2
@@ -1149,7 +1192,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: c85ec03468d98fe42a27841be144f680, type: 3}
-    m_FontSize: 30
+    m_FontSize: 25
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -1161,6 +1204,19 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: WEAPON SELECT
+--- !u!114 &114965722984370152
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1438551600241750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cb92177bc5136b4fa8b88a28ba0c119, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myText: {fileID: 114964102880026074}
+  style: 6
 --- !u!114 &114969418480178910
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1339,7 +1395,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: -40, y: 40}
-  m_SizeDelta: {x: 400, y: 0}
+  m_SizeDelta: {x: 358.7, y: 0}
   m_Pivot: {x: 1, y: 0}
 --- !u!224 &224548898984019876
 RectTransform:

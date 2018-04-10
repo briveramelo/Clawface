@@ -217,9 +217,7 @@ public class InGameUI : EventSubscriber {
 
     private void UpdateMultiplier(params object[] parameters) {
         float multiplierValue = (float)parameters[0];
-        bool hasDecimal = !multiplierValue.AboutEqual(Mathf.Round(multiplierValue));
-        string format = hasDecimal ? "x{0:n1}" : "x{0:n0}";
-        multiplierText.text = string.Format(format, multiplierValue);
+        multiplierText.text = "x"+multiplierValue.ToSimplestForm();
     }
 
     private void UpdateCombo(params object[] currentCombo)

@@ -1,8 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class GoreDetailTextSliderDataSource : TextSliderDataSource {
+
+    #region Serialized Unity Fields
+    [SerializeField] private List<IntName> valueNames; 
+    #endregion
 
     #region Accessors (TextSliderDataSource)
 
@@ -10,14 +15,7 @@ public class GoreDetailTextSliderDataSource : TextSliderDataSource {
     {
         get
         {
-            if (index == 0)
-            {
-                return "OFF";
-            } else
-            {
-                int value = (int)Mathf.Pow(2, index - 1);
-                return string.Format("x{0}", value);
-            }
+            return valueNames.Find(valueName => valueName.value == goreDetail).name;
         }
     }
 
@@ -25,7 +23,7 @@ public class GoreDetailTextSliderDataSource : TextSliderDataSource {
     {
         get
         {
-            return index;
+            return goreDetail;
         }
     }
     
@@ -41,11 +39,11 @@ public class GoreDetailTextSliderDataSource : TextSliderDataSource {
     {
         get
         {
-            return index;
+            return goreDetail;
         }
         set
         {
-            index = value;
+            goreDetail = value;
         }
     }
 
@@ -53,7 +51,7 @@ public class GoreDetailTextSliderDataSource : TextSliderDataSource {
 
     #region Fields (Private)
 
-    private int index;
+    private int goreDetail;
 
     #endregion
 
@@ -61,9 +59,15 @@ public class GoreDetailTextSliderDataSource : TextSliderDataSource {
 
     public override void ForceUpdate()
     {
-        index = SettingsManager.Instance.GoreDetail;
+        goreDetail = SettingsManager.Instance.GoreDetail;
         base.ForceUpdate();
     }
 
     #endregion
+}
+
+[System.Serializable]
+public class IntName {
+    public string name;
+    public int value;
 }

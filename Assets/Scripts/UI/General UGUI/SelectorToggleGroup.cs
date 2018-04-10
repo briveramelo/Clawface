@@ -9,6 +9,7 @@ public class SelectorToggleGroup : MonoBehaviour {
     [SerializeField] List<SelectorToggle> selectorToggles;
     private SelectorToggle selectedToggle;
 
+    public int SelectorTogglesCount { get { return selectorToggles.Count; } }
     public void HandleGroupSelection(int toggleIndex) {
         if (selectorToggles.IsValidIndex(toggleIndex)) {
             SelectorToggle toggle = selectorToggles[toggleIndex];

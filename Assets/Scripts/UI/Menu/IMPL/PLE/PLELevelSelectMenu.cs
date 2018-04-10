@@ -6,7 +6,7 @@ using ModMan;
 using PLE;
 using System.Linq;
 using System;
-
+using MEC;
 public class PLELevelSelectMenu : PLEMenu {
 
     public PLELevelSelectMenu() : base(Strings.MenuStrings.LevelEditor.LEVELSELECT_PLE_MENU) { }
@@ -25,6 +25,8 @@ public class PLELevelSelectMenu : PLEMenu {
     [SerializeField] private Selectable allFilter, downloadedFilter, userFilter, favoriteFilter;
     [SerializeField] private Scrollbar levelScrollBar;
     [SerializeField] private Sprite hathosBigPreview;
+    [SerializeField] private RectTransform levelSelectArea;
+    [SerializeField] private Vector2 offsetMinEditor, offsetMaxEditor, offsetMinMain, offsetMaxMain;
     [SerializeField] private SelectorToggleGroup filterToggleGroup;
     [SerializeField] private List<MemorableTransform> preMadeLevelUITransforms;
     [SerializeField] private RectOffset gridLayoutConfigWithHathos, gridLayoutConfigWithoutHathos;
@@ -82,6 +84,12 @@ public class PLELevelSelectMenu : PLEMenu {
 
 
     #region Unity Lifecyle
+
+    protected override void KillCoroutines() {
+        base.KillCoroutines();
+        Timing.KillCoroutines(ScrollCoroutineName);
+        Timing.KillCoroutines(PulseCoroutineName);
+    }
     protected override void Start() {
         base.Start();
 
@@ -124,6 +132,7 @@ public class PLELevelSelectMenu : PLEMenu {
     #endregion
 
     #region Public Interface
+    public override MenuType ThisMenuType { get { return MenuType.LevelSelect; } }
     public void ChangeFilters(int newFilterType) {
         SFXManager.Instance.Play(SFXType.UI_Click);
         SelectedFilterToggle = newFilterType;
@@ -173,13 +182,13 @@ public class PLELevelSelectMenu : PLEMenu {
         }
     }
 
-    public void SelectLevel(LevelUI levelUI) {
+    public void SelectLevel(LevelUI levelUI, bool selectSelectable = true) {
         SelectLevel(levelUI.LevelIndex);
     }
 
-    public void SelectLevel(int levelIndex) {
+    public void SelectLevel(int levelIndex, bool selectSelectable=true) {
         SFXManager.Instance.Play(SFXType.UI_Click);
-        MEC.Timing.KillCoroutines(PulseCoroutineName);
+        Timing.KillCoroutines(PulseCoroutineName);
         if (lastSelectedLevel!=null) {
             lastSelectedLevel.ScaleLevelUISize(1f);
         }
@@ -189,7 +198,10 @@ public class PLELevelSelectMenu : PLEMenu {
         selectLevelAnim.OnUpdate = SelectedLevelUI.ScaleLevelUISize;
         selectLevelAnim.Animate(PulseCoroutineName);
 
-        SelectedLevelUI.selectable.Select();
+        if (selectSelectable) {
+            SelectedLevelUI.selectable.Select();
+            CurrentEventSystem.SetSelectedGameObject(SelectedLevelUI.selectable.gameObject);
+        }
         lastSelectedLevel = SelectedLevelUI;
 
         LevelData selectedLevel = SelectedLevelUI.levelData;
@@ -202,7 +214,6 @@ public class PLELevelSelectMenu : PLEMenu {
         levelUIs.ForEach(levelUI => { levelUI.OnGroupSelectChanged(levelIndex); });
         selectedLevelFavoriteIcon.enabled = selectedLevel.isFavorite;
         SetButtonsInteractabilityAndNavigation();
-        CurrentEventSystem.SetSelectedGameObject(SelectedLevelUI.selectable.gameObject);
         AlignScrollbar();
     }
 
@@ -263,7 +274,8 @@ public class PLELevelSelectMenu : PLEMenu {
             MenuManager.Instance.DoTransition(confirmMenu, Transition.HIDE, new Effect[] { Effect.INSTANT });
             SelectInitialButton();
         };
-        confirmMenu.DefineActions("Are you sure?", onYesAction, onNoAction);
+        string confirmationMessage = SelectedLevelUI.levelData.isDownloaded ? "Unsubscribe from this Steam Workshop item to permanently remove. Are you sure?" : "This cannot be undone. Are you sure?";
+        confirmMenu.DefineActions(confirmationMessage, onYesAction, onNoAction);
 
         MenuManager.Instance.DoTransition(confirmMenu, Transition.SHOW, new Effect[] { Effect.INSTANT });
 
@@ -306,10 +318,14 @@ public class PLELevelSelectMenu : PLEMenu {
         if (SceneTracker.IsCurrentSceneEditor) {
             deleteButton.gameObject.SetActive(true);
             leaderboardButton.gameObject.SetActive(false);
+            levelSelectArea.offsetMin = offsetMinEditor;
+            levelSelectArea.offsetMax = offsetMaxEditor;
         }
         else {
             deleteButton.gameObject.SetActive(false);
             leaderboardButton.gameObject.SetActive(true);
+            levelSelectArea.offsetMin = offsetMinMain;
+            levelSelectArea.offsetMax = offsetMaxMain;
         }
     }
     #endregion
@@ -317,6 +333,8 @@ public class PLELevelSelectMenu : PLEMenu {
     #region Private Interface 
     private void CheckToMoveFilter() {
         //TODO set this up work with Strings.Input.UI
+        //Strings.Input.UI.TAB_LEFT
+        //Strings.Input.UI.TAB_RIGHT
         bool leftButtonPressed = InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_LEFT, ButtonMode.DOWN);
         bool rightBumperPressed = InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_RIGHT, ButtonMode.DOWN);
         bool mouseClicked = Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT) || Input.GetMouseButtonDown(MouseButtons.MIDDLE);
@@ -481,7 +499,7 @@ public class PLELevelSelectMenu : PLEMenu {
         float invertedPercentProgress = 1f * levelRow / totalRows;
         float targetProgress = 1f - invertedPercentProgress;
 
-        MEC.Timing.KillCoroutines(ScrollCoroutineName);
+        Timing.KillCoroutines(ScrollCoroutineName);
         scrollSlideAnim.startValue = levelScrollBar.value;
         scrollSlideAnim.diff = targetProgress - scrollSlideAnim.startValue;
         scrollSlideAnim.Animate(ScrollCoroutineName);
@@ -521,6 +539,10 @@ public class PLELevelSelectMenu : PLEMenu {
         gridLayoutGroup.enabled = false;
         yield return new WaitForEndOfFrame();
         gridLayoutGroup.enabled = true;
+        List<LevelUI> displayedLevels = DisplayedLevelUIs;
+        if (displayedLevels!=null && displayedLevels.Count>0) {
+            SelectLevel(displayedLevels[0].LevelIndex, false);
+        }
         SetButtonNavigation();
         AlignScrollbar();
     }

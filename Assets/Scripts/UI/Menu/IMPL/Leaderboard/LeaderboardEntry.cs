@@ -26,5 +26,10 @@ public class LeaderboardEntry : MonoBehaviour {
     {
         gameObject.SetActive(visibility);
     }
+    public void SetTextColor(Color newColor) {
+        rankText.color = newColor;
+        nameText.color = newColor;
+        scoreText.color = newColor;
+    }
     #endregion
 }

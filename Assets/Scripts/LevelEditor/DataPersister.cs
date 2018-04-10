@@ -5,16 +5,25 @@ using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Linq;
+using Steamworks;
 
 public class DataPersister : Singleton<DataPersister> {
-    
-    public static DataSave ActiveDataSave = new DataSave();
-    string PathDirectory { get { return Application.dataPath + "/Saves";} }
-    string FilePath { get { return PathDirectory + "/savefile.dat"; } }
 
+    #region Public Fields
+
+    public static DataSave ActiveDataSave = new DataSave();
+    public static string SavesPathDirectory { get { return Application.dataPath + "/Saves"; } }
     public DataSave dataSave;
 
-    #region Event Subscriptions
+    #endregion
+
+    #region Private Fields
+    private string DataSaveFilePath { get { return SavesPathDirectory + "/savefile.dat"; } }
+    private bool DataSaveExists { get { return File.Exists(DataSaveFilePath); } }
+    #endregion
+
+    #region Event Subscriptions (Protected)
+
     protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
     protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
         get {
@@ -23,6 +32,7 @@ public class DataPersister : Singleton<DataPersister> {
             };
         }
     }
+
     #endregion
 
     #region Unity Lifecyle
@@ -35,19 +45,19 @@ public class DataPersister : Singleton<DataPersister> {
     #region Public Interface
     public void Load() {
         ActiveDataSave = null;
-        if (!Directory.Exists(PathDirectory)) {
-            Directory.CreateDirectory(PathDirectory);
+        if (!Directory.Exists(SavesPathDirectory)) {
+            Directory.CreateDirectory(SavesPathDirectory);
         }
-        if (File.Exists(FilePath)) {
+        if (File.Exists(DataSaveFilePath)) {
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream fileStream = File.Open(FilePath, FileMode.Open);
+            FileStream fileStream = File.Open(DataSaveFilePath, FileMode.Open);
             try {
                 ActiveDataSave = new DataSave((DataSave)bf.Deserialize(fileStream));
                 fileStream.Close();
             }
             catch {
                 fileStream.Close();
-                File.Delete(FilePath);
+                File.Delete(DataSaveFilePath);
                 ActiveDataSave = new DataSave();
             }
         }
@@ -59,6 +69,50 @@ public class DataPersister : Singleton<DataPersister> {
         if (true) { }
     }
 
+    public void LoadLevelData(string i_levelDirectory)
+    {
+        if(!DataSaveExists)
+        {
+            //create a savefile.dat if one doesn't exist
+            SaveDataFile();
+        }
+
+        if(Directory.Exists(i_levelDirectory))
+        {
+            string[] files = Directory.GetFiles(i_levelDirectory);
+            foreach (string fileName in files)
+            {
+                string extension = fileName.Substring(fileName.Length - 3);
+
+                if(extension.Equals("dat"))
+                {
+                    LevelData toAdd = SerializeToLevelData(fileName);
+                    Predicate<LevelData> levelMatch = levelData => levelData.UniqueSteamName == toAdd.UniqueSteamName;
+                    bool levelAlreadyExists = ActiveDataSave.levelDatas.Exists(levelMatch);
+                    if (toAdd != null)
+                    {
+                        toAdd.isDownloaded = true;
+                        if (!levelAlreadyExists) {
+                            ActiveDataSave.levelDatas.Add(toAdd);
+                        }
+                        else {
+                            int index = ActiveDataSave.levelDatas.FindIndex(levelMatch);
+                            ActiveDataSave.levelDatas[index] = new LevelData(toAdd);
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError("Error adding LevelData to Active Data");
+                    }
+                }
+                
+            }
+        }
+        else
+        {
+            Debug.LogError("No such path at: " + i_levelDirectory);
+        }
+    }
     public void TryDeleteLevel(string uniqueName) {
         ActiveDataSave.TryDeleteLevel(uniqueName);
     }
@@ -71,14 +125,63 @@ public class DataPersister : Singleton<DataPersister> {
         ClearEmptyLevels();
         SaveDataFile();
     }
+
+    public void SaveSnapshotToFile(string i_fileName, byte[] i_imgData)
+    {
+        File.WriteAllBytes(i_fileName, i_imgData);
+    }
+
+    public void TrySaveLevelDataFile(string i_dir, LevelData i_Data)
+    {
+        if(!Directory.Exists(i_dir))
+        {
+            Directory.CreateDirectory(i_dir);
+        }
+        string completeFilePath = i_dir + "/" + i_Data.name + ".dat";
+        SaveLevelDataFile(completeFilePath, i_Data);
+    }
+
+
     #endregion
 
     #region Private Interface
+    private LevelData SerializeToLevelData(string i_levelFilePath)
+    {
+        LevelData result = new LevelData();
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream fs = File.Open(i_levelFilePath, FileMode.Open);
+        try
+        {
+            result = new LevelData((LevelData)bf.Deserialize(fs));
+            fs.Close();
+        }
+        catch
+        {
+            fs.Close();
+            Debug.LogError("Error Loading level data at: " + i_levelFilePath);
+        }
+
+        return result;
+    }
+
+    private void AddToActiveData(LevelData i_data)
+    {
+        
+    }
+
     void SaveDataFile() {
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream fileStream = File.Create(FilePath);
+        FileStream fileStream = File.Create(DataSaveFilePath);
         bf.Serialize(fileStream, new DataSave(ActiveDataSave));
         fileStream.Close();
+    }
+
+    void SaveLevelDataFile(string i_filePath, LevelData i_Data)
+    {
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream fs = File.Create(i_filePath);
+        bf.Serialize(fs, new LevelData(i_Data));
+        fs.Close();
     }
 
     void ClearEmptyLevels() {
@@ -142,7 +245,8 @@ public class DataSave {
             levelDatas.RemoveAt(levelIndex);
         }
     }
-    public void SaveWorkingLevelData() {        
+    public void SaveWorkingLevelData() {
+        workingLevelData.isMadeByThisUser = true;
         workingLevelData.SaveTimestamp();
         SelectedLevelData = new LevelData(workingLevelData);
     }
@@ -160,6 +264,7 @@ public class LevelData {
         this.isInfinite = copy.isInfinite;
         this.isHathosLevel = copy.isHathosLevel;
         this.dateString = copy.dateString;
+        this.fileID = copy.fileID;
         if (copy.imageData!=null) {
             this.imageData = copy.imageData.ToArray();
         }
@@ -175,10 +280,11 @@ public class LevelData {
     public string name, description;
     public bool isFavorite = false;
     public bool isDownloaded = false;
-    public bool isMadeByThisUser = true;
+    public bool isMadeByThisUser;
     public bool isInfinite;
     public bool isHathosLevel;
     [SerializeField] string dateString;
+    public PublishedFileId_t fileID;
     [HideInInspector] public byte[] imageData;
     public List<WaveData> waveData = new List<WaveData>();
     public List<TileData> tileData = new List<TileData>();
@@ -295,6 +401,7 @@ public class LevelData {
     public int WaveCount { get { return waveData.Count; } }
     public int TileCount { get { return tileData.Count; } }
     public int PropCount { get { return propData.Count; } }
+
 
     public void SaveTimestamp() {
         this.timeSaved = DateTime.UtcNow;
