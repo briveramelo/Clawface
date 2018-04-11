@@ -88,7 +88,7 @@ public class DashState : IPlayerState {
     public void StartDash()
     {
         SFXManager.Instance.Play(SFXType.Dash, transform.position);
-        hitFlasher.HitFlash(dashFlashIntensity, totalDashTime);
+        hitFlasher.FixColor(dashFlashIntensity, totalDashTime);
         dashTimer = 0f;
         dashPuff.Play();
         dashTrail.GetComponent<TrailRenderer>().enabled = true;

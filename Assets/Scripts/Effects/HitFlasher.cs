@@ -93,8 +93,15 @@ namespace Turing.VFX
         /// </summary>
         public void HitFlash (float intensity, float duration)
         {
+            StopCoroutine("FixFlashColor");
             StopCoroutine("DoHitFlash");
             StartCoroutine(DoHitFlash(intensity, duration));
+        }
+
+        public void FixColor(float intensity, float duration) {
+            StopCoroutine("FixFlashColor");
+            StopCoroutine("DoHitFlash");
+            StartCoroutine(FixFlashColor(intensity, duration));
         }
 
         #endregion
@@ -125,6 +132,17 @@ namespace Turing.VFX
             }
 
             SetFlashStrength (0.0f, hitFlashColor);
+        }
+
+        IEnumerator FixFlashColor(float intensity, float duration) {
+            float t = 0f;
+            SetFlashStrength(intensity, hitFlashColor);
+            while (t <= duration) {
+                t += Time.deltaTime;
+                yield return null;
+            }
+
+            SetFlashStrength(0.0f, hitFlashColor);
         }
 
         /// <summary>
