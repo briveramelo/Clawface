@@ -99,16 +99,19 @@ public class PLEGrid : EventSubscriber {
             }
 
             TryHoverTile();
-            HandleBlockSelectionInteractions(hit);
         }
-        else if (Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT)) {
-            if (!MouseHelper.HitUI) {
-                DeselectBlocks();
+        else if (!MouseHelper.HitUI) {
+            if (Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT)) {
+                onClickObject = null;
             }
         }
-        if (Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT)) {
-            mainPLEMenu.SetMenuButtonInteractabilityByState();
-        }
+        HandleBlockSelectionInteractions();
+        //if (Input.GetMouseButtonDown(MouseButtons.LEFT)) {
+        //    DeselectBlocks();
+        //}
+        //if (Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT)) {
+        //    mainPLEMenu.SetMenuButtonInteractabilityByState();
+        //}
         if (!firstSelectedTileIsActive) {
             HandleGroupGhostSelectionPreview();
         }
@@ -251,59 +254,74 @@ public class PLEGrid : EventSubscriber {
     #region Real Tiles Interactions
 
 
-    private void HandleBlockSelectionInteractions(RaycastHit hit) {
-        HandleSelectingBlocks(hit);
-        HandleDeleteBlockSelection(hit);
+    private void HandleBlockSelectionInteractions() {
+        HandleSelectingBlocks();
+        HandleDeleteBlockSelection();
     }
 
-    private void HandleSelectingBlocks(RaycastHit hit) {
+    private void HandleSelectingBlocks() {
         if (!OtherCameraInputIsBlocking) {
-            if (Input.GetMouseButtonDown(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftShift)) {
+            if (Input.GetMouseButtonDown(MouseButtons.LEFT) && !Input.GetKey(KeyCode.LeftShift) && !MouseHelper.HitUI) {
                 DeselectBlocks();
                 mainPLEMenu.SetMenuButtonInteractabilityByState(PLEMenuType.FLOOR);
             }
-            if (Input.GetMouseButton(MouseButtons.LEFT)) {
-                ReselectPreviouslySelected();
-                if (firstSelectedTileIsActive) {
-                    SelectBlocks(hit, selectedColor);
+            if (MouseHelper.HitItem) {
+                RaycastHit hit = MouseHelper.raycastHit.Value;
+                if (Input.GetMouseButton(MouseButtons.LEFT)) {
+                    ReselectPreviouslySelected();
+                    if (firstSelectedTileIsActive) {
+                        SelectBlocks(hit, selectedColor);
+                    }
                 }
-            }
-            if (Input.GetMouseButtonUp(MouseButtons.LEFT)) {
-                ToggleLastSelectedObjects(hit);
+                if (Input.GetMouseButtonUp(MouseButtons.LEFT)) {
+                    ToggleLastSelectedObjects(hit);
 
-                if (!firstSelectedTileIsActive) {
-                    ShowBlocks(hit);
+                    if (!firstSelectedTileIsActive) {
+                        ShowBlocks(hit);
+                    }
+                    ShowWalls();
+                    mainPLEMenu.SetMenuButtonInteractabilityByState();
                 }
-                ShowWalls();
-                mainPLEMenu.SetMenuButtonInteractabilityByState();
             }
         }
     }
     private bool DeleteInputDown { get { return Input.GetKeyDown(KeyCode.Delete) || Input.GetKeyDown(KeyCode.Backspace); } }
-    private void HandleDeleteBlockSelection(RaycastHit hit) {
+    private void HandleDeleteBlockSelection() {
         if (Input.GetMouseButtonDown(MouseButtons.RIGHT)) {
             DeselectBlocks();
             mainPLEMenu.SetMenuButtonInteractabilityByState(PLEMenuType.FLOOR);
         }
-        if (Input.GetMouseButton(MouseButtons.RIGHT) && !OtherCameraInputIsBlocking) {
-            DeselectBlocks();
-            SelectBlocks(hit, deletePreviewColor);
+        if (MouseHelper.HitItem) {
+            RaycastHit hit = MouseHelper.raycastHit.Value;
+            if (Input.GetMouseButton(MouseButtons.RIGHT) && !OtherCameraInputIsBlocking) {
+                DeselectBlocks();
+                SelectBlocks(hit, deletePreviewColor);
+            }
+            if (Input.GetMouseButtonUp(MouseButtons.RIGHT)) {
+                DeselectBlocks();
+                if (!OtherCameraInputIsBlocking) {
+                    DeleteBlocks(hit);
+                    ShowWalls();
+                    mainPLEMenu.SetMenuButtonInteractabilityByState();
+                }
+            }
         }
-        if (Input.GetMouseButtonUp(MouseButtons.RIGHT)) {
-            DeselectBlocks();
-            if (!OtherCameraInputIsBlocking) {
-                DeleteBlocks(hit);
-                ShowWalls();
-                mainPLEMenu.SetMenuButtonInteractabilityByState();
+        else {
+            if (Input.GetMouseButtonUp(MouseButtons.RIGHT)) {
+                OnTryDeleteTileSelection();
             }
         }
 
         if (DeleteInputDown) {
-            DeleteSelectedBlocks();
-            DeselectBlocks();
-            ShowWalls();
-            mainPLEMenu.SetMenuButtonInteractabilityByState();
+            OnTryDeleteTileSelection();
         }
+    }
+
+    void OnTryDeleteTileSelection() {
+        DeleteSelectedBlocks();
+        DeselectBlocks();
+        ShowWalls();
+        mainPLEMenu.SetMenuButtonInteractabilityByState();
     }
 
     private void ShowBlocks(RaycastHit hit) {
