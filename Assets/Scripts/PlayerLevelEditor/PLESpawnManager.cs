@@ -228,15 +228,15 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
     }
 
     public int GetMaxMinSpawnsAllowedCurrentInWave(PLESpawn spawn) {
-        if (CurrentWaveIndex == MaxWaveIndex && !InfiniteWavesEnabled) {
-            return 0;
-        }
         return
             Mathf.Min(spawn.MaxPerWave - GetNumberSpawnsInNextWave(spawn),
             WorkingLevelData.NumSpawns(spawn.spawnType, CurrentWaveIndex));
     }
     public int GetRequiredKillCountInCurrentWave(PLESpawn spawn) {
         int maxMinSpawnsAllowed = GetMaxMinSpawnsAllowedCurrentInWave(spawn);
+        if (CurrentWaveIndex == MaxWaveIndex && !InfiniteWavesEnabled) {
+            return maxMinSpawnsAllowed;
+        }
         return Mathf.Clamp(maxMinSpawnsAllowed - spawn.MinSpawns, 0, maxMinSpawnsAllowed);
     }
     public int RemainingSpawnsAllowedInCurrentWave(PLESpawn spawn) {

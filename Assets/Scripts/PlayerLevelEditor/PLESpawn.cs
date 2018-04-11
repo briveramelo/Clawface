@@ -94,12 +94,6 @@ public class PLESpawn : PLEItem {
     {        
         for (int i = 0; i < totalSpawnAmount; i++)
         {
-            GameObject newSpawnEffect = ObjectPool.Instance.GetObject(PoolObjectType.VFXEnemySpawn);
-            if(newSpawnEffect)
-            {
-                newSpawnEffect.GetComponent<VFXOneOff>().Play(spawnFrequency);
-                newSpawnEffect.transform.position = transform.position;
-            }
             SpawnEnemy();
 
             yield return new WaitForSeconds(spawnFrequency);

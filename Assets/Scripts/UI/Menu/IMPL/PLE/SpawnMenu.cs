@@ -26,6 +26,7 @@ public class SpawnMenu : PlacementMenu {
     private int RemainingSpawnsInCurrentWave(PLESpawn spawn) { return SpawnManager.RemainingSpawnsAllowedInCurrentWave(spawn); }
 
     private List<PLESpawn> CurrentWavePLESpawns { get { return WorkingLevelData.GetPLESpawnsFromWave(PLESpawnManager.Instance.CurrentWaveIndex); } }
+    private List<PLESpawn> GetWavePLESpawns(int waveIndex) { return WorkingLevelData.GetPLESpawnsFromWave(waveIndex); }
 
     #region Serialized Unity Fields
 
@@ -49,6 +50,8 @@ public class SpawnMenu : PlacementMenu {
             return new Dictionary<string, FunctionPrototype>() {
                 { Strings.Events.PLE_TEST_END, TryEnableKeira },
                 { Strings.Events.PLE_CALL_WAVE, OnWaveChange},
+                { Strings.Events.PLE_ADD_WAVE, CheckToSetRequiredKillsTo0},
+                { Strings.Events.PLE_DELETE_CURRENTWAVE, CheckToSetRequiredKillsTo0},
             };
         }
     }
@@ -59,13 +62,13 @@ public class SpawnMenu : PlacementMenu {
 
     private void OnWaveChange(params object[] parameters) {
         DeselectOnWaveChange();
-        SetRequiredKillsTo0();
+        CheckToSetRequiredKillsTo0();
     }
 
-    private void SetRequiredKillsTo0() {
-        int waveIndex = PLESpawnManager.Instance.CurrentWaveIndex;
-        if (waveIndex==PLESpawnManager.Instance.MaxWaveIndex && !PLESpawnManager.Instance.InfiniteWavesEnabled) {
-            CurrentWavePLESpawns.ForEach(spawn => {
+    private void CheckToSetRequiredKillsTo0(params object[] parameters) {
+        int waveIndex = PLESpawnManager.Instance.MaxWaveIndex;
+        if (!PLESpawnManager.Instance.InfiniteWavesEnabled) {
+            GetWavePLESpawns(waveIndex).ForEach(spawn => {
                 spawn.MinSpawns = 0;
             });
         }
@@ -139,10 +142,12 @@ public class SpawnMenu : PlacementMenu {
 
         decreaseSpawnCountButton.interactable = isItemSelectedAndNotKeira && SelectedSpawn.totalSpawnAmount > minSpawns;
         increaseSpawnCountButton.interactable = isItemSelectedAndNotKeira && NumberSpawnsInCurrentWave < MaxSpawnsAllowedInWave;
+        spawnCountAmountField.interactable = decreaseSpawnCountButton.interactable || increaseSpawnCountButton.interactable;
 
-        decreaseRequiredKillCountButton.interactable = isItemSelectedAndNotKeira && GetRequiredKillCountInCurrentWave(SelectedSpawn) > 0 ;
+        bool isLastWaveAndFinite = PLESpawnManager.Instance.CurrentWaveIndex == PLESpawnManager.Instance.MaxWaveIndex && !PLESpawnManager.Instance.InfiniteWavesEnabled;
+        decreaseRequiredKillCountButton.interactable = isItemSelectedAndNotKeira && GetRequiredKillCountInCurrentWave(SelectedSpawn) > 0 && !(isLastWaveAndFinite);
         increaseRequiredKillCountButton.interactable = isItemSelectedAndNotKeira && GetRequiredKillCountInCurrentWave(SelectedSpawn) < GetMaxMinSpawnsAllowedInCurrentWave(SelectedSpawn);
-
+        requiredKillCountAmountField.interactable = decreaseRequiredKillCountButton.interactable || increaseRequiredKillCountButton.interactable;
 
         (scrollGroup as SpawnScrollGroup).HandleSpawnUIInteractability();
     }
@@ -236,9 +241,13 @@ public class SpawnMenu : PlacementMenu {
         ForceMenuButtonInteractability(false);
         UpdateAllFields(0, 0, "-", null, true);        
     }
+    protected override void HideStarted() {
+        CheckToSetRequiredKillsTo0();
+        base.HideStarted();
+    }
 
 
-    
+
 
     protected override void PostSelectUIItemMenuSpecific(GameObject newItem) {
         base.PostSelectUIItemMenuSpecific(newItem);
