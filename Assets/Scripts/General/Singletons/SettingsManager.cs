@@ -1,6 +1,7 @@
 ﻿#region Using Statements
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -409,13 +410,29 @@ public class SettingsManager : Singleton<SettingsManager>
             Screen.SetResolution(resolutionData.width, resolutionData.height, fullscreen);
             MusicManager.Instance.SetMusicAudioLevel(music);
             SFXManager.Instance.SetSFXAudioLevel(sfx);
-            Cursor.lockState = cursorLock ? CursorLockMode.Confined : CursorLockMode.None;
+            Instance.StartCoroutine(DoCursorLockStateChange());
         }
 
         public void WriteSettings()
         {
             string settings = JsonUtility.ToJson(this);
             PlayerPrefs.SetString(SETTINGS, settings);
+        }
+
+        #endregion
+
+        #region Interface (Private)
+
+        private IEnumerator DoCursorLockStateChange()
+        {
+            // This fix is to handle issues where changing the screen aspect cause the lock state to get stuck
+            Cursor.lockState = CursorLockMode.None;
+
+            // skip two frames to make absolutely sure there was enough time to update
+            yield return null;
+            yield return null; 
+
+            Cursor.lockState = cursorLock ? CursorLockMode.Confined : CursorLockMode.None;
         }
 
         #endregion
