@@ -324,8 +324,15 @@ namespace Steamworks {
 			m_pSteamHTTP = SteamClient.GetISteamHTTP(hSteamUser, hSteamPipe, Constants.STEAMHTTP_INTERFACE_VERSION);
 			if (m_pSteamHTTP == IntPtr.Zero) { return false; }
 
+            // Unified Messages are deprecated in latest Steamworks.  Additionally, this API fails to initialize on Mac platforms.
+            // If this problem should become evident on other platforms, it may be wise to remove this entire section of code for
+            // those platforms (if not all) as well.
+            #if !UNITY_EDITOR_OSX && !UNITY_STANDALONE_OSX
+
             m_pSteamUnifiedMessages = SteamClient.GetISteamUnifiedMessages(hSteamUser, hSteamPipe, Constants.STEAMUNIFIEDMESSAGES_INTERFACE_VERSION);
             if (m_pSteamUnifiedMessages == IntPtr.Zero) { return false; }
+
+            #endif
 
             m_pController = SteamClient.GetISteamController(hSteamUser, hSteamPipe, Constants.STEAMCONTROLLER_INTERFACE_VERSION);
 			if (m_pController == IntPtr.Zero) { return false; }
