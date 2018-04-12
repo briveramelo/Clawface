@@ -109,9 +109,6 @@ public class WeaponSelectMenu : Menu
                 isReset = false;
                 ResetMenu();
             }
-            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN)) {
-                BackAction();
-            }
 	    }
 
 	}
