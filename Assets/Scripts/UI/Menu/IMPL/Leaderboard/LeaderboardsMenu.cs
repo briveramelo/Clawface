@@ -180,7 +180,9 @@ public class LeaderboardsMenu : Menu
             loadingObject.SetActive(true);
             loadingText.IsWaitingForConfirmation = true;
             bool result = LeaderBoards.Instance.GetLeaderBoardData(currentLevelName, OnLeaderBoardEntriesReturned, maxEntries, selectionType);
-            loadingText.SetSuccess(result);
+            if (!result) {
+                loadingText.SetSuccess(false);
+            }
 
             verticalScrollbar.value = 1f;
         }
@@ -188,7 +190,7 @@ public class LeaderboardsMenu : Menu
 
     private void OnLeaderBoardEntriesReturned(List<GenericSteamLeaderBoard.LeaderBoardVars> results, bool retry)
     {
-        loadingText.IsWaitingForConfirmation = false;
+        loadingText.SetSuccess(true);
         if (!retry)
         {
             int numberOfReusableEntries = leaderBoardEntries.Count;
