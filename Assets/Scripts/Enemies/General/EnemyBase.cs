@@ -139,7 +139,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
         }
 
         //Kill if it falls off the world
-        if(hips.transform.position.y < -100.0f)
+        if (hips.transform.position.y < -100.0f)
         {
             OnDeath();
         }       
@@ -351,7 +351,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
             //Ignore the first entry (its the self rigidbody)
             for (int i = 1; i < JointRigidBodies.Length; i++)
             {
-                JointRigidBodies[i].mass *= weight;
+                JointRigidBodies[i].mass = weight;
                 JointRigidBodies[i].useGravity = true;
                 JointRigidBodies[i].isKinematic = false;                
             }
