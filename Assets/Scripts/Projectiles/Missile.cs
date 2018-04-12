@@ -41,22 +41,27 @@ public class Missile : MonoBehaviour {
     private float gravity;
     private float yImpulse;
 
+    private bool canHitWalls;
+    private float wallTimer;
+
     Vector3 flattenedForward;
     #endregion
 
     #region Unity lifecycle
-    // Use this for initialization
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void Update()
-    {
-
+    {        
         if (isReady)
         {
+            wallTimer += Time.deltaTime;
+
+            if (!canHitWalls && wallTimer > 0.1f)
+            {
+                canHitWalls = true;
+            }
+
+
             deathTimer += Time.deltaTime;
             transform.position += (flattenedForward * speed * Time.deltaTime);
             transform.position += (Vector3.up * yImpulse * Time.deltaTime);
@@ -73,7 +78,7 @@ public class Missile : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(Strings.Tags.ENEMY) || other.CompareTag(Strings.Tags.WALL) || other.CompareTag(Strings.Tags.FLOOR))
+        if (other.CompareTag(Strings.Tags.ENEMY) || (canHitWalls && other.CompareTag(Strings.Tags.WALL)) || other.CompareTag(Strings.Tags.FLOOR))
         {
             Explode();
             ResetBullet();
@@ -92,6 +97,8 @@ public class Missile : MonoBehaviour {
         this.timeTilDeath = timeTilDeath;
         this.yImpulse = verticalImpulse;
         this.gravity = gravity;
+        canHitWalls = false;
+        wallTimer = 0f;
         isReady = true;
         initPosition = transform.position;
         deathTimer = 0f;
