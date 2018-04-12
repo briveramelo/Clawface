@@ -404,7 +404,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1269716240000212
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
@@ -2126,11 +2126,11 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1269716240000212}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.48010427, y: -0.6540026, z: -0.34595832, w: -0.4712678}
+  m_LocalPosition: {x: 0.809482, y: -0.25422117, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
-  m_Father: {fileID: 4457482794967188}
+  m_Father: {fileID: 4717878663579014}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4266992598711100
@@ -2372,7 +2372,6 @@ Transform:
   - {fileID: 4040535501672716}
   - {fileID: 4652075277596738}
   - {fileID: 4944434394503136}
-  - {fileID: 4257924164262546}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2704,6 +2703,7 @@ Transform:
   - {fileID: 4440068635932044}
   - {fileID: 4747512081702792}
   - {fileID: 4892601971341768}
+  - {fileID: 4257924164262546}
   m_Father: {fileID: 4621561367268352}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3785,9 +3785,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 237bce5267b1ce349866c3168548ed4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gibPrefabs: []
-  probabilities: []
-  gibCounts: 
+  gibPrefabs:
+  - {fileID: 1130016532633336, guid: ac1096e460fc35a4d84173daec493971, type: 2}
+  - {fileID: 1417910096094572, guid: 98c813180187faa4f90e739c5777f827, type: 2}
+  probabilities:
+  - 1
+  - 0.5
+  gibCounts: 0600000001000000
   rotationVelocity: 5
   velocity: 5
 --- !u!114 &114527041425172160
