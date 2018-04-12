@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Mat_80s_Lava_WeaponSelect
-  m_Shader: {fileID: 4800000, guid: 6c0db5588abb3f14aa7300e96eec0d41, type: 3}
+  m_Name: verticleGlow_mat
+  m_Shader: {fileID: 200, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -21,18 +21,6 @@ Material:
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ColorMask:
-        m_Texture: {fileID: 2800000, guid: 75e55e57bc6a00d4c8773ac2cd65de06, type: 3}
-        m_Scale: {x: 12, y: 12}
-        m_Offset: {x: 0, y: 0}
-    - _ColorMaskAdd:
-        m_Texture: {fileID: 2800000, guid: 8e79d10634a2fad449b9272e0d160af0, type: 3}
-        m_Scale: {x: 2, y: 2}
-        m_Offset: {x: 0, y: 0}
-    - _ColorTex:
-        m_Texture: {fileID: 2800000, guid: 35649f41e82eb374390d90c9ecc3b229, type: 3}
-        m_Scale: {x: 0.05, y: 0.05}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
         m_Texture: {fileID: 0}
@@ -58,15 +46,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _NoiseTex:
-        m_Texture: {fileID: 2800000, guid: 83a8f98ec877ea04081a1efeabfb9f5b, type: 3}
-        m_Scale: {x: 2, y: 2}
-        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OpacityMask:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -76,38 +56,23 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
-    - _ColorMaskAddScrollSpeed: 0.025
-    - _ColorMaskAddStrength: 0.35
-    - _ColorScrollDirection: 2.98
-    - _ColorScrollSpeed: 0.2
-    - _ColorVibrance: 0.5
     - _Cutoff: 0.5
-    - _DetailMovementDirection: -0.5
     - _DetailNormalMapScale: 1
-    - _DetailSpeed: 0.5
-    - _DetailTiling: 1
     - _DstBlend: 0
-    - _FadeDist: 10000
-    - _FadePower: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _InvFade: 1
     - _Metallic: 0
     - _Mode: 0
-    - _NoisePower: 5
-    - _NoiseScrollSpeed: 0.1
-    - _NoiseStrength: 500
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _ScrollSpeed: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
-    - __dirty: 1
     m_Colors:
-    - _BaseColor: {r: 0, g: 0.3379312, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DetailColor: {r: 0.7426471, g: 0.8509127, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}

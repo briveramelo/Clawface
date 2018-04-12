@@ -63,7 +63,8 @@ public enum SFXType {
     KamikazeWarn,
     GuardVocalize,
     GuardShotgunAttack,
-    GuardPrepare
+    GuardPrepare,
+    ComboLost,
 }
 
 public enum MusicType
@@ -182,6 +183,7 @@ public enum PoolObjectType {
     VFXBloodSpurt=69,
     VFXKamikazePulse=70,
     VFXPLEPlaceObject=71,
+    VFXFireworks=73,
 
     //BulletTypes
     TurretBullet = 28,

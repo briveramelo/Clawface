@@ -100,24 +100,26 @@ public class PulseProjectile : MonoBehaviour
         audioSource.volume = 1.0f - Mathf.Abs(audioSource.panStereo);
     }
 
-    float GetPanPosition ()
-        {
-            if (mainCamera == null || !mainCamera.isActiveAndEnabled)
-                mainCamera = Camera.main;
+    float GetPanPosition () {
+        if (mainCamera == null || !mainCamera.isActiveAndEnabled)
+            mainCamera = Camera.main;
 
-            if (!player)
-                player = GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER);
+        if (!player)
+            player = GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER);
 
-            float distToPlayer = Vector3.Distance (player.transform.position, transform.position);
-            Vector3 closestPointToPlayer = Vector3.Lerp (transform.position, player.transform.position, 
-                (scaleValue * 8.91f / (distToPlayer + 0.01f)));
-
-            Debug.DrawLine (closestPointToPlayer, player.transform.position);
-
-            Vector3 screenPos = mainCamera.WorldToViewportPoint(closestPointToPlayer);
-            screenPos = screenPos - Vector3.one + 2.0f * screenPos;
-            return screenPos.x / 2.0f;
+        if (!player) {
+            return 0f;
         }
+        float distToPlayer = Vector3.Distance (player.transform.position, transform.position);
+        Vector3 closestPointToPlayer = Vector3.Lerp (transform.position, player.transform.position, 
+            (scaleValue * 8.91f / (distToPlayer + 0.01f)));
+
+        Debug.DrawLine (closestPointToPlayer, player.transform.position);
+
+        Vector3 screenPos = mainCamera.WorldToViewportPoint(closestPointToPlayer);
+        screenPos = screenPos - Vector3.one + 2.0f * screenPos;
+        return screenPos.x / 2.0f;
+    }
 
     private void OnDisable()
     {

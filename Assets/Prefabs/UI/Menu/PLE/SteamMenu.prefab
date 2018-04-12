@@ -2266,8 +2266,8 @@ MonoBehaviour:
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 1
-    m_VerticalOverflow: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: UPLOADING . . .
 --- !u!114 &114457858572777494
@@ -2777,6 +2777,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadingText: {fileID: 114415712266405566}
+  loadingDeltaTime: 0
   successMessage: 
   failureMessage: 
   waitingString: SYNCING
@@ -2961,6 +2962,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadingText: {fileID: 114415712266405566}
+  loadingDeltaTime: 0
   successMessage: SUCCESS! Please allow some time for the level t appear online in
     the Steam Workshop
   failureMessage: Failed to upload. Please try again
@@ -4837,8 +4839,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 154.05, y: -15}
-  m_SizeDelta: {x: 308.1, y: 30}
+  m_AnchoredPosition: {x: 542.99, y: -164.35}
+  m_SizeDelta: {x: 1085.98, y: 328.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224578599471888156
 RectTransform:

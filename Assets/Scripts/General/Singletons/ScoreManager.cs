@@ -44,6 +44,7 @@ public class ScoreManager : Singleton<ScoreManager> {
     private float currentQuadrant;
 
     private bool updateScore;
+    private GameObject fireworks;
     #endregion
 
     #region Event Subscriptions
@@ -102,6 +103,7 @@ public class ScoreManager : Singleton<ScoreManager> {
         if (currentCombo!=0) {
             currentCombo = 0;
             EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_UPDATED, 0);
+            SFXManager.Instance.Play(SFXType.ComboLost, transform.position);
         }
 
         // EventSystem.Instance.TriggerEvent(Strings.Events.COMBO_TIMER_UPDATED, 0.0f);
@@ -342,6 +344,13 @@ public class ScoreManager : Singleton<ScoreManager> {
         AddToScoreWithoutComboMultiplier(GetMaxComboScore());
         updateScore = false;
         SendScoresToLeaderboard();
+        fireworks = ObjectPool.Instance.GetObject(PoolObjectType.VFXFireworks);
+        if (fireworks)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player)
+                fireworks.transform.position = player.transform.position;
+        }
     }    
 
     private void SendScoresToLeaderboard()

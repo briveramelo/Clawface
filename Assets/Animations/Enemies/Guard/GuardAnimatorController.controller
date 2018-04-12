@@ -117,6 +117,20 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
+--- !u!114 &114065694139061114
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 789a25179cdd2984cbb15fbc4f38a3eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parameterName: VictoryDanceIndex
+  min: 0
+  max: 4
 --- !u!206 &206469346020176470
 BlendTree:
   m_ObjectHideFlags: 1
@@ -1067,11 +1081,12 @@ AnimatorStateMachine:
   - {fileID: 1109634307041530212}
   - {fileID: 1109247945105763326}
   m_StateMachineTransitions: {}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 114065694139061114}
   m_AnyStatePosition: {x: 48, y: 24, z: 0}
   m_EntryPosition: {x: 48, y: 120, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
-  m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
+  m_ParentStateMachinePosition: {x: 804, y: 24, z: 0}
   m_DefaultState: {fileID: 1102874188604888146}
 --- !u!1107 &1107711441509006156
 AnimatorStateMachine:

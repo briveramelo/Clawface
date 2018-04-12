@@ -98,8 +98,15 @@ public class SteamMenu : PLEMenu {
     public void SyncWorkshopData() {
         downloadLoadingTextParent.SetActive(true);
         downloadHelpTextParent.SetActive(false);
-        downloadLoadingText.IsWaitingForConfirmation = true;        
-        steamLevelLoader.LoadSteamworkshopFiles(OnSteamLevelsLoaded);
+        downloadLoadingText.IsWaitingForConfirmation = true;
+        try
+        {
+            steamLevelLoader.LoadSteamworkshopFiles(OnSteamLevelsLoaded);
+        }
+        catch
+        {
+            Debug.LogError("Must be launched from steam client to load Steam Workshop Files");
+        }
     }
 
     public override void SetMenuButtonInteractabilityByState() {

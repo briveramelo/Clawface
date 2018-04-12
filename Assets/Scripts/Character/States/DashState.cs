@@ -10,6 +10,9 @@ public class DashState : IPlayerState {
 
     #region Serialized Unity Inspector fields
     [SerializeField]
+    private HitFlasher hitFlasher;
+    [SerializeField] private float dashFlashIntensity;
+    [SerializeField]
     private int totalDashFrames;
     [SerializeField]
     private int iFrameStart;
@@ -85,6 +88,7 @@ public class DashState : IPlayerState {
     public void StartDash()
     {
         SFXManager.Instance.Play(SFXType.Dash, transform.position);
+        hitFlasher.FixColor(dashFlashIntensity, totalDashTime);
         dashTimer = 0f;
         dashPuff.Play();
         dashTrail.GetComponent<TrailRenderer>().enabled = true;
