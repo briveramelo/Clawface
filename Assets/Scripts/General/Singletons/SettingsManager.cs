@@ -342,7 +342,7 @@ public class SettingsManager : Singleton<SettingsManager>
         private ResolutionData resolutionData;
 
         private static int defaultQualityLevel;
-
+        private static int defaultGoreLevel;
         private static Resolution defaultResolution;
 
         private static bool defaultFullscreen;
@@ -353,6 +353,7 @@ public class SettingsManager : Singleton<SettingsManager>
 
         static Settings()
         {
+            defaultGoreLevel = GoreDetails.Med;
             defaultQualityLevel = QualitySettings.GetQualityLevel();
             defaultResolution = Screen.currentResolution;
             defaultFullscreen = Screen.fullScreen;
@@ -388,6 +389,7 @@ public class SettingsManager : Singleton<SettingsManager>
         public static Settings GetDefaults()
         {
             Settings defaults = new Settings(Instance.defaultSettings);
+            defaults.goreDetail = GoreDetails.Med;
             defaults.qualityLevel = defaultQualityLevel;
             defaults.Resolution = defaultResolution;
             defaults.fullscreen = defaultFullscreen;
@@ -465,4 +467,12 @@ public class SettingsManager : Singleton<SettingsManager>
     }
 
     #endregion
+
+    private class GoreDetails {
+        public const int None = 0;
+        public const int Low = 1;
+        public const int Med = 2;
+        public const int High = 3;
+        public const int Ultra = 4;
+    }
 }

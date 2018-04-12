@@ -30,6 +30,7 @@ public class WeaponSelectMenu : Menu
 	#region Fields (Unity Serialization)
 
 	[SerializeField] private Button startButton = null;
+    [SerializeField] private Button backButton;
     [SerializeField] private Camera menuCamera;
     [SerializeField] private CanvasFader fader;
     [SerializeField] private Animator leftArmAnimator;
@@ -108,6 +109,9 @@ public class WeaponSelectMenu : Menu
                 isReset = false;
                 ResetMenu();
             }
+            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN)) {
+                BackAction();
+            }
 	    }
 
 	}
@@ -127,6 +131,8 @@ public class WeaponSelectMenu : Menu
     protected override void ShowStarted() {
         base.ShowStarted();
         ResetMenu();
+        bool showBackButton = backMenuTarget != null;
+        backButton.gameObject.SetActive(showBackButton);
         previousCamera = Camera.main;
         previousGameObject = previousCamera.gameObject;
     }

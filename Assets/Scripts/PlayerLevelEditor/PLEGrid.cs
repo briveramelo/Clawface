@@ -105,13 +105,7 @@ public class PLEGrid : EventSubscriber {
                 onClickObject = null;
             }
         }
-        HandleBlockSelectionInteractions();
-        //if (Input.GetMouseButtonDown(MouseButtons.LEFT)) {
-        //    DeselectBlocks();
-        //}
-        //if (Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT)) {
-        //    mainPLEMenu.SetMenuButtonInteractabilityByState();
-        //}
+        HandleBlockSelectionInteractions();        
         if (!firstSelectedTileIsActive) {
             HandleGroupGhostSelectionPreview();
         }
@@ -273,6 +267,9 @@ public class PLEGrid : EventSubscriber {
                         SelectBlocks(hit, selectedColor);
                     }
                 }
+                if (Input.GetMouseButtonDown(MouseButtons.LEFT) && !MouseHelper.HitUI) {
+                    mainPLEMenu.SetMenuButtonInteractabilityByState(PLEMenuType.FLOOR);
+                }
                 if (Input.GetMouseButtonUp(MouseButtons.LEFT)) {
                     ToggleLastSelectedObjects(hit);
 
@@ -281,6 +278,12 @@ public class PLEGrid : EventSubscriber {
                     }
                     ShowWalls();
                     mainPLEMenu.SetMenuButtonInteractabilityByState();
+                }
+            }
+            else {
+                if (Input.GetMouseButtonUp(MouseButtons.LEFT) && !MouseHelper.HitUI) {
+                    DeselectBlocks();
+                    mainPLEMenu.SetMenuButtonInteractabilityByState(PLEMenuType.FLOOR);
                 }
             }
         }
@@ -308,7 +311,8 @@ public class PLEGrid : EventSubscriber {
         }
         else {
             if (Input.GetMouseButtonUp(MouseButtons.RIGHT)) {
-                OnTryDeleteTileSelection();
+                DeselectBlocks();
+                //OnTryDeleteTileSelection();
             }
         }
 
