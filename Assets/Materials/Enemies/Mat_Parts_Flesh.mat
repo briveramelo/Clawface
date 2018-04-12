@@ -7,13 +7,14 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Mat_Parts_Flesh
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _GLOSSYREFLECTIONS_OFF _SPECULARHIGHLIGHTS_OFF
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: _ALPHAPREMULTIPLY_ON _GLOSSYREFLECTIONS_OFF _SPECULARHIGHLIGHTS_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
-  stringTagMap: {}
+  stringTagMap:
+    RenderType: Transparent
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -94,7 +95,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DetailSpeed: 0.5
     - _DetailTiling: 1
-    - _DstBlend: 0
+    - _DstBlend: 10
     - _EmissiveStrength: 0
     - _FloppingDistance: 0.76
     - _FloppingRate: 1.68
@@ -104,7 +105,7 @@ Material:
     - _GlossyReflections: 0
     - _Metallic: 0
     - _MetallicScale: 1
-    - _Mode: 0
+    - _Mode: 3
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _ScrollSpeed: 0.5
@@ -114,7 +115,7 @@ Material:
     - _SrcBlend: 1
     - _TextureTiling: 1
     - _UVSec: 0
-    - _ZWrite: 1
+    - _ZWrite: 0
     - __dirty: 1
     m_Colors:
     - _ASEOutlineColor: {r: 1, g: 0, b: 0, a: 0}

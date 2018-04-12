@@ -688,6 +688,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1467539221154938
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4733963776261330}
+  - component: {fileID: 114957537932064056}
+  m_Layer: 9
+  m_Name: GibEmitter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1489064032187160
 GameObject:
   m_ObjectHideFlags: 1
@@ -1917,6 +1933,7 @@ Transform:
   - {fileID: 4079737480154834}
   - {fileID: 4269714943987568}
   - {fileID: 4966695393758454}
+  - {fileID: 4733963776261330}
   m_Father: {fileID: 4060895913596830}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2266,6 +2283,19 @@ Transform:
   m_Father: {fileID: 4524031310060232}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 44.252003}
+--- !u!4 &4733963776261330
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1467539221154938}
+  m_LocalRotation: {x: 0.050312918, y: 0.000000020490527, z: -0.000000017081488, w: 0.9987335}
+  m_LocalPosition: {x: 0, y: -1.9847842, z: -0.20048262}
+  m_LocalScale: {x: 4.5454545, y: 4.545455, z: 4.545455}
+  m_Children: []
+  m_Father: {fileID: 4433617076101008}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4740730526778642
 Transform:
   m_ObjectHideFlags: 1
@@ -3091,6 +3121,7 @@ MonoBehaviour:
   vocalizeSound: 44
   vocalizeInterval: {x: 3, y: 5}
   footstepSound: 35
+  gibEmitter: {fileID: 114957537932064056}
   playerDetectorSphereCollider: {fileID: 135714352142118664}
   properties:
     runMultiplier: 0
@@ -3256,6 +3287,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348b0120920885b4195bf71cb50e01dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114957537932064056
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1467539221154938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 237bce5267b1ce349866c3168548ed4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gibPrefabs:
+  - {fileID: 1152295274657410, guid: 5cc539e85d54ee7428caf7f407845493, type: 2}
+  - {fileID: 1206938464622736, guid: f29d3fda1e4a03f4691e4f4724e4b9e3, type: 2}
+  - {fileID: 1808510501480356, guid: 9f48e622aebd1d844a399362aee06979, type: 2}
+  - {fileID: 1905192955072986, guid: 68156b3760e80244da58c1698de81210, type: 2}
+  - {fileID: 1245458658200994, guid: 0f292f2b8ce8e914899e0aa4be27f761, type: 2}
+  - {fileID: 1910837208161338, guid: e8fea7c27088e8444946b83ff927e6f8, type: 2}
+  probabilities:
+  - 0.5
+  - 0.5
+  - 0.5
+  - 0.5
+  - 0.5
+  - 0.5
+  gibCounts: 010000000100000001000000010000000100000001000000
+  rotationVelocity: 5
+  velocity: 5
 --- !u!135 &135463379706668968
 SphereCollider:
   m_ObjectHideFlags: 1

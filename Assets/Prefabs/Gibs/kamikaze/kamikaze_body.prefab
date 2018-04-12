@@ -19,10 +19,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4973937130650166}
-  - component: {fileID: 95778713270645562}
   - component: {fileID: 54838907285869188}
   - component: {fileID: 135967770138747964}
-  m_Layer: 0
+  m_Layer: 24
   m_Name: kamikaze_body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +38,7 @@ GameObject:
   - component: {fileID: 4019239764237820}
   - component: {fileID: 33206914541210848}
   - component: {fileID: 23295177840656090}
-  m_Layer: 0
+  m_Layer: 24
   m_Name: polySurface3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,23 +127,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!95 &95778713270645562
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1356480083609332}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 7f873a6e9fd783f459992a162d8e0724, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!135 &135967770138747964
 SphereCollider:
   m_ObjectHideFlags: 1

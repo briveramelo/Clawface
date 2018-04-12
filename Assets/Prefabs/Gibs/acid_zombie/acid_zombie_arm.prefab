@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4757274149450592}
-  m_Layer: 0
+  m_Layer: 24
   m_Name: arm_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34,8 +34,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4585204524608626}
-  - component: {fileID: 95634111942835354}
-  m_Layer: 0
+  - component: {fileID: 54938317525550486}
+  m_Layer: 24
   m_Name: acid_zombie_arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,7 +51,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4666641266044274}
   - component: {fileID: 137911306086127570}
-  m_Layer: 0
+  m_Layer: 24
   m_Name: polySurface1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,7 +68,7 @@ GameObject:
   - component: {fileID: 4652346669123464}
   - component: {fileID: 54633244582220820}
   - component: {fileID: 136950709180903644}
-  m_Layer: 0
+  m_Layer: 24
   m_Name: arm_root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 54842297916915430}
   - component: {fileID: 144990741494596278}
   - component: {fileID: 136264512486254496}
-  m_Layer: 0
+  m_Layer: 24
   m_Name: arm_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4997333917505532}
-  m_Layer: 0
+  m_Layer: 24
   m_Name: Enemy_2_mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -221,23 +221,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!95 &95634111942835354
-Animator:
-  serializedVersion: 3
+--- !u!54 &54938317525550486
+Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1113869858727224}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 3e9f5d8dbd0d31c4284570f99df39556, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!136 &136264512486254496
 CapsuleCollider:
   m_ObjectHideFlags: 1

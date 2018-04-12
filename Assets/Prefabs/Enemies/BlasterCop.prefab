@@ -347,6 +347,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1214908831290404
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4084010075807794}
+  - component: {fileID: 114560261904094366}
+  m_Layer: 9
+  m_Name: GibEmitter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1215901418163932
 GameObject:
   m_ObjectHideFlags: 1
@@ -1438,6 +1454,19 @@ Transform:
   m_Father: {fileID: 4677381630283140}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4084010075807794
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1214908831290404}
+  m_LocalRotation: {x: 0.050312918, y: 0.000000020490527, z: -0.000000017081488, w: 0.9987335}
+  m_LocalPosition: {x: 0, y: -1.9847842, z: -0.20048262}
+  m_LocalScale: {x: 4.5454545, y: 4.545455, z: 4.545455}
+  m_Children: []
+  m_Father: {fileID: 4400752322788620}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4086035041648766
 Transform:
   m_ObjectHideFlags: 1
@@ -1865,6 +1894,7 @@ Transform:
   - {fileID: 4366249588937608}
   - {fileID: 4196215784744516}
   - {fileID: 4129700282784866}
+  - {fileID: 4084010075807794}
   m_Father: {fileID: 4343289491148390}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 1.0118008, y: -0.0000002267522, z: 0.000003418075}
@@ -2977,6 +3007,34 @@ MonoBehaviour:
   skinnableHealth: 0
   exp: 0
   invincibilityCoolDownTime: 0
+--- !u!114 &114560261904094366
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1214908831290404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 237bce5267b1ce349866c3168548ed4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gibPrefabs:
+  - {fileID: 1665807765753194, guid: f9aae0815abda4d478a36b74e6509e89, type: 2}
+  - {fileID: 1059722894636774, guid: 07b6e1cf562501944bf73f8d5fe6fe6d, type: 2}
+  - {fileID: 1352606824937340, guid: 553c1ae1900a8b6459bbb8398da519fc, type: 2}
+  - {fileID: 1986592052490702, guid: c52bf4c8227be044092fd12d55eebd35, type: 2}
+  - {fileID: 1272721924092816, guid: d9aed95dfef8914469409051dec11e02, type: 2}
+  - {fileID: 1910837208161338, guid: e8fea7c27088e8444946b83ff927e6f8, type: 2}
+  probabilities:
+  - 0.5
+  - 0.5
+  - 0.5
+  - 0.5
+  - 0.5
+  - 0.5
+  gibCounts: 010000000100000001000000010000000100000001000000
+  rotationVelocity: 5
+  velocity: 5
 --- !u!114 &114643118667313710
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3152,6 +3210,7 @@ MonoBehaviour:
   vocalizeSound: 44
   vocalizeInterval: {x: 6, y: 10}
   footstepSound: 35
+  gibEmitter: {fileID: 114560261904094366}
   playerDetectorSphereCollider: {fileID: 135652806102363036}
   properties:
     runMultiplier: 2.5

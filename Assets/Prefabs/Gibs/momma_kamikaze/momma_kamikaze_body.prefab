@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4123046310803346}
   - component: {fileID: 33206266614037362}
   - component: {fileID: 23604064938671602}
-  m_Layer: 0
+  m_Layer: 24
   m_Name: polySurface3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,10 +36,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4065901389147220}
-  - component: {fileID: 95890089518569828}
   - component: {fileID: 54427558923601084}
   - component: {fileID: 135660065614863630}
-  m_Layer: 0
+  m_Layer: 24
   m_Name: momma_kamikaze_body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,23 +127,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!95 &95890089518569828
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1928426247140148}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 7f873a6e9fd783f459992a162d8e0724, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!135 &135660065614863630
 SphereCollider:
   m_ObjectHideFlags: 1

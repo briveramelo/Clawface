@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4848112408111330}
-  m_Layer: 0
+  m_Layer: 24
   m_Name: joint4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34,7 +34,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4676625165004058}
-  m_Layer: 0
+  m_Layer: 24
   m_Name: Enemy_1_mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50,7 +50,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4324774027838092}
   - component: {fileID: 137218235730811164}
-  m_Layer: 0
+  m_Layer: 24
   m_Name: polySurface1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -65,7 +65,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4460680046347118}
-  m_Layer: 0
+  m_Layer: 24
   m_Name: transform1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,7 +83,7 @@ GameObject:
   - component: {fileID: 54865778463242078}
   - component: {fileID: 144398555484758992}
   - component: {fileID: 136228736082025356}
-  m_Layer: 0
+  m_Layer: 24
   m_Name: Lower_Leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 54344188638649506}
   - component: {fileID: 144986308872873926}
   - component: {fileID: 136766170546357300}
-  m_Layer: 0
+  m_Layer: 24
   m_Name: Foot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 4390736313112256}
   - component: {fileID: 54618128425983234}
   - component: {fileID: 136760277925427530}
-  m_Layer: 0
+  m_Layer: 24
   m_Name: Upper_Leg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +133,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4358868352842920}
-  m_Layer: 0
+  - component: {fileID: 54644373970302550}
+  m_Layer: 24
   m_Name: guard_legL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -272,6 +273,21 @@ Rigidbody:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1793387591029790}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!54 &54644373970302550
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1986592052490702}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
