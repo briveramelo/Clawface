@@ -135,7 +135,7 @@ public abstract class AIController : RoutineRunner {
         timeInLastState = 0f;
         deActivateAI = false;
         CurrentState = states.getUp;
-
+        animator.enabled = true;
         if (mod != null)
         {
             mod.transform.Reset(modMemento);            

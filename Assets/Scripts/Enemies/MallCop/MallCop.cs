@@ -179,19 +179,19 @@ public class MallCop : EnemyBase
 
     public void ReadyToFire()
     {
-        if (controller.CurrentState != stun)
+        if (controller.CurrentState != stun && controller.CurrentState != celebrate)
             fire.ReadyToFireDone();
     }
 
     public void EndFireDone()
     {
-        if(controller.CurrentState != stun)
+        if(controller.CurrentState != stun && controller.CurrentState != celebrate)
         fire.EndFireDone();
     }
 
     public void StartAiming()
     {
-        if (controller.CurrentState != stun)
+        if (controller.CurrentState != stun && controller.CurrentState != celebrate)
         {
             animator.SetLayerWeight(2, 1.0f);
         }
@@ -199,7 +199,7 @@ public class MallCop : EnemyBase
 
     public void StopAiming()
     {
-        if (controller.CurrentState != stun)
+        if (controller.CurrentState != stun && controller.CurrentState != celebrate)
         { 
             fire.StopAiming();
             animator.SetLayerWeight(2, 0.0f);
@@ -208,13 +208,18 @@ public class MallCop : EnemyBase
 
     public void GetUpDone()
     {
-        if (controller.CurrentState != stun)
+        if (controller.CurrentState != stun && controller.CurrentState != celebrate)
         {
             isUp = true;
             controller.CurrentState = chase;
             controller.UpdateState(EAIState.Chase);
         }
-        
+        else if (controller.CurrentState == celebrate)
+        {
+            controller.CurrentState = celebrate;
+            controller.UpdateState(EAIState.Celebrate);
+        }
+
     }
 
     public override void DoPlayerKilledState(object[] parameters)

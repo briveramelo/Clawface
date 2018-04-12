@@ -13,6 +13,7 @@ public class MallCopCelebrateState : AIState
         navObstacle.enabled = true;
         alreadyCelebrating = true;
         animator.SetInteger("AnimationState", -1);
+        animator.SetInteger("VictoryDanceIndex",Random.Range(0, 5));
         animator.SetTrigger("DoVictoryDance");
     }
     public override void Update()
