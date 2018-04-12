@@ -73,6 +73,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1055605665469442
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4877442257608500}
+  - component: {fileID: 114296906082757016}
+  m_Layer: 9
+  m_Name: GibEmitter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1073058422366622
 GameObject:
   m_ObjectHideFlags: 1
@@ -1097,6 +1113,7 @@ Transform:
   - {fileID: 4789236071131728}
   - {fileID: 4372976718864188}
   - {fileID: 4294442959048278}
+  - {fileID: 4877442257608500}
   m_Father: {fileID: 4657244836558992}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1602,6 +1619,19 @@ Transform:
   m_Father: {fileID: 4844915743815320}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4877442257608500
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1055605665469442}
+  m_LocalRotation: {x: 0.050312918, y: 0.000000020490527, z: -0.000000017081488, w: 0.9987335}
+  m_LocalPosition: {x: 0, y: -1.9847842, z: -0.20048262}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4316724456395604}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4901719115716192
 Transform:
   m_ObjectHideFlags: 1
@@ -2097,6 +2127,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348b0120920885b4195bf71cb50e01dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114296906082757016
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1055605665469442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 237bce5267b1ce349866c3168548ed4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gibPrefabs:
+  - {fileID: 1968274660242550, guid: 287393651ff25f14d8f91562c7f607e0, type: 2}
+  - {fileID: 1122635523412372, guid: ebbde65d65a315349a29d2bf212323b7, type: 2}
+  - {fileID: 1113721706208806, guid: 19715d1c485110b4f84abb809748aaaa, type: 2}
+  - {fileID: 1000588595893646, guid: b76b232cfcf181f4da5041d32ceb411f, type: 2}
+  probabilities:
+  - 0.5
+  - 0.5
+  - 0.5
+  - 0.5
+  gibCounts: 01000000010000000100000001000000
+  rotationVelocity: 5
+  velocity: 5
 --- !u!114 &114304162013349394
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2172,6 +2226,7 @@ MonoBehaviour:
   vocalizeSound: 37
   vocalizeInterval: {x: 5, y: 10}
   footstepSound: 35
+  gibEmitter: {fileID: 114296906082757016}
   properties:
     runMultiplier: 0
     hitRate: 0

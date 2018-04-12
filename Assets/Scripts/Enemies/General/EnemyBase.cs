@@ -36,6 +36,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
     [SerializeField] protected SFXType vocalizeSound = SFXType.None;
     [SerializeField] protected Vector2 vocalizeInterval = Vector2.one;
     [SerializeField] protected SFXType footstepSound = SFXType.None;
+    [SerializeField] protected GibEmitter gibEmitter;
     #endregion
 
     #region 3. Private fields
@@ -301,6 +302,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
             isIndestructable = false;
             SFXManager.Instance.Play(deathSFX, transform.position);
             AIEnemyData testData = new AIEnemyData(controller.GetInstanceID());
+            gibEmitter.Emit();
             currentStunTime = 0.0f;
             if (AIManager.Instance != null)
             {

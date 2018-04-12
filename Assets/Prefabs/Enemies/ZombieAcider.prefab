@@ -947,6 +947,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1989587949317230
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4209614902130322}
+  - component: {fileID: 114965267287074246}
+  m_Layer: 9
+  m_Name: GibEmitter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &4004246291608004
 Transform:
   m_ObjectHideFlags: 1
@@ -1125,6 +1141,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4244879096806552}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4209614902130322
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1989587949317230}
+  m_LocalRotation: {x: 0.050312918, y: 0.000000020490527, z: -0.000000017081488, w: 0.9987335}
+  m_LocalPosition: {x: 0, y: -1.9847842, z: -0.20048262}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4881215792856138}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4239882105128882
 Transform:
@@ -1688,6 +1717,7 @@ Transform:
   - {fileID: 4531886837231886}
   - {fileID: 4972484868585358}
   - {fileID: 4464458078160704}
+  - {fileID: 4209614902130322}
   m_Father: {fileID: 4328952765460700}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2274,6 +2304,7 @@ MonoBehaviour:
   vocalizeSound: 39
   vocalizeInterval: {x: 4, y: 8}
   footstepSound: 35
+  gibEmitter: {fileID: 114965267287074246}
   properties:
     runMultiplier: 0
     hitRate: 0
@@ -2294,8 +2325,6 @@ MonoBehaviour:
     maxScale: 0
     spawnRate: 0
   tentacle: {fileID: 114076543811298048}
-  trailRenderer: {fileID: 0}
-  colliderGenerator: {fileID: 0}
 --- !u!114 &114899873629839898
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2342,6 +2371,30 @@ MonoBehaviour:
   skinnableHealth: 5
   exp: 2
   invincibilityCoolDownTime: 0
+--- !u!114 &114965267287074246
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1989587949317230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 237bce5267b1ce349866c3168548ed4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gibPrefabs:
+  - {fileID: 1113869858727224, guid: 061b8b3fea6817b4ca7b58e96b075c3d, type: 2}
+  - {fileID: 1973441168465738, guid: 3400c529a9551b442bbd439bdc5dd8f9, type: 2}
+  - {fileID: 1875958314861398, guid: ca710ec9d1c1fee4aba2f1849f006f5f, type: 2}
+  - {fileID: 1211310443951488, guid: 6bf238776d76c8e4db414839aec9a568, type: 2}
+  probabilities:
+  - 0.5
+  - 0.5
+  - 0.5
+  - 0.5
+  gibCounts: 01000000010000000100000001000000
+  rotationVelocity: 5
+  velocity: 5
 --- !u!135 &135031132874176212
 SphereCollider:
   m_ObjectHideFlags: 1
