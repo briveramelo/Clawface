@@ -160,7 +160,7 @@ public class PlayerHUDAnimator : EventSubscriber {
         score.localScale = scoreOriginalScale;
         health.localScale = healthOriginalScale;
 
-        comboGraphics[0].color = comboOriginalColor;
+        comboGraphics[0].color = comboOriginalColor.ChangeAlpha(0f);
         multiplierGraphics[0].color = multiplierOriginalColor;
     }
     #endregion

@@ -55,6 +55,7 @@ public class StageOverMenu : Menu
             { Strings.Events.PLAYER_KILLED, PlayerDeathStart },
             { Strings.Events.PLE_ON_LEVEL_READY, SetLevelStarted },
             { Strings.Events.LEVEL_STARTED, SetLevelStarted },
+            { Strings.Events.LEVEL_RESTARTED, SetLevelStarted },
         };
     } }
     #endregion

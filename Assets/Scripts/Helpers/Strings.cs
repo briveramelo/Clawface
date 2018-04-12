@@ -175,17 +175,10 @@
         public const string FINISHED_EATING = "FinishedEating";
 
         public const string KILL_ENEMY = "KillEnemy";
-        public const string BEAT_LEVEL1 = "BeatLevel1";
-        public const string SKIN_ENEMY = "SkinEnemy";
         public const string DEATH_ENEMY = "DeathEnemy";
         public const string EAT_ENEMY = "EatEnemy";
         public const string ENEMY_DEATH_BY_EATING = "ENEMY_DEATH_BY_EATING";
 
-        public const string EARN_ACHIEVEMENT = "EarnAchievement";
-        public const string PROGRESS_ACHIEVEMENT = "ProgressAchievement";
-        public const string UPDATE_ACHIEVEMENTS = "UpdateAchievements";
-
-        public const string LOCK_SPAWNERS = "LockSpawners";
         public const string CALL_NEXT_WAVE = "CallNextWave";
         public const string ENEMY_SPAWNED = "EnemySpawned";
         public const string WAVE_COMPLETE = "WaveComplete";

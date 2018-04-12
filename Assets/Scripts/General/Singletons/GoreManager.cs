@@ -187,15 +187,17 @@ public class GoreManager : Singleton<GoreManager> {
                     castDistance, sphereRadius);
                 hitSphere.GetComponent<Collider>().enabled = false;
             }
-            #endif
+#endif
 
-            SplatSO randomSplat = splats[Random.Range(0, splats.Length - 1)];             
-            foreach (RaycastHit hit in collided) {
-                Collider collider = hit.collider;
-                GameObject obj = collider.gameObject;
-                Splattable canSplat = obj.GetComponent<Splattable>();
-                if (canSplat) {
-                    canSplat.QueueNewSplat(randomSplat, worldPos, projectileDir);
+            if (GoreEnabled) {
+                SplatSO randomSplat = splats[Random.Range(0, splats.Length - 1)];             
+                foreach (RaycastHit hit in collided) {
+                    Collider collider = hit.collider;
+                    GameObject obj = collider.gameObject;
+                    Splattable canSplat = obj.GetComponent<Splattable>();
+                    if (canSplat) {
+                        canSplat.QueueNewSplat(randomSplat, worldPos, projectileDir);
+                    }
                 }
             }
         }
