@@ -344,13 +344,6 @@ public class ScoreManager : Singleton<ScoreManager> {
         AddToScoreWithoutComboMultiplier(GetMaxComboScore());
         updateScore = false;
         SendScoresToLeaderboard();
-        fireworks = ObjectPool.Instance.GetObject(PoolObjectType.VFXFireworks);
-        if (fireworks)
-        {
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player)
-                fireworks.transform.position = player.transform.position;
-        }
     }    
 
     private void SendScoresToLeaderboard()

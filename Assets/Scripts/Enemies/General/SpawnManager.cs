@@ -107,10 +107,18 @@ public class SpawnManager : EventSubscriber
             //wave complete      
 //            Debug.Log("wave complete");
             EventSystem.Instance.TriggerEvent(Strings.Events.WAVE_COMPLETE, waveNumber);
-            if(waveNumber == 0)
+            if(waveNumber != 0)
             {
                 //SFXManager.Instance.Play(SFXType.AnnounceLevelStart, Vector3.zero);
+                GameObject fireworks = ObjectPool.Instance.GetObject(PoolObjectType.VFXFireworks);
+                if (fireworks)
+                {
+                    GameObject player = GameObject.FindGameObjectWithTag("Player");
+                    if (player)
+                        fireworks.transform.position = player.transform.position;
+                }
             }
+            
             waveNumber++;
             time = spawners[currentSpawner].Time;
             spawner = spawners[currentSpawner++].Prefab.GetComponent<Spawner>();
