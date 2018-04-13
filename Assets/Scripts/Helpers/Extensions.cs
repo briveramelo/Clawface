@@ -151,6 +151,11 @@ namespace ModMan {
                 list.Add(item);
             }
         }
+        public static void Add<T>(this List<T> list, int count, T item) {
+            for (int i = 0; i < count; i++) {
+                list.Add(item);
+            }
+        }
         public static void AddNewUntil<T> (this List<T> list, int index) where T : new () {
             while (list.Count <= index) {
                 list.Add(new T());

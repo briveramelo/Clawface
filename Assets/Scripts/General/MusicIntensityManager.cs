@@ -133,7 +133,7 @@ public class LoopingAudioSet {
 
     public AudioSource PreviousSource { get { if (ActiveSourceIndex - 1 < 0) return null; return sources[PreviousSourceIndex]; } }
     public AudioSource ActiveSource { get { return sources[ActiveSourceIndex]; } }
-    public AudioSource NextSource { get { if (ActiveSourceIndex + 1 >= sources.Count) return null; return sources[NextSourceIndex]; } }
+    public AudioSource NextSource { get { if (ActiveSourceIndex + 1 >= sources.Count) return null; return sources[NextSourceIndex]; } }    
 
     public void Initialize(Transform parent, AudioMixerGroup mixerGroup) {
         this.parent = parent;

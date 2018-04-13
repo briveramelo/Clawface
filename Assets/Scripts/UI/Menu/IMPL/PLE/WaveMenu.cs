@@ -94,7 +94,7 @@ public class WaveMenu : PLEMenu
         int currentWaveIndex = PLESpawnManager.Instance.TryDeleteWave(PLESpawnManager.Instance.CurrentWaveIndex);
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_DELETE_CURRENTWAVE);
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_SYNC_LEVEL_UNIT_STATES);
-        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CALL_WAVE, currentWaveIndex);
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CALL_WAVE, currentWaveIndex, false);
         levelEditor.EnableCurrentWaveSpawnParents();
         mainPLEMenu.SetMenuButtonInteractabilityByState();
         UpdateWaveText();
@@ -138,7 +138,7 @@ public class WaveMenu : PLEMenu
         UpdateLevelUnitState();
         mainPLEMenu.DeselectAllBlocks();
         mainPLEMenu.SetMenuButtonInteractabilityByState();
-        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CALL_WAVE, currentWaveIndex);
+        EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CALL_WAVE, currentWaveIndex, false);
     }
     private void UpdateInfiniteWaveUI() {
         checkBox.enabled = IsWavesInfinite;

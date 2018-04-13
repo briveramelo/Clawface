@@ -79,11 +79,7 @@ public class MusicManager : Singleton<MusicManager>
             AudioClip toLoop = musicDictionary[MusicType.MainMenu_Loop];
             StartCoroutine(PlayIntroToLoopMusic(firstToPlay, toLoop));
         }
-        else if (SceneTracker.IsCurrentScenePlayerLevels) {
-            StopSources();
-            PlayRandomGameTrack();
-        }
-        else if (SceneTracker.IsCurrentScene80sShit) {
+        else if (SceneTracker.IsCurrentScene80sShit || SceneTracker.IsCurrentScenePlayerLevels) {
             StopSources();
         }
         else if (SceneTracker.IsCurrentSceneEditor) {
