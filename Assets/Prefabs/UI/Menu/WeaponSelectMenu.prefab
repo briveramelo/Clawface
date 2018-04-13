@@ -8082,9 +8082,6 @@ MonoBehaviour:
   canvas: {fileID: 1100252819641162}
   canvasGroup: {fileID: 225497351803517650}
   faderDuration: 0
-  isReset: 0
-  isLeftBack: 0
-  isBothBack: 0
   startButton: {fileID: 114201674317650024}
   backButton: {fileID: 114353528886252744}
   menuCamera: {fileID: 20256538908822052}
@@ -8106,6 +8103,36 @@ MonoBehaviour:
     type: 3}
   pressedButtonSprite: {fileID: 21300000, guid: 6ce9286bfc9ebcc4d9a5fc8a3017b40a,
     type: 3}
+  startButtonAnimation:
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: 3.2058911
+        outSlope: 3.2058911
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.6181353
+        value: 1
+        inSlope: -0.0091450075
+        outSlope: -6.9258227
+        tangentMode: 1
+      - serializedVersion: 2
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    deltaTime: 0
+    duration: 0.35
+    looping: 0
+    playOnAwake: 0
+    maxValue: 0.31
   weaponInfos:
   - {fileID: 11400000, guid: f10d4369da982c34c97c96a9d8d5a71a, type: 2}
   - {fileID: 11400000, guid: f6ff10826cd94e04e929414084c70be8, type: 2}

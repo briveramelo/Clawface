@@ -10,11 +10,6 @@ using Turing.VFX;
 public class WeaponSelectMenu : Menu
 {
 
-    public bool isReset;
-    public bool isLeftBack;
-    public bool isBothBack;
-
-
 	#region Accessors (Menu)
 
 	public override Selectable InitialSelection
@@ -47,6 +42,7 @@ public class WeaponSelectMenu : Menu
     [SerializeField] private Sprite unselectedButtonSprite;
     [SerializeField] private Sprite selectedButtonSprite;
     [SerializeField] private Sprite pressedButtonSprite;
+    [SerializeField] private AbsAnim startButtonAnimation;
     [SerializeField] private List<WeaponInfo> weaponInfos;
 
     [SerializeField] private float fadeDuration = 0.25F;
@@ -89,28 +85,30 @@ public class WeaponSelectMenu : Menu
 	{}
 
     #endregion
-
+    Vector3 startScale;
     #region Interface (Unity Lifecycle)
-    
+    protected override void Awake() {
+        base.Awake();
+        startScale = startButton.transform.localScale;
+        startButtonAnimation.OnUpdate = AnimateButtonScale;
+    }
+
+    void AnimateButtonScale(float val) {
+        startButton.transform.localScale = Vector3.one * (startScale.x + val);
+    }
+
+    void AnimateStartButton() {
+        MEC.Timing.KillCoroutines(CoroutineName);
+        startButton.transform.localScale = Vector3.one * startScale.x;
+        startButtonAnimation.Animate(CoroutineName);
+    }
+
+
     private void Update ()
 	{
         if (allowInput) {
             HandleSelectionFlow();
-
-            if (isLeftBack) {
-                isLeftBack = false;
-                GoBackFromLeft();
-            }
-            if (isBothBack) {
-                isBothBack = false;
-                GoBackFromBothSelected();
-            }
-            if (isReset) {
-                isReset = false;
-                ResetMenu();
-            }
 	    }
-
 	}
 
     #endregion
@@ -383,6 +381,7 @@ public class WeaponSelectMenu : Menu
         playerFaceController.SetTemporaryEmotion(PlayerFaceController.Emotion.Happy, .4f);
         SFXManager.Instance.Play(SFXType.LandmarkBlastShort, Camera.main.transform.position);
 
+        AnimateStartButton();
         startButton.Select();
         CurrentEventSystem.SetSelectedGameObject(startButton.gameObject);
     }
