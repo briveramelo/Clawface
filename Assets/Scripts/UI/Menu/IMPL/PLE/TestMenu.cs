@@ -79,7 +79,7 @@ public class TestMenu : PLEMenu
             base.ShowStarted();
             levelEditor.SetIsTesting(true);
             base.ShowComplete();
-        };
+        };        
 
         weaponSelectMenu.DefineNavigation(null, null, onStartAction, null, onReturnFromPLE);
 
