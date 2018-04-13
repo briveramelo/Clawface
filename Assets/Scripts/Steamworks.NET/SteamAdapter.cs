@@ -29,10 +29,11 @@ public class SteamAdapter : Singleton<SteamAdapter> {
         currentWorkingLevelDataFolderPath = i_dataPath;
         currentWorkingLevelImagePath = i_imgPath;
         workingLevelDataCopy = new LevelData(i_dataToCopy) {
+            isDownloaded=true,
             isMadeByThisUser = false
         };
         onCurrentUpdateCallback = onUpdateComplete;
-
+        print("ADAPTER: isMadeByThisUser" + workingLevelDataCopy.isMadeByThisUser);
 
         //TODO Never update an existing file id, just upload a new one
         // ONLY SHOULD UPLOAD FILES MADE BY THIS USER

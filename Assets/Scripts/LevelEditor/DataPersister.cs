@@ -87,11 +87,12 @@ public class DataPersister : Singleton<DataPersister> {
                 if(extension.Equals("dat"))
                 {
                     LevelData toAdd = SerializeToLevelData(fileName);
+                    toAdd.isDownloaded = true;
+                    toAdd.isMadeByThisUser = false;
                     Predicate<LevelData> levelMatch = levelData => levelData.UniqueSteamName == toAdd.UniqueSteamName;
                     bool levelAlreadyExists = ActiveDataSave.levelDatas.Exists(levelMatch);
                     if (toAdd != null)
                     {
-                        toAdd.isDownloaded = true;
                         if (!levelAlreadyExists) {
                             ActiveDataSave.levelDatas.Add(toAdd);
                         }
@@ -162,11 +163,6 @@ public class DataPersister : Singleton<DataPersister> {
         }
 
         return result;
-    }
-
-    private void AddToActiveData(LevelData i_data)
-    {
-        
     }
 
     void SaveDataFile() {
@@ -247,6 +243,7 @@ public class DataSave {
     }
     public void SaveWorkingLevelData() {
         workingLevelData.isMadeByThisUser = true;
+        workingLevelData.isDownloaded = false;
         workingLevelData.SaveTimestamp();
         SelectedLevelData = new LevelData(workingLevelData);
     }
