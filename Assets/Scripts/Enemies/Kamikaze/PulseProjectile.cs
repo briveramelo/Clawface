@@ -101,13 +101,13 @@ public class PulseProjectile : MonoBehaviour
     }
 
     float GetPanPosition () {
-        if (mainCamera == null || !mainCamera.isActiveAndEnabled)
+        if (mainCamera == null || !mainCamera.isActiveAndEnabled || !mainCamera.gameObject.activeInHierarchy)
             mainCamera = Camera.main;
 
         if (!player)
             player = GameObject.FindGameObjectWithTag(Strings.Tags.PLAYER);
 
-        if (!player) {
+        if (!player || !mainCamera) {
             return 0f;
         }
         float distToPlayer = Vector3.Distance (player.transform.position, transform.position);
