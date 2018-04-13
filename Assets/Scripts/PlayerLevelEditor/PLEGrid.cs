@@ -539,6 +539,7 @@ public class GridTile : IPLESelectable {
             else {
                 blockUnit.riseColor = TileColors.Green;
                 levelUnit.SetEmissiveColor(TileColors.Green);
+                blockUnit.SyncTileStatesAndColors();
             }
 
 
