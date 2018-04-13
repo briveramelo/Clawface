@@ -126,7 +126,7 @@ public class WeaponSelectMenu : Menu
     protected override void ShowStarted() {
         base.ShowStarted();
         ResetMenu();
-        bool showBackButton = backMenuTarget != null;
+        bool showBackButton = backMenuTarget != null || onReturnFromPLE != null;
         backButton.gameObject.SetActive(showBackButton);
         previousCamera = Camera.main;
         previousGameObject = previousCamera.gameObject;
