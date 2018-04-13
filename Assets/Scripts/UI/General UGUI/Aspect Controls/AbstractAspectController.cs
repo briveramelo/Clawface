@@ -6,13 +6,9 @@ public abstract class AbstractAspectController<TBundle, TData> : MonoBehaviour
 {
     #region Fields (Unity Serialization)
 
-    #if UNITY_EDITOR
-
     [Header("Unity Editor Controls")]
     [SerializeField]
     private bool freezeUpdates = false;
-
-    #endif
 
     [Header ("Aspect Controller Common")]
     [SerializeField]
@@ -35,7 +31,7 @@ public abstract class AbstractAspectController<TBundle, TData> : MonoBehaviour
         foreach (TBundle bundle in bundles)
         {
             float aspect = bundle.GetAspectRatio();
-            if (Mathf.Approximately(aspect, Camera.main.aspect))
+            if (Mathf.Approximately(aspect, GetCompareAspect()))
             {
                 ActOnBundle(bundle);
                 applied = true;
@@ -48,7 +44,7 @@ public abstract class AbstractAspectController<TBundle, TData> : MonoBehaviour
             DoDefaultAction();
         }
     }
-
+    
     #endregion
 
     #region Interface (Protected)
@@ -56,6 +52,20 @@ public abstract class AbstractAspectController<TBundle, TData> : MonoBehaviour
     protected abstract void ActOnBundle(TBundle bundle);
 
     protected abstract void DoDefaultAction();
+
+    #endregion
+
+    #region Interface (Private)
+
+    private float GetCompareAspect()
+    {
+        #if UNITY_EDITOR
+        return Camera.main.aspect;
+        #else
+        Resolution resolution = SettingsManager.Instance.Resolution;
+        return 1F * resolution.width / resolution.height;
+        #endif
+    }
 
     #endregion
 }

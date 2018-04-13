@@ -235,6 +235,15 @@ public class SettingsManager : Singleton<SettingsManager>
         settings.ApplySettings(musicMixer, sfxMixer);
     }
 
+    private void OnApplicationFocus(bool focus)
+    {
+        if (focus)
+        {
+            // Force the resolution to be updated by reapplying all settings..  just cause
+            settings.ApplySettings(musicMixer, sfxMixer);
+        }
+    }
+
     #endregion
 
     #region Interface (Public)

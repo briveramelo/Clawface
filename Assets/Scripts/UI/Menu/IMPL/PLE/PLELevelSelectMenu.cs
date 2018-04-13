@@ -81,8 +81,6 @@ public class PLELevelSelectMenu : PLEMenu {
     private string PulseCoroutineName { get { return CoroutineName + "Pulse"; } }
     #endregion
 
-
-
     #region Unity Lifecyle
 
     protected override void KillCoroutines() {
@@ -332,11 +330,8 @@ public class PLELevelSelectMenu : PLEMenu {
 
     #region Private Interface 
     private void CheckToMoveFilter() {
-        //TODO set this up work with Strings.Input.UI
-        //Strings.Input.UI.TAB_LEFT
-        //Strings.Input.UI.TAB_RIGHT
-        bool leftButtonPressed = InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_LEFT, ButtonMode.DOWN);
-        bool rightBumperPressed = InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_RIGHT, ButtonMode.DOWN);
+        bool leftButtonPressed = InputManager.Instance.QueryAction(Strings.Input.UI.TAB_LEFT, ButtonMode.DOWN);
+        bool rightBumperPressed = InputManager.Instance.QueryAction(Strings.Input.UI.TAB_RIGHT, ButtonMode.DOWN);
         bool mouseClicked = Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT) || Input.GetMouseButtonDown(MouseButtons.MIDDLE);
         if (!mouseClicked && (leftButtonPressed || rightBumperPressed)) {
             if (leftButtonPressed) {

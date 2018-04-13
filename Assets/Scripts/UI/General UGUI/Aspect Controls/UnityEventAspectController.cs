@@ -6,13 +6,9 @@ using UnityEngine.Events;
 public sealed class UnityEventAspectController :
     AbstractAspectController<UnityEventAspectController.UnityEventAspectBundle, UnityEvent>
 {
-    #region Fields (Unity Serialization)
-
     [Header("UnityEventAspectController")]
     [SerializeField]
     private UnityEvent defaultEvent;
-
-    #endregion
 
     #region Interface (AbstractAspectController<UnityEventAspectController.UnityEventAspectBundle, UnityEvent>)
 
