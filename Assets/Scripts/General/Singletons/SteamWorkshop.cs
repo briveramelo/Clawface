@@ -70,6 +70,10 @@ public class SteamWorkshop : Singleton<SteamWorkshop> {
             {
                 result = result && SteamUGC.SetItemPreview(updateHandle, previewImagePath);
             }
+            if (result) {
+                result = result && SteamUGC.SetItemVisibility(updateHandle, ERemoteStoragePublishedFileVisibility.k_ERemoteStoragePublishedFileVisibilityPublic);
+            }
+            
 
             if (result)
             {
