@@ -33,7 +33,6 @@ public class SteamAdapter : Singleton<SteamAdapter> {
             isMadeByThisUser = false
         };
         onCurrentUpdateCallback = onUpdateComplete;
-        print("ADAPTER: isMadeByThisUser" + workingLevelDataCopy.isMadeByThisUser);
 
         //TODO Never update an existing file id, just upload a new one
         // ONLY SHOULD UPLOAD FILES MADE BY THIS USER

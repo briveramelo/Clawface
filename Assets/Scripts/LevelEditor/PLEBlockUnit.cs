@@ -142,8 +142,10 @@ public class PLEBlockUnit : EventSubscriber
     public void SyncTileStatesAndColors(params object[] parameters)
     {
         int maxWaveIndex = PLESpawnManager.Instance.MaxWaveIndex;
-        levelStates.AddUntil(maxWaveIndex, LevelUnitStates.Floor);
-        if (levelStates.Count > maxWaveIndex + 1) {
+        if (levelStates.Count < maxWaveIndex + 1) {
+            levelStates.AddUntil(maxWaveIndex, LevelUnitStates.Floor);
+        }
+        else if (levelStates.Count > maxWaveIndex + 1) {
             int numExtra = levelStates.Count - (maxWaveIndex+1);
             levelStates.RemoveRange(maxWaveIndex+1, numExtra);
         }

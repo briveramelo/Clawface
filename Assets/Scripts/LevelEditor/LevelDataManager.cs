@@ -63,14 +63,15 @@ public class LevelDataManager : MonoBehaviour {
     }
 
     private void LoadEntireLevel() {
+        PLESpawnManager.Instance.MaxWaveIndex = WorkingLevelData.MaxWaveIndex;
+        PLESpawnManager.Instance.InfiniteWavesEnabled = WorkingLevelData.isInfinite;
+
         LoadProps();
         LoadSpawnsAllOn();
         LoadTiles();
         LoadSpawnsToggledState();
         LoadImages();
 
-        PLESpawnManager.Instance.MaxWaveIndex = WorkingLevelData.MaxWaveIndex;
-        PLESpawnManager.Instance.InfiniteWavesEnabled = WorkingLevelData.isInfinite;
 
         int waveIndex = 0;
         waveIndex = PLESpawnManager.Instance.SetToWave(waveIndex);//sets spawn parent enabling in here
