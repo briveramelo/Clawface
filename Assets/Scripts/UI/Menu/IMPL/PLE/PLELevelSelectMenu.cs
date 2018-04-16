@@ -21,7 +21,7 @@ public class PLELevelSelectMenu : PLEMenu {
     [SerializeField] private Image selectedLevelImage, selectedLevelFavoriteIcon;
     [SerializeField] private InputField searchField;
     [SerializeField] private GridLayoutGroup gridLayoutGroup;
-    [SerializeField] private Button backButton, deleteButton, favoriteButton, leaderboardButton, loadButton;
+    [SerializeField] private Button backButton, deleteButton, favoriteButton, syncButton, leaderboardButton, loadButton;
     [SerializeField] private Selectable allFilter, downloadedFilter, userFilter, favoriteFilter;
     [SerializeField] private Scrollbar levelScrollBar;
     [SerializeField] private Sprite hathosBigPreview;
@@ -114,7 +114,7 @@ public class PLELevelSelectMenu : PLEMenu {
             allFilter, downloadedFilter, userFilter, favoriteFilter
         };
         bottomRowSelectables = new List<Selectable>() {
-            backButton, deleteButton, favoriteButton, leaderboardButton, loadButton
+            backButton, deleteButton, favoriteButton, syncButton, leaderboardButton, loadButton
         };
         scrollSlideAnim.OnUpdate = (val) => { levelScrollBar.value = val; };
         currentSelectedUIIsLevel = item => CurrentEventSystemGameObject == item.selectable.gameObject;
@@ -149,6 +149,11 @@ public class PLELevelSelectMenu : PLEMenu {
         }
         PositionLevelsInSceneContext();
         StartCoroutine(ResortImagePositions());
+    }
+
+    public void SyncLevelData() {
+        SteamAdapter.LoadSteamLevelData();
+        ClearAndGenerateLevelUI();
     }
 
     public void OnSearchChange() {
@@ -448,15 +453,22 @@ public class PLELevelSelectMenu : PLEMenu {
         SetNavigation(favoriteButton, upperTarget, SelectableDirection.Up);
         SetNavigation(favoriteButton, rightTarget, SelectableDirection.Right);
 
-        //leaderboard button navigation
+        //sync button navigation
         leftTarget = bottomRowSelectables.FindInDirection(isInteractable, 3, false, false);
         rightTarget = bottomRowSelectables.FindInDirection(isInteractable, 3, true);
+        SetNavigation(syncButton, leftTarget, SelectableDirection.Left);
+        SetNavigation(syncButton, upperTarget, SelectableDirection.Up);
+        SetNavigation(syncButton, rightTarget, SelectableDirection.Right);
+
+        //leaderboard button navigation
+        leftTarget = bottomRowSelectables.FindInDirection(isInteractable, 4, false, false);
+        rightTarget = bottomRowSelectables.FindInDirection(isInteractable, 4, true);
         SetNavigation(leaderboardButton, leftTarget, SelectableDirection.Left);
         SetNavigation(leaderboardButton, upperTarget, SelectableDirection.Up);
         SetNavigation(leaderboardButton, rightTarget, SelectableDirection.Right);
 
         //load button navigation
-        leftTarget = bottomRowSelectables.FindInDirection(isInteractable, 4, false, false);
+        leftTarget = bottomRowSelectables.FindInDirection(isInteractable, 5, false, false);
         rightTarget = backButton;
         SetNavigation(loadButton, leftTarget, SelectableDirection.Left);
         SetNavigation(loadButton, upperTarget, SelectableDirection.Up);
