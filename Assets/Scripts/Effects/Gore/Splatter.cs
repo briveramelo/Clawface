@@ -20,13 +20,7 @@ public abstract class Splatter
     {
         get
         {
-            if (splatMap.IsCreated())
-            {
-                return splatMap;
-            } else
-            {
-                return null;
-            }
+            return splatMap;
         }
     }
 
@@ -89,6 +83,8 @@ public abstract class Splatter
         this.renderer = renderer;
         dims = GetRenderDims();
         splatMap = new RenderTexture(dims.Width, dims.Height, 0, RenderTextureFormat.ARGB32);
+        splatMap.autoGenerateMips = false;
+        splatMap.useMipMap = false;
         splatMap.Create();
 
         // Clear the RenderTexture.. just in case

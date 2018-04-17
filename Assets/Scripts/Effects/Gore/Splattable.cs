@@ -108,7 +108,7 @@ public class Splattable : MonoBehaviour
             }
         }
     }
-
+    
     #endregion
 
     #region Public Interface

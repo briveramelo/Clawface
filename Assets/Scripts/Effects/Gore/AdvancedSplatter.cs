@@ -54,7 +54,7 @@ public class AdvancedSplatter : Splatter
 
         renderedSplats = new List<QueuedSplat>();
         int count = 0;
-        while (splatsToRender.Count > 0 && count < GoreManager.Instance.NumSplatsToRender)
+        while (splatsToRender.Count > 0 && count++ < GoreManager.Instance.NumSplatsToRender)
         {
             // Queue Up Data
             QueuedSplat splat = splatsToRender.Dequeue();
@@ -65,7 +65,6 @@ public class AdvancedSplatter : Splatter
             anchors.Add(data.Anchor);
             rotations.Add(data.CalculateRotation(splat.projectileDir));
             positions.Add(splat.worldPos);
-            count++;
 
             renderedSplats.Add(splat);
         }
