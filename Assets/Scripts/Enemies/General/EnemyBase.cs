@@ -30,7 +30,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
     [SerializeField] private SFXType deathSFX;
     [SerializeField] Rigidbody pushRoot;
     [SerializeField] PushDirection pushDirection;
-    [SerializeField] GameObject hips;
+    [SerializeField] protected GameObject hips;
     [SerializeField] protected SpawnType enemyType;
     [SerializeField] private GameObject skeletonRoot;
     [SerializeField] protected SFXType vocalizeSound = SFXType.None;
@@ -503,7 +503,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
         return Physics.CheckSphere(hips.transform.position, 2.0f, LayerMask.GetMask(Strings.Layers.OBSTACLE));
     }
 
-    private bool IsFalling()
+    protected virtual bool IsFalling()
     {        
         return !Physics.CheckSphere(hips.transform.position, 2.0f, LayerMask.GetMask(Strings.Layers.GROUND));
     }

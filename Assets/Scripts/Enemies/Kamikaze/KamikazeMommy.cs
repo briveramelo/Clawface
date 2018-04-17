@@ -197,6 +197,11 @@ public class KamikazeMommy : EnemyBase
         Gizmos.DrawWireSphere(transform.position, closeEnoughToAttackDistance);
     }
 
+    protected override bool IsFalling()
+    {
+        //Special case for the mommy because the raycast needs to be slightly longer in distance 
+        return !Physics.CheckSphere(hips.transform.position, 4.0f, LayerMask.GetMask(Strings.Layers.GROUND));
+    }
 
     #endregion
 
