@@ -6,6 +6,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Linq;
 using Steamworks;
+using UnityEngine.Events;
 
 public class DataPersister : Singleton<DataPersister> {
 
@@ -25,9 +26,9 @@ public class DataPersister : Singleton<DataPersister> {
     #region Event Subscriptions (Protected)
 
     protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
-    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+    protected override Dictionary<string, UnityAction<object[]>> EventSubscriptions {
         get {
-            return new Dictionary<string, FunctionPrototype>() {
+            return new Dictionary<string, UnityAction<object[]>>() {
                 {Strings.Events.SCENE_LOADED, WipeWorkingData},
             };
         }
@@ -87,23 +88,25 @@ public class DataPersister : Singleton<DataPersister> {
                 if(extension.Equals("dat"))
                 {
                     LevelData toAdd = SerializeToLevelData(fileName);
-                    toAdd.isDownloaded = true;
-                    toAdd.isMadeByThisUser = false;
-                    Predicate<LevelData> levelMatch = levelData => levelData.UniqueSteamName == toAdd.UniqueSteamName;
-                    bool levelAlreadyExists = ActiveDataSave.levelDatas.Exists(levelMatch);
-                    if (toAdd != null)
-                    {
-                        if (!levelAlreadyExists) {
-                            ActiveDataSave.levelDatas.Add(toAdd);
+                    if (!toAdd.IsEmpty) {
+                        toAdd.isDownloaded = true;
+                        toAdd.isMadeByThisUser = false;
+                        Predicate<LevelData> levelMatch = levelData => levelData.UniqueSteamName == toAdd.UniqueSteamName;
+                        bool levelAlreadyExists = ActiveDataSave.levelDatas.Exists(levelMatch);
+                        if (toAdd != null)
+                        {
+                            if (!levelAlreadyExists) {
+                                ActiveDataSave.levelDatas.Add(toAdd);
+                            }
+                            else {
+                                int index = ActiveDataSave.levelDatas.FindIndex(levelMatch);
+                                ActiveDataSave.levelDatas[index] = new LevelData(toAdd);
+                            }
                         }
-                        else {
-                            int index = ActiveDataSave.levelDatas.FindIndex(levelMatch);
-                            ActiveDataSave.levelDatas[index] = new LevelData(toAdd);
+                        else
+                        {
+                            Debug.LogError("Error adding LevelData to Active Data");
                         }
-                    }
-                    else
-                    {
-                        Debug.LogError("Error adding LevelData to Active Data");
                     }
                 }
                 
@@ -156,10 +159,10 @@ public class DataPersister : Singleton<DataPersister> {
             result = new LevelData((LevelData)bf.Deserialize(fs));
             fs.Close();
         }
-        catch
+        catch(Exception e)
         {
             fs.Close();
-            Debug.LogError("Error Loading level data at: " + i_levelFilePath);
+            Debug.LogWarning("Level not loaded. Error Deserializing LevelData at: " + i_levelFilePath);
         }
 
         return result;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Turing.VFX;
+using UnityEngine.Events;
 
 public class LevelLandmark : EventSubscriber
 {
@@ -18,9 +19,9 @@ public class LevelLandmark : EventSubscriber
 
     #region Event Subscriptions
     protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
-    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+    protected override Dictionary<string, UnityAction<object[]>> EventSubscriptions {
         get {
-            return new Dictionary<string, FunctionPrototype>() {
+            return new Dictionary<string, UnityAction<object[]>>() {
                 { Strings.Events.WAVE_COMPLETE, DoShowEffects },
             };
         }

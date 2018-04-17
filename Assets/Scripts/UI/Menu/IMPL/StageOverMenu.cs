@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using ModMan;
+using UnityEngine.Events;
 
 public class StageOverMenu : Menu
 {
@@ -49,8 +50,8 @@ public class StageOverMenu : Menu
 
     #region Event Subscriptions
     protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
-    protected override Dictionary<string, FunctionPrototype> EventSubscriptions { get {
-        return new Dictionary<string, FunctionPrototype>() {
+    protected override Dictionary<string, UnityAction<object[]>> EventSubscriptions { get {
+        return new Dictionary<string, UnityAction<object[]>>() {
             { Strings.Events.LEVEL_COMPLETED, LevelCompleteStart},
             { Strings.Events.PLAYER_KILLED, PlayerDeathStart },
             { Strings.Events.PLE_ON_LEVEL_READY, SetLevelStarted },

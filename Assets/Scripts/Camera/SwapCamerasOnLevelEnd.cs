@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Turing.VFX;
+using UnityEngine.Events;
 
 public class SwapCamerasOnLevelEnd : EventSubscriber {
 
@@ -25,8 +26,8 @@ public class SwapCamerasOnLevelEnd : EventSubscriber {
 
     #region Event Subscriptions
     protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
-    protected override Dictionary<string, FunctionPrototype> EventSubscriptions { get {
-        return new Dictionary<string, FunctionPrototype>() {
+    protected override Dictionary<string, UnityAction<object[]>> EventSubscriptions { get {
+        return new Dictionary<string, UnityAction<object[]>>() {
             { Strings.Events.LEVEL_COMPLETED, SwitchCameras},            
         };
     } }

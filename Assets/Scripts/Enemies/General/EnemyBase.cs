@@ -7,6 +7,7 @@ using ModMan;
 using MEC;
 using System;
 using System.Linq;
+using UnityEngine.Events;
 
 public enum PushDirection{
     BACK,
@@ -30,13 +31,14 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
     [SerializeField] private SFXType deathSFX;
     [SerializeField] Rigidbody pushRoot;
     [SerializeField] PushDirection pushDirection;
-    [SerializeField] GameObject hips;
+    [SerializeField] protected GameObject hips;
     [SerializeField] protected SpawnType enemyType;
     [SerializeField] private GameObject skeletonRoot;
     [SerializeField] protected SFXType vocalizeSound = SFXType.None;
     [SerializeField] protected Vector2 vocalizeInterval = Vector2.one;
     [SerializeField] protected SFXType footstepSound = SFXType.None;
     [SerializeField] protected GibEmitter gibEmitter;
+    [SerializeField] protected GameObject landingMarker;
     #endregion
 
     #region 3. Private fields
@@ -90,9 +92,9 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
 
     #region Event Subscriptions
     protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.EnableDisable; } }
-    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+    protected override Dictionary<string, UnityAction<object[]>> EventSubscriptions {
         get {
-            return new Dictionary<string, FunctionPrototype>() {
+            return new Dictionary<string, UnityAction<object[]>>() {
                 { Strings.Events.PLAYER_KILLED, DoPlayerKilledState},
                 { Strings.Events.ENEMY_INVINCIBLE, SetInvincible },
                 { Strings.Events.SHOW_TUTORIAL_TEXT, DisableVocalization },
@@ -333,6 +335,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
         isStunFlashing = false;
         alreadyStunned = false;
         isIndestructable = false;
+        landingMarker.SetActive (true);
     }
 
     public void ToggleColliders(bool enabled) {
@@ -471,6 +474,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
     {
         spawnPosition = position;
         transform.position = spawnPosition;
+
         SpawnWithRagdoll();
     }
     #endregion
@@ -478,6 +482,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
     #region 6. Private Methods
     private void SpawnWithRagdoll()
     {
+        hitFlasher.FixColor(.5f, 5f, Color.black);
         Push(20.0f, PushDirection.DOWN);
     }
 
@@ -503,7 +508,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
         return Physics.CheckSphere(hips.transform.position, 2.0f, LayerMask.GetMask(Strings.Layers.OBSTACLE));
     }
 
-    private bool IsFalling()
+    protected virtual bool IsFalling()
     {        
         return !Physics.CheckSphere(hips.transform.position, 2.0f, LayerMask.GetMask(Strings.Layers.GROUND));
     }
@@ -532,9 +537,11 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
     private void GetUp(bool findNearestFloorTile = false)
     {
         EnableCollider();
+        hitFlasher.ResetFlashColor();
         Vector3 warpPosition;
         bool spaceFound = GetValidTile(out warpPosition, findNearestFloorTile);
         DisableRagdoll();
+        landingMarker.SetActive (false);
         if (spaceFound)
         {
             ActivateAIMethods(warpPosition);

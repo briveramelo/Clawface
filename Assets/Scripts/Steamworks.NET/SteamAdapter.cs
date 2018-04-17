@@ -53,7 +53,10 @@ public class SteamAdapter : Singleton<SteamAdapter> {
 
     }
 
-    public static void LoadSteamLevelData(LevelsLoadedCallback i_toCall)
+    /// <summary>
+    /// Synchronus call
+    /// </summary>
+    public static void LoadSteamLevelData(LevelsLoadedCallback i_toCall=null)
     {
         PublishedFileId_t[] items;
         uint numOfItems = 0;
@@ -68,7 +71,9 @@ public class SteamAdapter : Singleton<SteamAdapter> {
             }
         }
 
-        i_toCall();
+        if (i_toCall!=null) {
+            i_toCall();
+        }
     }
 
     #endregion

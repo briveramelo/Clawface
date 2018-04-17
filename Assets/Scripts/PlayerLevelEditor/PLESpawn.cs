@@ -6,6 +6,7 @@ using ModMan;
 using Turing.VFX;
 using System;
 using System.Linq;
+using UnityEngine.Events;
 
 public class PLESpawn : PLEItem {
 
@@ -41,9 +42,9 @@ public class PLESpawn : PLEItem {
     protected override string ColorTint { get { return "_Color"; } }
     #region Event Subscriptions
     protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
-    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+    protected override Dictionary<string, UnityAction<object[]>> EventSubscriptions {
         get {
-            return new Dictionary<string, FunctionPrototype>() {
+            return new Dictionary<string, UnityAction<object[]>>() {
             { Strings.Events.PLE_TEST_END, ResetSpawnValues},
         };
         }

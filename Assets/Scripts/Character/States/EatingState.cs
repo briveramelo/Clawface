@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using ModMan;
 using UnityEngine.Assertions;
+using UnityEngine.Events;
 
 public class EatingState : IPlayerState
 {
@@ -29,9 +30,9 @@ public class EatingState : IPlayerState
 
     #region Event Subscriptions
     protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.EnableDisable; } }
-    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+    protected override Dictionary<string, UnityAction<object[]>> EventSubscriptions {
         get {
-            return new Dictionary<string, FunctionPrototype>() {
+            return new Dictionary<string, UnityAction<object[]>>() {
                 { Strings.Events.FACE_OPEN, DoArmExtension},
                 { Strings.Events.CAPTURE_ENEMY, CaptureEnemy},
                 { Strings.Events.ARM_ANIMATION_COMPLETE, EndState},

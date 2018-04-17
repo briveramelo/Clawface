@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class AnalyticsManager : Singleton<AnalyticsManager>
 {
@@ -59,9 +60,9 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 
     #region Event Subscriptions
     protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
-    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+    protected override Dictionary<string, UnityAction<object[]>> EventSubscriptions {
         get {
-            return new Dictionary<string, FunctionPrototype>() {
+            return new Dictionary<string, UnityAction<object[]>>() {
                 { Strings.Events.LEVEL_STARTED, OnLevelStarted },
                 { Strings.Events.PLAYER_KILLED, OnPlayerKilled },
                 { Strings.Events.LEVEL_COMPLETED, OnLevelCompleted },

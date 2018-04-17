@@ -5,6 +5,7 @@ using UnityEngine.Assertions;
 using UnityEngine;
 using UnityEngine.UI;
 using ModMan;
+using UnityEngine.Events;
 public class InGameUI : EventSubscriber {
 
     #region Public Fields
@@ -56,9 +57,9 @@ public class InGameUI : EventSubscriber {
 
     #region Event Subscriptions
     protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
-    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+    protected override Dictionary<string, UnityAction<object[]>> EventSubscriptions {
         get {
-            return new Dictionary<string, FunctionPrototype>() {
+            return new Dictionary<string, UnityAction<object[]>>() {
                 { Strings.Events.SCORE_UPDATED, UpdateScore },
                 { Strings.Events.MULTIPLIER_UPDATED, UpdateMultiplier },
                 { Strings.Events.COMBO_UPDATED, UpdateCombo },

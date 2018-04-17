@@ -4,6 +4,8 @@ using UnityEngine;
 using MEC;
 using UnityEngine.Audio;
 using ModMan;
+using UnityEngine.Events;
+
 public class MusicIntensityManager : EventSubscriber {
 
     #region private fields
@@ -20,9 +22,9 @@ public class MusicIntensityManager : EventSubscriber {
 
     #region Event Subscriptions
     protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
-    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+    protected override Dictionary<string, UnityAction<object[]>> EventSubscriptions {
         get {
-            Dictionary<string, FunctionPrototype> dic = new Dictionary<string, FunctionPrototype>() { };
+            Dictionary<string, UnityAction<object[]>> dic = new Dictionary<string, UnityAction<object[]>>() { };
             for (int i = 0; i < musicEventsList.Count; i++) {
                 dic.Add(musicEventsList[i], ChangeTrack);
             }

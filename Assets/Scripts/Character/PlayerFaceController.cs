@@ -4,6 +4,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Turing.VFX
 {
@@ -104,9 +105,9 @@ namespace Turing.VFX
 
         #region Event Subscriptions
         protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
-        protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+        protected override Dictionary<string, UnityAction<object[]>> EventSubscriptions {
             get {
-                return new Dictionary<string, FunctionPrototype>() {
+                return new Dictionary<string, UnityAction<object[]>>() {
                     { Strings.Events.LEVEL_COMPLETED,      LevelComplete },
                     { Strings.Events.SCENE_LOADED, ResetToDefaultStates},
                     { Strings.Events.PLE_ON_LEVEL_READY, ResetToDefaultStates},

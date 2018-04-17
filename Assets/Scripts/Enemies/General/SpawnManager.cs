@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using MEC;
+using UnityEngine.Events;
 
 public class SpawnManager : EventSubscriber
 {
@@ -27,9 +28,9 @@ public class SpawnManager : EventSubscriber
 
     #region Event Subscriptions
     protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
-    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+    protected override Dictionary<string, UnityAction<object[]>> EventSubscriptions {
         get {
-            return new Dictionary<string, FunctionPrototype>() {
+            return new Dictionary<string, UnityAction<object[]>>() {
                 { Strings.Events.WEAPONS_SELECT_FROM_STAGE_OVER, TerminateSpawnerAndEnemies },
                 { Strings.Events.CALL_NEXT_WAVE, CallNextSpawner},
             };

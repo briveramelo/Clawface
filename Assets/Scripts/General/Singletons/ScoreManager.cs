@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class ScoreManager : Singleton<ScoreManager> {
 
@@ -49,9 +50,9 @@ public class ScoreManager : Singleton<ScoreManager> {
 
     #region Event Subscriptions
     protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
-    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+    protected override Dictionary<string, UnityAction<object[]>> EventSubscriptions {
         get {
-            return new Dictionary<string, FunctionPrototype>() {
+            return new Dictionary<string, UnityAction<object[]>>() {
                 { Strings.Events.DEATH_ENEMY, OnPlayerKilledEnemy },
                 { Strings.Events.EAT_ENEMY, OnPlayerAte },
                 { Strings.Events.PLAYER_DAMAGED, OnPlayerDamaged },

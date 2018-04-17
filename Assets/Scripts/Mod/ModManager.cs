@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.Events;
 
 public class ModManager : EventSubscriber
 {
@@ -48,9 +49,9 @@ public class ModManager : EventSubscriber
 
     #region Event Subscriptions
     protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.EnableDisable; } }
-    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+    protected override Dictionary<string, UnityAction<object[]>> EventSubscriptions {
         get {
-            return new Dictionary<string, FunctionPrototype>() {
+            return new Dictionary<string, UnityAction<object[]>>() {
                 { Strings.Events.PLAYER_KILLED, PlayerDead },
                 { Strings.Events.LEVEL_COMPLETED, OnLevelCompleted},
                 { Strings.Events.ACTIVATE_MOD, SetCanActivate},

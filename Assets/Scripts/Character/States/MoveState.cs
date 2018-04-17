@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Events;
+
 public class MoveState : IPlayerState {
     #region Fields (Unity Serialization)
 
@@ -20,9 +22,9 @@ public class MoveState : IPlayerState {
 
     #region Event Subscriptions
     protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.EnableDisable; } }
-    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+    protected override Dictionary<string, UnityAction<object[]>> EventSubscriptions {
         get {
-            return new Dictionary<string, FunctionPrototype>() {
+            return new Dictionary<string, UnityAction<object[]>>() {
                 { Strings.Events.PLAYER_KILLED, PlayerDead },
                 { Strings.Events.LEVEL_COMPLETED, StopMoving},
             };

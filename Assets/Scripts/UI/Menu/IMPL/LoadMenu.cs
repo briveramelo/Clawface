@@ -145,7 +145,7 @@ public class LoadMenu : Menu {
         }
         loadingBarText.SetSuccess(true);
         // Prewarm shaders to prevent lag during level.
-        Shader.WarmupAllShaders();
+        //Shader.WarmupAllShaders();
 
         loadingBar.size = 1.0F;
         loadingText.text = ready;

@@ -19,6 +19,7 @@ public class BouncerChaseState : AIState {
     private Vector3 targetPosition;
     private SpriteRenderer shadowOutline;
     private float originalShadowOutlineScale;
+    float jumpPercentage = 0.0f;
 
     //Smooth Lerping
     float lerpTime = 1.0f;
@@ -79,7 +80,8 @@ public class BouncerChaseState : AIState {
             shadowOutline.transform.position = targetPosition;
             float heightPercentage = Mathf.Sqrt(controller.transform.position.y / height);
             float scale = heightPercentage * originalShadowOutlineScale;
-            shadowOutline.SetAlpha (heightPercentage);
+            //shadowOutline.SetAlpha (heightPercentage);
+            shadowOutline.SetAlpha (jumpPercentage);
             shadowOutline.transform.localScale = new Vector3(scale, scale, scale);
         }
     }
@@ -222,10 +224,10 @@ public class BouncerChaseState : AIState {
         smoothMidpoint1.y += height * 0.7f;
         smoothMidpoint2.y += height * 0.7f;
 
-        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(initialPosition, smoothMidpoint1, myStats.moveSpeed*2.5f),CoroutineName));
-        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(smoothMidpoint1, midpoint, myStats.moveSpeed * 2.0f) ,CoroutineName));
-        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(midpoint, smoothMidpoint2, myStats.moveSpeed * 2.5f), CoroutineName));
-        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(smoothMidpoint2, targetPosition, myStats.moveSpeed * 3.0f),CoroutineName));
+        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(initialPosition, smoothMidpoint1, myStats.moveSpeed*2.5f, 0.0f, 0.25f),CoroutineName));
+        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(smoothMidpoint1, midpoint, myStats.moveSpeed * 2.0f, 0.25f, 0.5f) ,CoroutineName));
+        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(midpoint, smoothMidpoint2, myStats.moveSpeed * 2.5f, 0.5f, 0.75f), CoroutineName));
+        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(smoothMidpoint2, targetPosition, myStats.moveSpeed * 3.0f, 0.75f, 1.0f),CoroutineName));
 
         if (gotStunned)
         {
@@ -248,11 +250,11 @@ public class BouncerChaseState : AIState {
 
         navAgent.updatePosition = true;
 
-        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(controller.transform.position, navAgent.nextPosition, myStats.moveSpeed * 1.5f),CoroutineName));
+        yield return Timing.WaitUntilDone(Timing.RunCoroutine(LerpToNextPosition(controller.transform.position, navAgent.nextPosition, myStats.moveSpeed * 1.5f, 0.0f, 0.0f),CoroutineName));
     }
 
 
-    private IEnumerator<float> LerpToNextPosition(Vector3 initialPosition, Vector3 targetPosition, float lerpSpeed)
+    private IEnumerator<float> LerpToNextPosition(Vector3 initialPosition, Vector3 targetPosition, float lerpSpeed, float startPercentage, float endPercentage)
     {
         float interpolation = 0.0f;
         currentLerpTime = 0.0f;
@@ -273,6 +275,8 @@ public class BouncerChaseState : AIState {
                 controller.transform.position = targetPosition;
                 break;
             }
+
+            jumpPercentage = Mathf.Lerp (startPercentage, endPercentage, interpolation);
 
             yield return 0.0f;
         }
