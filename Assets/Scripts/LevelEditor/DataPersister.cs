@@ -6,6 +6,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Linq;
 using Steamworks;
+using UnityEngine.Events;
 
 public class DataPersister : Singleton<DataPersister> {
 
@@ -25,9 +26,9 @@ public class DataPersister : Singleton<DataPersister> {
     #region Event Subscriptions (Protected)
 
     protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
-    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+    protected override Dictionary<string, UnityAction<object[]>> EventSubscriptions {
         get {
-            return new Dictionary<string, FunctionPrototype>() {
+            return new Dictionary<string, UnityAction<object[]>>() {
                 {Strings.Events.SCENE_LOADED, WipeWorkingData},
             };
         }

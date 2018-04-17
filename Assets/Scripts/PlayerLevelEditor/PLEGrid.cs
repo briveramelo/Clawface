@@ -5,6 +5,7 @@ using PLE;
 using ModMan;
 using System.Linq;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class PLEGrid : EventSubscriber {
     #region Private Fields
@@ -69,9 +70,9 @@ public class PLEGrid : EventSubscriber {
 
     #region Event Subscriptions
     protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.AwakeDestroy; } }
-    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+    protected override Dictionary<string, UnityAction<object[]>> EventSubscriptions {
         get {
-            return new Dictionary<string, FunctionPrototype>() {
+            return new Dictionary<string, UnityAction<object[]>>() {
                 { Strings.Events.PLE_ON_LEVEL_DATA_LOADED, BakeNavMesh},
             };
         }

@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using ModMan;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 public class SpawnMenu : PlacementMenu {
 
@@ -45,9 +46,9 @@ public class SpawnMenu : PlacementMenu {
 
     #region Event Subscriptions
     protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
-    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+    protected override Dictionary<string, UnityAction<object[]>> EventSubscriptions {
         get {
-            return new Dictionary<string, FunctionPrototype>() {
+            return new Dictionary<string, UnityAction<object[]>>() {
                 { Strings.Events.PLE_TEST_END, TryEnableKeira },
                 { Strings.Events.PLE_CALL_WAVE, OnWaveChange},
                 { Strings.Events.PLE_ADD_WAVE, CheckToSetRequiredKillsTo0},

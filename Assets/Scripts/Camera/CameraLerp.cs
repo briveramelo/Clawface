@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using System;
+using UnityEngine.Events;
 
 public class CameraLerp : EventSubscriber
 {
@@ -32,9 +34,9 @@ public class CameraLerp : EventSubscriber
 
     #region Event Subscriptions
     protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
-    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+    protected override Dictionary<string, UnityAction<object[]>> EventSubscriptions {
         get {
-            return new Dictionary<string, FunctionPrototype>() {
+            return new Dictionary<string, UnityAction<object[]>>() {
                 { Strings.Events.ENEMY_SPAWNED, OnEnemySpawned },
                 {Strings.Events.DEATH_ENEMY, OnEnemyKilled},
             };

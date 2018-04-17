@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class AIManager : Singleton<AIManager> {
 
@@ -13,9 +14,9 @@ public class AIManager : Singleton<AIManager> {
 
     #region Event Subscriptions
     protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.EnableDisable; } }
-    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+    protected override Dictionary<string, UnityAction<object[]>> EventSubscriptions {
         get {
-            return new Dictionary<string, FunctionPrototype>() {
+            return new Dictionary<string, UnityAction<object[]>>() {
                 { Strings.Events.PLAYER_KILLED, SetPlayerDead },
                 { Strings.Events.PLAYER_BIRTHED, SetPlayerNotDead},
             };

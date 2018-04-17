@@ -1,50 +1,58 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using UnityEngine.Events;
 
-public delegate void FunctionPrototype(params object[] parameters);
+public delegate void ParamsPrototype (params object[] parameters);
+
+public class ParamsEvent : UnityEvent<object[]> { }
 
 public class EventSystem : Singleton<EventSystem> {
 
     #region Private variables
-    private Dictionary<string, FunctionPrototype> eventMap = new Dictionary<string, FunctionPrototype>();
+    private Dictionary<string, ParamsEvent> eventMap = new Dictionary<string, ParamsEvent>();
     #endregion
 
     #region Private function    
     #endregion
 
     #region Public functions
-    public bool RegisterEvent(string key, FunctionPrototype eventFunction)
+    public bool RegisterEvent(string key, UnityAction<object[]> listener)
     {
         if (eventMap.ContainsKey(key))
         {
-            FunctionPrototype functionPrototype;
-            if (eventMap.TryGetValue(key, out functionPrototype))
+            ParamsEvent paramsEvent;
+            if (eventMap.TryGetValue(key, out paramsEvent))
             {
-                functionPrototype += eventFunction;
-                eventMap[key] = functionPrototype;
+                //functionPrototype += eventFunction;
+                paramsEvent.AddListener(listener);
+                //eventMap[key] = functionPrototype;
             }
         }
         else
         {
-            FunctionPrototype functionPrototype = eventFunction;
-            eventMap.Add(key, functionPrototype);
+            //ParamsEvent functionPrototype = eventFunction;
+            ParamsEvent newEvent = new ParamsEvent();
+            newEvent.AddListener(listener);
+            eventMap.Add(key, newEvent);
+
         }
         return true;
     }
 
-    public bool UnRegisterEvent(string key, FunctionPrototype eventFunction)
+    public bool UnRegisterEvent(string key, UnityAction<object[]> listener)
     {
         if (eventMap.ContainsKey(key))
         {
-            FunctionPrototype functionPrototype;
-            if (eventMap.TryGetValue(key, out functionPrototype))
+            ParamsEvent paramsEvent;
+            if (eventMap.TryGetValue(key, out paramsEvent))
             {
-                functionPrototype -= eventFunction;
-                if(functionPrototype != null)
+
+                //functionPrototype -= eventFunction;
+                paramsEvent.RemoveListener(listener);
+                if(paramsEvent != null)
                 {
-                    eventMap[key] = functionPrototype;
+                    eventMap[key] = paramsEvent;
                 }
                 else
                 {
@@ -57,10 +65,10 @@ public class EventSystem : Singleton<EventSystem> {
 
     public bool TriggerEvent(string key, params object[] parameters)
     {
-        FunctionPrototype functionPrototype;
-        if (eventMap.TryGetValue(key, out functionPrototype))
+        ParamsEvent paramsEvent;
+        if (eventMap.TryGetValue(key, out paramsEvent))
         {
-            functionPrototype(parameters);
+            paramsEvent.Invoke(parameters);
             return true;
         }
         else
