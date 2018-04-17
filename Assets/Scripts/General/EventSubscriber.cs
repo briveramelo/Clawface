@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class EventSubscriber : RoutineRunner {
 
     protected virtual LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
-    protected virtual Dictionary<string, FunctionPrototype> EventSubscriptions { get { return new Dictionary<string, FunctionPrototype>() { }; } }
+    protected virtual Dictionary<string, UnityAction<object[]>> EventSubscriptions { get { return new Dictionary<string, UnityAction<object[]>>() { }; } }
 
     protected virtual void Awake() {
         if (SubscriptionLifecycle==LifeCycle.AwakeDestroy) {
@@ -35,15 +35,15 @@ public abstract class EventSubscriber : RoutineRunner {
     }
 
     void RegisterEvents() {
-        Dictionary<string, FunctionPrototype> dic = EventSubscriptions;
-        foreach (KeyValuePair<string, FunctionPrototype> eventSubscription in dic) {
+        Dictionary<string, UnityAction<object[]>> dic = EventSubscriptions;
+        foreach (KeyValuePair<string, UnityAction<object[]>> eventSubscription in dic) {
             EventSystem.Instance.RegisterEvent(eventSubscription.Key, eventSubscription.Value);
         }
     }
 
     void UnRegisterEvents() {
-        Dictionary<string, FunctionPrototype> dic = EventSubscriptions;
-        foreach (KeyValuePair<string, FunctionPrototype> eventSubscription in dic) {
+        Dictionary<string, UnityAction<object[]>> dic = EventSubscriptions;
+        foreach (KeyValuePair<string, UnityAction<object[]>> eventSubscription in dic) {
             EventSystem.Instance.UnRegisterEvent(eventSubscription.Key, eventSubscription.Value);
         }
     }

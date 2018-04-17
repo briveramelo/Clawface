@@ -7,6 +7,7 @@ using System.Linq;
 using MEC;
 using ModMan;
 using UnityEngine.Assertions;
+using UnityEngine.Events;
 
 public enum LevelUnitStates {
     Cover,
@@ -85,9 +86,9 @@ public class LevelUnit : EventSubscriber, ILevelTilable {
 
     #region Event Subscriptions
     protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.EnableDisable; } }
-    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+    protected override Dictionary<string, UnityAction<object[]>> EventSubscriptions {
         get {
-            return new Dictionary<string, FunctionPrototype>() {
+            return new Dictionary<string, UnityAction<object[]>>() {
                 { Strings.Events.PLE_CALL_WAVE, TransitionToWave},
             };
         }
@@ -230,7 +231,7 @@ public class LevelUnit : EventSubscriber, ILevelTilable {
     #region Private Interface
     private bool CanTransition { get { return !Physics.CheckBox(transform.position, Vector3.one * 0.5f, Quaternion.identity, LayerMask.GetMask(masks)); } }            
 
-    private void TryUnRegister(ref List<string> eventNames, string eventName, FunctionPrototype func) {
+    private void TryUnRegister(ref List<string> eventNames, string eventName, UnityAction<object[]> func) {
         if (eventNames != null) {
             if (eventNames.Contains(eventName)) {
                 eventNames.Remove(eventName);
@@ -239,7 +240,7 @@ public class LevelUnit : EventSubscriber, ILevelTilable {
         }
     }
 
-    private void RegisterEvents(ref List<string> eventNames, FunctionPrototype func) {
+    private void RegisterEvents(ref List<string> eventNames, UnityAction<object[]> func) {
         if (eventNames != null) {
             foreach (string eventName in eventNames) {
                 EventSystem.Instance.RegisterEvent(eventName, func);
@@ -247,7 +248,7 @@ public class LevelUnit : EventSubscriber, ILevelTilable {
         }
     }
 
-    private void UnregisterEvents(ref List<string> eventNames, FunctionPrototype func) {
+    private void UnregisterEvents(ref List<string> eventNames, UnityAction<object[]> func) {
         if (eventNames != null) {
             foreach (string eventName in eventNames) {
                 EventSystem.Instance.UnRegisterEvent(eventName, func);

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using System;
 using ModMan;
+using UnityEngine.Events;
 
 [Serializable]
 public struct GameTrack
@@ -33,9 +34,9 @@ public class MusicManager : Singleton<MusicManager>
 
     #region Event Subscriptions
     protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
-    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+    protected override Dictionary<string, UnityAction<object[]>> EventSubscriptions {
         get {
-            return new Dictionary<string, FunctionPrototype>() {
+            return new Dictionary<string, UnityAction<object[]>>() {
                 { Strings.Events.SCENE_LOADED, PlayMusicInSceneContext },
                 { Strings.Events.MUSIC_INTENSITY_STARTED, PlayMusicInSceneContext},
             };

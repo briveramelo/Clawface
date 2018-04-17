@@ -4,6 +4,8 @@ using UnityEngine;
 using MEC;
 using UnityEngine.Audio;
 using ModMan;
+using UnityEngine.Events;
+
 public class PLEMusicIntensityManager : EventSubscriber {
 
     #region private fields
@@ -20,9 +22,9 @@ public class PLEMusicIntensityManager : EventSubscriber {
 
     #region Event Subscriptions
     protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.StartDestroy; } }
-    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+    protected override Dictionary<string, UnityAction<object[]>> EventSubscriptions {
         get {
-            return new Dictionary<string, FunctionPrototype>() {
+            return new Dictionary<string, UnityAction<object[]>>() {
                 { Strings.Events.PLE_ON_LEVEL_READY, InitializeAudio},
                 { Strings.Events.WAVE_COMPLETE, ChangeTrack },
             };

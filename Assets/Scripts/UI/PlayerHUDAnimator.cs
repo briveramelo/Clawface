@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using ModMan;
+using UnityEngine.Events;
 
 public class PlayerHUDAnimator : EventSubscriber {
     const float BOUNCE_THRESHOLD = 0.1f;
@@ -24,9 +25,9 @@ public class PlayerHUDAnimator : EventSubscriber {
 
     #region Event Subscriptions
     protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.AwakeDestroy; } }
-    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+    protected override Dictionary<string, UnityAction<object[]>> EventSubscriptions {
         get {
-            return new Dictionary<string, FunctionPrototype>() {
+            return new Dictionary<string, UnityAction<object[]>>() {
                 { Strings.Events.COMBO_UPDATED, BounceCombo },
                 { Strings.Events.MULTIPLIER_UPDATED, BounceMultiplier },
                 { Strings.Events.SCORE_UPDATED, BounceScore },

@@ -7,6 +7,7 @@ using ModMan;
 using MEC;
 using System;
 using System.Linq;
+using UnityEngine.Events;
 
 public enum PushDirection{
     BACK,
@@ -90,9 +91,9 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
 
     #region Event Subscriptions
     protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.EnableDisable; } }
-    protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
+    protected override Dictionary<string, UnityAction<object[]>> EventSubscriptions {
         get {
-            return new Dictionary<string, FunctionPrototype>() {
+            return new Dictionary<string, UnityAction<object[]>>() {
                 { Strings.Events.PLAYER_KILLED, DoPlayerKilledState},
                 { Strings.Events.ENEMY_INVINCIBLE, SetInvincible },
                 { Strings.Events.SHOW_TUTORIAL_TEXT, DisableVocalization },
