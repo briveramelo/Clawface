@@ -23,6 +23,14 @@ namespace Turing.VFX
         /// All SkinnedMeshRenderers attached to this object.
         /// </summary>
         SkinnedMeshRenderer[] meshRenderers;
+        SkinnedMeshRenderer[] MeshRenderers {
+            get {
+                if (meshRenderers==null) {
+                    meshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
+                }
+                return meshRenderers;
+            }
+        }
 
         #endregion
         #region Serialized Unity Inspector Fields
@@ -65,16 +73,6 @@ namespace Turing.VFX
 
         #region Unity Lifecycle
 
-        void Awake()
-        {
-            meshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
-        }
-
-        void OnEnable()
-        {
-            SetFlashStrength(0.0f, Color.white);
-        }
-
         #endregion
         #region Properties
 
@@ -86,6 +84,9 @@ namespace Turing.VFX
         #endregion
         #region Public Methods
 
+        public void ResetFlashColor() {
+            SetFlashStrength(0.0f, Color.white);
+        }
         public void HitFlash () { HitFlash (hitFlashStrength, hitFlashTime); }
 
         /// <summary>
@@ -98,10 +99,16 @@ namespace Turing.VFX
             StartCoroutine(DoHitFlash(intensity, duration));
         }
 
+
+        public void FixColor(float intensity, float duration, Color fixedColor) {
+            StopCoroutine("FixFlashColor");
+            StopCoroutine("DoHitFlash");
+            StartCoroutine(FixFlashColor(intensity, duration, fixedColor));
+        }
         public void FixColor(float intensity, float duration) {
             StopCoroutine("FixFlashColor");
             StopCoroutine("DoHitFlash");
-            StartCoroutine(FixFlashColor(intensity, duration));
+            StartCoroutine(FixFlashColor(intensity, duration, hitFlashColor));
         }
 
         #endregion
@@ -116,7 +123,7 @@ namespace Turing.VFX
             MaterialPropertyBlock props = new MaterialPropertyBlock();
             props.SetColor ("_HitColor", color);
             props.SetFloat ("_HitColorStrength", strength);
-            foreach (SkinnedMeshRenderer meshRenderer in meshRenderers)
+            foreach (SkinnedMeshRenderer meshRenderer in MeshRenderers)
                 meshRenderer.SetPropertyBlock (props);
         }
 
@@ -134,9 +141,9 @@ namespace Turing.VFX
             SetFlashStrength (0.0f, hitFlashColor);
         }
 
-        IEnumerator FixFlashColor(float intensity, float duration) {
+        IEnumerator FixFlashColor(float intensity, float duration, Color fixedColor) {
             float t = 0f;
-            SetFlashStrength(intensity, hitFlashColor);
+            SetFlashStrength(intensity, fixedColor);
             while (t <= duration) {
                 t += Time.deltaTime;
                 yield return null;
@@ -188,7 +195,7 @@ namespace Turing.VFX
         {
             MaterialPropertyBlock props = new MaterialPropertyBlock();
             props.SetFloat("_HitColorStrength", newStrength);
-            foreach (SkinnedMeshRenderer meshRenderer in meshRenderers)
+            foreach (SkinnedMeshRenderer meshRenderer in MeshRenderers)
                 meshRenderer.SetPropertyBlock(props);
         }
 

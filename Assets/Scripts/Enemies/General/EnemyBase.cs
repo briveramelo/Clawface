@@ -471,6 +471,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
     {
         spawnPosition = position;
         transform.position = spawnPosition;
+
         SpawnWithRagdoll();
     }
     #endregion
@@ -478,6 +479,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
     #region 6. Private Methods
     private void SpawnWithRagdoll()
     {
+        hitFlasher.FixColor(.5f, 5f, Color.black);
         Push(20.0f, PushDirection.DOWN);
     }
 
@@ -532,6 +534,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
     private void GetUp(bool findNearestFloorTile = false)
     {
         EnableCollider();
+        hitFlasher.ResetFlashColor();
         Vector3 warpPosition;
         bool spaceFound = GetValidTile(out warpPosition, findNearestFloorTile);
         DisableRagdoll();
