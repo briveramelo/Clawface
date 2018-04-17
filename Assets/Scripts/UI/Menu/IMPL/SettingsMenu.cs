@@ -162,7 +162,10 @@ public class SettingsMenu : Menu {
         // Save ControlMapper Data
         Menu menu = MenuManager.Instance.GetMenuByName(Strings.MenuStrings.CONTROLS);
         ControlMapperMenu cMenu = menu as ControlMapperMenu;
-        cMenu.UserDataStore.Save();
+        if (cMenu != null)
+        {
+            cMenu.UserDataStore.Save();
+        }
     }
 
     public void ButtonDefault()

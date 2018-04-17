@@ -312,7 +312,7 @@ public class SettingsManager : Singleton<SettingsManager>
         public bool fullscreen = Screen.fullScreen;
 
         [Header("Graphics")]
-        [Range(0, 5)]
+        [Range(0, 4)]
         public int goreDetail;
 
         //// Audio
@@ -351,7 +351,7 @@ public class SettingsManager : Singleton<SettingsManager>
         private ResolutionData resolutionData;
 
         private static int defaultQualityLevel;
-        private static int defaultGoreLevel;
+        
         private static Resolution defaultResolution;
 
         private static bool defaultFullscreen;
@@ -362,7 +362,6 @@ public class SettingsManager : Singleton<SettingsManager>
 
         static Settings()
         {
-            defaultGoreLevel = GoreDetails.Med;
             defaultQualityLevel = QualitySettings.GetQualityLevel();
             defaultResolution = Screen.currentResolution;
             defaultFullscreen = Screen.fullScreen;
@@ -398,7 +397,6 @@ public class SettingsManager : Singleton<SettingsManager>
         public static Settings GetDefaults()
         {
             Settings defaults = new Settings(Instance.defaultSettings);
-            defaults.goreDetail = GoreDetails.Med;
             defaults.qualityLevel = defaultQualityLevel;
             defaults.Resolution = defaultResolution;
             defaults.fullscreen = defaultFullscreen;
@@ -412,13 +410,21 @@ public class SettingsManager : Singleton<SettingsManager>
             JsonUtility.FromJsonOverwrite(settings, toReplace);
             return toReplace;
         }
-
+        
         public void ApplySettings(AudioMixer musicMixer, AudioMixer sfxMixer)
         {
+            if (resolutionData.width <= 0 || resolutionData.height <= 0)
+            {
+                resolutionData.width = defaultResolution.width;
+                resolutionData.height = defaultResolution.height;
+            }
+            
             // We really only apply the settings that need to be applied.
             // Most others will be queried by other components in the program.
             QualitySettings.SetQualityLevel(qualityLevel);
+            #if !UNITY_EDITOR
             Screen.SetResolution(resolutionData.width, resolutionData.height, fullscreen);
+            #endif
             MusicManager.Instance.SetMusicAudioLevel(music);
             SFXManager.Instance.SetSFXAudioLevel(sfx);
             Instance.StartCoroutine(DoCursorLockStateChange());
