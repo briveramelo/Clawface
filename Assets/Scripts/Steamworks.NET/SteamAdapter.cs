@@ -29,10 +29,10 @@ public class SteamAdapter : Singleton<SteamAdapter> {
         currentWorkingLevelDataFolderPath = i_dataPath;
         currentWorkingLevelImagePath = i_imgPath;
         workingLevelDataCopy = new LevelData(i_dataToCopy) {
+            isDownloaded=true,
             isMadeByThisUser = false
         };
         onCurrentUpdateCallback = onUpdateComplete;
-
 
         //TODO Never update an existing file id, just upload a new one
         // ONLY SHOULD UPLOAD FILES MADE BY THIS USER
@@ -53,7 +53,10 @@ public class SteamAdapter : Singleton<SteamAdapter> {
 
     }
 
-    public static void LoadSteamLevelData(LevelsLoadedCallback i_toCall)
+    /// <summary>
+    /// Synchronus call
+    /// </summary>
+    public static void LoadSteamLevelData(LevelsLoadedCallback i_toCall=null)
     {
         PublishedFileId_t[] items;
         uint numOfItems = 0;
@@ -68,7 +71,9 @@ public class SteamAdapter : Singleton<SteamAdapter> {
             }
         }
 
-        i_toCall();
+        if (i_toCall!=null) {
+            i_toCall();
+        }
     }
 
     #endregion

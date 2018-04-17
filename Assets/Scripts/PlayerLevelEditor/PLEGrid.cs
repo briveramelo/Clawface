@@ -541,7 +541,6 @@ public class GridTile : IPLESelectable {
                 levelUnit.SetEmissiveColor(TileColors.Green);
             }
 
-
             realTile.SetActive(isActive);
             ghostTile.SetActive(!isActive);
             Transform newParent = isActive ? tileParent : ghostParent;

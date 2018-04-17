@@ -73,15 +73,11 @@ public class GoreManager : Singleton<GoreManager> {
     private int numSplatsToRender = 10;
 
     [SerializeField]
-    private Vector2 frameDim = new Vector2(256, 256);
-
-#if UNITY_EDITOR
+    private Vector2 frameDim = new Vector2(256, 256);   
 
     [Header("Editor Only")]
     [SerializeField]
     private bool debugSplats = false;
-
-    #endif
 
     #endregion
 

@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class GibEmitter : MonoBehaviour
 {
+    const float ROTATION_VELOCITY = 360.0f;
+    const float VELOCITY = 10.0f;
+
     [SerializeField] GameObject[] gibPrefabs;
     [SerializeField] float[] probabilities;
     [SerializeField] int[] gibCounts;
-    [SerializeField] float rotationVelocity;
-    [SerializeField] float velocity;
 
     public void Emit ()
     {
@@ -24,8 +25,8 @@ public class GibEmitter : MonoBehaviour
                     gibInstance.transform.position = transform.position + new Vector3(0.0f, 3.0f, 0.0f);
                     gibInstance.transform.rotation = Quaternion.Euler(Random.insideUnitSphere * 360.0f);
                     Rigidbody rb = gibInstance.GetComponentInChildren<Rigidbody>();
-                    rb.AddForce (Random.insideUnitSphere * velocity, ForceMode.VelocityChange);
-                    rb.AddTorque (Random.insideUnitSphere * rotationVelocity, ForceMode.VelocityChange);
+                    rb.AddForce (Random.insideUnitSphere * VELOCITY, ForceMode.VelocityChange);
+                    rb.AddTorque (Random.insideUnitSphere * ROTATION_VELOCITY, ForceMode.VelocityChange);
                     gibInstance.AddComponent<EmittedGib>();
                 }
             }

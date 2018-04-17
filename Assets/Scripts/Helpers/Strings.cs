@@ -160,8 +160,8 @@
             public const string NAV_DOWN = "Nav Down";
             public const string SUBMIT = "UISubmit";
             public const string CANCEL = "UICancel";
-            public const string TAB_LEFT = "TabLeft";
-            public const string TAB_RIGHT = "TabRight";
+            public const string TAB_LEFT = "UITabLeft";
+            public const string TAB_RIGHT = "UITabRight";
         }
     }
 
@@ -212,7 +212,7 @@
 
         public const string PLE_ON_LEVEL_DATA_LOADED = "PLE_ON_LEVEL_DATA_LOADED";
         public const string PLE_ON_LEVEL_READY = "PLE_ON_LEVEL_READY";
-        public const string PLE_CALL_WAVE = "CallNextWavePLE";
+        public const string PLE_CALL_WAVE = "CallNextWavePLE";        
         public const string PLE_ADD_WAVE    = "PLE_ADD_WAVE";
         public const string PLE_TEST_END = "PleTestEnd";
         public const string PLE_DELETE_CURRENTWAVE = "PLE_DELETE_CURRENTWAVE";

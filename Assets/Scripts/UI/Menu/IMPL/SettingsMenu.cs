@@ -88,7 +88,8 @@ public class SettingsMenu : Menu {
     [SerializeField]
     private Toggle tutorial = null;
 
-    [SerializeField] SelectorToggleGroup selectorToggleGroup;
+    [SerializeField]
+    private SelectorToggleGroup selectorToggleGroup = null;
     #endregion
 
     #region Fields (Internal)
@@ -112,6 +113,7 @@ public class SettingsMenu : Menu {
     #endregion
     
     #region Unity Lifecycle
+
     private void Update() {
         if (allowInput) {
             if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN)) {
@@ -121,33 +123,6 @@ public class SettingsMenu : Menu {
         }
     }
 
-    private void CheckToMoveFilter() {
-        //TODO set this up work with Strings.Input.UI
-        //Strings.Input.UI.TAB_LEFT
-        //Strings.Input.UI.TAB_RIGHT
-        bool leftButtonPressed = InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_LEFT, ButtonMode.DOWN);
-        bool rightBumperPressed = InputManager.Instance.QueryAction(Strings.Input.Actions.FIRE_RIGHT, ButtonMode.DOWN);
-        bool mouseClicked = Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT) || Input.GetMouseButtonDown(MouseButtons.MIDDLE);
-        if (!mouseClicked && (leftButtonPressed || rightBumperPressed)) {
-            if (leftButtonPressed) {
-                SelectedFilterToggle--;
-            }
-            else {
-                SelectedFilterToggle++;
-            }
-            CurrentEventSystem.SetSelectedGameObject(RewireSubMenu().gameObject);            
-        }
-    }
-
-    private Selectable RewireSubMenu() {        
-        switch ((SettingsMenuSubType)SelectedFilterToggle) {
-            default:
-            case SettingsMenuSubType.Graphics: graphics.onClick.Invoke(); return graphics;
-            case SettingsMenuSubType.Audio: audio.onClick.Invoke(); return audio;
-            case SettingsMenuSubType.Controls: controls.onClick.Invoke(); return controls;
-            case SettingsMenuSubType.Gameplay: other.onClick.Invoke(); return other;
-        }
-    }
     #endregion
 
     #region Interface (Public)
@@ -229,6 +204,37 @@ public class SettingsMenu : Menu {
     #endregion
 
     #region Interface (Private)
+
+    private void CheckToMoveFilter()
+    {
+        bool leftButtonPressed = InputManager.Instance.QueryAction(Strings.Input.UI.TAB_LEFT, ButtonMode.DOWN);
+        bool rightBumperPressed = InputManager.Instance.QueryAction(Strings.Input.UI.TAB_RIGHT, ButtonMode.DOWN);
+        bool mouseClicked = Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT) || Input.GetMouseButtonDown(MouseButtons.MIDDLE);
+        if (!mouseClicked && (leftButtonPressed || rightBumperPressed))
+        {
+            if (leftButtonPressed)
+            {
+                SelectedFilterToggle--;
+            }
+            else
+            {
+                SelectedFilterToggle++;
+            }
+            CurrentEventSystem.SetSelectedGameObject(RewireSubMenu().gameObject);
+        }
+    }
+
+    private Selectable RewireSubMenu()
+    {
+        switch ((SettingsMenuSubType)SelectedFilterToggle)
+        {
+            default:
+            case SettingsMenuSubType.Graphics: graphics.onClick.Invoke(); return graphics;
+            case SettingsMenuSubType.Audio: audio.onClick.Invoke(); return audio;
+            case SettingsMenuSubType.Controls: controls.onClick.Invoke(); return controls;
+            case SettingsMenuSubType.Gameplay: other.onClick.Invoke(); return other;
+        }
+    }
 
     private void LinkPanelButtonsTo(Selectable item)
     {

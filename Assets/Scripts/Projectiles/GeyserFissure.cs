@@ -14,12 +14,15 @@ public class GeyserFissure : MonoBehaviour {
     [SerializeField] private PoolObjectType wallImpactEffect;
     [SerializeField] private float scaleUpTime = 0.5f;
 
+    private bool canHitWalls;
+
     private List<Transform> hitEnemies;
     TrailRenderer[] trails;
 
     Transform effect;
 
     private float killTimer;
+    private float hitboxTimer;
 
     private void Awake()
     {
@@ -31,6 +34,12 @@ public class GeyserFissure : MonoBehaviour {
     void Update()
     {
         killTimer += Time.deltaTime;
+        hitboxTimer += Time.deltaTime;
+
+        if (!canHitWalls && hitboxTimer > 0.1f)
+        {
+            canHitWalls = true;
+        }
 
         if (killTimer >= killAfterSeconds)
         {
@@ -65,7 +74,7 @@ public class GeyserFissure : MonoBehaviour {
                 }
             }
         }
-        else if (other.CompareTag(Strings.Tags.WALL))
+        else if (canHitWalls && other.CompareTag(Strings.Tags.WALL))
         {
             SpawnPoolObjectAtCurrentPosition(wallImpactEffect);
             StopAllCoroutines();
@@ -121,6 +130,8 @@ public class GeyserFissure : MonoBehaviour {
         this.damage = damage;
         this.killAfterSeconds = killAfterSeconds;
         this.killTimer = 0f;
+        hitboxTimer = 0f;
+        canHitWalls = false;
         hitEnemies.Clear();
         StartCoroutine (ScaleUp());
         foreach (TrailRenderer trail in trails)

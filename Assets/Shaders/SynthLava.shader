@@ -14,8 +14,8 @@
 		_NoiseScrollSpeed("Noise Scroll Speed", Range(0.01, 100.0)) = 1.0
 		_NoiseTex("Noise", 2D) = "black" {}
 		_NoisePower("Noise Power", Range(1.0, 5.0)) = 1.0
-		_FadeDist("FadeDist", Range(1.0, 10000.0)) = 100.0
-		_FadePower("FadePower", Range(0.0, 10.0)) = 1.0
+		_FadeDist("FadeDist", Range(1.0, 20000.0)) = 100.0
+		_FadePower("FadePower", Range(0.0, 20.0)) = 1.0
 	}
 	SubShader
 	{
@@ -30,7 +30,6 @@
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
-			#pragma multi_compile_fog
 			
 			#include "UnityCG.cginc"
 
@@ -47,7 +46,6 @@
 				float2 addMaskUV : TEXCOORD2;
 				float4 vertex : SV_POSITION;
 				float4 color : COLOR0;
-				UNITY_FOG_COORDS(1)
 			};
 
 			sampler2D _ColorMask;
@@ -79,11 +77,12 @@
 				float x = cos(_ColorScrollDirection);
 				float y = sin(_ColorScrollDirection);
 				o.colorUV = TRANSFORM_TEX(o.uv, _ColorTex) + float2(x, y) * _Time.y * _ColorScrollSpeed;
-				float3 worldPos = mul(v.vertex, unity_ObjectToWorld).xyz;
+
+				float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 				float d = distance(_WorldSpaceCameraPos, worldPos);
+
 				o.color = pow((1.0 - clamp(d / _FadeDist, 0.0, 1.0)), _FadePower) * float4(1.0, 1.0, 1.0, 1.0);
 				o.addMaskUV = TRANSFORM_TEX(v.uv, _ColorMaskAdd) + float2(x, y) * _Time.y * _ColorMaskAddScrollSpeed;
-				UNITY_TRANSFER_FOG(o, o.vertex);
 				return o;
 			}
 			
@@ -93,7 +92,6 @@
 				fixed4 c = tex2D(_ColorTex, i.colorUV);
 				c.a = clamp(pow (i.color.a + 0.001, 0.9), 0.0, 1.0);
 				c.xyz *= maskVal;
-				UNITY_APPLY_FOG(i.fogCoord, c);
 				return c;
 			}
 			ENDCG

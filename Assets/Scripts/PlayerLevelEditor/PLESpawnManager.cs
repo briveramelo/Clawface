@@ -41,7 +41,7 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
         }
     }
     #endregion
-
+    private int infiniteWaveIndex;
     private bool hasCycledLevel=false;
     private List<PLESpawn> allSpawnTypes = new List<PLESpawn>();
 
@@ -58,10 +58,18 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
         }
     }
 
-    private void CallNextWave(params object[] i_params)
+    private void CallNextWave()
     {
         CurrentWaveIndex++;
+        infiniteWaveIndex++;
         CallWave(CurrentWaveIndex);
+
+        GameObject fireworks = ObjectPool.Instance.GetObject(PoolObjectType.VFXFireworks);
+        if (fireworks) {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player)
+                fireworks.transform.position = player.transform.position;
+        }
     }
 
     private void CallWave(int waveIndex) {
@@ -75,6 +83,7 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
             spawn.StartSpawning();
         }
         EventSystem.Instance.TriggerEvent(Strings.Events.PLE_CALL_WAVE, waveIndex);
+        EventSystem.Instance.TriggerEvent(Strings.Events.WAVE_COMPLETE, infiniteWaveIndex);
     }    
 
     private void OnCriticalSpawnsInSpawnerDead()
@@ -101,6 +110,7 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
             }
             else if (CurrentWaveIndex >= WorkingLevelData.WaveCount - 1 && InfiniteWavesEnabled) {
                 hasCycledLevel = true;
+                infiniteWaveIndex++;
                 CallWave(0);
             }
             else {
@@ -119,6 +129,7 @@ public class PLESpawnManager : Singleton<PLESpawnManager> {
         }
         FindObjectsOfType<EnemyBase>().ToList().ForEach(enemy => { enemy.OnDeath(); });
         CurrentWaveIndex = 0;
+        infiniteWaveIndex = 0;
         hasCycledLevel = false;
     }
 

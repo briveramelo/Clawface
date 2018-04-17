@@ -20,6 +20,7 @@ public class PLEBlockUnit : EventSubscriber
     [HideInInspector] public GameObject prop;
     [HideInInspector] public List<GameObject> spawns;
     #endregion
+
     #region Event Subscriptions
     protected override LifeCycle SubscriptionLifecycle { get { return LifeCycle.EnableDisable; } }
     protected override Dictionary<string, FunctionPrototype> EventSubscriptions {
@@ -32,6 +33,7 @@ public class PLEBlockUnit : EventSubscriber
         }
     }
     #endregion
+
     #region Unity Lifecycle
 
     new IEnumerator Start()
@@ -51,8 +53,6 @@ public class PLEBlockUnit : EventSubscriber
 
 
     #endregion
-
-
 
     #region Public Interface
     public void SetProp(GameObject prop) {
@@ -141,6 +141,14 @@ public class PLEBlockUnit : EventSubscriber
 
     public void SyncTileStatesAndColors(params object[] parameters)
     {
+        int maxWaveIndex = PLESpawnManager.Instance.MaxWaveIndex;
+        if (levelStates.Count < maxWaveIndex + 1) {
+            levelStates.AddUntil(maxWaveIndex, LevelUnitStates.Floor);
+        }
+        else if (levelStates.Count > maxWaveIndex + 1) {
+            int numExtra = levelStates.Count - (maxWaveIndex+1);
+            levelStates.RemoveRange(maxWaveIndex+1, numExtra);
+        }
         levelUnit.SetLevelUnitStates(levelStates, riseColor);
     }
 

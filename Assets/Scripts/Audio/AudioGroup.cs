@@ -267,9 +267,12 @@ namespace Turing.Audio
 
         float GetPanPosition ()
         {
-            if (mainCamera == null || !mainCamera.isActiveAndEnabled)
+            if (mainCamera == null || !mainCamera.gameObject.activeInHierarchy || !mainCamera.isActiveAndEnabled)
                 mainCamera = Camera.main;
 
+            if (!mainCamera) {
+                return 0f;
+            }
             Vector3 screenPos = mainCamera.WorldToViewportPoint(transform.position);
             screenPos = screenPos - Vector3.one + 2.0f * screenPos;
             return screenPos.x / 3.0f;

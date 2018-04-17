@@ -295,6 +295,12 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
                     mallCopParts.transform.rotation = transform.rotation;
                 }
             }
+
+            else
+            {
+                gibEmitter.Emit();
+            }
+
             navAgent.speed = 0;
             navAgent.enabled = false;
             aboutTobeEaten = false;
@@ -302,7 +308,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
             isIndestructable = false;
             SFXManager.Instance.Play(deathSFX, transform.position);
             AIEnemyData testData = new AIEnemyData(controller.GetInstanceID());
-            gibEmitter.Emit();
+            
             currentStunTime = 0.0f;
             if (AIManager.Instance != null)
             {

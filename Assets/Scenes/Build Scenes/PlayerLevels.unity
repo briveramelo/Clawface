@@ -150,6 +150,56 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 878c08965e3f1594085d795794b033b7, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &181798001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 181798003}
+  - component: {fileID: 181798002}
+  m_Layer: 0
+  m_Name: PLEMusicIntensityManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &181798002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 181798001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25b8d8f8ed577bd48805fdd0b1701539, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicMixerGroup: {fileID: 24300002, guid: 3e01fedbc36f6424097eb1a03f44931f, type: 2}
+  lo: {fileID: 8300000, guid: 8b90cf0c9dc550445bc2ae118c5a4658, type: 3}
+  med: {fileID: 8300000, guid: 18d42d4449b442344976c780436d8756, type: 3}
+  hi: {fileID: 8300000, guid: 44de88c8b5066f14e8ed99bf1bfdba4c, type: 3}
+  loopingAudioSet:
+    sources: []
+    clips: []
+    parent: {fileID: 0}
+    activeSourceIndex: 0
+  blendSpeed: 1
+--- !u!4 &181798003
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 181798001}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &364459416
 Prefab:
   m_ObjectHideFlags: 0
