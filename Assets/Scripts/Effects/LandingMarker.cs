@@ -31,8 +31,6 @@ public class LandingMarker : MonoBehaviour {
         {
             t += Time.deltaTime;
 
-            Debug.Log ("Fade");
-
             Color color = spriteRenderer.color;
             color.a = t * MAX_ALPHA;
             spriteRenderer.color = color;
