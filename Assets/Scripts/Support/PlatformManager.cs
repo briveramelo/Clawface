@@ -29,7 +29,7 @@ public class PlatformManager : Singleton<PlatformManager> {
             if (GamePlatforms.ContainsKey(Application.platform)) {
                 return GamePlatforms[Application.platform];
             }
-            Debug.LogWarning(string.Format("UNEXPECTED GAME PLATFORM -- {0} -- DETECTED. DEFAULTING TO WINDOWS", Application.platform));
+            //Debug.LogWarning(string.Format("UNEXPECTED GAME PLATFORM -- {0} -- DETECTED. DEFAULTING TO WINDOWS", Application.platform));
             return GamePlatforms[RuntimePlatform.WindowsPlayer];
         }
     }
