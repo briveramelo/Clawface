@@ -38,6 +38,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
     [SerializeField] protected Vector2 vocalizeInterval = Vector2.one;
     [SerializeField] protected SFXType footstepSound = SFXType.None;
     [SerializeField] protected GibEmitter gibEmitter;
+    [SerializeField] protected GameObject landingMarker;
     #endregion
 
     #region 3. Private fields
@@ -334,6 +335,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
         isStunFlashing = false;
         alreadyStunned = false;
         isIndestructable = false;
+        landingMarker.SetActive (true);
     }
 
     public void ToggleColliders(bool enabled) {
@@ -541,6 +543,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
         Vector3 warpPosition;
         bool spaceFound = GetValidTile(out warpPosition, findNearestFloorTile);
         DisableRagdoll();
+        landingMarker.SetActive (false);
         if (spaceFound)
         {
             ActivateAIMethods(warpPosition);
