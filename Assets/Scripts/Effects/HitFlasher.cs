@@ -2,7 +2,7 @@
 // Author: Aaron
 
 using System.Collections;
-
+using ModMan;
 using UnityEngine;
 
 namespace Turing.VFX
@@ -26,7 +26,7 @@ namespace Turing.VFX
         SkinnedMeshRenderer[] MeshRenderers {
             get {
                 if (meshRenderers==null) {
-                    meshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
+                    meshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>(true);
                 }
                 return meshRenderers;
             }
@@ -62,7 +62,7 @@ namespace Turing.VFX
 
         [Range(1.0f, 25.0f)]
         [SerializeField] float stunnedFlashPower = 1.0f;
-
+        [SerializeField] Color initialOutlineColor = new Color(255f/255f, 142f/255f, 0f);
         float flashStrength;
 
         #endregion
@@ -72,7 +72,7 @@ namespace Turing.VFX
         #endregion
 
         #region Unity Lifecycle
-
+        
         #endregion
         #region Properties
 
@@ -84,8 +84,11 @@ namespace Turing.VFX
         #endregion
         #region Public Methods
 
-        public void ResetFlashColor() {
+        public void ResetColors() {
+            StopCoroutine("FixFlashColor");
+            StopCoroutine("DoHitFlash");
             SetFlashStrength(0.0f, Color.white);
+            SetOutlineColor(initialOutlineColor);
         }
         public void HitFlash () { HitFlash (hitFlashStrength, hitFlashTime); }
 
@@ -120,11 +123,13 @@ namespace Turing.VFX
         void SetFlashStrength (float strength, Color color)
         {
             flashStrength = strength;
-            MaterialPropertyBlock props = new MaterialPropertyBlock();
-            props.SetColor ("_HitColor", color);
-            props.SetFloat ("_HitColorStrength", strength);
-            foreach (SkinnedMeshRenderer meshRenderer in MeshRenderers)
+            foreach (SkinnedMeshRenderer meshRenderer in MeshRenderers) {
+                MaterialPropertyBlock props = new MaterialPropertyBlock();
+                meshRenderer.GetPropertyBlock(props);
+                props.SetColor ("_HitColor", color);
+                props.SetFloat ("_HitColorStrength", strength);
                 meshRenderer.SetPropertyBlock (props);
+            }
         }
 
         IEnumerator DoHitFlash (float intensity, float duration)
@@ -193,10 +198,21 @@ namespace Turing.VFX
 
         public void SetStrength(float newStrength)
         {
-            MaterialPropertyBlock props = new MaterialPropertyBlock();
-            props.SetFloat("_HitColorStrength", newStrength);
-            foreach (SkinnedMeshRenderer meshRenderer in MeshRenderers)
+            foreach (SkinnedMeshRenderer meshRenderer in MeshRenderers) {
+                MaterialPropertyBlock props = new MaterialPropertyBlock();
+                meshRenderer.GetPropertyBlock(props);
+                props.SetFloat("_HitColorStrength", newStrength);
                 meshRenderer.SetPropertyBlock(props);
+            }
+        }
+
+        public void SetOutlineColor(Color outlineColor) {
+            foreach (SkinnedMeshRenderer meshRenderer in MeshRenderers) {
+                MaterialPropertyBlock props = new MaterialPropertyBlock();
+                meshRenderer.GetPropertyBlock(props);
+                props.SetColor("_ASEOutlineColor", outlineColor);
+                meshRenderer.SetPropertyBlock(props);
+            }
         }
 
         #endregion
