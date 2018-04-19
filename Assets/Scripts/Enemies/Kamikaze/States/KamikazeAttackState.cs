@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MEC;
+using ModMan;
 
 public class KamikazeAttackState : AIState {
 
@@ -91,7 +92,7 @@ public class KamikazeAttackState : AIState {
 
     private void Damage(IDamageable damageable)
     {
-        if (damageable != null)
+        if (!damageable.IsNull())
         {
             damager.Set(myStats.attack, DamagerType.Kamikaze, navAgent.transform.forward);
             damageable.TakeDamage(damager);

@@ -146,7 +146,7 @@ namespace Turing.Gameplay
             Physics.OverlapBox(transform.position, new Vector3(2.5f, 2.5f, 2.5f)).ToList().ForEach(collider =>
             {
                 var damageable = collider.gameObject.GetComponent<IDamageable>();
-                if (damageable == null) return;
+                if (damageable.IsNull()) return;
 
                 if (!objectsInTrap.Contains(damageable))
                 {

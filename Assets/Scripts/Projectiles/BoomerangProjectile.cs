@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using ModMan;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -84,7 +85,7 @@ public class BoomerangProjectile : MonoBehaviour {
             else
             {
                 IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
-                if (damageable != null)
+                if (!damageable.IsNull())
                 {
                     if (isPlayer)
                     {

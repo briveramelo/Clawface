@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ModMan;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -52,7 +53,7 @@ public class GeyserProjectile : MonoBehaviour {
             if (projectileProperties.shooterInstanceID != other.gameObject.GetInstanceID()) {
                 objectsHitThisGush.Add(other.gameObject);
                 IDamageable damageable = other.GetComponent<IDamageable>();
-                if (damageable!=null) {                    
+                if (damageable.IsNull()) {                    
                     damager.Set(projectileProperties.damage, DamagerType.Geyser, Vector3.down);
 
 					if (isPlayer)
@@ -69,7 +70,7 @@ public class GeyserProjectile : MonoBehaviour {
                     damageable.TakeDamage(damager);
                 }
                 IMovable moveable = other.GetComponent<IMovable>();
-                if(moveable != null)
+                if(!moveable.IsNull())
                 {
                     moveable.AddDecayingForce(Vector3.up * upForce * transform.localScale.magnitude);
                 }

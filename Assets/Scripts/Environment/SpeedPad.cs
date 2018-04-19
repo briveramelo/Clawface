@@ -1,5 +1,6 @@
 ﻿//Garin
 
+using ModMan;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,7 +20,7 @@ public class SpeedPad : MonoBehaviour {
    
         im = col.gameObject.GetComponent<IMovable>();
 
-        if (im != null)
+        if (!im.IsNull())
         {
             im.AddDecayingForce(pushVector);
         }

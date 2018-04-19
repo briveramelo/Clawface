@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using ModMan;
 
 public class GeyserLine : RoutineRunner {
 
@@ -56,7 +57,7 @@ public class GeyserLine : RoutineRunner {
             {
                 IDamageable damageable = other.GetComponent<IDamageable>();
                 IMovable moveable = other.GetComponent<IMovable>();
-                if (damageable != null)
+                if (!damageable.IsNull())
                 {
                     damager.Set(projectileProperties.damage * damageMultiplier, DamagerType.Geyser, Vector3.down);
 
@@ -73,7 +74,7 @@ public class GeyserLine : RoutineRunner {
 
                     damageable.TakeDamage(damager);
                 }
-                if (moveable != null)
+                if (!moveable.IsNull())
                 {
                     moveable.AddDecayingForce(Vector3.up * upForce);
                 }

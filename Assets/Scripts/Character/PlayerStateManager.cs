@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ModMan;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -209,7 +210,7 @@ public class PlayerStateManager : EventSubscriber {
         if (other.tag.Equals(Strings.Tags.ENEMY) && !isInDashTutorial && isSpeedUpFinished)
         {
             IEatable skinnable = other.GetComponent<IEatable>();
-            if (skinnable != null && skinnable.IsEatable())
+            if (!skinnable.IsNull() && skinnable.IsEatable())
             {
                 EnemyBase enemyBase = other.GetComponent<EnemyBase>();
                 if (enemyBase)
@@ -402,7 +403,7 @@ public class PlayerStateManager : EventSubscriber {
         if (potentialEatableEnemy)
         {
             IEatable skinnable = potentialEatableEnemy.GetComponent<IEatable>();
-            if (skinnable != null && skinnable.IsEatable())
+            if (!skinnable.IsNull() && skinnable.IsEatable())
             {
                 stateVariables.eatTargetEnemy = potentialEatableEnemy;                
                 stateVariables.eatTargetEnemy.GetComponent<EnemyBase>().TemporaryTerminalIndestructable();
@@ -422,7 +423,7 @@ public class PlayerStateManager : EventSubscriber {
             foreach (Collider enemy in enemies)
             {
                 IEatable eatable = enemy.GetComponent<IEatable>();
-                if (eatable != null && eatable.IsEatable())
+                if (!eatable.IsNull() && eatable.IsEatable())
                 {
                     float distance = Vector3.Distance(enemy.ClosestPoint(transform.position), transform.position);
                     if (closestDistance > distance)

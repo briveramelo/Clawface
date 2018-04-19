@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ModMan;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -68,7 +69,7 @@ public class SpreadGunBullet : MonoBehaviour {
         if(other.tag == Strings.Tags.ENEMY)
         {
             IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
-            if (damageable != null)
+            if (!damageable.IsNull())
             {
                 Damager damager = new Damager();
                 // HACK - This isn't perfect.. but I think it will suffice for our type of gameplay.

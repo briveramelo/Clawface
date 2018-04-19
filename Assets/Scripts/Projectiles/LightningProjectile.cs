@@ -210,7 +210,7 @@ public class LightningProjectile : MonoBehaviour {
             {
                 affectTarget = target.GetComponent<EnemyBase>().GetAffectObject();
             }
-            if (damageable != null)
+            if (!damageable.IsNull())
             {
                 damager.impactDirection = transform.forward;
                 damager.damage = projectileProperties.projectileHitDamage;

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using ModMan;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -62,7 +63,7 @@ public class GeyserFissure : MonoBehaviour {
         {
             IDamageable damageable = other.GetComponent<IDamageable>();
 
-            if (damageable != null && !hitEnemies.Contains(other.transform))
+            if (!damageable.IsNull() && !hitEnemies.Contains(other.transform))
             {
                 Damage(damageable);
                 SpawnPoolObjectAtCurrentPosition(enemyImpactEffect);

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using ModMan;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -147,7 +148,7 @@ public class Missile : MonoBehaviour {
         foreach (Collider c in farHitEnemies)
         {
             IDamageable damageable = c.GetComponent<IDamageable>();
-            if (damageable != null)
+            if (!damageable.IsNull())
             {
                 damageable.TakeDamage(damage);
 
@@ -160,7 +161,7 @@ public class Missile : MonoBehaviour {
         foreach (Collider c in closeHitEnemies)
         {
             IDamageable damageable = c.GetComponent<IDamageable>();
-            if (damageable != null)
+            if (!damageable.IsNull())
             {
                 damageable.TakeDamage(damage);
 
