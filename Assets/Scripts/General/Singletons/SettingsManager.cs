@@ -312,7 +312,7 @@ public class SettingsManager : Singleton<SettingsManager>
         public bool fullscreen = Screen.fullScreen;
 
         [Header("Graphics")]
-        [Range(0, 4)]
+        [Range(0, 5)]
         public int goreDetail;
 
         //// Audio
@@ -489,5 +489,6 @@ public class SettingsManager : Singleton<SettingsManager>
         public const int Med = 2;
         public const int High = 3;
         public const int Ultra = 4;
+        public const int Extreme = 5;
     }
 }

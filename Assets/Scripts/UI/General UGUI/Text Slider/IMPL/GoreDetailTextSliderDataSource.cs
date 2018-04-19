@@ -31,7 +31,7 @@ public class GoreDetailTextSliderDataSource : TextSliderDataSource {
     {
         get
         {
-            return 5; // HACK - This should be a constant somewhere...
+            return 6; // HACK - This should be a constant somewhere...
         }
     }
 
