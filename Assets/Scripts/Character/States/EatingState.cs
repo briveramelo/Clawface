@@ -123,7 +123,7 @@ public class EatingState : IPlayerState
             {
                 // stateVariables.statsManager.MakeHappy();
                 IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
-                if (eatable != null)
+                if (!eatable.IsNull())
                 {
                     Assert.IsNotNull(eatable);
                     clawArmController.StartExtension(eatable.GetGrabObject(), stateVariables.clawExtensionTime, stateVariables.clawRetractionTime);
@@ -148,10 +148,10 @@ public class EatingState : IPlayerState
         {
             clawTransform = parameters[0] as Transform;
             IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
-            if (eatable != null)
+            if (!eatable.IsNull())
             {
                 stateVariables.eatTargetEnemy.transform.position = clawTransform.position;                
-                eatable.ToggleColliders(false);
+                eatable.ToggleCollider(false);
                 eatable.EnableRagdoll();
             }
         }
@@ -165,7 +165,7 @@ public class EatingState : IPlayerState
         if (stateVariables.eatTargetEnemy.activeSelf)
         {
             IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
-            if (eatable != null)
+            if (!eatable.IsNull())
             {
                 int health;
                 eatable.Eat(out health);

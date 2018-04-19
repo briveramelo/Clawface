@@ -324,7 +324,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
     public virtual void ResetForRebirth()
     {
         DisableRagdoll();
-        ToggleColliders(true);
+        //ToggleColliders(true);
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
         velBody.ResetForRebirth();
@@ -482,10 +482,10 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
     #region 6. Private Methods
     private void SpawnWithRagdoll()
     {
-        Color fadedColor = Color.black;
+        Color fadedColor = Color.Lerp(Color.black, Color.white, .4f);
         hitFlasher.SetOutlineColor(fadedColor);
         hitFlasher.FixColor(1f, 5f, fadedColor);
-        Push(20.0f, PushDirection.DOWN);
+        Push(60.0f, PushDirection.DOWN);
     }
 
     private void EnableCollider()

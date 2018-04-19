@@ -22,11 +22,11 @@ namespace Turing.VFX
         /// <summary>
         /// All SkinnedMeshRenderers attached to this object.
         /// </summary>
-        SkinnedMeshRenderer[] meshRenderers;
-        SkinnedMeshRenderer[] MeshRenderers {
+        Renderer[] meshRenderers;
+        Renderer[] MeshRenderers {
             get {
                 if (meshRenderers==null) {
-                    meshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>(true);
+                    meshRenderers = GetComponentsInChildren<Renderer>(true);
                 }
                 return meshRenderers;
             }
@@ -87,8 +87,10 @@ namespace Turing.VFX
         public void ResetColors() {
             StopCoroutine("FixFlashColor");
             StopCoroutine("DoHitFlash");
-            SetFlashStrength(0.0f, Color.white);
-            SetOutlineColor(initialOutlineColor);
+            StopCoroutine("MoveToColor");
+
+            SetFlashColorAndStrength(0f, hitFlashColor);
+            StartCoroutine(MoveToColor(1.5f, "_ASEOutlineColor", initialOutlineColor));
         }
         public void HitFlash () { HitFlash (hitFlashStrength, hitFlashTime); }
 
@@ -99,18 +101,21 @@ namespace Turing.VFX
         {
             StopCoroutine("FixFlashColor");
             StopCoroutine("DoHitFlash");
-            StartCoroutine(DoHitFlash(intensity, duration));
+            StopCoroutine("MoveToColor");
+            StartCoroutine(DoHitFlash(intensity, duration, hitFlashColor));
         }
 
 
         public void FixColor(float intensity, float duration, Color fixedColor) {
             StopCoroutine("FixFlashColor");
             StopCoroutine("DoHitFlash");
+            StopCoroutine("MoveToColor");
             StartCoroutine(FixFlashColor(intensity, duration, fixedColor));
         }
         public void FixColor(float intensity, float duration) {
             StopCoroutine("FixFlashColor");
             StopCoroutine("DoHitFlash");
+            StopCoroutine("MoveToColor");
             StartCoroutine(FixFlashColor(intensity, duration, hitFlashColor));
         }
 
@@ -120,7 +125,7 @@ namespace Turing.VFX
         /// <summary>
         /// Sets the strength of the flash.
         /// </summary>
-        void SetFlashStrength (float strength, Color color)
+        void SetFlashColorAndStrength (float strength, Color color)
         {
             flashStrength = strength;
             foreach (SkinnedMeshRenderer meshRenderer in MeshRenderers) {
@@ -132,29 +137,55 @@ namespace Turing.VFX
             }
         }
 
-        IEnumerator DoHitFlash (float intensity, float duration)
+        void LerpToColorProperty(Color targetColor, string colorProp, float progress) {
+            foreach (SkinnedMeshRenderer meshRenderer in MeshRenderers) {
+                MaterialPropertyBlock props = new MaterialPropertyBlock();
+                meshRenderer.GetPropertyBlock(props);
+                Color currentColor = props.GetVector(colorProp);
+                currentColor = Color.Lerp(currentColor, targetColor, progress);
+                props.SetColor(colorProp, currentColor);
+                meshRenderer.SetPropertyBlock(props);
+            }
+        }
+
+        IEnumerator MoveToColor(float duration, string outlineColorProp, Color targetOutlineColor) {
+            float t = 0f;
+            while (t <= duration) {
+                float progress = t / duration;
+                LerpToColorProperty(targetOutlineColor, outlineColorProp, progress);
+                //SetFlashColorAndStrength(1f-progress, hitFlashColor);
+                t += Time.deltaTime;
+                yield return null;
+            }
+
+            LerpToColorProperty(targetOutlineColor, outlineColorProp, 1f);
+            //SetFlashColorAndStrength(0f, hitFlashColor);
+        }
+
+
+        IEnumerator DoHitFlash (float intensity, float duration, Color thisHitFlashColor)
         {
             float t = 0f;
             while (t <= duration)
             {
-                SetFlashStrength (intensity * (1f - t / duration), hitFlashColor);
+                SetFlashColorAndStrength (intensity * (1f - t / duration), thisHitFlashColor);
 
                 t += Time.deltaTime;
                 yield return null;
             }
 
-            SetFlashStrength (0.0f, hitFlashColor);
+            SetFlashColorAndStrength (0.0f, thisHitFlashColor);
         }
 
         IEnumerator FixFlashColor(float intensity, float duration, Color fixedColor) {
             float t = 0f;
-            SetFlashStrength(intensity, fixedColor);
+            SetFlashColorAndStrength(intensity, fixedColor);
             while (t <= duration) {
                 t += Time.deltaTime;
                 yield return null;
             }
 
-            SetFlashStrength(0.0f, hitFlashColor);
+            SetFlashColorAndStrength(0.0f, hitFlashColor);
         }
 
         /// <summary>
@@ -179,7 +210,7 @@ namespace Turing.VFX
 
 
                 float flashStrength = Mathf.Clamp01(Mathf.Pow(stunnedFlashStrength * (0.5f + Mathf.Sin(2f * Mathf.PI * percent) + 0.5f), stunnedFlashPower));
-                SetFlashStrength(flashStrength, edibleColorPalette.GetColor(edibleColorPaletteType));
+                SetFlashColorAndStrength(flashStrength, edibleColorPalette.GetColor(edibleColorPaletteType));
 
                 t = (t + Time.unscaledDeltaTime) % (flashInterval);
 
