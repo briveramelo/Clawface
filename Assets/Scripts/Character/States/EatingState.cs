@@ -109,8 +109,8 @@ public class EatingState : IPlayerState
     {
         if (stateVariables.eatTargetEnemy)
         {
-            Vector3 enemyPosition = stateVariables.eatTargetEnemy.transform.position;
-            stateVariables.modelHead.transform.LookAt(new Vector3(enemyPosition.x, 0f, enemyPosition.z));
+            Vector3 enemyPosition = stateVariables.eatTargetEnemy.transform.position.NoY();
+            stateVariables.modelHead.transform.LookAt(enemyPosition);
         }
     }
 
@@ -151,8 +151,10 @@ public class EatingState : IPlayerState
             if (!eatable.IsNull())
             {
                 stateVariables.eatTargetEnemy.transform.position = clawTransform.position;                
-                eatable.ToggleCollider(false);
+                eatable.ToggleColliders(false);
                 eatable.EnableRagdoll();
+                //Vector3 grabDirection = (transform.position - eatable.GetGrabObject().transform.position) * -500f;
+                eatable.GrabObject(transform.position);
             }
         }
         SFXManager.Instance.Play(stateVariables.ArmEnemyCaptureSFX, transform.position);

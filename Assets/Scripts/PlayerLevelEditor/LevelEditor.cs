@@ -35,7 +35,9 @@ namespace PLE
         #endregion
 
         #region Public Interface
-        public string GetWaveName(int i) { return Strings.Editor.Wave + i; }
+        private string GetWaveName(int i) {
+            return Support.GetWaveName(i);
+        }
         public void EnableCurrentWaveSpawnParents(params object[] parameters)
         {
             createdSpawnsParent.SortChildrenByName();

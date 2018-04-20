@@ -22,7 +22,7 @@ public class GibEmitter : MonoBehaviour
                 for (int i = 0; i < emittedCount; i++)
                 {
                     GameObject gibInstance = Instantiate(gibPrefab);
-                    gibInstance.transform.position = transform.position + new Vector3(0.0f, 3.0f, 0.0f);
+                    gibInstance.transform.position = transform.position + new Vector3(0.0f, 5.0f, 0.0f);
                     gibInstance.transform.rotation = Quaternion.Euler(Random.insideUnitSphere * 360.0f);
                     Rigidbody rb = gibInstance.GetComponentInChildren<Rigidbody>();
                     rb.AddForce (Random.insideUnitSphere * VELOCITY, ForceMode.VelocityChange);

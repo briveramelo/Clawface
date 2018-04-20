@@ -6,15 +6,16 @@ public class LandingMarker : MonoBehaviour {
 
     const float MAX_ALPHA = 0.25f;
     SpriteRenderer spriteRenderer;
-
+    TransformMemento initialTransform = new TransformMemento();
     private void Awake()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        initialTransform.Initialize(transform);
     }
 
     private void OnEnable()
     {
-        StartCoroutine(FadeIn());
+        StartCoroutine(FadeIn());        
     }
 
     private void OnDisable()
@@ -25,7 +26,7 @@ public class LandingMarker : MonoBehaviour {
     IEnumerator FadeIn ()
     {
         float t = 0.0f;
-
+        initialTransform.Reset(transform);
 
         while (t <= 1.0f)
         {

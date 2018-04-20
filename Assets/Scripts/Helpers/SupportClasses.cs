@@ -46,6 +46,12 @@ public class TransformMemento {
         transform.localScale = startScale;
         transform.localRotation = startRotation;
     }
+    public void Reset(Transform transform, Transform parent) {
+        transform.SetParent(parent);
+        transform.localPosition = startPosition;
+        transform.localScale = startScale;
+        transform.localRotation = startRotation;
+    }
 }
 
 public class Will {

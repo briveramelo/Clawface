@@ -334,7 +334,9 @@ public class LevelDataManager : MonoBehaviour {
         WorkingLevelData.SetPicture(snapshot.EncodeToPNG());
     }
 
-    private string GetWaveName(int i) { return Strings.Editor.Wave + i; }
+    private string GetWaveName(int i) {
+        return Support.GetWaveName(i);
+    }
     #endregion
 
     #region Delete

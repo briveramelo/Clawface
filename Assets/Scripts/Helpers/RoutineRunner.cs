@@ -18,6 +18,10 @@ public class RoutineRunner : MonoBehaviour {
         KillCoroutines();
     }
 
+    protected void RunRoutine(IEnumerator<float> routine, Segment segment=Segment.Update) {
+        Timing.RunCoroutine(routine, segment, CoroutineName);
+    }
+
     protected IEnumerator<float> DelayAction(Action action, float seconds = 0f) {
         yield return 0f;
         yield return Timing.WaitForSeconds(seconds);

@@ -87,6 +87,17 @@ public enum DeltaTime
 public static class Support
 {
 
+    public static string GetWaveName(int i) {
+        string waveNumber = "";
+        if (i < 10) {
+            waveNumber = string.Format("{0}{1}", 0, i);
+        }
+        else {
+            waveNumber = i.ToString();
+        }
+        return string.Format("{0}{1}", Strings.Editor.Wave, waveNumber);
+    }
+
     public static float GetDeltaTime(DeltaTime deltaTimeType)
     {
         switch (deltaTimeType)

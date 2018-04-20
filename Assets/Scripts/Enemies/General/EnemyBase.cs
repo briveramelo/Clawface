@@ -38,7 +38,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
     [SerializeField] protected Vector2 vocalizeInterval = Vector2.one;
     [SerializeField] protected SFXType footstepSound = SFXType.None;
     [SerializeField] protected GibEmitter gibEmitter;
-    [SerializeField] protected GameObject landingMarker;
+    [SerializeField] protected GameObject landingMarker;    
     #endregion
 
     #region 3. Private fields
@@ -77,6 +77,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
     protected Will will = new Will();
     protected List<AIState> aiStates;
     protected TransformMemento transformMemento=new TransformMemento();
+    protected TransformMemento skeletonRootMemento = new TransformMemento();
     protected Transform poolParent;
     protected List<Collider> myColliders;
     protected List<Collider> MyColliders {
@@ -117,6 +118,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
     {
         base.Awake();
         poolParent = transform.parent;
+        skeletonRootMemento.Initialize(skeletonRoot.transform);
         transformMemento.Initialize(transform);
         InitSkeleton();
         ExtractRbWeights();
@@ -245,6 +247,33 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
     {
     }
 
+    public void GrabObject(Vector3 keiraPosition) {
+        skeletonRoot.transform.SetParent(grabObject.transform);
+        if (JointRigidBodies!=null) {
+            for (int i = 1; i < JointRigidBodies.Length; i++) {
+                Rigidbody bod = JointRigidBodies[i];
+                float angSpeed = 100f;                
+                Vector3 angVel = UnityEngine.Random.onUnitSphere * angSpeed;
+                //bod.AddForce(grabForce);
+                bod.angularVelocity = angVel;
+            }
+        }
+        Vector3 toKeira = keiraPosition - transform.position;
+        Quaternion targetRotation = Quaternion.LookRotation(Vector3.down, toKeira);
+        RunRoutine(LookIntoTheClaw(targetRotation, grabObject.transform, .5f));
+    }
+
+    IEnumerator<float> LookIntoTheClaw(Quaternion targetRotation, Transform toRotate, float duration) {
+        float t = 0;        
+        while (t<duration) {
+            float progress = t / duration;
+            toRotate.rotation = Quaternion.Lerp(toRotate.rotation, targetRotation, progress);
+            t += Time.deltaTime;
+            yield return 0f;
+        }
+        toRotate.rotation = targetRotation;
+    }
+
     public void ResetHealth()
     {
         myStats.health = myStats.maxHealth;
@@ -324,7 +353,8 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
     public virtual void ResetForRebirth()
     {
         DisableRagdoll();
-        //ToggleColliders(true);
+        skeletonRootMemento.Reset(skeletonRoot.transform, transform);
+        ToggleColliders(true);
         myStats.ResetForRebirth();
         controller.ResetForRebirth();
         velBody.ResetForRebirth();
@@ -374,7 +404,6 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
 
         navAgent.enabled = false;
         ragdollOn = true;
-       
     }
 
     public void DisableRagdoll()
