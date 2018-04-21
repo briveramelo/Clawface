@@ -6,7 +6,7 @@ public class GibEmitter : MonoBehaviour
 {
     const float MINVELOCITY = 10.0f;
     const float VELOCITY = 20f;
-    const float MINROTATION_VELOCITY = 8f;
+    const float MINROTATION_VELOCITY = 13f;
     const float ROTATION_VELOCITY = 20f;
 
     [SerializeField] GameObject[] gibPrefabs;
