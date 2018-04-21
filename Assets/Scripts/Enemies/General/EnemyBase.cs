@@ -38,7 +38,8 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
     [SerializeField] protected Vector2 vocalizeInterval = Vector2.one;
     [SerializeField] protected SFXType footstepSound = SFXType.None;
     [SerializeField] protected GibEmitter gibEmitter;
-    [SerializeField] protected GameObject landingMarker;    
+    [SerializeField] protected GameObject landingMarker;
+    [SerializeField] protected float angularSpawnSpeed = 10f;
     #endregion
 
     #region 3. Private fields
@@ -64,6 +65,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
     private float currentStunTime = 0.0f;
     private Vector3 spawnPosition;
     private TransformMemento grabObjectMomento;
+    private Vector3 spawnedAngularVelocity;
     #endregion
 
     #region 0. Protected fields
@@ -146,7 +148,13 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
         if (hips.transform.position.y < -100.0f)
         {
             OnDeath();
-        }       
+        }        
+    }
+
+    void FixedUpdate() {
+        if (ragdollOn && IsFalling()) {
+            pushRoot.angularVelocity = spawnedAngularVelocity;
+        }
     }
 
     protected override void OnDisable()
@@ -247,31 +255,47 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
     {
     }
 
-    public void GrabObject(Vector3 keiraPosition) {
+    public virtual void GrabObject(Transform grabberTransform) {
         skeletonRoot.transform.SetParent(grabObject.transform);
         if (JointRigidBodies!=null) {
             for (int i = 1; i < JointRigidBodies.Length; i++) {
                 Rigidbody bod = JointRigidBodies[i];
                 float angSpeed = 100f;                
                 Vector3 angVel = UnityEngine.Random.onUnitSphere * angSpeed;
-                //bod.AddForce(grabForce);
                 bod.angularVelocity = angVel;
             }
         }
-        Vector3 toKeira = keiraPosition - transform.position;
-        Quaternion targetRotation = Quaternion.LookRotation(Vector3.down, toKeira);
-        RunRoutine(LookIntoTheClaw(targetRotation, grabObject.transform, .5f));
+        float transitionDuration = 0.5f;
+        RunRoutine(LockLocalPosition(skeletonRoot.transform, skeletonRoot.transform.localPosition));
+        RunRoutine(LookIntoTheClaw(grabberTransform, grabObject.transform, transitionDuration));
     }
-
-    IEnumerator<float> LookIntoTheClaw(Quaternion targetRotation, Transform toRotate, float duration) {
-        float t = 0;        
-        while (t<duration) {
-            float progress = t / duration;
-            toRotate.rotation = Quaternion.Lerp(toRotate.rotation, targetRotation, progress);
-            t += Time.deltaTime;
+   
+    IEnumerator<float> LockLocalPosition(Transform toLock, Vector3 localTarget) {
+        while (true) {
+            toLock.localPosition = localTarget;
             yield return 0f;
         }
-        toRotate.rotation = targetRotation;
+    }
+
+    IEnumerator<float> LookIntoTheClaw(Transform target, Transform toRotate, float duration) {
+        float t = 0;
+        Func<Quaternion> getTargetRotation = () => {
+            Vector3 toKeira = target.position - transform.position;
+            return Quaternion.LookRotation(Vector3.down, toKeira);
+        };
+
+        while (t<duration && target!=null) {
+            t += Time.deltaTime;
+            float progress = t / duration;
+            toRotate.rotation = Quaternion.Lerp(toRotate.rotation, getTargetRotation(), progress);
+            yield return 0f;
+        }
+        if (target != null) {
+            toRotate.rotation = getTargetRotation();
+        }
+        else {
+            ToggleColliders(true);
+        }
     }
 
     public void ResetHealth()
@@ -353,6 +377,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
     public virtual void ResetForRebirth()
     {
         DisableRagdoll();
+        hitFlasher.ResetColors();
         skeletonRootMemento.Reset(skeletonRoot.transform, transform);
         ToggleColliders(true);
         myStats.ResetForRebirth();
@@ -369,7 +394,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
     }
 
     public void ToggleColliders(bool enabled) {
-        MyColliders.ForEach(collider => collider.enabled = enabled);
+        MyColliders.ForEach(collider => { collider.enabled = enabled; });
     }
 
     public virtual void DisableStateResidue()
@@ -392,7 +417,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
             {
                 JointRigidBodies[i].mass = weight;
                 JointRigidBodies[i].useGravity = true;
-                JointRigidBodies[i].isKinematic = false;                
+                JointRigidBodies[i].isKinematic = false;
             }
         }
         animator.enabled = false;
@@ -421,6 +446,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
                 JointRigidBodies[i].useGravity = false;
                 JointRigidBodies[i].velocity = Vector3.zero;
                 JointRigidBodies[i].angularVelocity = Vector3.zero;
+                JointRigidBodies[i].angularDrag = 0.05f;
                 JointRigidBodies[i].isKinematic = true;
                 if (rigidBodyMasses != null)
                 {
@@ -513,8 +539,9 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
     {
         Color fadedColor = Color.Lerp(Color.black, Color.white, .4f);
         hitFlasher.SetOutlineColor(fadedColor);
-        hitFlasher.FixColor(1f, 5f, fadedColor);
+        //hitFlasher.FixColor(1f, 5f, fadedColor);
         Push(60.0f, PushDirection.DOWN);
+        spawnedAngularVelocity = UnityEngine.Random.onUnitSphere * angularSpawnSpeed;
     }
 
     private void EnableCollider()

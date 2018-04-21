@@ -31,6 +31,7 @@ public class ObjectPool : Singleton<ObjectPool> {
     }
     public void ResetPools()
     {
+        print("resetting pools");
         pools.ForEach(pool => { pool.Reset(); });
     }
     #endregion
@@ -104,7 +105,7 @@ public class Pool
             if (currentIndex>mostUsed) {
                 mostUsed = currentIndex+1;
             }
-            objects.MoveToBack(objToReturn);
+            //objects.MoveToBack(objToReturn);
             objToReturn.SetActive(true);
         }
         return objToReturn;

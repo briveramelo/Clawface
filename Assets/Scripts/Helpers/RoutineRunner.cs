@@ -18,8 +18,21 @@ public class RoutineRunner : MonoBehaviour {
         KillCoroutines();
     }
 
-    protected void RunRoutine(IEnumerator<float> routine, Segment segment=Segment.Update) {
-        Timing.RunCoroutine(routine, segment, CoroutineName);
+    protected virtual void KillCoroutines() {
+        Timing.KillCoroutines(CoroutineName);
+    }
+    protected void KillRoutine(string routineName) {
+        Timing.KillCoroutines(routineName);
+    }
+
+    protected virtual CoroutineHandle RunRoutine(IEnumerator<float> routine, Segment segment = Segment.Update) {
+        return Timing.RunCoroutine(routine, segment, CoroutineName);
+    }
+    protected virtual float WaitFor(IEnumerator<float> routine, Segment segment = Segment.Update) {
+        return Timing.WaitUntilDone(RunRoutine(routine, segment));
+    }
+    protected virtual float WaitForSeconds(float secondsToWait) {
+        return Timing.WaitForSeconds(secondsToWait);
     }
 
     protected IEnumerator<float> DelayAction(Action action, float seconds = 0f) {
@@ -33,10 +46,7 @@ public class RoutineRunner : MonoBehaviour {
             yield return 0f;
         }
         action();
-    }
-    protected virtual void KillCoroutines() {
-        Timing.KillCoroutines(CoroutineName);
-    }
+    }    
 }
 
 public class RoutineRunnerNonMono {

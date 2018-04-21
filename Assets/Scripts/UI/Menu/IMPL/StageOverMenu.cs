@@ -54,14 +54,14 @@ public class StageOverMenu : Menu
         return new Dictionary<string, UnityAction<object[]>>() {
             { Strings.Events.LEVEL_COMPLETED, LevelCompleteStart},
             { Strings.Events.PLAYER_KILLED, PlayerDeathStart },
-            { Strings.Events.PLE_ON_LEVEL_READY, SetLevelStarted },
-            { Strings.Events.LEVEL_STARTED, SetLevelStarted },
-            { Strings.Events.LEVEL_RESTARTED, SetLevelStarted },
+            { Strings.Events.PLE_ON_LEVEL_READY, ResetLevelStarted },
+            { Strings.Events.LEVEL_STARTED, ResetLevelStarted },
+            { Strings.Events.LEVEL_RESTARTED, ResetLevelStarted },
         };
     } }
     #endregion
     private bool isLevelOver;
-    private void SetLevelStarted(params object[] paramters) {
+    private void ResetLevelStarted(params object[] paramters) {
         isLevelOver = false;
     }
 
@@ -167,7 +167,7 @@ public class StageOverMenu : Menu
     }
 
     private void LevelCompleteStart(params object[] parameter) {
-        if (PlayerStateManager.keiraRootGameObject) {
+        if (PlayerStateManager.keiraRootGameObject && !isLevelOver) {
             isLevelOver = true;
             StartCoroutine(DoLevelComplete(popUpDelay, Strings.TextStrings.STAGE_OVER_TEXT));
         }

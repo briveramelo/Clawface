@@ -2345,7 +2345,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1385345176205422}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.94314003, y: -1.6714633, z: 4.806244}
+  m_LocalPosition: {x: 0.94314003, y: -54.171463, z: 14.806244}
   m_LocalScale: {x: 5.4, y: 5.4, z: 5.4}
   m_Children:
   - {fileID: 4343289491148390}
@@ -3315,6 +3315,7 @@ MonoBehaviour:
   footstepSound: 35
   gibEmitter: {fileID: 114560261904094366}
   landingMarker: {fileID: 1950890450184488}
+  angularSpawnSpeed: 1000
   playerDetectorSphereCollider: {fileID: 135652806102363036}
   properties:
     runMultiplier: 2.5

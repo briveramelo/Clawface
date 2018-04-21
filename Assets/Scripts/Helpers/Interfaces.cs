@@ -50,7 +50,7 @@ public interface IEatable
     void Eat(out int health);
     void ToggleCollider(bool enabled);
     void ToggleColliders(bool enabled);
-    void GrabObject(Vector3 grabForce);
+    void GrabObject(Transform grabberTransform);
     void EnableRagdoll(float weight = 1.0f);
     void DisableRagdoll();
     GameObject GetGrabObject();

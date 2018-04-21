@@ -135,7 +135,9 @@ public enum Layers {
     Globe_Text=14,
     PlayerDetector=15,
     DiceBlocks=17,
-    Obstacle=19
+    Obstacle=19,
+    EnemyBody=20,
+
 }
 
 public enum PoolObjectType {

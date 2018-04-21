@@ -13,18 +13,12 @@ public class PlayerStateManager : EventSubscriber {
     #endregion
 
     #region Serialized Unity Inspector fields
-    [SerializeField]
-    private MoveState defaultState;
-    [SerializeField]
-    private PlayerStatsManager playerStatsManager;
-    [SerializeField]
-    private float holdAttackSlowDown;
-    [SerializeField]
-    private DashState dashState;
-    [SerializeField]
-    private float dashCoolDown;
-    [SerializeField]
-    private float eatCoolDown;
+    [SerializeField] private MoveState defaultState;
+    [SerializeField] private PlayerStatsManager playerStatsManager;
+    [SerializeField] private float holdAttackSlowDown;
+    [SerializeField] private DashState dashState;
+    [SerializeField] private float dashCoolDown;
+    [SerializeField] private float eatCoolDown;
 
     [SerializeField] private EatingState eatingState;
     [SerializeField] private SphereCollider eatCollider;

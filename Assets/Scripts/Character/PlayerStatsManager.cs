@@ -74,6 +74,9 @@ public class PlayerStatsManager : MonoBehaviour, IDamageable
     {
         invincibleTimer -= Time.deltaTime;
         gotDashComboThisFrame = false;
+        if (Input.GetKeyDown(KeyCode.Return)) {
+            TakeDamage(new Damager());
+        }
     }
 	
     #endregion

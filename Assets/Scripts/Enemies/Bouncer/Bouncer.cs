@@ -223,6 +223,16 @@ public class Bouncer : EnemyBase
 
     #endregion
 
+    #region Protected Methods
+    public override void GrabObject(Transform grabberTransform) {
+        base.GrabObject(grabberTransform);
+    }
+    protected override bool IsFalling() {
+        //Special case for the mommy because the raycast needs to be slightly longer in distance 
+        return !Physics.CheckSphere(hips.transform.position, 4.0f, LayerMask.GetMask(Strings.Layers.GROUND));
+    }
+    #endregion
+
     #region 6. Private Methods    
 
     private void InitilizeStates()

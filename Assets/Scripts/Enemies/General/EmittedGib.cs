@@ -22,18 +22,15 @@ public class EmittedGib : MonoBehaviour
     IEnumerator FadeCoroutine (float duration)
     {
         float t = 0.0f;
-        while (t < 1.0f)
+        while (t < duration)
         {
-            t += Time.deltaTime / duration;
 
             //Color color = renderer.material.color;
             //color.a = 1.0f - t;
-            //renderer.material.color = color;
-
-            if (t > 1.0f) break;
-
-            transform.localScale = originalScale * Mathf.Sqrt(0.9f * (1.0f - t) + 0.1f);
-
+            //renderer.material.color = color;            
+            const float offset = .99f;
+            transform.localScale = originalScale * Mathf.Sqrt(offset * (1.0f - t) + (1f- offset));
+            t += Time.deltaTime;
             yield return null;
         }
 

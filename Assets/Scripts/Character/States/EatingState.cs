@@ -23,8 +23,10 @@ public class EatingState : IPlayerState
     #region Private Fields
     private bool isAnimating;
     private Transform clawTransform;
-    private GameObject grabObject;
+    Vector3 grabSpot;
     private GameObject dummyObject;
+    private bool IsExtending { get { return clawArmController.IsExtending; } }
+    private bool IsRetracting { get { return clawArmController.IsRetracting; } }
     #endregion
 
 
@@ -87,7 +89,7 @@ public class EatingState : IPlayerState
     
     public override void StateLateUpdate()
     {
-        LookAtEnemy();
+        TryLookAtEnemy();
     }
 
     public override void ResetState()
@@ -95,22 +97,22 @@ public class EatingState : IPlayerState
         EventSystem.Instance.TriggerEvent(Strings.Events.FINISHED_EATING);
         clawArmController.ResetClawArm();
         stateVariables.animator.SetInteger(Strings.ANIMATIONSTATE, (int)PlayerAnimationStates.CloseFace);
-        stateVariables.modelHead.transform.LookAt(stateVariables.playerTransform.forward);
+        stateVariables.modelHead.transform.rotation = Quaternion.LookRotation(stateVariables.playerTransform.forward, Vector3.up);
         stateVariables.eatTargetEnemy = null;
         clawTransform = null;
-        grabObject = null;
         isAnimating = false;
         stateVariables.stateFinished = true;
     }
     #endregion
 
     #region Private Methods
-    private void LookAtEnemy()
+    private void TryLookAtEnemy()
     {
         if (stateVariables.eatTargetEnemy)
         {
-            Vector3 enemyPosition = stateVariables.eatTargetEnemy.transform.position.NoY();
-            stateVariables.modelHead.transform.LookAt(enemyPosition);
+            Vector3 grabTargetLocation = IsRetracting ? grabSpot : stateVariables.eatTargetEnemy.transform.position;
+            Vector3 toEnemy = (grabTargetLocation - stateVariables.modelHead.transform.position).normalized;
+            stateVariables.modelHead.transform.rotation = Quaternion.LookRotation(toEnemy, Vector3.up);
         }
     }
 
@@ -126,15 +128,16 @@ public class EatingState : IPlayerState
                 if (!eatable.IsNull())
                 {
                     Assert.IsNotNull(eatable);
+                    grabSpot = eatable.GetGrabObject().transform.position;
                     clawArmController.StartExtension(eatable.GetGrabObject(), stateVariables.clawExtensionTime, stateVariables.clawRetractionTime);
                     SFXManager.Instance.Play(stateVariables.ArmExtensionSFX, transform.position);
                 }
             }
-
             else
             {
                 stateVariables.eatTargetEnemy = dummyObject;
                 dummyObject.transform.position = stateVariables.modelHead.transform.position + stateVariables.modelHead.transform.forward * 5.0f;
+                grabSpot = dummyObject.transform.position;
                 clawArmController.StartExtension(dummyObject, stateVariables.clawExtensionTime, stateVariables.clawRetractionTime);
                 SFXManager.Instance.Play(stateVariables.ArmExtensionSFX, transform.position);
             }
@@ -150,11 +153,11 @@ public class EatingState : IPlayerState
             IEatable eatable = stateVariables.eatTargetEnemy.GetComponent<IEatable>();
             if (!eatable.IsNull())
             {
-                stateVariables.eatTargetEnemy.transform.position = clawTransform.position;                
                 eatable.ToggleColliders(false);
                 eatable.EnableRagdoll();
-                //Vector3 grabDirection = (transform.position - eatable.GetGrabObject().transform.position) * -500f;
-                eatable.GrabObject(transform.position);
+                eatable.GrabObject(transform);
+                stateVariables.eatTargetEnemy.transform.position = clawTransform.position;                
+                grabSpot = clawTransform.position;
             }
         }
         SFXManager.Instance.Play(stateVariables.ArmEnemyCaptureSFX, transform.position);

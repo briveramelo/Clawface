@@ -6,34 +6,30 @@ using UnityEngine.Assertions;
 public class ClawArmController : MonoBehaviour {
 
     #region serialized fields
-    [SerializeField]
-    private Transform start;
-    [SerializeField]
-    private GameObject arm;
-    [SerializeField]
-    private Transform end;
-    [SerializeField]
-    private ClawAnimationHandler clawAnimationHandler;    
+    [SerializeField] private Transform start;
+    [SerializeField] private GameObject arm;
+    [SerializeField] private Transform end;
+    [SerializeField] private Transform clawRoot;
+    [SerializeField] private ClawAnimationHandler clawAnimationHandler;
     #endregion
+
+    public bool IsExtending { get; private set; }
+    public bool IsRetracting { get; private set; }
 
     #region private fields
     private float meshSizeZ;
     private GameObject target;
-    private bool extending;
-    private bool retracting;
     private float extendTime;
     private float retractTime;
 
-    private float extendSpeed {
-        get
-        {
+    private float ExtendSpeed {
+        get {
             return Vector3.Distance(end.position, target.transform.position) / extendTime;
         }
     }
 
-    private float retractSpeed {
-        get
-        {
+    private float RetractSpeed {
+        get {
             return Vector3.Distance(end.position, start.position) / retractTime;
         }
     }
@@ -41,7 +37,7 @@ public class ClawArmController : MonoBehaviour {
 
     #region unity lifecycle    
     // Use this for initialization
-    void Awake () {
+    void Awake() {
         Assert.IsNotNull(start);
         Assert.IsNotNull(arm);
         Assert.IsNotNull(end);
@@ -49,23 +45,19 @@ public class ClawArmController : MonoBehaviour {
         meshSizeZ = arm.GetComponent<MeshRenderer>().bounds.size.z;
     }
 
-    private void Start()
-    {
-        clawAnimationHandler.gameObject.SetActive(false);        
+    private void Start() {
+        clawAnimationHandler.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
-    void Update ()
-    {
-        Assert.IsFalse(extending && retracting);
+    void Update() {
+        Assert.IsFalse(IsExtending && IsRetracting);
 
-        if (extending)
-        {
+        if (IsExtending) {
             ExtendArm();
         }
 
-        if (retracting)
-        {
+        if (IsRetracting) {
             RetractArm();
         }
 
@@ -74,91 +66,77 @@ public class ClawArmController : MonoBehaviour {
     #endregion
 
     #region Public functions
-    public void StartExtension(GameObject target, float clawExtensionTime, float clawRetractionTime)
-    {        
+    public void StartExtension(GameObject target, float clawExtensionTime, float clawRetractionTime) {
         this.target = target;
-        extending = true;
-        clawAnimationHandler.gameObject.SetActive(true);
         extendTime = clawExtensionTime;
-        retractTime = clawRetractionTime;        
-    }    
-
-    public void ResetClawArm()
-    {
-        clawAnimationHandler.gameObject.SetActive(false);
-        target = null;
-        extending = false;
-        retracting = false;
-        end.position = start.position;
-        end.forward = start.forward;        
+        retractTime = clawRetractionTime;
+        clawAnimationHandler.gameObject.SetActive(true);
+        IsExtending = true;
     }
 
-    public void ExtendClawToDistance(float radius, bool enableCollider = false)
-    {
+    public void ResetClawArm() {
+        IsExtending = false;
+        IsRetracting = false;
+        target = null;
+        clawAnimationHandler.gameObject.SetActive(false);
+        end.position = start.position;
+        end.forward = start.forward;
+    }
+
+    public void ExtendClawToDistance(float radius, bool enableCollider = false) {
         clawAnimationHandler.gameObject.SetActive(true);
         end.position = start.position + start.forward * radius;
     }
 
-    public Vector3 GetEndPosition()
-    {
+    public Vector3 GetEndPosition() {
         return end.position;
     }
     #endregion
 
     #region Private functions
-    private void StartRetraction()
-    {
-        extending = false;
-        retracting = true;
+    private void StartRetraction() {
+        IsExtending = false;
+        IsRetracting = true;
     }
 
-    private void ResizeArm()
-    {
+    private void ResizeArm() {
         arm.transform.position = (start.position + end.position) / 2f;
         float zScale = Vector3.Distance(start.position, end.position) / meshSizeZ;
         arm.transform.localScale = new Vector3(1.0f, 1.0f, zScale);
-        if (end.position != start.position)
-        {
+        if (end.position != start.position) {
             arm.transform.forward = (end.position - start.position).normalized;
         }
     }
 
-    private void ExtendArm()
-    {
-        if (!target.activeSelf)
-        {
+    private void ExtendArm() {
+        if (!target.activeSelf) {
             EventSystem.Instance.TriggerEvent(Strings.Events.CAPTURE_ENEMY, end);
         }
-        else
-        {
-
+        else {
+            Vector3 directionToTarget = (target.transform.position - end.position).normalized;
+            end.position += directionToTarget * ExtendSpeed * Time.deltaTime;
             end.LookAt(target.transform.position);
-            Vector3 direction = (target.transform.position - end.position).normalized;
-            float distanceToTarget = Vector3.Distance(start.position, target.transform.position);
-            end.position += direction * extendSpeed * Time.deltaTime;
-            end.forward = direction;
 
             extendTime -= Time.deltaTime;
-            direction = (target.transform.position - end.position).normalized;
-
-            if (Vector3.Dot(direction, end.forward) <= 0 || extendTime <= 0)
-            {
+            if (Vector3.Dot(directionToTarget, end.forward) <= 0 || extendTime <= 0) {
                 end.position = target.transform.position;
+                Vector3 toTargetFromBody = (target.transform.position - clawRoot.position).normalized;
+                end.rotation = Quaternion.LookRotation(toTargetFromBody, Vector3.up);
                 EventSystem.Instance.TriggerEvent(Strings.Events.CAPTURE_ENEMY, end);
                 StartRetraction();
             }
         }
     }
 
-    private void RetractArm()
-    {   
-        Vector3 direction = (start.position - end.position).normalized;
-        end.position += direction * retractSpeed * Time.deltaTime;
+    private void RetractArm() {
+        Vector3 directionToFace = (start.position - end.position).normalized;
+        end.position += directionToFace * RetractSpeed * Time.deltaTime;
         target.transform.position = end.position;
         retractTime -= Time.deltaTime;
-        direction = (start.position - end.position).normalized;
-        if (Vector3.Dot(direction, end.forward) >= 0 || retractTime <= 0)
-        {
+        bool isArmPointingBack = Vector3.Dot(directionToFace, end.forward) >= 0;
+        bool isTimeUp = retractTime <= 0;
+        if (isArmPointingBack || isTimeUp) {
+            IsRetracting = false;
             end.position = start.position;
             EventSystem.Instance.TriggerEvent(Strings.Events.ARM_ANIMATION_COMPLETE);
         }
