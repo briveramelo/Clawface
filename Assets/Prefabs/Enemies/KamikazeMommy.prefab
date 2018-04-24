@@ -2216,12 +2216,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1778611032092112}
-  m_LocalRotation: {x: -0, y: -0, z: -0.002697438, w: 0.99999636}
-  m_LocalPosition: {x: -0.0021355117, y: -0.3958364, z: 0}
-  m_LocalScale: {x: 0.8000001, y: 0.8000001, z: 0.8}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4537783801051246}
-  m_RootOrder: 4
+  m_Father: {fileID: 4348778369334166}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4238067301674610
 Transform:
@@ -2404,7 +2404,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.309, z: 0.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4228731388487742}
   m_Father: {fileID: 4961611304916062}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2611,7 +2612,6 @@ Transform:
   - {fileID: 4550798087373758}
   - {fileID: 4558074532162244}
   - {fileID: 4836847365948008}
-  - {fileID: 4228731388487742}
   m_Father: {fileID: 4276639575335832}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.3091032}
@@ -3240,7 +3240,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1886750509036516}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.1631403, y: 0.035161495, z: -1.8137512}
+  m_LocalPosition: {x: 62.171555, y: -3.1269417, z: 61.273033}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 4025406692573102}
@@ -3768,6 +3768,7 @@ MonoBehaviour:
   - 0.65
   - 1
   gibCounts: 0100000004000000
+  minGibs: 3
 --- !u!114 &114408683109179018
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3902,6 +3903,7 @@ MonoBehaviour:
   footstepSound: 36
   gibEmitter: {fileID: 114392291689990150}
   landingMarker: {fileID: 1549735454587408}
+  angularSpawnSpeed: 10
   properties:
     runMultiplier: 0
     hitRate: 0

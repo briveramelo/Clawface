@@ -1148,7 +1148,6 @@ Transform:
   - {fileID: 4789236071131728}
   - {fileID: 4372976718864188}
   - {fileID: 4294442959048278}
-  - {fileID: 4877442257608500}
   m_Father: {fileID: 4657244836558992}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1594,7 +1593,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.026, y: 3.557, z: 0.024}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4877442257608500}
   m_Father: {fileID: 4973139722361980}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -0.12969536, y: 55.592052, z: -6.107374}
@@ -1687,12 +1687,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1055605665469442}
-  m_LocalRotation: {x: 0.050312918, y: 0.000000020490527, z: -0.000000017081488, w: 0.9987335}
-  m_LocalPosition: {x: 0, y: -1.9847842, z: -0.20048262}
+  m_LocalRotation: {x: -0, y: -0, z: 6.661338e-16, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4316724456395604}
-  m_RootOrder: 4
+  m_Father: {fileID: 4787927726263914}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4901719115716192
 Transform:
@@ -1799,7 +1799,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1272387688406716}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.56912327, y: -2.4648378, z: -0.025924683}
+  m_LocalPosition: {x: 56.439293, y: -5.6269407, z: 63.06086}
   m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
   m_Children:
   - {fileID: 4657244836558992}
@@ -2223,6 +2223,7 @@ MonoBehaviour:
   - 0.65
   - 0.65
   gibCounts: 01000000010000000100000001000000
+  minGibs: 3
 --- !u!114 &114304162013349394
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2301,6 +2302,7 @@ MonoBehaviour:
   footstepSound: 35
   gibEmitter: {fileID: 114296906082757016}
   landingMarker: {fileID: 1037098238369040}
+  angularSpawnSpeed: 10
   properties:
     runMultiplier: 0
     hitRate: 0

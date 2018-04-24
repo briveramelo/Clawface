@@ -2010,12 +2010,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1686289313197654}
-  m_LocalRotation: {x: 0.46417993, y: -0.67686427, z: -0.31074718, w: -0.4794038}
-  m_LocalPosition: {x: 0.7651178, y: -0.31052247, z: 0.020147089}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalRotation: {x: 0.000000044703484, y: 0.000000029802322, z: 0.00000008940697,
+    w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4408894829175280}
-  m_RootOrder: 7
+  m_Father: {fileID: 4531905776893132}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4339602330252090
 Transform:
@@ -2231,7 +2232,6 @@ Transform:
   - {fileID: 4782078450265396}
   - {fileID: 4575742835326098}
   - {fileID: 4153373985195080}
-  - {fileID: 4289574271423922}
   m_Father: {fileID: 4505341656065060}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2489,7 +2489,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.006, y: 0.74, z: -0.031}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4289574271423922}
   m_Father: {fileID: 4781947270125190}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2786,7 +2787,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1351927175794106}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.0886135, y: -54.964836, z: 12.774124}
+  m_LocalPosition: {x: 54.9198, y: -58.126938, z: 75.86091}
   m_LocalScale: {x: 4.5, y: 4.5, z: 4.5}
   m_Children:
   - {fileID: 4209159631922654}
@@ -3615,7 +3616,7 @@ MonoBehaviour:
   footstepSound: 38
   gibEmitter: {fileID: 114206208502247998}
   landingMarker: {fileID: 1900268567526910}
-  angularSpawnVelocity: 50
+  angularSpawnSpeed: 10
   properties:
     runMultiplier: 0
     hitRate: 0
@@ -3739,6 +3740,7 @@ MonoBehaviour:
   - 1
   - 0.65
   gibCounts: 0600000001000000
+  minGibs: 3
 --- !u!114 &114217830657273718
 MonoBehaviour:
   m_ObjectHideFlags: 1

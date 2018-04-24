@@ -377,7 +377,7 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
     public virtual void ResetForRebirth()
     {
         DisableRagdoll();
-        hitFlasher.ResetColors();
+        hitFlasher.ResetFlashColor();
         skeletonRootMemento.Reset(skeletonRoot.transform, transform);
         ToggleColliders(true);
         myStats.ResetForRebirth();
@@ -595,7 +595,8 @@ public abstract class EnemyBase : EventSubscriber, IStunnable, IDamageable, IEat
     private void GetUp(bool findNearestFloorTile = false)
     {
         EnableCollider();
-        hitFlasher.ResetColors();
+        hitFlasher.GraduallyResetFlashColor(1.5f);
+        hitFlasher.GraduallyResetOutlineColor(1.5f);
         Vector3 warpPosition;
         bool spaceFound = GetValidTile(out warpPosition, findNearestFloorTile);
         DisableRagdoll();

@@ -1471,7 +1471,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1983309303701888}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.5979147, y: -2.4648378, z: 0.30792236}
+  m_LocalPosition: {x: 58.60633, y: -5.6269407, z: 63.394707}
   m_LocalScale: {x: 5.4, y: 5.4, z: 5.4}
   m_Children:
   - {fileID: 4060895913596830}
@@ -1969,7 +1969,6 @@ Transform:
   - {fileID: 4079737480154834}
   - {fileID: 4269714943987568}
   - {fileID: 4966695393758454}
-  - {fileID: 4733963776261330}
   m_Father: {fileID: 4060895913596830}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2339,12 +2338,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1467539221154938}
-  m_LocalRotation: {x: 0.050312918, y: 0.000000020490527, z: -0.000000017081488, w: 0.9987335}
-  m_LocalPosition: {x: 0, y: -1.9847842, z: -0.20048262}
-  m_LocalScale: {x: 4.5454545, y: 4.545455, z: 4.545455}
+  m_LocalRotation: {x: -0, y: -0, z: 6.661338e-16, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4433617076101008}
-  m_RootOrder: 4
+  m_Father: {fileID: 4852194354137742}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4740730526778642
 Transform:
@@ -2495,7 +2494,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.007, y: 0.755, z: 0.002}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4733963776261330}
   m_Father: {fileID: 4072470254507518}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3228,6 +3228,7 @@ MonoBehaviour:
   footstepSound: 35
   gibEmitter: {fileID: 114957537932064056}
   landingMarker: {fileID: 1752910876056902}
+  angularSpawnSpeed: 10
   playerDetectorSphereCollider: {fileID: 135714352142118664}
   properties:
     runMultiplier: 0
@@ -3433,6 +3434,7 @@ MonoBehaviour:
   - 0.65
   - 0.65
   gibCounts: 010000000100000001000000010000000100000001000000
+  minGibs: 3
 --- !u!135 &135463379706668968
 SphereCollider:
   m_ObjectHideFlags: 1

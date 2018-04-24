@@ -31,7 +31,6 @@ public class ObjectPool : Singleton<ObjectPool> {
     }
     public void ResetPools()
     {
-        print("resetting pools");
         pools.ForEach(pool => { pool.Reset(); });
     }
     #endregion

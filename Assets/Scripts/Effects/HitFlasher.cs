@@ -83,14 +83,24 @@ namespace Turing.VFX
 
         #endregion
         #region Public Methods
-
-        public void ResetColors() {
+        void StopCoroutines() {
             StopCoroutine("FixFlashColor");
             StopCoroutine("DoHitFlash");
             StopCoroutine("MoveToColor");
+        }
 
-            SetFlashColorAndStrength(0f, hitFlashColor);
-            StartCoroutine(MoveToColor(1.5f, "_ASEOutlineColor", initialOutlineColor));
+        public void ResetFlashColor() {
+            StopCoroutines();
+            SetFlashColorAndStrength(0f, hitFlashColor);            
+        }
+        public void ResetOutlineColor() {
+            SetOutlineColor(initialOutlineColor);
+        }
+        public void GraduallyResetOutlineColor(float transitionDuration) {
+            StartCoroutine(MoveToColor(transitionDuration, "_ASEOutlineColor", initialOutlineColor));
+        }
+        public void GraduallyResetFlashColor(float transitionDuration) {
+            StartCoroutine(MoveToColor(transitionDuration, "_HitColor", hitFlashColor));
         }
         public void HitFlash () { HitFlash (hitFlashStrength, hitFlashTime); }
 
@@ -99,23 +109,17 @@ namespace Turing.VFX
         /// </summary>
         public void HitFlash (float intensity, float duration)
         {
-            StopCoroutine("FixFlashColor");
-            StopCoroutine("DoHitFlash");
-            StopCoroutine("MoveToColor");
+            StopCoroutines();
             StartCoroutine(DoHitFlash(intensity, duration, hitFlashColor));
         }
 
 
         public void FixColor(float intensity, float duration, Color fixedColor) {
-            StopCoroutine("FixFlashColor");
-            StopCoroutine("DoHitFlash");
-            StopCoroutine("MoveToColor");
+            StopCoroutines();
             StartCoroutine(FixFlashColor(intensity, duration, fixedColor));
         }
         public void FixColor(float intensity, float duration) {
-            StopCoroutine("FixFlashColor");
-            StopCoroutine("DoHitFlash");
-            StopCoroutine("MoveToColor");
+            StopCoroutines();
             StartCoroutine(FixFlashColor(intensity, duration, hitFlashColor));
         }
 
@@ -153,13 +157,11 @@ namespace Turing.VFX
             while (t <= duration) {
                 float progress = t / duration;
                 LerpToColorProperty(targetOutlineColor, outlineColorProp, progress);
-                //SetFlashColorAndStrength(1f-progress, hitFlashColor);
                 t += Time.deltaTime;
                 yield return null;
             }
 
             LerpToColorProperty(targetOutlineColor, outlineColorProp, 1f);
-            //SetFlashColorAndStrength(0f, hitFlashColor);
         }
 
 

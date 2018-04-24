@@ -4,32 +4,26 @@ using UnityEngine;
 
 public class EmittedGib : MonoBehaviour
 {
-    new SkinnedMeshRenderer renderer;
-    Vector3 originalScale;
+    private SkinnedMeshRenderer skinnedMeshRenderer;
+    private Vector3 originalScale;
 
     private void Awake()
     {
-        renderer = GetComponent<SkinnedMeshRenderer>();
-        originalScale = transform.localScale;
-        Invoke ("DoFadeOut", 1.0f);
-    }
+        skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        Transform transformToScale = skinnedMeshRenderer == null ? transform : skinnedMeshRenderer.rootBone;
+        originalScale = transformToScale.localScale;
+        StartCoroutine (FadeCoroutine(3.75f, .25f, transformToScale));
+    }    
 
-    public void DoFadeOut ()
+    IEnumerator FadeCoroutine (float waitTime, float shrinkTime, Transform transformToScale)
     {
-        StartCoroutine (FadeCoroutine(1.0f));
-    }
-
-    IEnumerator FadeCoroutine (float duration)
-    {
+        yield return new WaitForSeconds(waitTime);
         float t = 0.0f;
-        while (t < duration)
+        while (t < shrinkTime)
         {
-
-            //Color color = renderer.material.color;
-            //color.a = 1.0f - t;
-            //renderer.material.color = color;            
-            const float offset = .99f;
-            transform.localScale = originalScale * Mathf.Sqrt(offset * (1.0f - t) + (1f- offset));
+            const float offset = 0.99f;
+            float progress = t / shrinkTime;
+            transformToScale.localScale = originalScale * Mathf.Sqrt(offset * (1.0f - progress) + (1f- offset));
             t += Time.deltaTime;
             yield return null;
         }
