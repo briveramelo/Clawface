@@ -181,8 +181,11 @@ public class SettingsMenu : Menu {
 
     public void CallbackRealtimeSettingValueChanged()
     {
-        TransferRealtimeSettingsToManager();
-        SettingsManager.Instance.ApplyChanges();
+        if (allowInput)
+        {
+            TransferRealtimeSettingsToManager();
+            SettingsManager.Instance.ApplyChanges();
+        }
     }
 
     #endregion
