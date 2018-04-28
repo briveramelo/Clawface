@@ -2086,6 +2086,7 @@ GameObject:
   - component: {fileID: 124492440372019492}
   - component: {fileID: 92716428392275736}
   - component: {fileID: 114183995891607678}
+  - component: {fileID: 114594604999427834}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -8997,6 +8998,18 @@ MonoBehaviour:
   halfColor: {r: 1, g: 1, b: 1, a: 0.172}
   fadeTime: 0.5
   renderer: {fileID: 23818040490018988}
+--- !u!114 &114594604999427834
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1561498922087320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3ae1c04b2e596945b5577ff75cd1674, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  material: {fileID: 2100000, guid: fa85b8ef039830349ac502e0b2c85fa1, type: 2}
 --- !u!114 &114594633354253394
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9468,6 +9481,7 @@ MonoBehaviour:
   proximityFlashInterval: 0.2
   stunnedFlashStrength: 1
   stunnedFlashPower: 1
+  initialOutlineColor: {r: 1, g: 0.5568628, b: 0, a: 1}
 --- !u!114 &114854476675690590
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9577,6 +9591,7 @@ MonoBehaviour:
   start: {fileID: 4575240679330380}
   arm: {fileID: 1133370063155164}
   end: {fileID: 4620281825345428}
+  clawRoot: {fileID: 0}
   clawAnimationHandler: {fileID: 114460269087117874}
 --- !u!114 &114931569637599074
 MonoBehaviour:

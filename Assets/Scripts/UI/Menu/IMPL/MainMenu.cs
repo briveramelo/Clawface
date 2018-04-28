@@ -21,7 +21,7 @@ public class MainMenu : Menu
     public MainMenu() : base(Strings.MenuStrings.MAIN) {}
     public override MenuType ThisMenuType { get { return MenuType.Main; } }
     protected override void ShowStarted() {
-        base.ShowStarted();        
+        base.ShowStarted();
     }
 
 

@@ -207,6 +207,11 @@ public abstract class Menu : EventSubscriber {
         currentState = DisplayState.SHOW_TRANSITIONING;
         displayed = true;
         canvas.SetActive(true);
+        Canvas actualCanvas = canvas.GetComponent<Canvas>();
+        if (actualCanvas != null)
+        {
+            canvas.GetComponent<Canvas>().worldCamera = Camera.main;
+        }
     }
     protected virtual void ShowComplete()
     {

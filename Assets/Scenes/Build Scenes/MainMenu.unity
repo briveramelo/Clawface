@@ -644,6 +644,7 @@ GameObject:
   - component: {fileID: 1615694562}
   - component: {fileID: 1615694561}
   - component: {fileID: 1615694566}
+  - component: {fileID: 1615694567}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -734,6 +735,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraToLock: {fileID: 1615694564}
   rightSideLockingCoord: -20
+--- !u!114 &1615694567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1615694560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3ae1c04b2e596945b5577ff75cd1674, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  material: {fileID: 2100000, guid: fa85b8ef039830349ac502e0b2c85fa1, type: 2}
 --- !u!1 &1995458207
 GameObject:
   m_ObjectHideFlags: 0
