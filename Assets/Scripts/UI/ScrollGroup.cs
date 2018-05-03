@@ -91,6 +91,8 @@ public abstract class ScrollGroup : RoutineRunner {
             toAdd.transform.SetParent(groupContent.transform);
             RectTransform myRec = toAdd.GetComponent<RectTransform>();
             myRec.localScale = Vector3.one;
+            myRec.localRotation = Quaternion.identity;
+            myRec.localPosition = Vector3.zero;
         }
 
         SelectUIItem(0, false);

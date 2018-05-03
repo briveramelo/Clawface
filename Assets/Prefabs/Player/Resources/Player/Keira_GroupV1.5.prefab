@@ -681,7 +681,7 @@ GameObject:
   - component: {fileID: 114655784323833490}
   - component: {fileID: 114996799732455536}
   - component: {fileID: 114108448987037606}
-  - component: {fileID: 114730546819511594}
+  - component: {fileID: 114341103766681446}
   m_Layer: 0
   m_Name: CineBrain (DONT EDIT THIS CAMERA)
   m_TagString: MainCamera
@@ -3240,6 +3240,29 @@ MonoBehaviour:
   clawArmController: {fileID: 114675049875242238}
   playerFaceController: {fileID: 114929162397462484}
   happyTimeAfterEating: 0.75
+--- !u!114 &114341103766681446
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1534432689421460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd6d4281e5d7cd44d8c6e38bc2c1b8d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mode: 0
+  intensity: 0.1
+  chromaticAberration: 0.2
+  axialAberration: 0.5
+  blur: 0.2
+  blurSpread: 0.75
+  luminanceDependency: 0.25
+  blurDistance: 2.5
+  vignetteShader: {fileID: 4800000, guid: 627943dc7a9a74286b70a4f694a0acd5, type: 3}
+  separableBlurShader: {fileID: 4800000, guid: e97c14fbb5ea04c3a902cc533d7fc5d1, type: 3}
+  chromAberrationShader: {fileID: 4800000, guid: 2b4f29398d9484ccfa9fd220449f5eee,
+    type: 3}
 --- !u!114 &114345112533484480
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3860,18 +3883,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: de14779a199d1482e9ee8376b40e8ff9, type: 2}
---- !u!114 &114730546819511594
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1534432689421460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd93284e13a1645069ba4e6c54972913, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: a882be46ded114a0bbec0947480cabb5, type: 2}
 --- !u!114 &114734425923044652
 MonoBehaviour:
   m_ObjectHideFlags: 1

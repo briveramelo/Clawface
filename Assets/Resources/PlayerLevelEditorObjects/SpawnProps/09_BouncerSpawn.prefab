@@ -1165,7 +1165,7 @@ GameObject:
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4138716745468620}
+  - component: {fileID: 224503652432964290}
   - component: {fileID: 114262501724501922}
   - component: {fileID: 95579518465908154}
   - component: {fileID: 114545335352969670}
@@ -1609,20 +1609,6 @@ Transform:
   m_Father: {fileID: 4153362127675732}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4138716745468620
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1715489750333914}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.5, y: 4.5, z: 4.5}
-  m_Children:
-  - {fileID: 4179119432220604}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4145736266895206
 Transform:
   m_ObjectHideFlags: 1
@@ -1663,7 +1649,7 @@ Transform:
   m_Children:
   - {fileID: 4095401573148950}
   - {fileID: 4661939772600454}
-  m_Father: {fileID: 4138716745468620}
+  m_Father: {fileID: 224503652432964290}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4201043101348776
@@ -2932,7 +2918,6 @@ MonoBehaviour:
     wall_E: {fileID: 0}
     wall_W: {fileID: 0}
     wall_S: {fileID: 0}
-    isSelected: 0
     isHovered: 0
   registeredWave: -99
   minEnemiesDead: 0
@@ -3157,6 +3142,7 @@ MonoBehaviour:
   proximityFlashInterval: 0.2
   stunnedFlashStrength: 1
   stunnedFlashPower: 1
+  initialOutlineColor: {r: 1, g: 0.5568628, b: 0, a: 1}
 --- !u!114 &114878350931508994
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3309,3 +3295,22 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.20890212, y: -0.23390627, z: 0}
     m_Extent: {x: 1.480092, y: 1.4331999, z: 1.532671}
   m_DirtyAABB: 0
+--- !u!224 &224503652432964290
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1715489750333914}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 4.5, y: 4.5, z: 4.5}
+  m_Children:
+  - {fileID: 4179119432220604}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}

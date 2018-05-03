@@ -34,7 +34,7 @@ GameObject:
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4394312947613730}
+  - component: {fileID: 224471387791340724}
   - component: {fileID: 114276119448075330}
   - component: {fileID: 95445107139331980}
   - component: {fileID: 114500467221103420}
@@ -458,7 +458,7 @@ Transform:
   m_Children:
   - {fileID: 4694500930079306}
   - {fileID: 4582185589003318}
-  m_Father: {fileID: 4394312947613730}
+  m_Father: {fileID: 224471387791340724}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4091983237573026
@@ -597,20 +597,6 @@ Transform:
   m_Father: {fileID: 4582185589003318}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0.3966235, y: -47.895905, z: 86.437004}
---- !u!4 &4394312947613730
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1087405459905938}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
-  m_Children:
-  - {fileID: 4073464136810622}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4450541883139802
 Transform:
   m_ObjectHideFlags: 1
@@ -953,7 +939,6 @@ MonoBehaviour:
     wall_E: {fileID: 0}
     wall_W: {fileID: 0}
     wall_S: {fileID: 0}
-    isSelected: 0
     isHovered: 0
   registeredWave: -99
   minEnemiesDead: 0
@@ -1131,3 +1116,22 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.000000059604645, y: 0.72765255, z: -0.000000059604645}
     m_Extent: {x: 0.6838041, y: 0.7270099, z: 0.6778622}
   m_DirtyAABB: 0
+--- !u!224 &224471387791340724
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1087405459905938}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
+  m_Children:
+  - {fileID: 4073464136810622}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
