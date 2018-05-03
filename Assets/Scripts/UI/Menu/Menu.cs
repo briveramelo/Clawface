@@ -86,6 +86,7 @@ public abstract class Menu : EventSubscriber {
     protected virtual void LateUpdate() {
         if (Displayed) {
             lastSelectedGameObject = CurrentEventSystemGameObject;
+            TryRegainCamera();
         }
     }
     #endregion
@@ -207,11 +208,7 @@ public abstract class Menu : EventSubscriber {
         currentState = DisplayState.SHOW_TRANSITIONING;
         displayed = true;
         canvas.SetActive(true);
-        Canvas actualCanvas = canvas.GetComponent<Canvas>();
-        if (actualCanvas != null)
-        {
-            canvas.GetComponent<Canvas>().worldCamera = Camera.main;
-        }
+        TryRegainCamera();
     }
     protected virtual void ShowComplete()
     {
@@ -259,6 +256,16 @@ public abstract class Menu : EventSubscriber {
         } else if(transition == Transition.HIDE)
         {
             DefaultHide(transition, effects);
+        }
+    }
+
+    private void TryRegainCamera()
+    {
+        Canvas actualCanvas = canvas.GetComponent<Canvas>();
+        if (actualCanvas != null)
+        {
+            actualCanvas.worldCamera = Camera.main;
+            actualCanvas.planeDistance = Camera.main.nearClipPlane + 0.01F;
         }
     }
 

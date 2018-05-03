@@ -91,6 +91,13 @@ public class InGameUI : EventSubscriber {
         UpdateMultiplier(ScoreManager.Instance.GetDifficultyMultiplier());
         ShowHUD(null);
     }
+
+    private void Update()
+    {
+        Canvas canvas = hudCG.GetComponent<Canvas>();
+        canvas.worldCamera = Camera.main;
+    }
+    
     #endregion
 
     #region Public Methods

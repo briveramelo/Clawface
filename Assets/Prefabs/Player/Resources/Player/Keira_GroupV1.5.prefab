@@ -676,7 +676,12 @@ GameObject:
   - component: {fileID: 124552866535996244}
   - component: {fileID: 114991777864404296}
   - component: {fileID: 114136393911348448}
-  - component: {fileID: 114861694998037984}
+  - component: {fileID: 114694667449409258}
+  - component: {fileID: 114588270633238150}
+  - component: {fileID: 114655784323833490}
+  - component: {fileID: 114996799732455536}
+  - component: {fileID: 114108448987037606}
+  - component: {fileID: 114730546819511594}
   m_Layer: 0
   m_Name: CineBrain (DONT EDIT THIS CAMERA)
   m_TagString: MainCamera
@@ -2913,6 +2918,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43aa95afa232e8041b0dedbcc2d755d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114108448987037606
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1534432689421460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd93284e13a1645069ba4e6c54972913, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 52d680c9689e24b818726ec313537b2a, type: 2}
 --- !u!114 &114132200228300390
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3656,6 +3673,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bda4e47401e9d94d900e06718fe2c1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114588270633238150
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1534432689421460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd93284e13a1645069ba4e6c54972913, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 31d43f2a29b6f4540ab5ca9187864dcc, type: 2}
 --- !u!114 &114609336441475350
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3699,6 +3728,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114655784323833490
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1534432689421460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd93284e13a1645069ba4e6c54972913, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 8a964429b38684502a48d52d5bd0e764, type: 2}
 --- !u!114 &114663702274795066
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3807,6 +3848,30 @@ MonoBehaviour:
     FarClipPlane: 5000
     Dutch: 0
   m_ComponentOwner: {fileID: 4057377712950036}
+--- !u!114 &114694667449409258
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1534432689421460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd93284e13a1645069ba4e6c54972913, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: de14779a199d1482e9ee8376b40e8ff9, type: 2}
+--- !u!114 &114730546819511594
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1534432689421460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd93284e13a1645069ba4e6c54972913, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: a882be46ded114a0bbec0947480cabb5, type: 2}
 --- !u!114 &114734425923044652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3930,18 +3995,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114861694998037984
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1534432689421460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3ae1c04b2e596945b5577ff75cd1674, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  material: {fileID: 2100000, guid: fa85b8ef039830349ac502e0b2c85fa1, type: 2}
 --- !u!114 &114870111688001226
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4081,6 +4134,18 @@ MonoBehaviour:
   - target: {fileID: 4755712408278794}
     weight: 5
     radius: 3
+--- !u!114 &114996799732455536
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1534432689421460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd93284e13a1645069ba4e6c54972913, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 5ecd9ad8e3bd34e86a0698ed7ab70110, type: 2}
 --- !u!124 &124552866535996244
 Behaviour:
   m_ObjectHideFlags: 1
