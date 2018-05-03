@@ -11,24 +11,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "VHSEffect", menuName = "Hathos/80s Filter/VHS Effect")]
 public class VHSEffectData : EightiesFilterData
 {
-    #region Accessors (EightiesFilterData)
-
-    /// <inheritdoc />
-    public override string ShaderName
-    {
-        get
-        {
-            return "Hathos/Hidden/80sFilter/VHSEffect";
-        }
-    }
-
-    #endregion
-
     #region Fields (Unity Serialization)
 
     /// <summary>
     /// The width of the VHS scroll bar.
     /// </summary>
+    [Header("VHS Effect")]
     [SerializeField]
     [Range(0, 1)]
     private float width = 0.1F;

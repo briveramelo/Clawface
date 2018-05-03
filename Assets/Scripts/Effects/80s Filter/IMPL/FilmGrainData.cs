@@ -8,27 +8,15 @@ using UnityEngine;
 /// <summary>
 /// Provides the FilmGrainData for the FilmGrain shader.
 /// </summary>
-[CreateAssetMenu (fileName = "FilmGrainData", menuName = "Hathos/80s Filter/Film Grain")]
-public class FilmGrainData : EightiesFilterData {
-
-    #region Accessors (EightiesFilterData)
-
-    /// <inheritdoc />
-    public override string ShaderName
-    {
-        get
-        {
-            return "Hathos/Hidden/80sFilter/FilmGrain";
-        }
-    }
-    
-    #endregion
-    
+[CreateAssetMenu(fileName = "FilmGrainData", menuName = "Hathos/80s Filter/Film Grain")]
+public class FilmGrainData : EightiesFilterData
+{
     #region Fields (Unity Serialization)
 
     /// <summary>
     ///  The tint of the film grain.
     /// </summary>
+    [Header("Film Grain")]
     [SerializeField]
     private Color tint = new Color(0.2F, 0.2F, 0.2F);
 
@@ -36,7 +24,7 @@ public class FilmGrainData : EightiesFilterData {
     /// How heavily to apply the film grain.
     /// </summary>
     [SerializeField]
-    [Range (0, 1)]
+    [Range(0, 1)]
     private float weight = 0.2F;
 
     /// <summary>
@@ -44,9 +32,9 @@ public class FilmGrainData : EightiesFilterData {
     /// </summary>
     [SerializeField]
     private float scale = 10;
-    
+
     #endregion
-    
+
     #region Interface (EightiesFilterData)
 
     /// <inheritdoc />
@@ -57,6 +45,6 @@ public class FilmGrainData : EightiesFilterData {
         material.SetFloat("_Weight", weight);
         material.SetFloat("_Scale", scale);
     }
-    
+
     #endregion
 }

@@ -7,20 +7,31 @@ using UnityEngine;
 /// <summary>
 /// An abstract class for providing shader data to EightiesFilterOperations.
 /// </summary>
-public abstract class EightiesFilterData : ScriptableObject {
-
+public abstract class EightiesFilterData : ScriptableObject
+{
     #region Accessors (Public)
 
     /// <summary>
-    /// Gets the name of the Shader associated with this data.
+    /// Gets the Shader associated with this data.
     /// </summary>
-    public abstract string ShaderName
+    public Shader Shader
     {
-        get;
+        get
+        {
+            return shader;
+        }
     }
-    
+
     #endregion
-    
+
+    #region Fields (Unity Serialization)
+
+    [Header("Common")]
+    [SerializeField]
+    private Shader shader;
+
+    #endregion
+
     #region Interface (Public)
 
     /// <summary>

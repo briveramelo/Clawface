@@ -8,27 +8,15 @@ using UnityEngine;
 /// <summary>
 /// Provides the ScanlinesData for the Scanlines shader.
 /// </summary>
-[CreateAssetMenu (fileName = "ScanlinesData", menuName = "Hathos/80s Filter/Scanlines")]
+[CreateAssetMenu(fileName = "ScanlinesData", menuName = "Hathos/80s Filter/Scanlines")]
 public class ScanlinesData : EightiesFilterData
 {
-    #region Accessors (EightiesFilterData)
-
-    /// <inheritdoc />
-    public override string ShaderName
-    {
-        get
-        {
-            return "Hathos/Hidden/80sFilter/Scanlines";
-        }
-    }
-
-    #endregion
-
     #region Fields (Unity Serialization)
 
     /// <summary>
     /// The width of the scanlines in UV Space.
     /// </summary>
+    [Header("Scanlines")]
     [SerializeField]
     [Range(0, 1)]
     private float width = 0.05F;

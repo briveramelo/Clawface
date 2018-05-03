@@ -13,9 +13,9 @@ public class EightiesFilterOperation : MonoBehaviour
 {
 	#region Fields (Unity Serialization)
 
-	/// <summary>
-	/// The ScriptableObject containing the Shader Data.
-	/// </summary>
+    /// <summary>
+    /// The ScriptableObject containing the Shader Data.
+    /// </summary>
     [SerializeField]
     private EightiesFilterData data;
 
@@ -38,10 +38,7 @@ public class EightiesFilterOperation : MonoBehaviour
     private void Start()
     {
         Assert.IsNotNull(data);
-        Shader shader = Shader.Find(data.ShaderName);
-
-        Assert.IsNotNull(shader);
-        material = new Material(shader);
+        material = new Material(data.Shader);
     }
 
     /// <summary>
@@ -52,9 +49,17 @@ public class EightiesFilterOperation : MonoBehaviour
     /// <param name="destination">The destination render texture.</param>
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
-        Assert.IsNotNull(material);
-        data.SetValues(material);
-        Graphics.Blit(source, destination, material);
+        if (SettingsManager.Instance.EightiesFilter)
+        {
+            Assert.IsNotNull(material);
+            data.SetValues(material);
+            Graphics.Blit(source, destination, material);
+        }
+        else
+        {
+            // Perform a passthrough if nothing to do.
+            Graphics.Blit(source, destination);
+        }
     }
 
     /// <summary>

@@ -11,24 +11,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "VignetteData", menuName = "Hathos/80s Filter/Vignette")]
 public class VignetteData : EightiesFilterData
 {
-    #region Accessors (EightiesFilterData)
-
-    /// <inheritdoc />
-    public override string ShaderName
-    {
-        get
-        {
-            return "Hathos/Hidden/80sFilter/Vignette";
-        }
-    }
-
-    #endregion
-
     #region Fields (Unity Serialization)
 
     /// <summary>
     /// The tint of the Vignette.
     /// </summary>
+    [Header("Vignette - THIS CLASS IS CURRENTLY NOT USED!!!")]
     [SerializeField]
     private Color tint = Color.black;
 

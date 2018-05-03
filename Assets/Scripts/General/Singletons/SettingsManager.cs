@@ -71,6 +71,18 @@ public class SettingsManager : Singleton<SettingsManager>
         }
     }
 
+    public bool EightiesFilter
+    {
+        get
+        {
+            return settings.eightiesFilter;
+        }
+        set
+        {
+            settings.eightiesFilter = value;
+        }
+    }
+
     public float MusicVolume
     {
         get
@@ -315,6 +327,8 @@ public class SettingsManager : Singleton<SettingsManager>
         [Range(0, 5)]
         public int goreDetail;
 
+        public bool eightiesFilter;
+
         //// Audio
 
         [Header ("Audio")]
@@ -481,8 +495,6 @@ public class SettingsManager : Singleton<SettingsManager>
         #endregion
     }
 
-    #endregion
-
     private class GoreDetails {
         public const int None = 0;
         public const int Low = 1;
@@ -491,4 +503,6 @@ public class SettingsManager : Singleton<SettingsManager>
         public const int Ultra = 4;
         public const int Extreme = 5;
     }
+
+    #endregion
 }

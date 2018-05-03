@@ -2,8 +2,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SettingsMenu : Menu {
-
+public class SettingsMenu : Menu
+{
     #region Accessors (Menu)
 
     public override Selectable InitialSelection
@@ -58,6 +58,9 @@ public class SettingsMenu : Menu {
     [SerializeField]
     private Toggle fullscreen = null;
 
+    [SerializeField]
+    private Toggle eightiesFilter = null;
+
     [Header("Settings Objects - Audio")]
     [SerializeField]
     private Slider music = null;
@@ -90,6 +93,7 @@ public class SettingsMenu : Menu {
 
     [SerializeField]
     private SelectorToggleGroup selectorToggleGroup = null;
+
     #endregion
 
     #region Fields (Internal)
@@ -99,26 +103,43 @@ public class SettingsMenu : Menu {
     #endregion
 
     #region Fields (Private)
+
     private int selectedFilterToggle;
-    private int SelectedFilterToggle {
-        get { return Mathf.Clamp(selectedFilterToggle, 0, selectorToggleGroup.SelectorTogglesCount); }
-        set { selectedFilterToggle = (int)Mathf.Repeat(value, selectorToggleGroup.SelectorTogglesCount); }
+
+    private int SelectedFilterToggle
+    {
+        get
+        {
+            return Mathf.Clamp(selectedFilterToggle, 0,
+                selectorToggleGroup.SelectorTogglesCount);
+        }
+        set
+        {
+            selectedFilterToggle =
+                (int) Mathf.Repeat(value, selectorToggleGroup.SelectorTogglesCount);
+        }
     }
+
     #endregion
 
     #region Constructors (Public)
 
-    public SettingsMenu() : base(Strings.MenuStrings.SETTINGS) {}
+    public SettingsMenu() : base(Strings.MenuStrings.SETTINGS) { }
 
     #endregion
-    
+
     #region Unity Lifecycle
 
-    private void Update() {
-        if (allowInput) {
-            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL, ButtonMode.DOWN)) {
+    private void Update()
+    {
+        if (allowInput)
+        {
+            if (InputManager.Instance.QueryAction(Strings.Input.UI.CANCEL,
+                ButtonMode.DOWN))
+            {
                 ButtonBack();
             }
+
             CheckToMoveFilter();
         }
     }
@@ -130,7 +151,7 @@ public class SettingsMenu : Menu {
     public void RewireForGraphics()
     {
         LinkPanelButtonsTo(quality);
-        LinkActionButtonsTo(fullscreen);
+        LinkActionButtonsTo(eightiesFilter);
     }
 
     public void RewireForAudio()
@@ -153,7 +174,8 @@ public class SettingsMenu : Menu {
 
     public void ButtonBack()
     {
-        MenuManager.Instance.DoTransition(Strings.MenuStrings.MAIN, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        MenuManager.Instance.DoTransition(Strings.MenuStrings.MAIN, Transition.SHOW,
+            new Effect[] {Effect.EXCLUSIVE});
 
         // Save OnExit Settings
         TransferOnExitSettingsToManager();
@@ -176,7 +198,8 @@ public class SettingsMenu : Menu {
 
     public void ButtonRemap()
     {
-        MenuManager.Instance.DoTransition(Strings.MenuStrings.CONTROLS, Transition.SHOW, new Effect[] { Effect.EXCLUSIVE });
+        MenuManager.Instance.DoTransition(Strings.MenuStrings.CONTROLS, Transition.SHOW,
+            new Effect[] {Effect.EXCLUSIVE});
     }
 
     public void CallbackRealtimeSettingValueChanged()
@@ -191,7 +214,15 @@ public class SettingsMenu : Menu {
     #endregion
 
     #region Interface (Protected)
-    public override MenuType ThisMenuType { get { return MenuType.Settings; } }
+
+    public override MenuType ThisMenuType
+    {
+        get
+        {
+            return MenuType.Settings;
+        }
+    }
+
     protected override void ShowStarted()
     {
         base.ShowStarted();
@@ -213,9 +244,14 @@ public class SettingsMenu : Menu {
 
     private void CheckToMoveFilter()
     {
-        bool leftButtonPressed = InputManager.Instance.QueryAction(Strings.Input.UI.TAB_LEFT, ButtonMode.DOWN);
-        bool rightBumperPressed = InputManager.Instance.QueryAction(Strings.Input.UI.TAB_RIGHT, ButtonMode.DOWN);
-        bool mouseClicked = Input.GetMouseButtonDown(MouseButtons.LEFT) || Input.GetMouseButtonDown(MouseButtons.RIGHT) || Input.GetMouseButtonDown(MouseButtons.MIDDLE);
+        bool leftButtonPressed =
+            InputManager.Instance.QueryAction(Strings.Input.UI.TAB_LEFT, ButtonMode.DOWN);
+        bool rightBumperPressed =
+            InputManager.Instance.QueryAction(Strings.Input.UI.TAB_RIGHT,
+                ButtonMode.DOWN);
+        bool mouseClicked = Input.GetMouseButtonDown(MouseButtons.LEFT) ||
+                            Input.GetMouseButtonDown(MouseButtons.RIGHT) ||
+                            Input.GetMouseButtonDown(MouseButtons.MIDDLE);
         if (!mouseClicked && (leftButtonPressed || rightBumperPressed))
         {
             if (leftButtonPressed)
@@ -226,25 +262,35 @@ public class SettingsMenu : Menu {
             {
                 SelectedFilterToggle++;
             }
+
             CurrentEventSystem.SetSelectedGameObject(RewireSubMenu().gameObject);
         }
     }
 
     private Selectable RewireSubMenu()
     {
-        switch ((SettingsMenuSubType)SelectedFilterToggle)
+        switch ((SettingsMenuSubType) SelectedFilterToggle)
         {
             default:
-            case SettingsMenuSubType.Graphics: graphics.onClick.Invoke(); return graphics;
-            case SettingsMenuSubType.Audio: audio.onClick.Invoke(); return audio;
-            case SettingsMenuSubType.Controls: controls.onClick.Invoke(); return controls;
-            case SettingsMenuSubType.Gameplay: other.onClick.Invoke(); return other;
+            case SettingsMenuSubType.Graphics:
+                graphics.onClick.Invoke();
+                return graphics;
+            case SettingsMenuSubType.Audio:
+                audio.onClick.Invoke();
+                return audio;
+            case SettingsMenuSubType.Controls:
+                controls.onClick.Invoke();
+                return controls;
+            case SettingsMenuSubType.Gameplay:
+                other.onClick.Invoke();
+                return other;
         }
     }
 
     private void LinkPanelButtonsTo(Selectable item)
     {
-        foreach (Selectable selectable in new Selectable[] { graphics, audio, controls, other })
+        foreach (Selectable selectable in new Selectable[]
+            {graphics, audio, controls, other})
         {
             Navigation nav = selectable.navigation;
             nav.selectOnDown = item;
@@ -254,7 +300,7 @@ public class SettingsMenu : Menu {
 
     private void LinkActionButtonsTo(Selectable item)
     {
-        foreach (Selectable selectable in new Selectable[] { back, _default })
+        foreach (Selectable selectable in new Selectable[] {back, _default})
         {
             Navigation nav = selectable.navigation;
             nav.selectOnUp = item;
@@ -278,6 +324,7 @@ public class SettingsMenu : Menu {
         resolution.DataSource.ForceUpdate();
         goreDetail.DataSource.ForceUpdate();
         fullscreen.isOn = manager.FullScreen;
+        eightiesFilter.isOn = manager.EightiesFilter;
 
         // Audio
         music.value = manager.MusicVolume;
@@ -299,6 +346,9 @@ public class SettingsMenu : Menu {
     {
         SettingsManager manager = SettingsManager.Instance;
 
+        // Graphics
+        manager.EightiesFilter = eightiesFilter.isOn;
+
         // Audio
         manager.MusicVolume = music.value;
         manager.SFXVolume = ui.value;
@@ -309,20 +359,20 @@ public class SettingsMenu : Menu {
         SettingsManager manager = SettingsManager.Instance;
 
         // Graphics
-        manager.QualityLevel = (int)quality.DataSource.Value;
-        manager.Resolution = (Resolution)resolution.DataSource.Value;
-        manager.GoreDetail = (int)goreDetail.DataSource.Value;
+        manager.QualityLevel = (int) quality.DataSource.Value;
+        manager.Resolution = (Resolution) resolution.DataSource.Value;
+        manager.GoreDetail = (int) goreDetail.DataSource.Value;
         manager.FullScreen = fullscreen.isOn;
 
         // Controls
-        manager.FireMode = (FireMode)fireMode.DataSource.Value;
-        manager.MouseAimMode = (MouseAimMode)mouseAimMode.DataSource.Value;
+        manager.FireMode = (FireMode) fireMode.DataSource.Value;
+        manager.MouseAimMode = (MouseAimMode) mouseAimMode.DataSource.Value;
         manager.SnapLook = snapLook.isOn;
         manager.Vibration = vibration.isOn;
         manager.CursorLock = cursorLock.isOn;
 
         // GamePlay
-        manager.Difficulty = (Difficulty)difficulty.DataSource.Value;
+        manager.Difficulty = (Difficulty) difficulty.DataSource.Value;
         manager.Tutorial = tutorial.isOn;
     }
 
@@ -347,8 +397,9 @@ public class SettingsMenu : Menu {
     #endregion
 }
 
-public enum SettingsMenuSubType {
-    Graphics=0,
+public enum SettingsMenuSubType
+{
+    Graphics = 0,
     Audio,
     Controls,
     Gameplay,
