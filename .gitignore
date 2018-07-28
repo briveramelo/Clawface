@@ -99,3 +99,10 @@ $RECYCLE.BIN/
 .idea
 /Assets/Plugins/Editor/JetBrains*
 /Assets/Plugins/Editor.meta
+
+# Ignore big files that can, hopefully, be regenerated
+# ========================
+*Lightmap*.exr*
+*ReflectionProbe*.exr*
+LightmapSnapshot.asset*
+LightingData.asset*
