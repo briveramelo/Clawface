@@ -10,7 +10,12 @@ public class ResolutionTextSliderDataSource : TextSliderDataSource
     {
         get
         {
-            return string.Format("{0} x {1}", resolution.width, resolution.height);
+            string format = "{0} x {1}";
+            if (!IsSupported(resolution))
+            {
+                format += " *";
+            }
+            return string.Format(format, resolution.width, resolution.height);
         }
     }
 
@@ -88,6 +93,23 @@ public class ResolutionTextSliderDataSource : TextSliderDataSource
                 }
             }
         }
+        
+        // Add current resolution if not present
+        Resolution current = Screen.currentResolution;
+        bool isPresent = false;
+        foreach (Resolution compare in valid)
+        {
+            if (compare.width == current.width && compare.height == current.height)
+            {
+                isPresent = true;
+                break;
+            }
+        }
+        if (!isPresent)
+        {
+            valid.Insert(0, current);
+        }
+        
         return valid.ToArray();
     }
 
