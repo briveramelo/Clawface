@@ -49,7 +49,13 @@ public class EightiesFilterOperation : MonoBehaviour
     /// <param name="destination">The destination render texture.</param>
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
-        if (SettingsManager.Instance.EightiesFilter)
+        if (
+            #if UNITY_EDITOR
+            // Always passthrough blit if we're not playing, this prevents issues
+            UnityEditor.EditorApplication.isPlaying &&
+            #endif
+            SettingsManager.Instance.EightiesFilter
+            )
         {
             Assert.IsNotNull(material);
             data.SetValues(material);
